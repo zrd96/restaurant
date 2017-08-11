@@ -8,7 +8,7 @@
 
 using namespace std;
 
-MySQLManager::MySQLManager(string host = "127.0.0.1", string userName = "root", string password = "", string dbName = "mysql", unsigned int port = 3022) {
+MySQLManager::MySQLManager(string host = "127.0.0.1", string userName = "root", string password = "", unsigned int port = 3022) {
 
         isConnected = false;
 
@@ -21,8 +21,7 @@ MySQLManager::MySQLManager(string host = "127.0.0.1", string userName = "root", 
         PASSWORD = new char[password.length()];
         strcpy(PASSWORD, password.c_str());
 
-        DBNAME = new char[dbName.length()];
-        strcpy(DBNAME, dbName.c_str());
+        DBNAME = NULL;
 
         DEFAULTPORT = port;
 }
@@ -41,7 +40,43 @@ void MySQLManager::initConnection() {
         }
 }
 
-int MySQLManager::queryID(string phone) {
+bool MySQLManager::runSQLCommand(const string cmd) {
+        int queryReturn = mysql_real_query(&mySQLClient, cmd.c_str(), (unsigned int)strlen(cmd.c_str()));
+        if (queryReturn)
+                return false;
+        return true;
+}
+
+bool MySQLManager::initDB() {
+        if(!runSQLCommand("create database restaurant character set gbk")) {
+                errInfo = (string)mysql_error(&mySQLClient);
+                if(errInfo.find("exist") < 0)
+                        return false;
+                errInfo = "";
+        }
+        runSQLCommand("use restaurant");
+        if(!runSQLCommand("create table persons(id int unsigned not NULL auto_increment primary key, phone char(15) not NULL, name char(20) default \"Client\", type tinyint not NULL, rate float)")) {
+                errInfo = (string)mysql_error(&mySQLClient);
+                if(errInfo.find("exist") < 0)
+                        return false;
+                errInfo = "";
+        }
+        if(!runSQLCommand("create table msg(msgid int unsigned not NULL auto_increment primary key, sender int unsigned not NULL, receiver int unsigned not NULL, msg char(200) not NULL, time datetime not NULL)")) {
+                errInfo = (string)mysql_error(&mySQLClient);
+                if(errInfo.find("exist") < 0)
+                        return false;
+                errInfo = "";
+        }
+        if(!runSQLCommand("create table dishes(dishid int unsigned not NULL auto_increment primary key, name char(200) not NULL, price float not NULL, rate float default 0, rateNum int unsigned default 0, time tinyint unsigned)")) {
+                errInfo = (string)mysql_error(&mySQLClient);
+                if(errInfo.find("exist") < 0)
+                        return false;
+                errInfo = "";
+        }
+        return true;
+}
+
+int MySQLManager::queryID(string phone, string name, string type) {
         string cmd = "select id from persons where phone = \'" + phone + "\'";
         int queryReturn = mysql_real_query(&mySQLClient, cmd.c_str(), (unsigned int)strlen(cmd.c_str()));
         if (queryReturn)
@@ -52,9 +87,14 @@ int MySQLManager::queryID(string phone) {
 
         res = mysql_store_result(&mySQLClient);
         row = mysql_fetch_row(res);
-        if(mysql_num_rows(res) == 0)
-                return 0;
-        return atoi(row[0]);
+
+        if (atoi(row[0]))
+                return atoi(row[0]);
+
+        if(insert("persons", "NULL, " + phone + ", " + name + ", " + type + "NULL"))
+                return queryID(phone, name, type);
+        errInfo = mysql_error(&mySQLClient);
+        return -1;
 }
 
 vector<Msg> MySQLManager::queryMsg(int receiver) {
@@ -81,7 +121,7 @@ vector<Msg> MySQLManager::queryMsg(int receiver) {
 bool MySQLManager::insert(string table, string values) {
         string cmd = "insert into " + table + " values(" + values +")";
         
-        int queryReturn = mysql_real_query(&mySQLClient, cmd.c_str(), (unsigned int)srelen(cmd.c_str()));
+        int queryReturn = mysql_real_query(&mySQLClient, cmd.c_str(), (unsigned int)strlen(cmd.c_str()));
 
         if(queryReturn)
                 return false;
@@ -93,4 +133,3 @@ void MySQLManager::destroyConnection() {
         isConnected = false;
 }
 
-bool MySQLManager::getConnectionStatus() {return isConnected;}
