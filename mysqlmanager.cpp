@@ -1,16 +1,20 @@
-#include <iostream>
 #include <string>
 #include <cstring>
 #include <vector>
 
 #include "msg.h"
 #include "mysqlmanager.h"
+#include "tools.h"
 
 using namespace std;
 
 MySQLManager::MySQLManager(string host = "127.0.0.1", string userName = "root", string password = "", unsigned int port = 3022) {
 
         isConnected = false;
+
+        errInfo = "";
+
+        resultList.clear();
 
         HOST = new char[host.length()];
         strcpy(HOST, host.c_str());
@@ -67,7 +71,7 @@ bool MySQLManager::initDB() {
                         return false;
                 errInfo = "";
         }
-        if(!runSQLCommand("create table dishes(dishid int unsigned not NULL auto_increment primary key, name char(200) not NULL, price float not NULL, rate float default 0, rateNum int unsigned default 0, time tinyint unsigned)")) {
+        if(!runSQLCommand("create table dishes(dishid int unsigned not NULL auto_increment primary key, name char(200) not NULL, price float not NULL, rate float default 0, rateNum int unsigned default 0, time tinyint unsigned, imgdir char(300) default \"img\\dishes\\default.jpg\")")) {
                 errInfo = (string)mysql_error(&mySQLClient);
                 if(errInfo.find("exist") < 0)
                         return false;
@@ -76,45 +80,63 @@ bool MySQLManager::initDB() {
         return true;
 }
 
-int MySQLManager::queryID(string phone, string name, string type) {
-        string cmd = "select id from persons where phone = \'" + phone + "\'";
+bool MySQLManager::doQuery(string table, string columns, string wheres) {
+        string cmd = "select " + columns + " from " + table + " where " + wheres;
         int queryReturn = mysql_real_query(&mySQLClient, cmd.c_str(), (unsigned int)strlen(cmd.c_str()));
-        if (queryReturn)
-                return -1;
+        if (queryReturn) {
+                errInfo = mysql_error(&mySQLClient);
+                return false;
+        }
 
-        MYSQL_RES *res;
+        MYSQL_RES *res = new MYSQL_RES;
         MYSQL_ROW row;
 
         res = mysql_store_result(&mySQLClient);
-        row = mysql_fetch_row(res);
+        resultList.clear();
+        while (row = mysql_fetch_row(res)) {
+                vector<string> objectValue;
+                for(int i = 0; i < mysql_num_fields(res); i ++)
+                        objectValue.push_back((row[i] == NULL ? "NULL": (string)row[i]));
+                resultList.push_back(objectValue);
+        }
 
-        if (atoi(row[0]))
-                return atoi(row[0]);
+        mysql_free_result(res);
+        return true;
+}
 
-        if(insert("persons", "NULL, " + phone + ", " + name + ", " + type + "NULL"))
+int MySQLManager::queryID(string phone, string name, int type) {
+        if (!doQuery("persons", "id", "phone = \"" + phone + "\""))
+                return -1;
+
+        if(!resultList.empty())
+                return atoi(resultList[0][0].c_str());
+
+        if(insert("persons", "NULL, " + phone + ", " + name + ", " + ntos(type) + "NULL"))
                 return queryID(phone, name, type);
-        errInfo = mysql_error(&mySQLClient);
+        return -1;
+}
+
+int MySQLManager::queryID(string name, double price, int timeNeeded) {
+        if (!doQuery("dishes", "dishid", "name = \"" + name + "\""))
+                return -1;
+
+        if(!resultList.empty())
+                return atoi(resultList[0][0].c_str());
+
+        if(insert("dishes", "NULL, \"" + name + "\", " + ntos(price) + ", NULL, NULL, " + (ntos(timeNeeded) == "-1" ? "NULL" : ntos(timeNeeded))))
+                return queryID(name, price, timeNeeded);
         return -1;
 }
 
 vector<Msg> MySQLManager::queryMsg(int receiver) {
-        char *receiverStringTmp = new char [20];
-        sprintf(receiverStringTmp, "%d", receiver);
-
-        string cmd = "select sender, receiver, msg, time from msg where receiver = \'" + (string)receiverStringTmp + "\'";
-        int queryReturn = mysql_real_query(&mySQLClient, cmd.c_str(), (unsigned int)strlen(cmd.c_str()));
-
         vector<Msg> msgs;
 
-        if (queryReturn)
+        if (!doQuery("msg", "sender, receiver, msg, time", "receiver = \"" + ntos(receiver) + "\""))
                 return msgs;
+        
+        for (int i = 0; i < resultList.size(); i ++)
+                msgs.push_back(Msg(atoi(resultList[i][0].c_str()), atoi(resultList[i][1].c_str()), resultList[i][2], resultList[i][3]));
 
-        MYSQL_RES *res;
-        MYSQL_ROW row;
-        res = mysql_store_result(&mySQLClient);
-
-        while (row = mysql_fetch_row(res))
-                msgs.push_back(Msg(atoi(row[0]), atoi(row[1]), (string)row[2], (string)row[3]));
         return msgs;
 }
 
@@ -123,8 +145,10 @@ bool MySQLManager::insert(string table, string values) {
         
         int queryReturn = mysql_real_query(&mySQLClient, cmd.c_str(), (unsigned int)strlen(cmd.c_str()));
 
-        if(queryReturn)
+        if(queryReturn) {
+                errInfo = mysql_error(&mySQLClient);
                 return false;
+        }
         return true;
 }
 

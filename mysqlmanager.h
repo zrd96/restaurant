@@ -16,18 +16,18 @@ class MySQLManager: public DataManager {
                 MySQLManager(string host, string userName, string password, unsigned int port);
                 ~MySQLManager();
                 void initConnection();
-                int queryID(string phone, string name, string type);
+                bool doQuery(string table, string columns, string wheres);
+                int queryID(string phone, string name, int type);
+                int queryID(string name, double price, int timeNeeded);
                 vector<Msg> queryMsg(int receiver);
                 bool insert(string table, string values);
                 void destroyConnection();
                 bool getConnectionStatus() const {return isConnected;}
-                string getErrInfo() {return MySQLManager::errInfo;}
                 bool runSQLCommand(const string cmd);
                 bool initDB();
         private:
                 MYSQL mySQLClient;
                 bool isConnected;
-                string errInfo;
                 char *HOST;
                 char *USERNAME;
                 char *PASSWORD;
