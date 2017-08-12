@@ -71,7 +71,13 @@ bool MySQLManager::initDB() {
                         return false;
                 errInfo = "";
         }
-        if(!runSQLCommand("create table dishes(dishid int unsigned not NULL auto_increment primary key, name char(200) not NULL, price float not NULL, rate float default 0, rateNum int unsigned default 0, time tinyint unsigned, imgdir char(300) default \"img\\dishes\\default.jpg\")")) {
+        if(!runSQLCommand("create table dishDB(dishid int unsigned not NULL auto_increment primary key, name char(200) not NULL, price float not NULL, rate float default 0, rateNum int unsigned default 0, time tinyint unsigned, imgdir char(300) default \"img\\dishes\\default.jpg\")")) {
+                errInfo = (string)mysql_error(&mySQLClient);
+                if(errInfo.find("exist") < 0)
+                        return false;
+                errInfo = "";
+        }
+        if(!runSQLCommand("create table dishes(id int unsigned not NULL auto_increment primary key, dishid int unsigned not NULL, orderer int unsigned not NULL, status tinyint unsigned not NULL)")) {
                 errInfo = (string)mysql_error(&mySQLClient);
                 if(errInfo.find("exist") < 0)
                         return false;
@@ -117,13 +123,13 @@ int MySQLManager::queryID(string phone, string name, int type) {
 }
 
 int MySQLManager::queryID(string name, double price, int timeNeeded) {
-        if (!doQuery("dishes", "dishid", "name = \"" + name + "\""))
+        if (!doQuery("dishDB", "dishid", "name = \"" + name + "\""))
                 return -1;
 
         if(!resultList.empty())
                 return atoi(resultList[0][0].c_str());
 
-        if(insert("dishes", "NULL, \"" + name + "\", " + ntos(price) + ", NULL, NULL, " + (ntos(timeNeeded) == "-1" ? "NULL" : ntos(timeNeeded))))
+        if(insert("dishDB", "NULL, \"" + name + "\", " + ntos(price) + ", NULL, NULL, " + (ntos(timeNeeded) == "-1" ? "NULL" : ntos(timeNeeded))))
                 return queryID(name, price, timeNeeded);
         return -1;
 }
