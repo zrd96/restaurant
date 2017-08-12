@@ -6,7 +6,7 @@
 #include "tools.h"
 #include "datamanager.h"
 
-class Dish {
+class DishDB {
         private:
                 int id;
                 string name;
@@ -14,20 +14,31 @@ class Dish {
                 double rate;
                 int rateNum;
                 int timeNeeded;
-                int status;
+        protected:
                 DataManager *mydb;
         public:
-                Dish(DataManager *mydb, string name, double price, int timeNeeded);
+                DishDB(DataManager *mydb, string name, double price, int timeNeeded);
                 int getID() const {return id;}
                 string getName() const {return name;}
                 double getPrice() const {return price;}
                 double getRate() const {return rate;}
                 int getRateNum() const {return rateNum;}
                 int getTimeNeeded() const {return timeNeeded;}
-                int getStatus() const {return status;}
                 bool updateRate(double newRate);
                 void show() const;
                 static void showAll();
+};
+
+class Dish: public DishDB {
+        private:
+                int orderer;
+                int num;
+        public:
+                Dish(DishDB dish, int orderer, int num);
+                int getOrderer() const {return orderer;}
+                int getNum() const {return num;}
+                void add() {num ++;}
+                void sub() {num --;}
 };
 
 #endif
