@@ -2,6 +2,9 @@
 #define _PERSON_H
 
 #include <string>
+#include <vector>
+
+#include "msg.h"
 
 using namespace std;
 
@@ -11,12 +14,13 @@ class Person {
                 int getID() {return id;}
                 string getName() {return name;}
                 string getPhone() {return phone;}
-                void getMsg();                      //get msg from MySQL
-                void sendMsg(Person *p, string msg);
+                vector<Msg> getMsg(MySQLManager *mysql);                      //get msg from MySQL
+                bool sendMsg(int receiver, string msg);
         private:
                 int id;
                 string name;
                 string phone;
+                virtual int getIDFromDB() = 0;
 };
 
 #endif

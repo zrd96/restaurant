@@ -1,17 +1,22 @@
 #include <string>
-#include <mysql/mysql.h>
+#include <vector>
 
 #include "person.h"
 #include "mysqlmanager.h"
+#include "tools.h"
 
 using namespace std;
 
-void generateID() {
-
+Person::Person(string phone, string name): phone(phone), name(name = "顾客") {
+        id = getIDFromDB();
 }
 
-Person::Person(string phone, string name): phone(phone), name(name = "顾客") {
-        id = generateID();
+vector<Msg> Person::getMsg(DataManager *mydb) {
+        return mydb->queryMsg(id);
+}
+
+bool Person::sendMsg(DataManger *mydb, int receiver, string msg) {
+        return mydb->insert("msg", "NULL, " + itos(id) + ", " + itos(receiver) + ", " + msg + ", " + getTime());
 }
 
 
