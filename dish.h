@@ -6,37 +6,40 @@
 #include "tools.h"
 #include "datamanager.h"
 
-class DishDB {
+class Dish {
         private:
-                int id;
+                int dishID;
                 string name;
                 double price;
                 double rate;
                 int rateNum;
                 int timeNeeded;
-        protected:
-                DataManager *mydb;
+                string imgdir;
         public:
-                DishDB(DataManager *mydb, string name, double price, int timeNeeded);
-                int getID() const {return id;}
+                Dish(string name, double price, int timeNeeded = -1, string imgdir = "img/dishes/default.jpg");
+                int getDishID() const {return dishID;}
                 string getName() const {return name;}
                 double getPrice() const {return price;}
                 double getRate() const {return rate;}
                 int getRateNum() const {return rateNum;}
                 int getTimeNeeded() const {return timeNeeded;}
+                string getImgdir() const {return imgdir;}
                 bool updateRate(double newRate);
                 void show() const;
                 static void showAll();
 };
 
-class Dish: public DishDB {
+class OrderedDish: public Dish {
         private:
                 int orderer;
                 int num;
+                int orderedDishID;
         public:
-                Dish(DishDB dish, int orderer, int num);
+                OrderedDish(const Dish &dish, int orderer, int num);
+                OrderedDish(const Dish &dish, int orderedDishID, int orderer, int num);
                 int getOrderer() const {return orderer;}
                 int getNum() const {return num;}
+                int getOrderedDishID() const {return orderedDishID;}
                 void add() {num ++;}
                 void sub() {num --;}
 };
