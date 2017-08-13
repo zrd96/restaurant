@@ -7,18 +7,17 @@
 
 class Cart {
         public:
-                Cart(DataManager *mydb);
-                bool add(DishDB dish, int owner);
-                bool remove(DishDB dish);
+                Cart();
+                bool add(const Dish &dish, int owner);
+                bool remove(const Dish &dish);
                 bool submit();
                 bool checkout();
                 double getSumInCart() const {return sum;}
                 void show() const;
         protected:
-                DataManager *mydb;
                 int num;
                 double sum;
-                vector<Dish> dishes;
+                vector<OrderedDish> orderedDishes;
 };
 
 #endif

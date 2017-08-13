@@ -3,33 +3,34 @@
 #include "dish.h"
 #include "cart.h"
 #include "tools.h"
+#include "staticdata.h"
 
-Cart::Cart(DataManager *mydb): num(0), sum(0), mydb(mydb) {}
+Cart::Cart(): num(0), sum(0) {}
 
-bool Cart::add(DishDB dish, int owner) {
+bool Cart::add(const Dish &dish, int owner) {
         bool found = false;
-        for(int i = 0; i < dishes.size(); i ++)
-                if(dishes[i].getID() == dish.getID()) {
-                        dishes[i].add();
+        for(int i = 0; i < orderedDishes.size(); i ++)
+                if(orderedDishes[i].getDishID() == dish.getDishID()) {
+                        orderedDishes[i].add();
                         found = true;
                 }
         if(!found)
-                dishes.push_back(Dish(dish, owner, 1));
+                orderedDishes.push_back(OrderedDish(dish, owner, 1));
         num ++;
         sum += dish.getPrice();
 
         return true;
 }
 
-bool Cart::remove(DishDB dish) {
+bool Cart::remove(const Dish &dish) {
         bool found = false;
-        for (int i = 0; i < dishes.size(); i ++)
-                if(dishes[i].getID() == dish.getID()) {
+        for (int i = 0; i < orderedDishes.size(); i ++)
+                if(orderedDishes[i].getDishID() == dish.getDishID()) {
                         found = true;
-                        if(dishes[i].getNum() > 1)
-                                dishes[i].sub();
+                        if(orderedDishes[i].getNum() > 1)
+                                orderedDishes[i].sub();
                         else
-                                dishes.erase(dishes.begin() + i);
+                                orderedDishes.erase(orderedDishes.begin() + i);
                         num --;
                 }
         if(!found)
@@ -39,8 +40,8 @@ bool Cart::remove(DishDB dish) {
 }
 
 bool Cart::submit() {
-        for (int i = 0; i < dishes.size(); i ++)
-                if(!mydb->insert("dishes", "NULL, " + ntos(dishes[i].getID()) + ", " + ntos(dishes[i].getOrderer()) + ", 0"))
+        for (int i = 0; i < orderedDishes.size(); i ++)
+                if(!StaticData::db->insert("orderedDishes", "NULL, " + ntos(orderedDishes[i].getDishID()) + ", " + ntos(orderedDishes[i].getOrderer()) + ", 0"))
                         return false;
         return true;
 }
