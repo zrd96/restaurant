@@ -10,5 +10,6 @@ string ntos(int i);
 string ntos(double f);
 string getTime();
 void viewResultList(vector<vector<string> >);
+void viewErrInfo(string errInfo);
 
 #endif

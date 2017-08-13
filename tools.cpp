@@ -36,3 +36,5 @@ void viewResultList(vector<vector<string> > resultList) {
                 cout<<endl;
         }
 }
+
+void viewErrInfo(string errInfo) {cout<<errInfo<<endl;}
