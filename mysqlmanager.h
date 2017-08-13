@@ -18,7 +18,7 @@ class MySQLManager: public DataManager {
                 void initConnection();
                 bool doQuery(string table, string columns, string wheres);
                 int queryID(string phone, string name, int type);
-                int queryID(string name, double price, int timeNeeded);
+                int queryID(string name, double price, int timeNeeded, string imgdir);
                 vector<Msg> queryMsg(int receiver);
                 bool insert(string table, string values);
                 void destroyConnection();

@@ -10,11 +10,14 @@ using namespace std;
 
 class DataManager {
         public:
+                virtual void initConnection() = 0;
+                virtual bool initDB() = 0;
                 virtual bool doQuery(string, string, string) = 0;
                 virtual int queryID(string, string, int) = 0;
-                virtual int queryID(string, double, int) = 0;
+                virtual int queryID(string, double, int, string) = 0;
                 virtual vector<Msg> queryMsg(int receiver) = 0;
                 virtual bool insert(string table, string values) = 0;
+                virtual bool getConnectionStatus() const = 0;
                 vector<vector<string> > getResultList() const {return resultList;}
                 string getErrInfo() const {return errInfo;}
         protected:
