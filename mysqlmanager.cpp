@@ -89,7 +89,7 @@ bool MySQLManager::initDB() {
                 }
                 errInfo = "";
         }
-        if(!runSQLCommand("create table orderedDish(id int unsigned not NULL auto_increment primary key, dishid int unsigned not NULL, orderer int unsigned not NULL, status tinyint unsigned not NULL)")) {
+        if(!runSQLCommand("create table orderedDish(id int unsigned not NULL auto_increment primary key, dishid int unsigned not NULL, orderer int unsigned not NULL, num int unsigned not NULL, status tinyint unsigned not NULL)")) {
                 errInfo = (string)mysql_error(&mySQLClient);
                 if(errInfo.find("exist") < 0) {
                         viewErrInfo(errInfo);
@@ -125,7 +125,9 @@ bool MySQLManager::initDB() {
 }
 
 bool MySQLManager::doQuery(string table, string columns, string wheres) {
-        string cmd = "select " + columns + " from " + table + " where " + wheres;
+        string cmd = "select " + columns + " from " + table;
+        if(wheres != "NULL")
+                cmd += " where " + wheres;
         int queryReturn = mysql_real_query(&mySQLClient, cmd.c_str(), (unsigned int)strlen(cmd.c_str()));
         if (queryReturn) {
                 errInfo = mysql_error(&mySQLClient);
@@ -187,15 +189,17 @@ vector<Msg> MySQLManager::queryMsg(int receiver) {
 
 bool MySQLManager::insert(string table, string values) {
         string cmd = "insert into " + table + " values(" + values +")";
-        
-        int queryReturn = mysql_real_query(&mySQLClient, cmd.c_str(), (unsigned int)strlen(cmd.c_str()));
+        return runSQLCommand(cmd);
+}
 
-        if(queryReturn) {
-                errInfo = mysql_error(&mySQLClient);
-                viewErrInfo(errInfo);
-                return false;
-        }
-        return true;
+bool MySQLManager::update(string table, string column, string newValue, string wheres) {
+        string cmd = "update " + table + " set " + column + " = " + newValue + " where " + wheres;
+        return runSQLCommand(cmd);
+}
+
+bool MySQLManager::deleteRow(string table, string wheres) {
+        string cmd = "delete from " + table + " where " + wheres;
+        return runSQLCommand(cmd);
 }
 
 void MySQLManager::destroyConnection() {
