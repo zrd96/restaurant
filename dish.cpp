@@ -18,7 +18,9 @@ Dish::Dish(string name, double price, int timeNeeded, string imgdir): name(name)
 
 bool Dish::updateRate(double newRate) {
         rate = (rate * rateNum + newRate) / (++rateNum);
-        return true;
+        if(!StaticData::db->update("dish", "rateNum", ntos(rateNum), "dishid = " + ntos(dishID)))
+                return false;
+        return StaticData::db->update("dish", "rate", ntos(rate), "dishid = " + ntos(dishID));
 }
 
 void Dish::show() const {}
