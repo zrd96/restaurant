@@ -10,17 +10,14 @@ using namespace std;
 
 class Person {
         public:
-                Person(string phone, string name);
+                Person(string phone, string name, int type);
                 int getID() {return id;}
                 string getName() {return name;}
                 string getPhone() {return phone;}
-                vector<Msg> getMsg(MySQLManager *mysql);                      //get msg from MySQL
                 bool sendMsg(int receiver, string msg);
         private:
                 int id;
                 string name;
                 string phone;
-                virtual int getIDFromDB() = 0;
 };
-
 #endif
