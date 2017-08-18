@@ -11,12 +11,10 @@ using namespace std;
 class Person {
         public:
                 Person(string phone, string name, int type);
-                int getID() {return id;}
                 string getName() {return name;}
                 string getPhone() {return phone;}
-                bool sendMsg(int receiver, string msg);
+                bool sendMsg(string receiver, string msg);
         private:
-                int id;
                 string name;
                 string phone;
 };

@@ -27,7 +27,7 @@ bool StaticData::queryOrderedDish() {
                 return false;
         vector<vector<string> > resultList = db->getResultList();
         for(int i = 0; i < resultList.size(); i ++)
-                orderedDishList.push_back(OrderedDish(getDishByID(atoi(resultList[i][1].c_str())), atoi(resultList[i][0].c_str()), atoi(resultList[i][2].c_str()), atoi(resultList[i][3].c_str())));
+                orderedDishList.push_back(OrderedDish(getDishByID(atoi(resultList[i][1].c_str())), atoi(resultList[i][0].c_str()), resultList[i][2], atoi(resultList[i][3].c_str())));
         return true;
 }
 
@@ -36,7 +36,7 @@ bool StaticData::queryMsg() {
                 return false;
         vector<vector<string> > resultList = db->getResultList();
         for (int i = 0; i < resultList.size(); i ++)
-                msgList.push_back(Msg(atoi(resultList[i][1].c_str()), atoi(resultList[i][2].c_str()), resultList[i][3], resultList[i][4]));
+                msgList.push_back(Msg(resultList[i][1], resultList[i][2], resultList[i][3], resultList[i][4], atoi(resultList[i][5].c_str())));
         return true;
 }
 
@@ -57,7 +57,7 @@ OrderedDish& StaticData::getOrderedDishByID(int orderedDishID) {
         return orderedDishList[0];
 }
 
-vector<Msg> StaticData::getMsgByReceiver(int receiver) {
+vector<Msg> StaticData::getMsgByReceiver(string receiver) {
         vector<Msg> msgListByReceiver;
         for(int i = 0; i < msgList.size(); i ++)
                 if(msgList[i].getReceiver() == receiver)

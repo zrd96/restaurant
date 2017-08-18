@@ -17,9 +17,8 @@ class MySQLManager: public DataManager {
                 ~MySQLManager();
                 void initConnection();
                 bool doQuery(string table, string columns, string wheres = "NULL");
-                int queryID(string phone, string name, int type);
                 int queryID(string name, double price, int timeNeeded, string imgdir);
-                vector<Msg> queryMsg(int receiver);
+                vector<Msg> queryMsg(string receiver);
                 bool insert(string table, string values);
                 bool update(string table, string column, string newValue, string wheres);
                 bool deleteRow(string table, string wheres);

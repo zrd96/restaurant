@@ -64,7 +64,7 @@ bool MySQLManager::initDB() {
                 errInfo = "";
         }
         runSQLCommand("use restaurant");
-        if(!runSQLCommand("create table person(id int unsigned not NULL auto_increment primary key, phone char(15) not NULL, name char(20) default \"Client\", type tinyint not NULL, rate float, rateNum int unsigned)")) {
+        if(!runSQLCommand("create table person(phone char(15) not NULL primary key, name char(20) default \"Client\", type tinyint not NULL, rate float, rateNum int unsigned)")) {
                 errInfo = (string)mysql_error(&mySQLClient);
                 if(errInfo.find("exist") < 0) {
                         viewErrInfo(errInfo);
@@ -72,7 +72,7 @@ bool MySQLManager::initDB() {
                 }
                 errInfo = "";
         }
-        if(!runSQLCommand("create table msg(msgid int unsigned not NULL auto_increment primary key, sender int unsigned not NULL, receiver int unsigned not NULL, msg char(200) not NULL, time datetime not NULL)")) {
+        if(!runSQLCommand("create table msg(msgid int unsigned not NULL auto_increment primary key, sender char(15) not NULL, receiver char(15) not NULL, msg char(200) not NULL, time datetime not NULL, isActive tinyint unsigned not NULL)")) {
                 errInfo = (string)mysql_error(&mySQLClient);
                 if(errInfo.find("exist") < 0) {
                         viewErrInfo(errInfo);
@@ -89,7 +89,7 @@ bool MySQLManager::initDB() {
                 }
                 errInfo = "";
         }
-        if(!runSQLCommand("create table orderedDish(id int unsigned not NULL auto_increment primary key, dishid int unsigned not NULL, orderer int unsigned not NULL, num int unsigned not NULL, status tinyint unsigned not NULL)")) {
+        if(!runSQLCommand("create table orderedDish(id int unsigned not NULL auto_increment primary key, dishid int unsigned not NULL, orderer char(15) not NULL, num int unsigned not NULL, status tinyint unsigned not NULL)")) {
                 errInfo = (string)mysql_error(&mySQLClient);
                 if(errInfo.find("exist") < 0) {
                         viewErrInfo(errInfo);
@@ -98,20 +98,20 @@ bool MySQLManager::initDB() {
                 errInfo = "";
         }
 
-        insert("person", "NULL, \"18110026291\", \"ZRD\", 0, NULL, NULL");
-        insert("person", "NULL, \"18110020001\", \"gst1\", 1, NULL, NULL");
-        insert("person", "NULL, \"18110020002\", \"gst2\", 1, NULL, NULL");
-        insert("person", "NULL, \"18110020003\", \"chef1\", 2, NULL, NULL");
-        insert("person", "NULL, \"18110020004\", \"chef2\", 2, NULL, NULL");
-        insert("person", "NULL, \"18110020005\", \"clk1\", 3, 8.9, 20");
-        insert("person", "NULL, \"18110020006\", \"clk2\", 3, 8.8, 25");
-        insert("person", "NULL, \"18110020007\", \"clk3\", 3, 9.2, 40");
+        insert("person", "\"18110026291\", \"ZRD\", 0, NULL, NULL");
+        insert("person", "\"18110020001\", \"gst1\", 1, NULL, NULL");
+        insert("person", "\"18110020002\", \"gst2\", 1, NULL, NULL");
+        insert("person", "\"18110020003\", \"chef1\", 2, NULL, NULL");
+        insert("person", "\"18110020004\", \"chef2\", 2, NULL, NULL");
+        insert("person", "\"18110020005\", \"clk1\", 3, 8.9, 20");
+        insert("person", "\"18110020006\", \"clk2\", 3, 8.8, 25");
+        insert("person", "\"18110020007\", \"clk3\", 3, 9.2, 40");
 
-        insert("msg", "NULL, 1, 6, \"water\", \"2017-08-11 15:40:00\"");
-        insert("msg", "NULL, 2, 7, \"water\", \"2017-08-11 15:45:00\"");
-        insert("msg", "NULL, 2, 7, \"napkin\", \"2017-08-11 15:50:00\"");
-        insert("msg", "NULL, 3, 8, \"quickly\", \"2017-08-11 15:55:00\"");
-        insert("msg", "NULL, 8, 4, \"quickly\", \"2017-08-11 15:56:00\"");
+        insert("msg", "NULL, \"18110026291\", \"18110020005\", \"water\", \"2017-08-11 15:40:00\", 1");
+        insert("msg", "NULL, \"18110020001\", \"18110020007\", \"water\", \"2017-08-11 15:45:00\", 1");
+        insert("msg", "NULL, \"18110020001\", \"18110020007\", \"napkin\", \"2017-08-11 15:50:00\", 1");
+        insert("msg", "NULL, \"18110020002\", \"18110020007\", \"quickly\", \"2017-08-11 15:55:00\", 1");
+        insert("msg", "NULL, \"18110020007\", \"18110020003\", \"quickly\", \"2017-08-11 15:56:00\", 1");
 
         insert("dish", "NULL, \"rice\", 2, 9.3, 258, 1, \"img/dishes/default.jpg\"");
         insert("dish", "NULL, \"noodle\", 12, 8.9, 127, 5, \"img/dishes/default.jpg\"");
@@ -150,7 +150,7 @@ bool MySQLManager::doQuery(string table, string columns, string wheres) {
         mysql_free_result(res);
         return true;
 }
-
+/*
 int MySQLManager::queryID(string phone, string name, int type) {
         if (!doQuery("person", "id", "phone = \"" + phone + "\""))
                 return -1;
@@ -162,7 +162,7 @@ int MySQLManager::queryID(string phone, string name, int type) {
                 return queryID(phone, name, type);
         return -1;
 }
-
+*/
 int MySQLManager::queryID(string name, double price, int timeNeeded, string imgdir) {
         if (!doQuery("dish", "dishid", "name = \"" + name + "\""))
                 return -1;
@@ -175,14 +175,14 @@ int MySQLManager::queryID(string name, double price, int timeNeeded, string imgd
         return -1;
 }
 
-vector<Msg> MySQLManager::queryMsg(int receiver) {
+vector<Msg> MySQLManager::queryMsg(string receiver) {
         vector<Msg> msgs;
 
-        if (!doQuery("msg", "sender, receiver, msg, time", "receiver = \"" + ntos(receiver) + "\""))
+        if (!doQuery("msg", "sender, receiver, msg, time, isActive", "receiver = \"" + receiver + "\""))
                 return msgs;
         
         for (int i = 0; i < resultList.size(); i ++)
-                msgs.push_back(Msg(atoi(resultList[i][0].c_str()), atoi(resultList[i][1].c_str()), resultList[i][2], resultList[i][3]));
+                msgs.push_back(Msg(resultList[i][0], resultList[i][1], resultList[i][2], resultList[i][3], atoi(resultList[i][4].c_str())));
 
         return msgs;
 }

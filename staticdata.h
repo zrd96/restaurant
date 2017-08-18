@@ -24,7 +24,7 @@ class StaticData {
 
                 static Dish& getDishByID(int dishID);
                 static OrderedDish& getOrderedDishByID(int orderedDishID);
-                static vector<Msg> getMsgByReceiver(int receiver);
+                static vector<Msg> getMsgByReceiver(string receiver);
                 //static Person& getPersonByID(int id);
 };
 

@@ -5,5 +5,5 @@
 
 using namespace std;
 
-Msg::Msg(int sender, int receiver, string msg, string datetime): sender(sender), receiver(receiver), msg(msg), datetime(datetime) {}
+Msg::Msg(string sender, string receiver, string msg, string datetime, bool isActive): sender(sender), receiver(receiver), msg(msg), datetime(datetime), isActive(isActive) {}
 

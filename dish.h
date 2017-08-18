@@ -31,13 +31,13 @@ class Dish {
 
 class OrderedDish: public Dish {
         private:
-                int orderer;
+                string orderer;
                 int num;
                 int orderedDishID;
         public:
-                OrderedDish(const Dish &dish, int orderer, int num);
-                OrderedDish(const Dish &dish, int orderedDishID, int orderer, int num);
-                int getOrderer() const {return orderer;}
+                OrderedDish(const Dish &dish, string orderer, int num);
+                OrderedDish(const Dish &dish, int orderedDishID, string orderer, int num);
+                string getOrderer() const {return orderer;}
                 int getNum() const {return num;}
                 int getOrderedDishID() const {return orderedDishID;}
                 void add() {num ++;}

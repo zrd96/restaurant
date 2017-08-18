@@ -10,12 +10,11 @@
 
 using namespace std;
 
-Person::Person(string phone, string name, int type): phone(phone), name(name = "顾客") {
-        id = StaticData::db->queryID(phone, name, type);
+Person::Person(string phone, string name, int type): phone(phone), name(name = "Guest") {
+        StaticData::db->insert("person", "\"" + phone + "\", \"" + name + "\", " + ntos(type) + ", NULL, NULL");
 }
 
-bool Person::sendMsg(int receiver, string msg) {
-        return StaticData::db->insert("msg", "NULL, " + ntos(id) + ", " + ntos(receiver) + ", " + msg + ", " + getTime());
+bool Person::sendMsg(string receiver, string msg) {
+        return StaticData::db->insert("msg", "NULL, \"" + phone + "\", \"" + receiver + "\", \"" + msg + "\", \"" + getTime() + "\"");
 }
-
 
