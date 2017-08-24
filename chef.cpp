@@ -20,6 +20,7 @@ bool Chef::takeDish(const OrderedDish &dish) {
 }
 
 bool Chef::finishDish(const OrderedDish &dish) {
+        sendMsg(StaticData::getClerkPhoneByTable(dish.getTable()), "Dish ready " + ntos(dish.getTable()) + " " + dish.getOrderer() + " " + ntos(dish.getOrderedDishID()));
         return StaticData::db->update("orderedDish", "status", "2", "id = " + ntos(dish.getOrderedDishID()));
 }
 
