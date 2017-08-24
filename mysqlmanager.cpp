@@ -89,7 +89,7 @@ bool MySQLManager::initDB() {
                 }
                 errInfo = "";
         }
-        if(!runSQLCommand("create table orderedDish(id int unsigned not NULL auto_increment primary key, dishid int unsigned not NULL, orderer char(15) not NULL, num int unsigned not NULL, status tinyint unsigned not NULL)")) {
+        if(!runSQLCommand("create table orderedDish(id int unsigned not NULL auto_increment primary key, dishid int unsigned not NULL, orderer char(15) not NULL, table int unsigned not NULL, num int unsigned not NULL, status tinyint unsigned not NULL)")) {
                 errInfo = (string)mysql_error(&mySQLClient);
                 if(errInfo.find("exist") < 0) {
                         viewErrInfo(errInfo);
@@ -105,7 +105,7 @@ bool MySQLManager::initDB() {
         insert("person", "\"18110020004\", \"chef2\", 2, NULL, NULL");
         insert("person", "\"18110020005\", \"clk1\", 3, 8.9, 20");
         insert("person", "\"18110020006\", \"clk2\", 3, 8.8, 25");
-        insert("person", "\"18110020007\", \"clk3\", 3, 9.2, 40");
+        insert("person", "\"18110020007\", \"clk3\", 3,9.2, 40");
 
         insert("msg", "NULL, \"18110026291\", \"18110020005\", \"water\", \"2017-08-11 15:40:00\", 1");
         insert("msg", "NULL, \"18110020001\", \"18110020007\", \"water\", \"2017-08-11 15:45:00\", 1");

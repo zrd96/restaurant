@@ -27,7 +27,7 @@ bool StaticData::queryOrderedDish() {
                 return false;
         vector<vector<string> > resultList = db->getResultList();
         for(int i = 0; i < resultList.size(); i ++)
-                orderedDishList.push_back(OrderedDish(getDishByID(atoi(resultList[i][1].c_str())), atoi(resultList[i][0].c_str()), resultList[i][2], atoi(resultList[i][3].c_str())));
+                orderedDishList.push_back(OrderedDish(getDishByID(atoi(resultList[i][1].c_str())), atoi(resultList[i][0].c_str()), resultList[i][2], atoi(resultList[i][3].c_str()), atoi(resultList[i][4].c_str())));
         return true;
 }
 
