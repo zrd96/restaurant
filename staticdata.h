@@ -15,16 +15,19 @@ class StaticData {
                 static vector<Dish> dishList;
                 static vector<OrderedDish> orderedDishList;
                 static vector<Msg> msgList;
+                static vector<Clerk> clerkList;
                 //static vector<Person> personList;
                 
                 static bool queryDish();
                 static bool queryOrderedDish();
                 static bool queryMsg();
+                static bool queryClerk();
                 //static bool queryPerson();
 
                 static Dish& getDishByID(int dishID);
                 static OrderedDish& getOrderedDishByID(int orderedDishID);
                 static vector<Msg> getMsgByReceiver(string receiver);
+                static string getClerkPhoneByTable(int table);
                 //static Person& getPersonByID(int id);
 };
 

@@ -89,7 +89,15 @@ bool MySQLManager::initDB() {
                 }
                 errInfo = "";
         }
-        if(!runSQLCommand("create table orderedDish(id int unsigned not NULL auto_increment primary key, dishid int unsigned not NULL, orderer char(15) not NULL, table int unsigned not NULL, num int unsigned not NULL, status tinyint unsigned not NULL)")) {
+        if(!runSQLCommand("create table orderedDish(id int unsigned not NULL auto_increment primary key, dishid int unsigned not NULL, orderer char(15) not NULL, tableNum int unsigned not NULL, num int unsigned not NULL, status tinyint unsigned not NULL)")) {
+                errInfo = (string)mysql_error(&mySQLClient);
+                if(errInfo.find("exist") < 0) {
+                        viewErrInfo(errInfo);
+                        return false;
+                }
+                errInfo = "";
+        }
+        if(!runSQLCommand("create table tableList(id int unsigned not NULL auto_increment primary key, seats int unsigned not NULL, clerk char(15))")) {
                 errInfo = (string)mysql_error(&mySQLClient);
                 if(errInfo.find("exist") < 0) {
                         viewErrInfo(errInfo);
@@ -98,6 +106,7 @@ bool MySQLManager::initDB() {
                 errInfo = "";
         }
 
+        /*
         insert("person", "\"18110026291\", \"ZRD\", 0, NULL, NULL");
         insert("person", "\"18110020001\", \"gst1\", 1, NULL, NULL");
         insert("person", "\"18110020002\", \"gst2\", 1, NULL, NULL");
@@ -107,20 +116,25 @@ bool MySQLManager::initDB() {
         insert("person", "\"18110020006\", \"clk2\", 3, 8.8, 25");
         insert("person", "\"18110020007\", \"clk3\", 3,9.2, 40");
 
-        insert("msg", "NULL, \"18110026291\", \"18110020005\", \"water\", \"2017-08-11 15:40:00\", 1");
-        insert("msg", "NULL, \"18110020001\", \"18110020007\", \"water\", \"2017-08-11 15:45:00\", 1");
-        insert("msg", "NULL, \"18110020001\", \"18110020007\", \"napkin\", \"2017-08-11 15:50:00\", 1");
-        insert("msg", "NULL, \"18110020002\", \"18110020007\", \"quickly\", \"2017-08-11 15:55:00\", 1");
-        insert("msg", "NULL, \"18110020007\", \"18110020003\", \"quickly\", \"2017-08-11 15:56:00\", 1");
+        insert("msg", "1, \"18110026291\", \"18110020005\", \"water\", \"2017-08-11 15:40:00\", 1");
+        insert("msg", "2, \"18110020001\", \"18110020007\", \"water\", \"2017-08-11 15:45:00\", 1");
+        insert("msg", "3, \"18110020001\", \"18110020007\", \"napkin\", \"2017-08-11 15:50:00\", 1");
+        insert("msg", "4, \"18110020002\", \"18110020007\", \"quickly\", \"2017-08-11 15:55:00\", 1");
+        insert("msg", "5, \"18110020007\", \"18110020003\", \"quickly\", \"2017-08-11 15:56:00\", 1");
 
-        insert("dish", "NULL, \"rice\", 2, 9.3, 258, 1, \"img/dishes/default.jpg\"");
-        insert("dish", "NULL, \"noodle\", 12, 8.9, 127, 5, \"img/dishes/default.jpg\"");
-        insert("dish", "NULL, \"potato\", 12, NULL, NULL, 10, \"img/dishes/default.jpg\"");
-        insert("dish", "NULL, \"tomato\", 9, NULL, NULL, 5, \"img/dishes/default.jpg\"");
-        insert("dish", "NULL, \"beaf\", 48, 9.6, 328, 20, \"img/dishes/default.jpg\"");
-        insert("dish", "NULL, \"lattice\", 8, 8.8, 68, 3, \"img/dishes/default.jpg\"");
+        insert("dish", "1, \"rice\", 2, 9.3, 258, 1, \"img/dishes/default.jpg\"");
+        insert("dish", "2, \"noodle\", 12, 8.9, 127, 5, \"img/dishes/default.jpg\"");
+        insert("dish", "3, \"potato\", 12, NULL, NULL, 10, \"img/dishes/default.jpg\"");
+        insert("dish", "4, \"tomato\", 9, NULL, NULL, 5, \"img/dishes/default.jpg\"");
+        insert("dish", "5, \"beaf\", 48, 9.6, 328, 20, \"img/dishes/default.jpg\"");
+        insert("dish", "6, \"lattice\", 8, 8.8, 68, 3, \"img/dishes/default.jpg\"");
 
-
+        insert("tableList", "1, 1, \"18110020005\"");
+        insert("tableList", "2, 1, \"18110020005\"");
+        insert("tableList", "3, 1, \"18110020006\"");
+        insert("tableList", "4, 1, \"18110020007\"");
+        insert("tableList", "5, 1, \"18110020007\"");
+*/
         return true;
 }
 

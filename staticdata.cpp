@@ -10,6 +10,8 @@
 vector<Dish> StaticData::dishList;
 vector<OrderedDish> StaticData::orderedDishList;
 vector<Msg> StaticData::msgList;
+vector<Clerk> StaticData::clerkList;
+
 //vector<Person> StaticData::personList;
 DataManager* StaticData::db = NULL;
 
@@ -18,7 +20,7 @@ bool StaticData::queryDish() {
                 return false;
         vector<vector<string> > resultList = db->getResultList();
         for(int i = 0; i < resultList.size(); i ++)
-                dishList.push_back(Dish(resultList[i][1], atof(resultList[i][2].c_str()), atoi(resultList[i][5].c_str()), resultList[i][6]));
+                dishList.push_back(Dish(resultList[i][1], atof(resultList[i][2].c_str()), atoi(resultList[i][5].c_str()), resultList[i][6], atoi(resultList[i][0].c_str())));
         return true;
 }
 
@@ -40,6 +42,14 @@ bool StaticData::queryMsg() {
         return true;
 }
 
+bool StaticData::queryClerk() {
+        if(!db->doQuery("person", "*", "type = 3"))
+                return false;
+        vector<vector<string> > resultList = db->getResultList();
+        for(int i = 0; i < resultList.size(); i ++)
+                clerkList.push_back(Clerk(resultList[i][0], resultList[i][1], atof(resultList[i][3].c_str()), atoi(resultList[i][4].c_str())));
+        return true;
+}
 
 //bool StaticData::queryPerson() {return true;}
 
@@ -63,6 +73,12 @@ vector<Msg> StaticData::getMsgByReceiver(string receiver) {
                 if(msgList[i].getReceiver() == receiver)
                         msgListByReceiver.push_back(msgList[i]);
         return msgListByReceiver;
+}
+
+string StaticData::getClerkPhoneByTable(int table) {
+        if(!db->doQuery("tableList", "clerk", "id = " + ntos(table)))
+                return "";
+        return db->getResultList()[0][0];
 }
 
 //Person& getPersonByID(int id) {
