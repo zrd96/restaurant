@@ -38,3 +38,12 @@ void viewResultList(vector<vector<string> > resultList) {
 }
 
 void viewErrInfo(string errInfo) {cout<<errInfo<<endl;}
+
+bool confirm(string info) {
+        cout<<info<<" (y/n)"<<endl;
+        char ch = getchar();
+        getchar();
+        if(ch == 'Y' || ch == 'y')
+                return true;
+        return false;
+}

@@ -11,5 +11,6 @@ string ntos(double f);
 string getTime();
 void viewResultList(vector<vector<string> >);
 void viewErrInfo(string errInfo);
+bool confirm(string info);
 
 #endif
