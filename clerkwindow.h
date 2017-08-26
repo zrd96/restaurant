@@ -15,6 +15,9 @@ public:
     explicit ClerkWindow(QWidget *parent = 0);
     ~ClerkWindow();
 
+public slots:
+    void openWindow(const QString user);
+
 private:
     Ui::ClerkWindow *ui;
 };

@@ -15,6 +15,9 @@ public:
     explicit ChefWindow(QWidget *parent = 0);
     ~ChefWindow();
 
+public slots:
+    void openWindow(const QString user);
+
 private:
     Ui::ChefWindow *ui;
 };

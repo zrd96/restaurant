@@ -12,3 +12,7 @@ ChefWindow::~ChefWindow()
 {
     delete ui;
 }
+
+void ChefWindow::openWindow(const QString user) {
+    this->show();
+}

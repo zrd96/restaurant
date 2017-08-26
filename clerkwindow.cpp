@@ -12,3 +12,7 @@ ClerkWindow::~ClerkWindow()
 {
     delete ui;
 }
+
+void ClerkWindow::openWindow(const QString user) {
+    this->show();
+}

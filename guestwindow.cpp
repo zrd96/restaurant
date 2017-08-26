@@ -1,14 +1,18 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "guestwindow.h"
+#include "ui_guestwindow.h"
 
-MainWindow::MainWindow(QWidget *parent) :
+GuestWindow::GuestWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::GuestWindow)
 {
     ui->setupUi(this);
 }
 
-MainWindow::~MainWindow()
+GuestWindow::~GuestWindow()
 {
     delete ui;
+}
+
+void GuestWindow::openWindow(const QString user) {
+    this->show();
 }

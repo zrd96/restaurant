@@ -12,3 +12,7 @@ AdminWindow::~AdminWindow()
 {
     delete ui;
 }
+
+void AdminWindow::openWindow(const QString user) {
+    this->show();
+}

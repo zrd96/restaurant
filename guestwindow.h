@@ -1,22 +1,25 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef GUESTWINDOW_H
+#define GUESTWINDOW_H
 
 #include <QMainWindow>
 
 namespace Ui {
-class MainWindow;
+class GuestWindow;
 }
 
-class MainWindow : public QMainWindow
+class GuestWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    explicit GuestWindow(QWidget *parent = 0);
+    ~GuestWindow();
+
+public slots:
+    void openWindow(const QString user);
 
 private:
-    Ui::MainWindow *ui;
+    Ui::GuestWindow *ui;
 };
 
-#endif // MAINWINDOW_H
+#endif // GUESTWINDOW_H

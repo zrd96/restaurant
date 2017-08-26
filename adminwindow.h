@@ -15,6 +15,9 @@ public:
     explicit AdminWindow(QWidget *parent = 0);
     ~AdminWindow();
 
+public slots:
+    void openWindow(const QString user);
+
 private:
     Ui::AdminWindow *ui;
 };
