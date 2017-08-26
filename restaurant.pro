@@ -25,10 +25,47 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+    logindlg.cpp \
+    admin.cpp \
+    cart.cpp \
+    chef.cpp \
+    clerk.cpp \
+    dish.cpp \
+    guest.cpp \
+    msg.cpp \
+    mysqlmanager.cpp \
+    person.cpp \
+    staticdata.cpp \
+    table.cpp \
+    tools.cpp \
+    guestwindow.cpp \
+    chefwindow.cpp \
+    clerkwindow.cpp \
+    adminwindow.cpp
 
 HEADERS += \
-        mainwindow.h
+    logindlg.h \
+    admin.h \
+    cart.h \
+    chef.h \
+    clerk.h \
+    datamanager.h \
+    dish.h \
+    guest.h \
+    msg.h \
+    mysqlmanager.h \
+    person.h \
+    staticdata.h \
+    table.h \
+    tools.h \
+    guestwindow.h \
+    chefwindow.h \
+    clerkwindow.h \
+    adminwindow.h
 
 FORMS += \
-        mainwindow.ui
+    logindlg.ui \
+    chefwindow.ui \
+    guestwindow.ui \
+    clerkwindow.ui \
+    adminwindow.ui
