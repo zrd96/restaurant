@@ -55,7 +55,7 @@ bool MySQLManager::runSQLCommand(const string cmd) {
 }
 
 bool MySQLManager::initDB() {
-        if(!runSQLCommand("create database restaurant character set gbk")) {
+        if(!runSQLCommand("create database restaurant character set utf8")) {
                 errInfo = (string)mysql_error(&mySQLClient);
                 if(errInfo.find("exist") < 0) {
                         viewErrInfo(errInfo);
@@ -64,7 +64,7 @@ bool MySQLManager::initDB() {
                 errInfo = "";
         }
         runSQLCommand("use restaurant");
-        if(!runSQLCommand("create table person(phone char(15) not NULL primary key, name char(20) default \"Client\", type tinyint not NULL, rate float, rateNum int unsigned)")) {
+        if(!runSQLCommand("create table person(phone char(15) not NULL primary key, name char(20) default \"Client\", password char(20) not NULL, type tinyint not NULL, rate float, rateNum int unsigned)")) {
                 errInfo = (string)mysql_error(&mySQLClient);
                 if(errInfo.find("exist") < 0) {
                         viewErrInfo(errInfo);
