@@ -9,7 +9,7 @@
 #include "staticdata.h"
 #include "tools.h"
 
-Admin::Admin(string phone, string name): Person(phone, name, 0) {}
+Admin::Admin(string phone, string name): Person(phone, name) {}
 
 bool Admin::addDish(Dish& dish) {
         StaticData::db->doQuery("dish", "dishid", "name = \"" + dish.getName() + "\"");
@@ -65,7 +65,7 @@ bool Admin::addPerson(Person& person, int type) {
         if(StaticData::db->getResultList().size())
                 if(!confirm("User " + person.getPhone() + " already exists, overwrite?"))
                         return false;
-        return StaticData::db->insert("person", "\"" + person.getPhone() +"\", \"" + person.getName() + "\", " + ntos(type) + ", NULL, NULL");
+        return StaticData::db->insert("person", "\"" + person.getPhone() +"\", \"" + person.getName() + "\", \"" + person.getPassword() + "\", " + ntos(type) + ", NULL, NULL");
 }
 
 bool Admin::removePerson(Person& person) {
@@ -80,7 +80,7 @@ bool Admin::removePerson(Person& person) {
                         return StaticData::db->deleteRow("person", "phone = \"" + person.getPhone() +"\"");
 }
 
-bool Admin::modifyPerson(Person& person, string newPhone, string newName) {
+bool Admin::modifyPerson(Person& person, string newPhone, string newName, string newPassword) {
         StaticData::db->doQuery("person", "phone", "phone = \"" + person.getPhone() + "\"");
         if(StaticData::db->getResultList().size() == 0) {
                 viewErrInfo("User " + person.getPhone() +" does not exist!");
@@ -91,6 +91,7 @@ bool Admin::modifyPerson(Person& person, string newPhone, string newName) {
                 else {
                         StaticData::db->update("person", "phone", "\"" + newPhone + "\"", "phone = \"" + person.getPhone() + "\"");
                         StaticData::db->update("person", "name", "\"" + newName + "\"", "phone = \"" + newPhone + "\"");
+                        StaticData::db->update("person", "password", "\"" + newPassword + "\"", "phone = \"" + newPhone + "\"");
                         return true;
                 }
 }

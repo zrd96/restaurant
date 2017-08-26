@@ -10,12 +10,15 @@ using namespace std;
 
 class Person {
         public:
-                Person(string phone, string name, int type);
-                string getName() {return name;}
-                string getPhone() {return phone;}
+                Person(string phone, string name);
+                Person(string phone, string name, string password);
+                string getName() const {return name;}
+                string getPhone() const {return phone;}
+                string getPassword() const {return password;}
                 bool sendMsg(string receiver, string msg);
         private:
                 string name;
                 string phone;
+                string password;
 };
 #endif

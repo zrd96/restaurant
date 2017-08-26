@@ -9,7 +9,8 @@
 
 using namespace std;
 
-Chef::Chef(string phone, string name): Person(phone, name, 2) {}
+Chef::Chef(string phone, string name): Person(phone, name) {}
+Chef::Chef(string phone, string name, string password): Person(phone, name, password) {}
 
 bool Chef::takeDish(const OrderedDish &dish) {
         if(StaticData::db->update("orderedDish", "status", "1", "id = " + ntos(dish.getOrderedDishID()))) {

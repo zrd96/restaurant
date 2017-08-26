@@ -8,7 +8,8 @@
 #include "guest.h"
 #include "dish.h"
 
-Guest::Guest(string phone, string name): Person(phone, name, 1), Cart() {}
+Guest::Guest(string phone, string name): Person(phone, name), Cart() {}
+Guest::Guest(string phone, string name, string password): Person(phone, name, password), Cart() {}
 
 bool Guest::addDish(const Dish& dish) {
         return add(dish, getPhone(), table);

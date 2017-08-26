@@ -11,6 +11,7 @@ class Table;
 class Clerk: public Person {
         public:
                 Clerk(string phone, string name, double rate = 0, int rateNum = 0);
+                Clerk(string phone, string name, string password, double rate = 0, int rateNum = 0);
                 bool takeTable(Table& table);
                 void checkReadyDishes();
                 void readMsg(Msg& msg);

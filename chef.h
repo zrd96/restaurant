@@ -11,6 +11,7 @@
 class Chef: public Person {
         public:
                 Chef(string phone, string name);
+                Chef(string phone, string name, string password);
                 bool takeDish(const OrderedDish &dish);
                 bool finishDish(const OrderedDish &dish);
         private:

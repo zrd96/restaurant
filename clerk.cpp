@@ -9,12 +9,14 @@
 #include "tools.h"
 #include "table.h"
 
-Clerk::Clerk(string phone, string name, double rate, int rateNum): Person(phone, name, 3), rate(rate), rateNum(rateNum) {
+Clerk::Clerk(string phone, string name, double rate, int rateNum): Person(phone, name), rate(rate), rateNum(rateNum) {
         vector<Msg> allMsg = StaticData::getMsgByReceiver(phone);
         for(int i = 0; i < allMsg.size(); i ++)
                 if(allMsg[i].getState())
                         unReadMsg.push_back(allMsg[i]);
 }
+
+Clerk::Clerk(string phone, string name, string password, double rate, int rateNum): Person(phone, name, password), rate(rate), rateNum(rateNum) {}
 
 bool Clerk::takeTable(Table& table) {
         return table.linkClerk(*this);

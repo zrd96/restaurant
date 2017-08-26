@@ -17,7 +17,7 @@ class Admin: public Person {
 
                 bool addPerson(Person& person, int type);
                 bool removePerson(Person& person);
-                bool modifyPerson(Person& person, string newPhone, string newName);
+                bool modifyPerson(Person& person, string newPhone, string newName, string newPassword);
                 void viewPerson();
 
                 bool addTable(Table& table);
