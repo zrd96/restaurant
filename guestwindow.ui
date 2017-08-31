@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1297</width>
-    <height>899</height>
+    <width>1200</width>
+    <height>900</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1331</width>
-      <height>881</height>
+      <width>1200</width>
+      <height>880</height>
      </rect>
     </property>
     <property name="tabPosition">
@@ -30,32 +30,135 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tableTab">
      <attribute name="title">
       <string>Select Table</string>
      </attribute>
-     <widget class="QListView" name="listView">
-      <property name="geometry">
-       <rect>
-        <x>280</x>
-        <y>250</y>
-        <width>371</width>
-        <height>411</height>
-       </rect>
-      </property>
-     </widget>
     </widget>
     <widget class="QWidget" name="dishTab">
      <attribute name="title">
       <string>Select Dishes</string>
      </attribute>
+     <widget class="QScrollArea" name="scrollAreaDishList">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1200</width>
+        <height>850</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>1200</width>
+        <height>850</height>
+       </size>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAsNeeded</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::AdjustIgnored</enum>
+      </property>
+      <property name="widgetResizable">
+       <bool>false</bool>
+      </property>
+      <widget class="ItemList" name="dishList">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>1198</width>
+         <height>848</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </widget>
     </widget>
     <widget class="QWidget" name="cartTab">
      <attribute name="title">
       <string>View Cart</string>
      </attribute>
+     <widget class="QScrollArea" name="scrollAreaCartList">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>40</y>
+        <width>1200</width>
+        <height>761</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>1200</width>
+        <height>750</height>
+       </size>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAsNeeded</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::AdjustIgnored</enum>
+      </property>
+      <property name="widgetResizable">
+       <bool>false</bool>
+      </property>
+      <widget class="ItemList" name="cartList">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>1198</width>
+         <height>759</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QPushButton" name="RefreshCart">
+      <property name="geometry">
+       <rect>
+        <x>910</x>
+        <y>810</y>
+        <width>80</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Refresh</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="msgTab">
      <attribute name="title">
@@ -74,13 +177,20 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1297</width>
+     <width>1200</width>
      <height>23</height>
     </rect>
    </property>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>ItemList</class>
+   <extends>QWidget</extends>
+   <header>itemlist.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

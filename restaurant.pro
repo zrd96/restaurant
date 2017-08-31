@@ -11,6 +11,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = restaurant
 TEMPLATE = app
 
+LIBS += -L/usr/lib/mysql -lmysqlclient
+
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -41,7 +43,9 @@ SOURCES += \
     guestwindow.cpp \
     chefwindow.cpp \
     clerkwindow.cpp \
-    adminwindow.cpp
+    adminwindow.cpp \
+    item.cpp \
+    itemlist.cpp
 
 HEADERS += \
     logindlg.h \
@@ -61,11 +65,15 @@ HEADERS += \
     guestwindow.h \
     chefwindow.h \
     clerkwindow.h \
-    adminwindow.h
+    adminwindow.h \
+    item.h \
+    itemlist.h
 
 FORMS += \
     logindlg.ui \
     chefwindow.ui \
     guestwindow.ui \
     clerkwindow.ui \
-    adminwindow.ui
+    adminwindow.ui \
+    item.ui \
+    itemlist.ui

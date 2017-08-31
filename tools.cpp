@@ -1,24 +1,28 @@
 #include <string>
-#include <cstdio>
 #include <cstring>
 #include <ctime>
 #include <vector>
 #include <iostream>
+#include <sstream>
 
 #include "tools.h"
 
 using namespace std;
 
 string ntos(int i) {
-        char *s = new char[20];
-        sprintf(s, "%d", i);
-        return (string)s;
+        stringstream stream;
+        stream<<i;
+        string s;
+        stream>>s;
+        return s;
 }
 
 string ntos(double f) {
-        char *s = new char[20];
-        sprintf(s, "%lf", f);
-        return (string)s;
+    stringstream stream;
+    stream<<f;
+    string s;
+    stream>>s;
+    return s;
 }
 
 string getTime() {
@@ -41,9 +45,9 @@ void viewErrInfo(string errInfo) {cout<<errInfo<<endl;}
 
 bool confirm(string info) {
         cout<<info<<" (y/n)"<<endl;
-        char ch = getchar();
-        getchar();
-        if(ch == 'Y' || ch == 'y')
+        //char ch = getchar();
+        //getchar();
+        //if(ch == 'Y' || ch == 'y')
                 return true;
         return false;
 }

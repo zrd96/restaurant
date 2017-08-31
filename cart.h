@@ -12,6 +12,7 @@ class Cart {
                 bool checkout();
                 double getSumInCart() const {return sum;}
                 void show() const;
+                vector<OrderedDish> getOrderedDishList() const {return orderedDishes;}
         protected:
                 bool add(const Dish& dish, string owner, int tableNum);
                 bool remove(const Dish& dish);

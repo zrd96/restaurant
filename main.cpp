@@ -30,14 +30,23 @@ int main(int argc, char *argv[])
         Dish chickenSoup("chickenSoup", 25, 20);
         Dish tomato("tomato", 9, 5);
         Dish beaf("beaf", 48, 20);
+        Dish mutton("Mutton", 48, 20);
+        Dish fish("Fish", 38, 20);
+        Dish ds1("ds1", 20);
+        Dish ds2("ds2", 15, 5);
+        Dish ds3("ds3", 15);
         zrd.addDish(potato);
         zrd.addDish(noodle);
         zrd.addDish(chickenSoup);
         zrd.addDish(tomato);
         zrd.addDish(beaf);
+        zrd.addDish(mutton);
+        zrd.addDish(fish);
+        zrd.addDish(ds1);
+        zrd.addDish(ds2);
+        zrd.addDish(ds3);
 
         cout<<"Adding dish succeeded"<<endl;
-        getchar();
 
         zrd.modifyDish(beaf, "beaf", 68, 25, "img/dishes/beaf.jpg");
 
@@ -56,7 +65,7 @@ int main(int argc, char *argv[])
         zrd.removeTable(tb4);
         cout<<"removing table succeeded"<<endl;
 
-        Guest daddy("18110020001", "daddy");
+        Guest daddy("18110020001", "daddy", "000000");
 
         daddy.selectTable(tb3);
         cout<<"Guest selecting table succeeded"<<endl;
@@ -70,12 +79,10 @@ int main(int argc, char *argv[])
         daddy.removeDish(StaticData::dishList[2]);
 
         cout<<"Cart management succeeded"<<endl;
-        getchar();
 
         cout<<daddy.getSumInCart()<<endl;
         daddy.submit();
         cout<<"Cart submitted"<<endl;
-        getchar();
 
         Chef chef1("18110020003", "chef1", "123456");
         Chef chef2("18110020004", "chef2", "66666");
@@ -88,19 +95,15 @@ int main(int argc, char *argv[])
         zrd.addPerson(clk1, 3);
         zrd.addPerson(clk2, 3);
         zrd.addPerson(clk3, 3);
+        zrd.addPerson(daddy, 1);
 
         cout<<"Adding person succeeded"<<endl;
-        getchar();
 
         zrd.modifyPerson(clk3, "18110020008", "clk3", "000000");
         cout<<"Modifying person succeeded"<<endl;
-        getchar();
         Clerk newClk3("18110020008", "clk3");
         zrd.removePerson(newClk3);
         cout<<"Removing person succeeded"<<endl;
-        getchar();
-
-
 
         StaticData::queryDish();
         StaticData::queryOrderedDish();

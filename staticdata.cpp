@@ -16,6 +16,7 @@ vector<Clerk> StaticData::clerkList;
 DataManager* StaticData::db = NULL;
 
 bool StaticData::queryDish() {
+    dishList.clear();
         if (!db->doQuery("dish", "*"))
                 return false;
         vector<vector<string> > resultList = db->getResultList();
