@@ -15,7 +15,7 @@ bool Cart::add(const Dish &dish, string owner, int tableNum) {
                         found = true;
                 }
         if(!found)
-                orderedDishes.push_back(OrderedDish(dish, owner, 1, tableNum));
+                orderedDishes.push_back(OrderedDish(dish, owner,tableNum, 0));
         num ++;
         sum += dish.getPrice();
 
@@ -32,6 +32,7 @@ bool Cart::remove(const Dish &dish) {
                         else
                                 orderedDishes.erase(orderedDishes.begin() + i);
                         num --;
+                        break;
                 }
         if(!found)
                 return false;
@@ -41,7 +42,7 @@ bool Cart::remove(const Dish &dish) {
 
 bool Cart::submit() {
         for (int i = 0; i < orderedDishes.size(); i ++) {
-                if(!StaticData::db->insert("orderedDish", "NULL, " + ntos(orderedDishes[i].getDishID()) + ", \"" + orderedDishes[i].getOrderer() + "\", " + ntos(orderedDishes[i].getTable()) + ", " + ntos(orderedDishes[i].getNum()) + ", 0"))
+                if(!StaticData::db->insert("orderedDish", "NULL, " + ntos(orderedDishes[i].getDishID()) + ", \"" + orderedDishes[i].getOrderer() + "\", " + ntos(orderedDishes[i].getTable()) + ", 0"))
                         return false;
         }
         return true;

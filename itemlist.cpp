@@ -23,3 +23,4 @@ void ItemList::addItem(Item *item) {
     item->show();
     this->show();
 }
+

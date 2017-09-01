@@ -30,7 +30,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tableTab">
      <attribute name="title">
@@ -102,7 +102,7 @@
         <x>0</x>
         <y>40</y>
         <width>1200</width>
-        <height>761</height>
+        <height>720</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -114,7 +114,7 @@
       <property name="minimumSize">
        <size>
         <width>1200</width>
-        <height>750</height>
+        <height>720</height>
        </size>
       </property>
       <property name="verticalScrollBarPolicy">
@@ -135,7 +135,7 @@
          <x>0</x>
          <y>0</y>
          <width>1198</width>
-         <height>759</height>
+         <height>715</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -157,6 +157,76 @@
       </property>
       <property name="text">
        <string>Refresh</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>0</y>
+        <width>200</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>View Cart</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="textTotal">
+      <property name="geometry">
+       <rect>
+        <x>610</x>
+        <y>780</y>
+        <width>61</width>
+        <height>60</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>16</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Total: &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="submitButton">
+      <property name="geometry">
+       <rect>
+        <x>1060</x>
+        <y>810</y>
+        <width>80</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Submit</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>680</x>
+        <y>780</y>
+        <width>140</width>
+        <height>60</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>16</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: #ff0000</string>
+      </property>
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </widget>

@@ -32,6 +32,6 @@ void Dish::show() const {}
 
 void Dish::showAll() {}
 
-OrderedDish::OrderedDish(const Dish dish, string orderer, int num, int tableNum): Dish(dish), orderer(orderer), num(num), tableNum(tableNum) {}
+OrderedDish::OrderedDish(const Dish dish, string orderer, int tableNum, int status): Dish(dish), orderer(orderer), tableNum(tableNum), status(status), num(1) {}
 
-OrderedDish::OrderedDish(const Dish dish, int orderedDishID, string orderer, int num, int tableNum): Dish(dish), orderedDishID(orderedDishID), orderer(orderer), num(num), tableNum(tableNum) {}
+OrderedDish::OrderedDish(const Dish dish, int orderedDishID, string orderer, int tableNum, int status): Dish(dish), orderedDishID(orderedDishID), orderer(orderer), tableNum(tableNum), status(status), num(1) {}

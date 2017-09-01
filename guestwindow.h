@@ -22,9 +22,11 @@ public:
     ~GuestWindow();
     void viewDishList();
     void viewCartList();
+    void showAll();
 
 public slots:
     void openWindow(const QString user);
+    void setDishNum(int dishID, int finalNum);
 
 private slots:
     void on_tabWidget_currentChanged(int index);

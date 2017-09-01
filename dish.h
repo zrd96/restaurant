@@ -28,23 +28,27 @@ class Dish {
                 bool updateRate(double newRate);
                 void show() const;
                 static void showAll();
+                virtual void useless() {}
 };
 
 class OrderedDish: public Dish {
         private:
                 string orderer;
                 int tableNum;
+                int status;
                 int num;
                 int orderedDishID;
         public:
-                OrderedDish(const Dish dish, string orderer, int num, int tableNum);
-                OrderedDish(const Dish dish, int orderedDishID, string orderer, int num, int tableNum);
+                OrderedDish(const Dish dish, string orderer, int tableNum, int status = -1);
+                OrderedDish(const Dish dish, int orderedDishID, string orderer, int tableNum, int status = -1);
                 string getOrderer() const {return orderer;}
-                int getNum() const {return num;}
                 int getOrderedDishID() const {return orderedDishID;}
+                int getStatus() const {return status;}
+                int getNum() const {return num;}
                 void add() {num ++;}
                 void sub() {num --;}
                 int getTable() const {return tableNum;}
+                void useless() {}
 };
 
 #endif
