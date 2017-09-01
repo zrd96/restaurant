@@ -27,6 +27,7 @@ public:
 public slots:
     void openWindow(const QString user);
     void setDishNum(int dishID, int finalNum);
+    void updateSum();
 
 private slots:
     void on_tabWidget_currentChanged(int index);

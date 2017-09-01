@@ -104,3 +104,9 @@ void Item::setDishNumText(int finalNum) {
     ui->itemNum->setText(QString().setNum(finalNum));
     dishNum = finalNum;
 }
+
+
+void Item::on_itemNum_textChanged(const QString &arg1)
+{
+    emit numChanged();
+}

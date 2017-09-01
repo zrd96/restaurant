@@ -35,8 +35,11 @@ private:
 private slots:
     void setNumTo();
 
+    void on_itemNum_textChanged(const QString &arg1);
+
 signals:
     void dishNumChanged(int dishID, int finalNum);
+    void numChanged();
 };
 
 #endif // ITEM_H

@@ -10,18 +10,18 @@
 #include "dish.h"
 
 class Guest: public Person, public Cart {
-        public:
-                Guest(string phone, string name);
-                Guest(string phone, string name, string password);
-                bool addDish(const Dish& dish);
-                bool removeDish(const Dish& dish);
-                bool selectTable(Table& table);
-                int getTable() const {return table;}
-                void viewProgress();
-                bool rateDish(Dish& dish, double rate);
-                bool rateClerk(Clerk& clerk, double rate);
-        private:
-                int table;
+    public:
+        Guest(string phone, string name);
+        Guest(string phone, string name, string password);
+        bool addDish(const Dish& dish);
+        bool removeDish(const Dish& dish);
+        bool selectTable(Table& table);
+        int getTable() const {return table;}
+        void viewProgress();
+        bool rateDish(Dish& dish, double rate);
+        bool rateClerk(Clerk& clerk, double rate);
+    private:
+        int table;
 };
 
 #endif

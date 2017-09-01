@@ -23,7 +23,7 @@ GuestWindow::~GuestWindow()
     clearPointerList(cartItem);
     delete ui;
 }
-
+//QItemDelegate
 void GuestWindow::openWindow(const QString user) {
 //    ui->dishList->setParent(ui->scrollAreaDishList);
 //    ui->cartList->setParent(ui->scrollAreaCartList);
@@ -42,10 +42,10 @@ void GuestWindow::viewDishList() {
     ui->dishList->resize(1080, 0);
     for(int i = 0; i < StaticData::dishList.size(); i ++) {
         Item* item = new Item(guest, StaticData::dishList[i], i, ui->dishList);
+        connect(item, SIGNAL(numChanged()), this, SLOT(updateSum()));
         ui->dishList->addItem(item);
         dishItem.push_back(item);
     }
-    showAll();
 }
 
 void GuestWindow::viewCartList() {
@@ -70,19 +70,6 @@ void GuestWindow::clearPointerList(vector<Item*>& pointerList) {
     pointerList.clear();
 }
 
-void GuestWindow::on_tabWidget_currentChanged(int index)
-{
-    if(index == 2)
-        viewCartList();
-    else if (index == 1) {
-        for(int i = 0; i < dishItem.size(); i ++)
-            dishItem[i] -> show();
-        ui->scrollAreaDishList->show();
-        ui->dishTab->show();
-        this->show();
-    }
-}
-
 void GuestWindow::setDishNum(int dishID, int finalNum) {
     for(int i = 0; i < dishItem.size(); i ++)
         if(dishItem[i]->getDishID() == dishID) {
@@ -100,4 +87,21 @@ void GuestWindow::showAll() {
 void GuestWindow::on_RefreshCart_clicked()
 {
     viewCartList();
+}
+
+void GuestWindow::on_tabWidget_currentChanged(int index)
+{
+    if(index == 2)
+        viewCartList();
+    else if (index == 1) {
+        for(int i = 0; i < dishItem.size(); i ++)
+            dishItem[i] -> show();
+        ui->scrollAreaDishList->show();
+        ui->dishTab->show();
+        this->show();
+    }
+}
+
+void GuestWindow::updateSum() {
+    ui->cartTotal->setText(QString().setNum(guest.getSumInCart()));
 }

@@ -2992,7 +2992,39 @@ itemlist.o: itemlist.cpp itemlist.h \
 		clerk.h \
 		guest.h \
 		cart.h \
-		ui_itemlist.h
+		ui_itemlist.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QVariant \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QAction \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qaction.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qicon.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qactiongroup.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QApplication \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qapplication.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcoreapplication.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qeventloop.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qguiapplication.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qinputmethod.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QButtonGroup \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qbuttongroup.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QHeaderView \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qheaderview.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qrubberband.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o itemlist.o itemlist.cpp
 
 moc_logindlg.o: moc_logindlg.cpp 
