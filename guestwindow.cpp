@@ -22,6 +22,7 @@ GuestWindow::~GuestWindow()
 {
     clearPointerList(dishItem);
     clearPointerList(cartItem);
+    clearPointerList(orderItem);
     delete ui;
 }
 //QItemDelegate
@@ -68,6 +69,20 @@ void GuestWindow::viewCartList() {
         ui->submitButton->setEnabled(true);
 }
 
+void GuestWindow::viewOrderList() {
+    clearPointerList(orderItem);
+    for(int i = 0; i < StaticData::orderedDishList.size(); i ++) {
+        if(StaticData::orderedDishList[i].getOrderer() == guest.getPhone()) {
+            Item* item = new Item(guest, StaticData::orderedDishList[i], "orderList", ui->cartList);
+            ui->cartList->addItem(item);
+            orderItem.push_back(item);
+        }
+    }
+    ui->scrollAreaCartList->show();
+    ui->cartTab->show();
+    this->show();
+}
+
 void GuestWindow::clearPointerList(vector<Item*>& pointerList) {
     //viewErrInfo(ntos((int)pointerList.size()));
     for(int i = 0; i < pointerList.size(); i ++)
@@ -93,12 +108,15 @@ void GuestWindow::showAll() {
 void GuestWindow::on_RefreshCart_clicked()
 {
     viewCartList();
+    viewOrderList();
 }
 
 void GuestWindow::on_tabWidget_currentChanged(int index)
 {
-    if(index == 2)
+    if(index == 2) {
         viewCartList();
+        viewOrderList();
+    }
     else if (index == 1) {
         for(int i = 0; i < dishItem.size(); i ++)
             dishItem[i] -> show();
@@ -127,10 +145,12 @@ void GuestWindow::on_submitButton_clicked()
     int reply = QMessageBox::question(NULL, "Confirm Order", orderInfo, QMessageBox::Yes, QMessageBox::No);
     if (reply == QMessageBox::Yes) {
         guest.submit();
-        for(int i = 0; i < cartItem.size(); i ++) {
-            //cartItem[i] -> updateStatus();
-            cartItem[i] -> setEnabled(false);
-        }
+        viewCartList();
+        viewOrderList();
+//        for(int i = 0; i < cartItem.size(); i ++) {
+//            //cartItem[i] -> updateStatus();
+//            cartItem[i] -> setEnabled(false);
+//        }
     }
 
 }

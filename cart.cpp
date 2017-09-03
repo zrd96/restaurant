@@ -47,6 +47,8 @@ bool Cart::submit() {
             StaticData::orderedDishList.push_back(orderedDishes[i]);
     }
     orderedDishes.clear();
+    num = 0;
+    sum = 0;
     return true;
 }
 

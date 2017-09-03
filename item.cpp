@@ -56,6 +56,12 @@ Item::Item(Guest& guest, Dish& oriDish, QString listType, QWidget *parent) :
                 break;
         }
         ui->itemStatus->setPlainText(status);
+        if(listType == "orderList") {
+            ui->addButton->setEnabled(false);
+            ui->subButton->setEnabled(false);
+            ui->itemNum->setText("1");
+            ui->itemNum->setEnabled(false);
+        }
     } catch(bad_cast) {}
     //show();
 }

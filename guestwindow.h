@@ -41,6 +41,7 @@ private:
     Ui::GuestWindow *ui;
     vector<Item*> dishItem;
     vector<Item*> cartItem;
+    vector<Item*> orderItem;
     Guest guest;
     void clearPointerList(vector<Item*>& pointerList);
 
