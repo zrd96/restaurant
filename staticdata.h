@@ -3,7 +3,11 @@
 
 #include <vector>
 
-//#include "person.h"
+#include "person.h"
+#include "guest.h"
+#include "admin.h"
+#include "chef.h"
+#include "clerk.h"
 #include "dish.h"
 #include "msg.h"
 #include "datamanager.h"
@@ -16,8 +20,10 @@ class StaticData {
                 static vector<OrderedDish> orderedDishList;
                 static vector<Msg> msgList;
                 static vector<Clerk> clerkList;
+                static vector<Table> tableList;
                 //static vector<Person> personList;
                 
+                static bool queryTable();
                 static bool queryDish();
                 static bool queryOrderedDish();
                 static bool queryMsg();
@@ -28,6 +34,8 @@ class StaticData {
                 static OrderedDish& getOrderedDishByID(int orderedDishID);
                 static vector<Msg> getMsgByReceiver(string receiver);
                 static string getClerkPhoneByTable(int table);
+                static string getPersonNameByPhone(string phone);
+
                 //static Person& getPersonByID(int id);
 };
 

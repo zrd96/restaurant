@@ -49,6 +49,7 @@ class OrderedDish: public Dish {
                 int getNum() const {return num;}
                 void add() {num ++;}
                 void sub() {num --;}
+                void setTableNum(int tableNum) {this->tableNum = tableNum;}
                 int getTable() const {return tableNum;}
                 void useless() {}
 };

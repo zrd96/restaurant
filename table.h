@@ -10,13 +10,18 @@ class Clerk;
 
 class Table {
         public:
-                Table(int num) {tableNum = num;}
+                Table(int id, int seats, int freeSeats, string clerk = "");
                 bool linkClerk(Clerk& clerk);
-                int getNum() const {return tableNum;}
+                int getTableID() const {return id;}
+                int getSeats() const {return seats;}
+                int getFreeSeats() const {return freeSeats;}
+                bool addGuest();
                 string getClerk() const {return clerk;}
                 static void viewAll();
         private:
-                int tableNum;
+                int id;
+                int seats;
+                int freeSeats;
                 string clerk;
 };
 

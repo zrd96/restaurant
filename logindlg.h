@@ -33,11 +33,11 @@ signals:
     void openClerkWindow(const QString user);
 
 private:
-    Ui::LoginDlg *ui;
     AdminWindow *adminWindow;
     GuestWindow *guestWindow;
     ChefWindow *chefWindow;
     ClerkWindow *clerkWindow;
+    Ui::LoginDlg *ui;
     QString phone;
     QString password;
     QString name;

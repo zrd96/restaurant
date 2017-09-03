@@ -54,12 +54,18 @@ int main(int argc, char *argv[])
         zrd.removeDish(potato);
         cout<<"Removing dish succeeded"<<endl;
 
-        Table tb1(1), tb2(2), tb3(3), tb4(4);
+        Table tb1(1, 2, 2), tb2(2, 2, 2), tb3(3, 10, 10), tb4(4, 2, 2), tb5(5, 2, 2), tb6(6, 4, 4), tb7(7, 4, 4), tb8(8, 10, 10), tb9(9, 10, 10), tb10(10, 2, 2);
 
         zrd.addTable(tb1);
         zrd.addTable(tb2);
         zrd.addTable(tb3);
         zrd.addTable(tb4);
+        zrd.addTable(tb5);
+        zrd.addTable(tb6);
+        zrd.addTable(tb7);
+        zrd.addTable(tb8);
+        zrd.addTable(tb9);
+        zrd.addTable(tb10);
         cout<<"Adding table succeeded"<<endl;
 
         zrd.removeTable(tb4);

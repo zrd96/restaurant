@@ -7,11 +7,14 @@
 #include "dish.h"
 #include "guest.h"
 #include "itemlist.h"
+#include "tableitem.h"
 
 
 namespace Ui {
 class GuestWindow;
 }
+
+class TableItem;
 
 class GuestWindow : public QMainWindow
 {
@@ -20,10 +23,11 @@ class GuestWindow : public QMainWindow
 public:
     explicit GuestWindow(QWidget *parent = 0);
     ~GuestWindow();
+    void viewTableList();
     void viewDishList();
     void viewCartList();
     void viewOrderList();
-    void showAll();
+    void setSelectedTable(int tableID);
 
 public slots:
     void openWindow(const QString user);
@@ -37,13 +41,21 @@ private slots:
 
     void on_submitButton_clicked();
 
+    void on_submitTableButton_clicked();
+
+    void on_refreshTableButton_clicked();
+
 private:
-    Ui::GuestWindow *ui;
+    vector<TableItem*> tableItem;
     vector<Item*> dishItem;
     vector<Item*> cartItem;
     vector<Item*> orderItem;
+    int selectedTable;
     Guest guest;
+    double orderedSum, submittedSum;
     void clearPointerList(vector<Item*>& pointerList);
+    void clearPointerList(vector<TableItem*>& pointerList);
+    Ui::GuestWindow *ui;
 
 };
 

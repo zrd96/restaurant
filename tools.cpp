@@ -34,8 +34,8 @@ string getTime() {
 }
 
 void viewResultList(vector<vector<string> > resultList) {
-        for(int i = 0; i < resultList.size(); i ++) {
-                for(int j = 0; j < resultList[i].size(); j ++)
+        for(unsigned int i = 0; i < resultList.size(); i ++) {
+                for(unsigned int j = 0; j < resultList[i].size(); j ++)
                         cout<<resultList[i][j]<<' ';
                 cout<<endl;
         }

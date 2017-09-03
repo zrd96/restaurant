@@ -11,7 +11,7 @@
 
 Admin::Admin(string phone, string name): Person(phone, name) {}
 
-bool Admin::addDish(Dish& dish) {
+bool Admin::addDish(const Dish& dish) {
         StaticData::db->doQuery("dish", "dishid", "name = \"" + dish.getName() + "\"");
         if(StaticData::db->getResultList().size()) {
                 if(!confirm("Dish " + dish.getName() + " already exists, overwrite?"))
@@ -26,7 +26,7 @@ bool Admin::addDish(Dish& dish) {
         return true;
 }
 
-bool Admin::removeDish(Dish& dish) {
+bool Admin::removeDish(const Dish& dish) {
         StaticData::db->doQuery("dish", "dishid", "name = \"" + dish.getName() + "\"");
         if(StaticData::db->getResultList().size() == 0) {
                 viewErrInfo("Dish " + dish.getName() +" does not exist!");
@@ -38,7 +38,7 @@ bool Admin::removeDish(Dish& dish) {
                         return StaticData::db->deleteRow("dish", "name = \"" + dish.getName() +"\"");
 }
 
-bool Admin::modifyDish(Dish& dish, string newName, double newPrice, int newTime, string newImgDir) {
+bool Admin::modifyDish(const Dish& dish, string newName, double newPrice, int newTime, string newImgDir) {
         StaticData::db->doQuery("dish", "dishid", "name = \"" + dish.getName() + "\"");
         if(StaticData::db->getResultList().size() == 0) {
                 viewErrInfo("Dish " + dish.getName() +" does not exist!");
@@ -60,7 +60,7 @@ void Admin::viewDish() {
         Dish::showAll();
 }
 
-bool Admin::addPerson(Person& person, int type) {
+bool Admin::addPerson(const Person& person, int type) {
         StaticData::db->doQuery("person", "phone", "phone = \"" + person.getPhone() + "\"");
         if(StaticData::db->getResultList().size())
                 if(!confirm("User " + person.getPhone() + " already exists, overwrite?"))
@@ -68,7 +68,7 @@ bool Admin::addPerson(Person& person, int type) {
         return StaticData::db->insert("person", "\"" + person.getPhone() +"\", \"" + person.getName() + "\", \"" + person.getPassword() + "\", " + ntos(type) + ", NULL, NULL");
 }
 
-bool Admin::removePerson(Person& person) {
+bool Admin::removePerson(const Person& person) {
         StaticData::db->doQuery("person", "phone", "phone = \"" + person.getPhone() + "\"");
         if(StaticData::db->getResultList().size() == 0) {
                 viewErrInfo("User " + person.getPhone() +" does not exist!");
@@ -80,7 +80,7 @@ bool Admin::removePerson(Person& person) {
                         return StaticData::db->deleteRow("person", "phone = \"" + person.getPhone() +"\"");
 }
 
-bool Admin::modifyPerson(Person& person, string newPhone, string newName, string newPassword) {
+bool Admin::modifyPerson(const Person& person, string newPhone, string newName, string newPassword) {
         StaticData::db->doQuery("person", "phone", "phone = \"" + person.getPhone() + "\"");
         if(StaticData::db->getResultList().size() == 0) {
                 viewErrInfo("User " + person.getPhone() +" does not exist!");
@@ -98,10 +98,10 @@ bool Admin::modifyPerson(Person& person, string newPhone, string newName, string
 
 void Admin::viewPerson() {}
 
-bool Admin::addTable(Table& table) {
-        return StaticData::db->insert("tableList", ntos(table.getNum()) + ", 1, NULL");
+bool Admin::addTable(const Table& table) {
+        return StaticData::db->insert("tableList", ntos(table.getTableID()) + ", " + ntos(table.getSeats()) + ", " + ntos(table.getFreeSeats()) + ", \"NULL\"");
 }
 
-bool Admin::removeTable(Table& table) {
-        return StaticData::db->deleteRow("tableList", "id = " + ntos(table.getNum()));
+bool Admin::removeTable(const Table& table) {
+        return StaticData::db->deleteRow("tableList", "id = " + ntos(table.getTableID()));
 }

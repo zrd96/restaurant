@@ -97,7 +97,7 @@ bool MySQLManager::initDB() {
                 }
                 errInfo = "";
         }
-        if(!runSQLCommand("create table tableList(id int unsigned not NULL auto_increment primary key, seats int unsigned not NULL, clerk char(15))")) {
+        if(!runSQLCommand("create table tableList(id int unsigned not NULL auto_increment primary key, seats int unsigned not NULL, freeSeats int unsigned not NULL, clerk char(15) not NULL)")) {
                 errInfo = (string)mysql_error(&mySQLClient);
                 if(errInfo.find("exist") < 0) {
                         viewErrInfo(errInfo);
@@ -195,7 +195,7 @@ vector<Msg> MySQLManager::queryMsg(string receiver) {
         if (!doQuery("msg", "sender, receiver, msg, time, isActive", "receiver = \"" + receiver + "\""))
                 return msgs;
         
-        for (int i = 0; i < resultList.size(); i ++)
+        for (unsigned int i = 0; i < resultList.size(); i ++)
                 msgs.push_back(Msg(resultList[i][0], resultList[i][1], resultList[i][2], resultList[i][3], atoi(resultList[i][4].c_str())));
 
         return msgs;

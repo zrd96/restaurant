@@ -30,12 +30,120 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tableTab">
      <attribute name="title">
       <string>Select Table</string>
      </attribute>
+     <widget class="QTableWidget" name="tableList">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>40</y>
+        <width>1200</width>
+        <height>720</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+      <property name="alternatingRowColors">
+       <bool>true</bool>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::NoSelection</enum>
+      </property>
+      <property name="verticalScrollMode">
+       <enum>QAbstractItemView::ScrollPerPixel</enum>
+      </property>
+      <property name="showGrid">
+       <bool>true</bool>
+      </property>
+      <property name="rowCount">
+       <number>0</number>
+      </property>
+      <property name="columnCount">
+       <number>3</number>
+      </property>
+      <attribute name="horizontalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>400</number>
+      </attribute>
+      <attribute name="horizontalHeaderMinimumSectionSize">
+       <number>390</number>
+      </attribute>
+      <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="verticalHeaderDefaultSectionSize">
+       <number>240</number>
+      </attribute>
+      <attribute name="verticalHeaderMinimumSectionSize">
+       <number>240</number>
+      </attribute>
+      <column/>
+      <column/>
+      <column/>
+     </widget>
+     <widget class="QLabel" name="selectedTable">
+      <property name="geometry">
+       <rect>
+        <x>570</x>
+        <y>780</y>
+        <width>251</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Please select a table</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="submitTableButton">
+      <property name="geometry">
+       <rect>
+        <x>1030</x>
+        <y>780</y>
+        <width>80</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Submit</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="refreshTableButton">
+      <property name="geometry">
+       <rect>
+        <x>870</x>
+        <y>780</y>
+        <width>80</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Refresh</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="dishTab">
      <attribute name="title">
@@ -174,25 +282,7 @@
        </font>
       </property>
       <property name="text">
-       <string>View Cart</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="textTotal">
-      <property name="geometry">
-       <rect>
-        <x>510</x>
-        <y>780</y>
-        <width>61</width>
-        <height>60</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>16</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Total: &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>My Cart</string>
       </property>
      </widget>
      <widget class="QPushButton" name="submitButton">
@@ -211,9 +301,9 @@
      <widget class="QLabel" name="cartTotal">
       <property name="geometry">
        <rect>
-        <x>580</x>
+        <x>530</x>
         <y>780</y>
-        <width>201</width>
+        <width>150</width>
         <height>60</height>
        </rect>
       </property>
@@ -240,6 +330,27 @@
       </property>
       <property name="text">
        <string>Check Out</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="submittedTotal">
+      <property name="geometry">
+       <rect>
+        <x>690</x>
+        <y>800</y>
+        <width>121</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(0, 0, 255)</string>
+      </property>
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </widget>

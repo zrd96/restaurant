@@ -20,6 +20,7 @@ class Guest: public Person, public Cart {
         void viewProgress();
         bool rateDish(Dish& dish, double rate);
         bool rateClerk(Clerk& clerk, double rate);
+        void modifyTable(int newTableNum);
     private:
         int table;
 };

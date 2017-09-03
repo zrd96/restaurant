@@ -11,7 +11,7 @@
 
 Clerk::Clerk(string phone, string name, double rate, int rateNum): Person(phone, name), rate(rate), rateNum(rateNum) {
         vector<Msg> allMsg = StaticData::getMsgByReceiver(phone);
-        for(int i = 0; i < allMsg.size(); i ++)
+        for(unsigned int i = 0; i < allMsg.size(); i ++)
                 if(allMsg[i].getState())
                         unReadMsg.push_back(allMsg[i]);
 }
@@ -23,7 +23,7 @@ bool Clerk::takeTable(Table& table) {
 }
 
 void Clerk::checkReadyDishes() {
-        for(int i = 0; i < unReadMsg.size(); i ++)
+        for(unsigned int i = 0; i < unReadMsg.size(); i ++)
                 if(unReadMsg[i].getMsg().find("Dish ready") >= 0) {
                         int tableNum, orderedDishID;
                         char orderer[15];

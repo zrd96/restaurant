@@ -69,7 +69,7 @@ bool LoginDlg::checkEnteredLogin() {
     }
 
     StaticData::db->doQuery("person", "phone, password, type", "phone = \"" + phone.toStdString() + "\"");
-    if(StaticData::db->getResultList().empty() || atoi(StaticData::db->getResultList()[0][2].c_str()) != userType && userType != 1) {
+    if(StaticData::db->getResultList().empty() || (atoi(StaticData::db->getResultList()[0][2].c_str()) != userType && userType != 1)) {
         QMessageBox::information(this, tr("Error"), tr("No such user"));
         return false;
     }

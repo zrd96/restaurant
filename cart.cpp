@@ -9,7 +9,7 @@ Cart::Cart(): num(0), sum(0) {}
 
 bool Cart::add(const Dish &dish, string owner, int tableNum) {
         bool found = false;
-        for(int i = 0; i < orderedDishes.size(); i ++)
+        for(unsigned int i = 0; i < orderedDishes.size(); i ++)
                 if(orderedDishes[i].getDishID() == dish.getDishID()) {
                         orderedDishes[i].add();
                         found = true;
@@ -24,7 +24,7 @@ bool Cart::add(const Dish &dish, string owner, int tableNum) {
 
 bool Cart::remove(const Dish &dish) {
         bool found = false;
-        for (int i = 0; i < orderedDishes.size(); i ++)
+        for (unsigned int i = 0; i < orderedDishes.size(); i ++)
                 if(orderedDishes[i].getDishID() == dish.getDishID()) {
                         found = true;
                         if(orderedDishes[i].getNum() > 1)
@@ -41,7 +41,7 @@ bool Cart::remove(const Dish &dish) {
 }
 
 bool Cart::submit() {
-    for(int i = 0; i < orderedDishes.size(); i ++) {
+    for(unsigned int i = 0; i < orderedDishes.size(); i ++) {
         orderedDishes[i].setStatus(1);
         for(int j = 0; j < orderedDishes[i].getNum(); j ++)//split orders of the same dish and disable the num feature
             StaticData::orderedDishList.push_back(orderedDishes[i]);

@@ -45,7 +45,8 @@ SOURCES += \
     clerkwindow.cpp \
     adminwindow.cpp \
     item.cpp \
-    itemlist.cpp
+    itemlist.cpp \
+    tableitem.cpp
 
 HEADERS += \
     logindlg.h \
@@ -67,7 +68,8 @@ HEADERS += \
     clerkwindow.h \
     adminwindow.h \
     item.h \
-    itemlist.h
+    itemlist.h \
+    tableitem.h
 
 FORMS += \
     logindlg.ui \
@@ -76,4 +78,5 @@ FORMS += \
     clerkwindow.ui \
     adminwindow.ui \
     item.ui \
-    itemlist.ui
+    itemlist.ui \
+    tableitem.ui
