@@ -21,6 +21,15 @@ Dish::Dish(string name, double price, int timeNeeded, string imgdir, int confirm
         rateNum = (dishInfo[0][1] == "NULL" ? 0: atoi(dishInfo[0][1].c_str()));
 }
 
+Dish::Dish(const Dish &dish):
+    dishID(dish.getDishID()),
+    name(dish.getName()),
+    price(dish.getPrice()),
+    rate(dish.getRate()),
+    rateNum(dish.getRateNum()),
+    timeNeeded(dish.getTimeNeeded()),
+    imgdir(dish.getImgDir()) {}
+
 bool Dish::updateRate(double newRate) {
         rate = (rate * rateNum + newRate) / (++rateNum);
         if(!StaticData::db->update("dish", "rateNum", ntos(rateNum), "dishid = " + ntos(dishID)))

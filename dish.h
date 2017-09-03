@@ -18,6 +18,7 @@ class Dish {
                 string imgdir;
         public:
                 Dish(string name, double price, int timeNeeded = -1, string imgdir = "img/dishes/default.jpg", int confirmedDishID = -1);
+                Dish(const Dish& dish);
                 int getDishID() const {return dishID;}
                 string getName() const {return name;}
                 double getPrice() const {return price;}
@@ -43,6 +44,7 @@ class OrderedDish: public Dish {
                 OrderedDish(const Dish dish, int orderedDishID, string orderer, int tableNum, int status = -1);
                 string getOrderer() const {return orderer;}
                 int getOrderedDishID() const {return orderedDishID;}
+                void setStatus(int status) {this->status = status;}
                 int getStatus() const {return status;}
                 int getNum() const {return num;}
                 void add() {num ++;}

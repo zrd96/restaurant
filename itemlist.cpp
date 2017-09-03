@@ -20,6 +20,7 @@ void ItemList::addItem(Item *item) {
     //this->resize(1080, this->height() + 140);
     //this->setGeometry(0, 0, 1080, this->height() + 140);
     this->setMinimumSize(1080, this->height() + 140);
+    item->setGeometry(60, this->height() - 140, 1080, 140);
     item->show();
     this->show();
 }

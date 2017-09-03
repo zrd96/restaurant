@@ -16,7 +16,7 @@ class Item : public QWidget
 
 public:
     explicit
-    Item(Guest& guest, Dish& dish, int num, QWidget *parent = 0);
+    Item(Guest& guest, Dish& oriDish, QString listType, QWidget *parent = 0);
     //explicit Item(Guest& guest, const OrderedDish& dish, int num, QWidget *parent = 0);
     ~Item();
     int getDishID() const {return dish.getDishID();}
@@ -31,11 +31,10 @@ private:
     Dish dish;
     Guest *guest;
     int dishNum;
+    QString listType;
 
 private slots:
     void setNumTo();
-
-    void on_itemNum_textChanged(const QString &arg1);
 
 signals:
     void dishNumChanged(int dishID, int finalNum);

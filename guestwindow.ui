@@ -149,10 +149,10 @@
      <widget class="QPushButton" name="RefreshCart">
       <property name="geometry">
        <rect>
-        <x>910</x>
-        <y>810</y>
+        <x>830</x>
+        <y>790</y>
         <width>80</width>
-        <height>26</height>
+        <height>40</height>
        </rect>
       </property>
       <property name="text">
@@ -180,7 +180,7 @@
      <widget class="QLabel" name="textTotal">
       <property name="geometry">
        <rect>
-        <x>610</x>
+        <x>510</x>
         <y>780</y>
         <width>61</width>
         <height>60</height>
@@ -198,10 +198,10 @@
      <widget class="QPushButton" name="submitButton">
       <property name="geometry">
        <rect>
-        <x>1060</x>
-        <y>810</y>
+        <x>960</x>
+        <y>790</y>
         <width>80</width>
-        <height>26</height>
+        <height>40</height>
        </rect>
       </property>
       <property name="text">
@@ -211,9 +211,9 @@
      <widget class="QLabel" name="cartTotal">
       <property name="geometry">
        <rect>
-        <x>680</x>
+        <x>580</x>
         <y>780</y>
-        <width>140</width>
+        <width>201</width>
         <height>60</height>
        </rect>
       </property>
@@ -226,7 +226,20 @@
        <string notr="true">color: #ff0000</string>
       </property>
       <property name="text">
-       <string/>
+       <string>￥0</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="checkOutButton">
+      <property name="geometry">
+       <rect>
+        <x>1090</x>
+        <y>790</y>
+        <width>80</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Check Out</string>
       </property>
      </widget>
     </widget>

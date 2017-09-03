@@ -41,11 +41,13 @@ bool Cart::remove(const Dish &dish) {
 }
 
 bool Cart::submit() {
-        for (int i = 0; i < orderedDishes.size(); i ++) {
-                if(!StaticData::db->insert("orderedDish", "NULL, " + ntos(orderedDishes[i].getDishID()) + ", \"" + orderedDishes[i].getOrderer() + "\", " + ntos(orderedDishes[i].getTable()) + ", 0"))
-                        return false;
-        }
-        return true;
+    for(int i = 0; i < orderedDishes.size(); i ++) {
+        orderedDishes[i].setStatus(1);
+        for(int j = 0; j < orderedDishes[i].getNum(); j ++)//split orders of the same dish and disable the num feature
+            StaticData::orderedDishList.push_back(orderedDishes[i]);
+    }
+    orderedDishes.clear();
+    return true;
 }
 
 bool Cart::checkout() {return true;}

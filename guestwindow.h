@@ -22,6 +22,7 @@ public:
     ~GuestWindow();
     void viewDishList();
     void viewCartList();
+    void viewOrderList();
     void showAll();
 
 public slots:
@@ -33,6 +34,8 @@ private slots:
     void on_tabWidget_currentChanged(int index);
 
     void on_RefreshCart_clicked();
+
+    void on_submitButton_clicked();
 
 private:
     Ui::GuestWindow *ui;

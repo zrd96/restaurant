@@ -4,10 +4,11 @@
 #include "tools.h"
 #include "guest.h"
 
-Item::Item(Guest& guest, Dish& oriDish, int num, QWidget *parent) :
+Item::Item(Guest& guest, Dish& oriDish, QString listType, QWidget *parent) :
     guest(&guest),
     dish(oriDish),
     dishNum(0),
+    listType(listType),
     QWidget(parent),
     ui(new Ui::Item)
 {
@@ -16,8 +17,6 @@ Item::Item(Guest& guest, Dish& oriDish, int num, QWidget *parent) :
     connect(ui->addButton, &QToolButton::clicked, this, [this] {this->addItemNum();});
     connect(ui->subButton, &QToolButton::clicked, this, [this] {this->subItemNum();});
     connect(ui->itemNum, SIGNAL(editingFinished()), this, SLOT(setNumTo()));
-
-    setGeometry(60, num * 140, 1080, 140);
 
     QImage *dishImg = new QImage;
     if(!dishImg->load(QString::fromStdString(dish.getImgDir())))
@@ -58,7 +57,7 @@ Item::Item(Guest& guest, Dish& oriDish, int num, QWidget *parent) :
         }
         ui->itemStatus->setPlainText(status);
     } catch(bad_cast) {}
-    show();
+    //show();
 }
 
 Item::~Item()
@@ -69,7 +68,7 @@ void Item::addItemNum() {
     guest->addDish(dish);
     dishNum ++;
     ui->itemNum->setText(QString().setNum(dishNum));
-    show();
+    //show();
     emit dishNumChanged(dish.getDishID(), dishNum);
 }
 void Item::subItemNum() {
@@ -78,7 +77,7 @@ void Item::subItemNum() {
     guest->removeDish(dish);
     dishNum --;
     ui->itemNum->setText(QString().setNum(dishNum));
-    show();
+    //show();
     emit dishNumChanged(dish.getDishID(), dishNum);
     //viewErrInfo(ntos((int)guest->getOrderedDishList().size()));
 }
@@ -103,10 +102,4 @@ void Item::setNumTo() {
 void Item::setDishNumText(int finalNum) {
     ui->itemNum->setText(QString().setNum(finalNum));
     dishNum = finalNum;
-}
-
-
-void Item::on_itemNum_textChanged(const QString &arg1)
-{
-    emit numChanged();
 }

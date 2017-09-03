@@ -1,4 +1,5 @@
 #include <vector>
+#include <QMessageBox>
 #include "guestwindow.h"
 #include "ui_guestwindow.h"
 #include "guest.h"
@@ -41,8 +42,7 @@ void GuestWindow::viewDishList() {
     ui->dishList->setMinimumSize(1080, 0);
     ui->dishList->resize(1080, 0);
     for(int i = 0; i < StaticData::dishList.size(); i ++) {
-        Item* item = new Item(guest, StaticData::dishList[i], i, ui->dishList);
-        connect(item, SIGNAL(numChanged()), this, SLOT(updateSum()));
+        Item* item = new Item(guest, StaticData::dishList[i], "dishList", ui->dishList);
         ui->dishList->addItem(item);
         dishItem.push_back(item);
     }
@@ -53,14 +53,19 @@ void GuestWindow::viewCartList() {
     ui->cartList->setMinimumSize(1080, 0);
     ui->cartList->resize(1080, 0);
     for(int i = 0; i < guest.getOrderedDishList().size(); i ++) {
-        Item* item = new Item(guest, guest.getOrderedDishList()[i], i, ui->cartList);
+        Item* item = new Item(guest, guest.getOrderedDishList()[i], "cartList", ui->cartList);
         connect(item, SIGNAL(dishNumChanged(int,int)), this, SLOT(setDishNum(int, int)));
         ui->cartList->addItem(item);
         cartItem.push_back(item);
     }
+    updateSum();
     ui->scrollAreaCartList->show();
     ui->cartTab->show();
     this->show();
+    if(guest.getSumInCart() == 0)
+        ui->submitButton->setEnabled(false);
+    else
+        ui->submitButton->setEnabled(true);
 }
 
 void GuestWindow::clearPointerList(vector<Item*>& pointerList) {
@@ -76,6 +81,7 @@ void GuestWindow::setDishNum(int dishID, int finalNum) {
             dishItem[i]->setDishNumText(finalNum);
             break;
         }
+    updateSum();
 }
 
 void GuestWindow::showAll() {
@@ -103,5 +109,28 @@ void GuestWindow::on_tabWidget_currentChanged(int index)
 }
 
 void GuestWindow::updateSum() {
-    ui->cartTotal->setText(QString().setNum(guest.getSumInCart()));
+    ui->cartTotal->setText("￥" + QString().setNum(guest.getSumInCart()));
+    if(guest.getSumInCart() == 0)
+        ui->submitButton->setEnabled(false);
+    else
+        ui->submitButton->setEnabled(true);
+}
+
+void GuestWindow::on_submitButton_clicked()
+{
+    QString orderInfo = "Your order: \n\n";
+    for (int i = 0; i < guest.getOrderedDishList().size(); i ++) {
+        orderInfo += QString::fromStdString(guest.getOrderedDishList()[i].getName()) + "\n";
+        orderInfo += "￥" + QString().setNum(guest.getOrderedDishList()[i].getPrice()) + " x " + QString().setNum(guest.getOrderedDishList()[i].getNum()) + " = ￥" + QString().setNum(guest.getOrderedDishList()[i].getPrice() * guest.getOrderedDishList()[i].getNum()) + "\n\n";
+    }
+    orderInfo += "Total: ￥" + QString().setNum(guest.getSumInCart()) + "\n\n Submit?";
+    int reply = QMessageBox::question(NULL, "Confirm Order", orderInfo, QMessageBox::Yes, QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+        guest.submit();
+        for(int i = 0; i < cartItem.size(); i ++) {
+            //cartItem[i] -> updateStatus();
+            cartItem[i] -> setEnabled(false);
+        }
+    }
+
 }

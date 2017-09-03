@@ -2123,9 +2123,8 @@ table.o: table.cpp table.h \
 tools.o: tools.cpp tools.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tools.o tools.cpp
 
-guestwindow.o: guestwindow.cpp guestwindow.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMainWindow \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmainwindow.h \
+guestwindow.o: guestwindow.cpp /opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMessageBox \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmessagebox.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtguiglobal.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qglobal.h \
@@ -2151,6 +2150,7 @@ guestwindow.o: guestwindow.cpp guestwindow.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qversiontagging.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtgui-config.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qdialog.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qwidget.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindowdefs.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectdefs.h \
@@ -2225,6 +2225,9 @@ guestwindow.o: guestwindow.cpp guestwindow.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfiledevice.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvector2d.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
+		guestwindow.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMainWindow \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmainwindow.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qicon.h \
 		dish.h \
