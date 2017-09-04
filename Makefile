@@ -858,6 +858,24 @@ moc_logindlg.cpp: adminwindow.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qicon.h \
 		guestwindow.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QTableWidgetItem \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtablewidget.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtableview.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qrubberband.h \
 		dish.h \
 		tools.h \
 		datamanager.h \
@@ -982,6 +1000,24 @@ moc_guestwindow.cpp: /opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMainWindow \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qicon.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QTableWidgetItem \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtablewidget.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtableview.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qrubberband.h \
 		dish.h \
 		tools.h \
 		datamanager.h \
@@ -995,6 +1031,7 @@ moc_guestwindow.cpp: /opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMainWindow \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
 		item.h \
 		tableitem.h \
+		guestwindow.h \
 		guestwindow.h \
 		moc_predefs.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/bin/moc
@@ -1662,6 +1699,32 @@ moc_tableitem.cpp: /opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
 		dish.h \
 		tools.h \
 		datamanager.h \
+		guestwindow.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMainWindow \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmainwindow.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qicon.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QTableWidgetItem \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtablewidget.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtableview.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qrubberband.h \
+		itemlist.h \
+		item.h \
+		tableitem.h \
 		tableitem.h \
 		moc_predefs.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/bin/moc
@@ -1930,6 +1993,24 @@ main.o: main.cpp adminwindow.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qicon.h \
 		guestwindow.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QTableWidgetItem \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtablewidget.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtableview.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qrubberband.h \
 		dish.h \
 		tools.h \
 		datamanager.h \
@@ -2066,6 +2147,24 @@ logindlg.o: logindlg.cpp logindlg.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qicon.h \
 		guestwindow.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QTableWidgetItem \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtablewidget.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtableview.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qrubberband.h \
 		dish.h \
 		tools.h \
 		datamanager.h \
@@ -2083,57 +2182,6 @@ logindlg.o: logindlg.cpp logindlg.h \
 		clerkwindow.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QString \
 		ui_logindlg.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QVariant \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QAction \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qaction.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qactiongroup.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QApplication \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qapplication.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcoreapplication.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qeventloop.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qguiapplication.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qinputmethod.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QButtonGroup \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qbuttongroup.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qgridlayout.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlayout.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlayoutitem.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qboxlayout.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGroupBox \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qgroupbox.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qframe.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QHeaderView \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qheaderview.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemview.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractitemmodel.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qitemselectionmodel.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyleoption.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvalidator.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregularexpression.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qslider.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractslider.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyle.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabbar.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qrubberband.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlabel.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLineEdit \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlineedit.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextcursor.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextformat.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpen.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextoption.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QPushButton \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qpushbutton.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractbutton.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QRadioButton \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qradiobutton.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QTabWidget \
 		mysqlmanager.h \
 		staticdata.h \
 		admin.h \
@@ -2227,7 +2275,10 @@ guest.o: guest.cpp tools.h \
 		person.h \
 		clerk.h \
 		mysqlmanager.h \
-		guest.h
+		guest.h \
+		staticdata.h \
+		admin.h \
+		chef.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o guest.o guest.cpp
 
 msg.o: msg.cpp msg.h
@@ -2385,35 +2436,9 @@ guestwindow.o: guestwindow.cpp /opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMess
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmainwindow.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qicon.h \
-		dish.h \
-		tools.h \
-		datamanager.h \
-		msg.h \
-		table.h \
-		person.h \
-		clerk.h \
-		guest.h \
-		cart.h \
-		itemlist.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
-		item.h \
-		tableitem.h \
-		ui_guestwindow.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QVariant \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QAction \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qaction.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qactiongroup.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QApplication \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qapplication.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcoreapplication.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qeventloop.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qguiapplication.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qinputmethod.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QButtonGroup \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qbuttongroup.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QHeaderView \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qheaderview.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QTableWidgetItem \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtablewidget.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtableview.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemview.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qframe.h \
@@ -2429,20 +2454,20 @@ guestwindow.o: guestwindow.cpp /opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMess
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyle.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabbar.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qrubberband.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlabel.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMenuBar \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmenubar.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmenu.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QPushButton \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qpushbutton.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractbutton.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QScrollArea \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qscrollarea.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QTabWidget \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QTableWidget \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtablewidget.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtableview.h \
+		dish.h \
+		tools.h \
+		datamanager.h \
+		msg.h \
+		table.h \
+		person.h \
+		clerk.h \
+		guest.h \
+		cart.h \
+		itemlist.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
+		item.h \
+		tableitem.h \
+		ui_guestwindow.h \
 		staticdata.h \
 		admin.h \
 		chef.h \
@@ -2553,43 +2578,7 @@ chefwindow.o: chefwindow.cpp chefwindow.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qicon.h \
-		ui_chefwindow.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QVariant \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QAction \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qaction.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qactiongroup.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QApplication \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qapplication.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcoreapplication.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qeventloop.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qguiapplication.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qinputmethod.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QButtonGroup \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qbuttongroup.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QHeaderView \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qheaderview.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemview.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qframe.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractitemmodel.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qitemselectionmodel.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyleoption.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvalidator.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregularexpression.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qslider.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractslider.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyle.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabbar.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qrubberband.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMenuBar \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmenubar.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmenu.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QStatusBar \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstatusbar.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget
+		ui_chefwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o chefwindow.o chefwindow.cpp
 
 clerkwindow.o: clerkwindow.cpp clerkwindow.h \
@@ -2696,43 +2685,7 @@ clerkwindow.o: clerkwindow.cpp clerkwindow.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qicon.h \
-		ui_clerkwindow.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QVariant \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QAction \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qaction.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qactiongroup.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QApplication \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qapplication.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcoreapplication.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qeventloop.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qguiapplication.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qinputmethod.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QButtonGroup \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qbuttongroup.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QHeaderView \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qheaderview.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemview.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qframe.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractitemmodel.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qitemselectionmodel.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyleoption.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvalidator.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregularexpression.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qslider.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractslider.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyle.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabbar.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qrubberband.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMenuBar \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmenubar.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmenu.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QStatusBar \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstatusbar.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget
+		ui_clerkwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o clerkwindow.o clerkwindow.cpp
 
 adminwindow.o: adminwindow.cpp adminwindow.h \
@@ -2839,43 +2792,7 @@ adminwindow.o: adminwindow.cpp adminwindow.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qicon.h \
-		ui_adminwindow.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QVariant \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QAction \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qaction.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qactiongroup.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QApplication \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qapplication.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcoreapplication.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qeventloop.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qguiapplication.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qinputmethod.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QButtonGroup \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qbuttongroup.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QHeaderView \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qheaderview.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemview.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qframe.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractitemmodel.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qitemselectionmodel.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyleoption.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvalidator.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregularexpression.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qslider.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractslider.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyle.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabbar.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qrubberband.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMenuBar \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmenubar.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmenu.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QStatusBar \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstatusbar.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget
+		ui_adminwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o adminwindow.o adminwindow.cpp
 
 item.o: item.cpp item.h \
@@ -2988,61 +2905,7 @@ item.o: item.cpp item.h \
 		clerk.h \
 		guest.h \
 		cart.h \
-		ui_item.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QVariant \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QAction \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qaction.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qicon.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qactiongroup.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QApplication \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qapplication.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcoreapplication.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qeventloop.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qguiapplication.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qinputmethod.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QButtonGroup \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qbuttongroup.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QHeaderView \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qheaderview.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemview.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qframe.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractitemmodel.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qitemselectionmodel.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyleoption.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvalidator.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregularexpression.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qslider.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractslider.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyle.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabbar.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qrubberband.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlabel.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLineEdit \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlineedit.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextcursor.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextformat.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpen.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextoption.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QPlainTextEdit \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qplaintextedit.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtextedit.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextdocument.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qabstracttextdocumentlayout.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextlayout.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qglyphrun.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrawfont.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontdatabase.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QProgressBar \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qprogressbar.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QToolButton \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtoolbutton.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractbutton.h
+		ui_item.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o item.o item.cpp
 
 itemlist.o: itemlist.cpp itemlist.h \
@@ -3156,39 +3019,7 @@ itemlist.o: itemlist.cpp itemlist.h \
 		clerk.h \
 		guest.h \
 		cart.h \
-		ui_itemlist.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QVariant \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QAction \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qaction.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qicon.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qactiongroup.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QApplication \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qapplication.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcoreapplication.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qeventloop.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qguiapplication.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qinputmethod.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QButtonGroup \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qbuttongroup.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QHeaderView \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qheaderview.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemview.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qframe.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractitemmodel.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qitemselectionmodel.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyleoption.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvalidator.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregularexpression.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qslider.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractslider.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyle.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabbar.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qrubberband.h
+		ui_itemlist.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o itemlist.o itemlist.cpp
 
 tableitem.o: tableitem.cpp tableitem.h \
@@ -3301,23 +3132,14 @@ tableitem.o: tableitem.cpp tableitem.h \
 		dish.h \
 		tools.h \
 		datamanager.h \
-		ui_tableitem.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QVariant \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QAction \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qaction.h \
+		guestwindow.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMainWindow \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmainwindow.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qicon.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qactiongroup.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QApplication \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qapplication.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcoreapplication.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qeventloop.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qguiapplication.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qinputmethod.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QButtonGroup \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qbuttongroup.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QHeaderView \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qheaderview.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QTableWidgetItem \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtablewidget.h \
+		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtableview.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemview.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qframe.h \
@@ -3332,13 +3154,10 @@ tableitem.o: tableitem.cpp tableitem.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractslider.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyle.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabbar.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
 		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qrubberband.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlabel.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QPushButton \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qpushbutton.h \
-		/opt/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractbutton.h
+		itemlist.h \
+		item.h \
+		ui_tableitem.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tableitem.o tableitem.cpp
 
 moc_logindlg.o: moc_logindlg.cpp 

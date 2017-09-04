@@ -33,6 +33,7 @@ class StaticData {
                 static Dish& getDishByID(int dishID);
                 static OrderedDish& getOrderedDishByID(int orderedDishID);
                 static vector<Msg> getMsgByReceiver(string receiver);
+                static vector<Msg> getMsgBySender(string sender);
                 static string getClerkPhoneByTable(int table);
                 static string getPersonNameByPhone(string phone);
 

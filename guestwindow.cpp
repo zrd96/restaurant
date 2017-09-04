@@ -11,6 +11,7 @@
 #include "itemlist.h"
 #include "tableitem.h"
 #include "table.h"
+#include "msg.h"
 
 GuestWindow::GuestWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -35,10 +36,19 @@ void GuestWindow::openWindow(const QString user) {
     guest = Guest(user.toStdString(), "Guest");
     StaticData::queryTable();
     StaticData::queryDish();
+    StaticData::queryMsg();
+    ui->inboxList->setColumnWidth(0, 150);
+    ui->inboxList->setColumnWidth(1, 150);
+    ui->inboxList->setColumnWidth(2, 850);
+    ui->outboxList->setColumnWidth(0, 150);
+    ui->outboxList->setColumnWidth(1, 150);
+    ui->outboxList->setColumnWidth(2, 850);
     this->show();
     viewTableList();
     viewDishList();
     viewCartList();
+    viewOrderList();
+    viewMsgList();
 }
 
 void GuestWindow::viewTableList() {
@@ -100,6 +110,40 @@ void GuestWindow::viewOrderList() {
     this->show();
 }
 
+void GuestWindow::viewMsgList() {
+    ui->inboxList->clearContents();
+    ui->outboxList->clearContents();
+    clearPointerList(msgItem);
+
+    vector<Msg> msgReceived = StaticData::getMsgByReceiver(guest.getPhone());
+    for(unsigned int i = 0; i < msgReceived.size(); i ++) {
+        ui->inboxList->setRowCount(ui->inboxList->rowCount() + 1);
+        QTableWidgetItem* cell1 = new QTableWidgetItem(QString::fromStdString(StaticData::getPersonNameByPhone(msgReceived[i].getSender())));
+        ui->inboxList->setItem(ui->inboxList->rowCount() - 1, 0, cell1);
+        QTableWidgetItem* cell2 = new QTableWidgetItem(QString::fromStdString(msgReceived[i].getDatetime()));
+        ui->inboxList->setItem(ui->inboxList->rowCount() - 1, 1, cell2);
+        QTableWidgetItem* cell3 = new QTableWidgetItem(QString::fromStdString(msgReceived[i].getMsg()));
+        ui->inboxList->setItem(ui->inboxList->rowCount() - 1, 2, cell3);
+        msgItem.push_back(cell1);
+        msgItem.push_back(cell2);
+        msgItem.push_back(cell3);
+    }
+
+    vector<Msg> msgSent = StaticData::getMsgBySender(guest.getPhone());
+    for(unsigned int i = 0; i < msgReceived.size(); i ++) {
+        ui->outboxList->setRowCount(ui->outboxList->rowCount() + 1);
+        QTableWidgetItem* cell1 = new QTableWidgetItem(QString::fromStdString(StaticData::getPersonNameByPhone(msgSent[i].getSender())));
+        ui->outboxList->setItem(ui->outboxList->rowCount() - 1, 0, cell1);
+        QTableWidgetItem* cell2 = new QTableWidgetItem(QString::fromStdString(msgSent[i].getDatetime()));
+        ui->outboxList->setItem(ui->outboxList->rowCount() - 1, 1, cell2);
+        QTableWidgetItem* cell3 = new QTableWidgetItem(QString::fromStdString(msgSent[i].getMsg()));
+        ui->outboxList->setItem(ui->outboxList->rowCount() - 1, 2, cell3);
+        msgItem.push_back(cell1);
+        msgItem.push_back(cell2);
+        msgItem.push_back(cell3);
+    }
+}
+
 void GuestWindow::clearPointerList(vector<Item*>& pointerList) {
     //viewErrInfo(ntos((int)pointerList.size()));
     for(unsigned int i = 0; i < pointerList.size(); i ++)
@@ -108,6 +152,13 @@ void GuestWindow::clearPointerList(vector<Item*>& pointerList) {
 }
 
 void GuestWindow::clearPointerList(vector<TableItem*>& pointerList) {
+    //viewErrInfo(ntos((int)pointerList.size()));
+    for(unsigned int i = 0; i < pointerList.size(); i ++)
+        delete pointerList[i];
+    pointerList.clear();
+}
+
+void GuestWindow::clearPointerList(vector<QTableWidgetItem*>& pointerList) {
     //viewErrInfo(ntos((int)pointerList.size()));
     for(unsigned int i = 0; i < pointerList.size(); i ++)
         delete pointerList[i];
@@ -202,4 +253,13 @@ void GuestWindow::on_submitTableButton_clicked()
 void GuestWindow::on_refreshTableButton_clicked()
 {
     viewTableList();
+}
+
+void GuestWindow::on_sendMsgButton_clicked()
+{
+    if(ui->newMsgText->toPlainText().size() == 0) {
+        viewErrInfo("Empty message");
+        return;
+    }
+    guest.sendMsg(StaticData::getClerkPhoneByTable(guest.getTable()), ui->newMsgText->toPlainText().toStdString());
 }

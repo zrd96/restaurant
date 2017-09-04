@@ -89,6 +89,14 @@ vector<Msg> StaticData::getMsgByReceiver(string receiver) {
         return msgListByReceiver;
 }
 
+vector<Msg> StaticData::getMsgBySender(string sender) {
+        vector<Msg> msgListBySender;
+        for(unsigned int i = 0; i < msgList.size(); i ++)
+                if(msgList[i].getSender() == sender)
+                        msgListBySender.push_back(msgList[i]);
+        return msgListBySender;
+}
+
 string StaticData::getClerkPhoneByTable(int table) {
         if(!db->doQuery("tableList", "clerk", "id = " + ntos(table)))
                 return "";
