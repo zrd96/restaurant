@@ -50,6 +50,7 @@ class OrderedDish: public Dish {
                 void add() {num ++;}
                 void sub() {num --;}
                 void setTableNum(int tableNum) {this->tableNum = tableNum;}
+                void setOrderer(string orderer) {this->orderer = orderer;}
                 int getTable() const {return tableNum;}
                 void useless() {}
 };

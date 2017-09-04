@@ -36,6 +36,7 @@ class StaticData {
                 static vector<Msg> getMsgBySender(string sender);
                 static string getClerkPhoneByTable(int table);
                 static string getPersonNameByPhone(string phone);
+                static void updateEverythingAboutUser(Person* person, string newPhone);
 
                 //static Person& getPersonByID(int id);
 };

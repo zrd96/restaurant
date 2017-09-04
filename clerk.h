@@ -16,6 +16,9 @@ class Clerk: public Person {
                 void checkReadyDishes();
                 void readMsg(Msg& msg);
                 bool updateRate(double newRate);
+                double getRate() const {return rate;}
+                int getRateNum() const {return rateNum;}
+                void setPhone(string newPhone);
         private:
                 double rate;
                 vector<Msg> unReadMsg;

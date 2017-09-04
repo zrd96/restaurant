@@ -45,3 +45,9 @@ void Guest::modifyTable(int newTableNum) {
         if(StaticData::orderedDishList[i].getOrderer() == this->getPhone())
             StaticData::orderedDishList[i].setTableNum(newTableNum);
 }
+
+void Guest::setPhone(string newPhone) {
+    for(unsigned int i = 0; i < orderedDishes.size(); i ++)
+        orderedDishes[i].setOrderer(newPhone);
+    changePhone(newPhone);
+}

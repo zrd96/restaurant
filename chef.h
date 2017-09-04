@@ -14,6 +14,7 @@ class Chef: public Person {
                 Chef(string phone, string name, string password);
                 bool takeDish(const OrderedDish &dish);
                 bool finishDish(const OrderedDish &dish);
+                void setPhone(string newPhone);
         private:
                 vector<OrderedDish>dishTaken;
 

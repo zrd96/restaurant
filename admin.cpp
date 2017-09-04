@@ -105,3 +105,7 @@ bool Admin::addTable(const Table& table) {
 bool Admin::removeTable(const Table& table) {
         return StaticData::db->deleteRow("tableList", "id = " + ntos(table.getTableID()));
 }
+
+void Admin::setPhone(string newPhone) {
+    changePhone(newPhone);
+}

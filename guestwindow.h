@@ -9,6 +9,7 @@
 #include "guest.h"
 #include "itemlist.h"
 #include "tableitem.h"
+#include "aboutmewidget.h"
 
 
 namespace Ui {
@@ -49,6 +50,8 @@ private slots:
 
     void on_sendMsgButton_clicked();
 
+    void on_refreshMsg_clicked();
+
 private:
     vector<TableItem*> tableItem;
     vector<Item*> dishItem;
@@ -58,10 +61,9 @@ private:
     int selectedTable;
     Guest guest;
     double orderedSum, submittedSum;
-    void clearPointerList(vector<Item*>& pointerList);
-    void clearPointerList(vector<TableItem*>& pointerList);
-    void clearPointerList(vector<QTableWidgetItem*>& pointerList);
+    template<typename T> void clearPointerList(vector<T*>& pointorList);
     Ui::GuestWindow *ui;
+    AboutMeWidget* aboutMe;
 
 };
 

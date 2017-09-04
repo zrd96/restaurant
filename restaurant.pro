@@ -46,7 +46,8 @@ SOURCES += \
     adminwindow.cpp \
     item.cpp \
     itemlist.cpp \
-    tableitem.cpp
+    tableitem.cpp \
+    aboutmewidget.cpp
 
 HEADERS += \
     logindlg.h \
@@ -69,7 +70,8 @@ HEADERS += \
     adminwindow.h \
     item.h \
     itemlist.h \
-    tableitem.h
+    tableitem.h \
+    aboutmewidget.h
 
 FORMS += \
     logindlg.ui \
@@ -79,4 +81,5 @@ FORMS += \
     adminwindow.ui \
     item.ui \
     itemlist.ui \
-    tableitem.ui
+    tableitem.ui \
+    aboutmewidget.ui

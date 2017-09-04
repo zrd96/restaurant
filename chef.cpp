@@ -25,4 +25,6 @@ bool Chef::finishDish(const OrderedDish &dish) {
         return StaticData::db->update("orderedDish", "status", "2", "id = " + ntos(dish.getOrderedDishID()));
 }
 
-
+void Chef::setPhone(string newPhone) {
+    changePhone(newPhone);
+}

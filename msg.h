@@ -18,6 +18,8 @@ class Msg {
                 string getReceiver() const {return receiver;}
                 string getMsg() const {return msg;}
                 string getDatetime() const {return datetime;}
+                void setSender(string newSender) {sender = newSender;}
+                void setReceiver(string newReceiver) {receiver = newReceiver;}
                 bool getState() const {return isActive;}
 };
 

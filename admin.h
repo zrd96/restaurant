@@ -10,6 +10,7 @@
 class Admin: public Person {
         public:
                 Admin(string phone, string name);
+                void setPhone(string newPhone);
                 bool addDish(const Dish &dish);
                 bool removeDish(const Dish &dish);
                 bool modifyDish(const Dish& dish, string newName, double newPrice, int newTime, string nreImgDir);

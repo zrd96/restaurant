@@ -21,6 +21,7 @@ class Guest: public Person, public Cart {
         bool rateDish(Dish& dish, double rate);
         bool rateClerk(Clerk& clerk, double rate);
         void modifyTable(int newTableNum);
+        void setPhone(string newPhone);
     private:
         int table;
 };

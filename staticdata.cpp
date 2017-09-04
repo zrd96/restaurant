@@ -109,6 +109,25 @@ string StaticData::getPersonNameByPhone(string phone) {
     return db->getResultList()[0][0];
 }
 
+void StaticData::updateEverythingAboutUser(Person *person, string newPhone) {
+    for(unsigned int i = 0; i < clerkList.size(); i ++)
+        if(clerkList[i].getPhone() == person->getPhone())
+            clerkList[i].setPhone(newPhone);
+    for(unsigned int i = 0; i < orderedDishList.size(); i ++)
+        if(orderedDishList[i].getOrderer() == person->getPhone())
+            orderedDishList[i].setOrderer(newPhone);
+    for(unsigned int i = 0; i < msgList.size(); i ++) {
+        if(msgList[i].getSender() == person->getPhone())
+            msgList[i].setSender(newPhone);
+        if(msgList[i].getReceiver() == person->getPhone())
+            msgList[i].setReceiver(newPhone);
+    }
+    db->update("msg", "sender", "\"" + newPhone + "\"", "sender = \"" + person->getPhone() + "\"");
+    db->update("msg", "receiver", "\"" + newPhone + "\"", "receiverer = \"" + person->getPhone() + "\"");
+    db->update("orderedDish", "orderer", "\"" + newPhone + "\"", "orderer = \"" + person->getPhone() + "\"");
+    person->setPhone(newPhone);
+}
+
 //Person& getPersonByID(int id) {
 //        return personList[0];
 //}

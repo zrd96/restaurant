@@ -43,3 +43,9 @@ bool Clerk::updateRate(double newRate) {
 void Clerk::serveDish(int orderedDishID, int tableNum, string orderer) {
         StaticData::db->update("orderedDish", "status", "3", "id = " + ntos(orderedDishID));
 }
+
+void Clerk::setPhone(string newPhone) {
+    for(unsigned int i = 0; i < unReadMsg.size(); i ++)
+        unReadMsg[i].setReceiver(newPhone);
+    changePhone(newPhone);
+}

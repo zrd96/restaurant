@@ -93,8 +93,8 @@ bool LoginDlg::checkEnteredSignup() {
                 QMessageBox::information(this, tr("Error"), tr("Invalid phone number"));
                 return false;
             }
-    if(password.size() == 0) {
-        QMessageBox::information(this, tr("Error"), tr("Empty password"));
+    if(password.size() < 6) {
+        QMessageBox::information(this, tr("Error"), tr("Password must be longer than 6 digits"));
         return false;
     }
 

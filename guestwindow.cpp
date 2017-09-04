@@ -12,6 +12,7 @@
 #include "tableitem.h"
 #include "table.h"
 #include "msg.h"
+#include "aboutmewidget.h"
 
 GuestWindow::GuestWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -29,11 +30,13 @@ GuestWindow::~GuestWindow()
     clearPointerList(dishItem);
     clearPointerList(cartItem);
     clearPointerList(orderItem);
+    delete aboutMe;
     delete ui;
 }
 //QItemDelegate
 void GuestWindow::openWindow(const QString user) {
-    guest = Guest(user.toStdString(), "Guest");
+    StaticData::db->doQuery("person", "name, password", "phone = \"" + user.toStdString() + "\"");
+    guest = Guest(user.toStdString(), StaticData::db->getResultList()[0][0], StaticData::db->getResultList()[0][1]);
     StaticData::queryTable();
     StaticData::queryDish();
     StaticData::queryMsg();
@@ -43,6 +46,8 @@ void GuestWindow::openWindow(const QString user) {
     ui->outboxList->setColumnWidth(0, 150);
     ui->outboxList->setColumnWidth(1, 150);
     ui->outboxList->setColumnWidth(2, 850);
+    aboutMe = new AboutMeWidget(&guest, ui->selfTab);
+    aboutMe->show();
     this->show();
     viewTableList();
     viewDishList();
@@ -144,25 +149,10 @@ void GuestWindow::viewMsgList() {
     }
 }
 
-void GuestWindow::clearPointerList(vector<Item*>& pointerList) {
-    //viewErrInfo(ntos((int)pointerList.size()));
+template<typename T> void GuestWindow::clearPointerList(vector<T*>& pointerList) {
     for(unsigned int i = 0; i < pointerList.size(); i ++)
-        delete pointerList[i];
-    pointerList.clear();
-}
-
-void GuestWindow::clearPointerList(vector<TableItem*>& pointerList) {
-    //viewErrInfo(ntos((int)pointerList.size()));
-    for(unsigned int i = 0; i < pointerList.size(); i ++)
-        delete pointerList[i];
-    pointerList.clear();
-}
-
-void GuestWindow::clearPointerList(vector<QTableWidgetItem*>& pointerList) {
-    //viewErrInfo(ntos((int)pointerList.size()));
-    for(unsigned int i = 0; i < pointerList.size(); i ++)
-        delete pointerList[i];
-    pointerList.clear();
+            delete pointerList[i];
+        pointerList.clear();
 }
 
 void GuestWindow::setDishNum(int dishID, int finalNum) {
@@ -262,4 +252,9 @@ void GuestWindow::on_sendMsgButton_clicked()
         return;
     }
     guest.sendMsg(StaticData::getClerkPhoneByTable(guest.getTable()), ui->newMsgText->toPlainText().toStdString());
+}
+
+void GuestWindow::on_refreshMsg_clicked()
+{
+    viewMsgList();
 }
