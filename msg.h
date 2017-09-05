@@ -7,6 +7,7 @@ using namespace std;
 
 class Msg {
         private:
+                int msgID;
                 string sender;
                 string receiver;
                 string msg;
@@ -14,6 +15,8 @@ class Msg {
                 bool isActive;
         public:
                 Msg(string sender, string receiver, string msg, string datetime, bool isActive);
+                Msg(string sender, string receiver, string msg, string datetime, bool isActive, int msgID);
+                int getMsgID() const {return msgID;}
                 string getSender() const {return sender;}
                 string getReceiver() const {return receiver;}
                 string getMsg() const {return msg;}

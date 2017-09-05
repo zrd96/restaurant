@@ -18,6 +18,7 @@ class DataManager {
                 virtual bool insert(string table, string values) = 0;
                 virtual bool update(string table, string column, string newValue, string wheres) = 0;
                 virtual bool deleteRow(string table, string wheres) = 0;
+                virtual bool doesExist(string table, string wheres) = 0;
                 virtual bool getConnectionStatus() const = 0;
                 vector<vector<string> > getResultList() const {return resultList;}
                 string getErrInfo() const {return errInfo;}

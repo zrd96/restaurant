@@ -9,14 +9,15 @@
 #include "tools.h"
 #include "table.h"
 
-Clerk::Clerk(string phone, string name, double rate, int rateNum): Person(phone, name), rate(rate), rateNum(rateNum) {
-        vector<Msg> allMsg = StaticData::getMsgByReceiver(phone);
-        for(unsigned int i = 0; i < allMsg.size(); i ++)
-                if(allMsg[i].getState())
-                        unReadMsg.push_back(allMsg[i]);
-}
+Clerk::Clerk(string phone, string name, double rate, int rateNum):
+    Person(phone, name),
+    rate(rate),
+    rateNum(rateNum) {}
 
-Clerk::Clerk(string phone, string name, string password, double rate, int rateNum): Person(phone, name, password), rate(rate), rateNum(rateNum) {}
+Clerk::Clerk(string phone, string name, string password, double rate, int rateNum):
+    Person(phone, name, password),
+    rate(rate),
+    rateNum(rateNum) {}
 
 bool Clerk::takeTable(Table& table) {
         return table.linkClerk(*this);
@@ -24,15 +25,22 @@ bool Clerk::takeTable(Table& table) {
 
 void Clerk::checkReadyDishes() {
         for(unsigned int i = 0; i < unReadMsg.size(); i ++)
-                if(unReadMsg[i].getMsg().find("Dish ready") >= 0) {
+                if(unReadMsg[i]->getMsg().find("Dish ready") >= 0) {
                         int tableNum, orderedDishID;
                         char orderer[15];
-                        sscanf(unReadMsg[i].getMsg().c_str(), "Dish ready%d%s%d", &tableNum, orderer, &orderedDishID);
+                        sscanf(unReadMsg[i]->getMsg().c_str(), "Dish ready%d%s%d", &tableNum, orderer, &orderedDishID);
                         serveDish(orderedDishID, tableNum, (string)orderer);
                 }
 }
 
-void Clerk::readMsg(Msg& msg) {}
+void Clerk::queryMsg() {
+    vector<Msg*> allMsg = StaticData::getMsgByReceiver(this->getPhone());
+    for(unsigned int i = 0; i < allMsg.size(); i ++)
+            if(allMsg[i]->getState())
+                    unReadMsg.push_back(allMsg[i]);
+}
+
+void Clerk::readMsg(Msg* msg) {}
 
 bool Clerk::updateRate(double newRate) {
         rate = (rate * rateNum + newRate) / ++rateNum;
@@ -46,6 +54,6 @@ void Clerk::serveDish(int orderedDishID, int tableNum, string orderer) {
 
 void Clerk::setPhone(string newPhone) {
     for(unsigned int i = 0; i < unReadMsg.size(); i ++)
-        unReadMsg[i].setReceiver(newPhone);
+        unReadMsg[i]->setReceiver(newPhone);
     changePhone(newPhone);
 }

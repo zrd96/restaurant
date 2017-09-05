@@ -30,15 +30,16 @@ class StaticData {
                 static bool queryTable();
                 static bool queryDish();
                 static bool queryOrderedDish();
-                static bool queryMsg();
+                static bool queryMsg(string person);
                 static bool queryClerk();
                 static bool queryOrder();
+                static void clearMsgList();
                 //static bool queryPerson();
 
                 static Dish& getDishByID(int dishID);
                 static OrderedDish& getOrderedDishByID(int orderedDishID);
-                static vector<Msg> getMsgByReceiver(string receiver);
-                static vector<Msg> getMsgBySender(string sender);
+                static vector<Msg*> getMsgByReceiver(string receiver);
+                static vector<Msg*> getMsgBySender(string sender);
                 static string getClerkPhoneByTable(int table);
                 static string getPersonNameByPhone(string phone);
                 static void updateEverythingAboutUser(Person* person, string newPhone);

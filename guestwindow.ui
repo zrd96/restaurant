@@ -379,24 +379,50 @@
        <bool>false</bool>
       </attribute>
       <attribute name="verticalHeaderDefaultSectionSize">
-       <number>200</number>
+       <number>140</number>
       </attribute>
       <attribute name="verticalHeaderMinimumSectionSize">
-       <number>200</number>
+       <number>140</number>
       </attribute>
       <column/>
      </widget>
      <widget class="QPushButton" name="viewOrderButton">
       <property name="geometry">
        <rect>
-        <x>1000</x>
+        <x>730</x>
         <y>790</y>
         <width>80</width>
-        <height>51</height>
+        <height>50</height>
        </rect>
       </property>
       <property name="text">
        <string>Refresh</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="refreshOrderInfoButton">
+      <property name="geometry">
+       <rect>
+        <x>870</x>
+        <y>790</y>
+        <width>80</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Refresh</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="checkOutButton">
+      <property name="geometry">
+       <rect>
+        <x>1010</x>
+        <y>790</y>
+        <width>80</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Check Out</string>
       </property>
      </widget>
     </widget>

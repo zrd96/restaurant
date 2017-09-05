@@ -22,6 +22,7 @@ class MySQLManager: public DataManager {
                 bool insert(string table, string values);
                 bool update(string table, string column, string newValue, string wheres);
                 bool deleteRow(string table, string wheres);
+                bool doesExist(string table, string wheres);
                 void destroyConnection();
                 bool getConnectionStatus() const {return isConnected;}
                 bool runSQLCommand(const string cmd);

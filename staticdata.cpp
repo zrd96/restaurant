@@ -54,13 +54,23 @@ bool StaticData::queryOrderedDish() {
         return true;
 }
 
-bool StaticData::queryMsg() {
-    msgList.clear();
-        if (!db->doQuery("msg", "*"))
+void StaticData::clearMsgList() {msgList.clear();}
+
+bool StaticData::queryMsg(string person) {
+        if (!db->doQuery("msg", "*", "sender = \"" + person + "\" or receiver = \"" + person + "\""))
                 return false;
         vector<vector<string> > resultList = db->getResultList();
-        for (unsigned int i = 0; i < resultList.size(); i ++)
-                msgList.push_back(Msg(resultList[i][1], resultList[i][2], resultList[i][3], resultList[i][4], atoi(resultList[i][5].c_str())));
+        for (unsigned int i = 0; i < resultList.size(); i ++) {
+            int msgID = atoi(resultList[i][0].c_str());
+            bool msgExists = false;
+            for (unsigned int j = 0; j < msgList.size(); j ++)
+                if(msgID == msgList[j].getMsgID()) {
+                    msgExists = true;
+                    break;
+                }
+            if(!msgExists)
+                msgList.push_back(Msg(resultList[i][1], resultList[i][2], resultList[i][3], resultList[i][4], atoi(resultList[i][5].c_str()), atoi(resultList[i][0].c_str())));
+        }
         return true;
 }
 
@@ -110,19 +120,19 @@ OrderedDish& StaticData::getOrderedDishByID(int orderedDishID) {
         return orderedDishList[0];
 }
 
-vector<Msg> StaticData::getMsgByReceiver(string receiver) {
-        vector<Msg> msgListByReceiver;
+vector<Msg*> StaticData::getMsgByReceiver(string receiver) {
+        vector<Msg*> msgListByReceiver;
         for(unsigned int i = 0; i < msgList.size(); i ++)
                 if(msgList[i].getReceiver() == receiver)
-                        msgListByReceiver.push_back(msgList[i]);
+                        msgListByReceiver.push_back(&msgList[i]);
         return msgListByReceiver;
 }
 
-vector<Msg> StaticData::getMsgBySender(string sender) {
-        vector<Msg> msgListBySender;
+vector<Msg*> StaticData::getMsgBySender(string sender) {
+        vector<Msg*> msgListBySender;
         for(unsigned int i = 0; i < msgList.size(); i ++)
                 if(msgList[i].getSender() == sender)
-                        msgListBySender.push_back(msgList[i]);
+                        msgListBySender.push_back(&msgList[i]);
         return msgListBySender;
 }
 

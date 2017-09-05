@@ -5,6 +5,7 @@
 
 #include "dish.h"
 #include "guest.h"
+#include "rateitem.h"
 
 namespace Ui {
 class Item;
@@ -32,6 +33,7 @@ private:
     Guest *guest;
     int dishNum;
     QString listType;
+    RateItem* itemRate;
 
 private slots:
     void setNumTo();

@@ -16,6 +16,7 @@ public:
     explicit RateItem(QWidget *parent = 0);
     void mouseMoveEvent(QMouseEvent* ev);
     void mousePressEvent(QMouseEvent* ev);
+    void setRate(double rate);
     ~RateItem();
 
 signals:

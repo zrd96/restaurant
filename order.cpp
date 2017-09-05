@@ -23,6 +23,13 @@ Order::Order(const QString &orderer, const vector<OrderedDish>& orderedDishes):
     }
 }
 
+Order::Order(const QString &orderer, const QString &datetime):
+    orderer(orderer),
+    datetime(datetime),
+    orderID("O" + datetime + orderer),
+    orderSum(0),
+    finished(true) {}
+
 void Order::insertDish(const OrderedDish dish) {
     orderSum += dish.getPrice();
     dishes.push_back(dish);
@@ -30,9 +37,12 @@ void Order::insertDish(const OrderedDish dish) {
         finished = false;
 }
 
-Order::Order(const QString &orderer, const QString &datetime):
-    orderer(orderer),
-    datetime(datetime),
-    orderID("O" + datetime + orderer),
-    orderSum(0),
-    finished(true) {}
+bool Order::checkFinished() {
+    finished = true;
+    for(unsigned int i = 0; i < dishes.size(); i ++)
+        if(dishes[i].getStatus() < 5) {
+            finished = false;
+            break;
+        }
+    return finished;
+}

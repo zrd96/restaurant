@@ -20,8 +20,14 @@ OrderItem::OrderItem(Order* order, QWidget *parent) :
                                 .arg(order->getOrderDishes().size())
                                 .arg(order->getOrderSum()));
     if(order->isFinished()) {
-        ui->isFinishedIcon->setPixmap(QPixmap(QString::fromUtf8("img/star-filled.png")));
+        ui->isFinishedIcon->setPixmap(QPixmap(QString::fromUtf8("img/finished.png")));
         ui->isFinishedIcon->setScaledContents(true);
+        ui->isFinished->setText("Finished");
+    }
+    else {
+        ui->isFinishedIcon->setPixmap(QPixmap(QString::fromUtf8("img/active.png")));
+        ui->isFinishedIcon->setScaledContents(true);
+        ui->isFinished->setText("Active");
     }
     show();
 }

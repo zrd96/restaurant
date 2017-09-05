@@ -25,6 +25,7 @@ public:
     QString getDatetime() const {return datetime;}
     double getOrderSum() const {return orderSum;}
     bool isFinished() const {return finished;}
+    bool checkFinished();
     vector<OrderedDish>& getOrderDishes() {return dishes;}
     friend class StaticData;
 };

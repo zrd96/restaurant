@@ -60,6 +60,10 @@ private slots:
 
     void on_viewOrderButton_clicked();
 
+    void on_refreshOrderInfoButton_clicked();
+
+    void on_checkOutButton_clicked();
+
 private:
     vector<TableItem*> tableItem;
     vector<Item*> dishItem;
@@ -75,7 +79,8 @@ private:
     Ui::GuestWindow *ui;
     AboutMeWidget* aboutMe;
     LoginDlg* loginDlg;
-
+    bool checkedOut;
+    Order* currentOrder;
 };
 
 #endif // GUESTWINDOW_H

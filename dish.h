@@ -17,7 +17,7 @@ class Dish {
                 int timeNeeded;
                 string imgdir;
         public:
-                Dish(string name, double price, int timeNeeded = -1, string imgdir = "img/dishes/default.jpg", int confirmedDishID = -1);
+                Dish(string name, double price, int timeNeeded = -1, string imgdir = "img/dishes/default.png", int confirmedDishID = -1);
                 Dish(const Dish& dish);
                 int getDishID() const {return dishID;}
                 string getName() const {return name;}

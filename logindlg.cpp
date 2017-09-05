@@ -7,9 +7,14 @@
 #include "guestwindow.h"
 #include "chefwindow.h"
 #include "clerkwindow.h"
+#include "table.h"
+#include "msg.h"
+#include "dish.h"
+#include "tools.h"
 #include <cstdlib>
 #include <QMessageBox>
 #include <QString>
+#include <QCloseEvent>
 
 LoginDlg::LoginDlg(QWidget *parent) :
     QWidget(parent),
@@ -154,3 +159,86 @@ void LoginDlg::logIn(const QString user, int userType) {
     this->hide();
 }
 
+void LoginDlg::closeEvent(QCloseEvent *ev) {
+    viewErrInfo("*****");
+    for(unsigned int i = 0; i < StaticData::tableList.size(); i ++) {
+        Table& cur = StaticData::tableList[i];
+        if(StaticData::db->doesExist("tableList", "id = " + ntos(cur.getTableID()))) {
+            StaticData::db->update("tableList", "seats", ntos(cur.getSeats()), "id = " + ntos(cur.getTableID()));
+            StaticData::db->update("tableList", "freeSeats", ntos(cur.getFreeSeats()), "id = " + ntos(cur.getTableID()));
+            StaticData::db->update("tableList", "clerk",
+                                   "\"" + (cur.getClerk() != "" ? cur.getClerk() : (string)"NULL") + "\"",
+                                   "id = " + ntos(cur.getTableID()));
+        }
+        else {
+            StaticData::db->insert("tableList",
+                                   ntos(cur.getTableID()) + ", "
+                                   + ntos(cur.getSeats()) + ", "
+                                   + ntos(cur.getFreeSeats()) + ", \""
+                                   + cur.getClerk() + "\"");
+        }
+    }
+
+    for(unsigned int i = 0; i < StaticData::dishList.size(); i ++) {
+        Dish& cur = StaticData::dishList[i];
+        if(StaticData::db->doesExist("dish", "dishID = " + ntos(cur.getDishID()))) {
+            StaticData::db->update("dish", "name", "\"" + cur.getName() + "\"", "dishID = " + ntos(cur.getDishID()));
+            StaticData::db->update("dish", "price", ntos(cur.getPrice()), "dishID = " + ntos(cur.getDishID()));
+            StaticData::db->update("dish", "rate", ntos(cur.getRate()), "dishID = " + ntos(cur.getDishID()));
+            StaticData::db->update("dish", "rateNum", ntos(cur.getRateNum()), "dishID = " + ntos(cur.getDishID()));
+            StaticData::db->update("dish", "time", ntos(cur.getTimeNeeded()), "dishID = " + ntos(cur.getDishID()));
+            StaticData::db->update("dish", "imgdir", "\"" + cur.getImgDir() + "\"", "dishID = " + ntos(cur.getDishID()));
+        }
+        else {
+            StaticData::db->insert("dish",
+                                   "NULL, \"" + cur.getName() + "\", "
+                                   + ntos(cur.getPrice()) + ", "
+                                   + ntos(cur.getRate()) + ", " + ntos(cur.getRateNum()) + ", "
+                                   + "\"" + cur.getImgDir() + "\"");
+        }
+    }
+
+    for(unsigned int i = 0; i < StaticData::orderedDishList.size(); i ++) {
+        OrderedDish& cur = StaticData::orderedDishList[i];
+        if(StaticData::db->doesExist("orderedDish",
+                                     "id = "
+                                     + ntos(cur.getOrderedDishID()))) {
+            StaticData::db->update("orderedDish",
+                                   "orderer", "\"" + cur.getOrderer() + "\"",
+                                   "id = " + ntos(cur.getOrderedDishID()));
+            StaticData::db->update("orderedDish",
+                                   "tableNum", ntos(cur.getTable()),
+                                   "id = " + ntos(cur.getOrderedDishID()));
+            StaticData::db->update("orderedDish",
+                                   "status", ntos(cur.getStatus()),
+                                   "id = " + ntos(cur.getOrderedDishID()));
+            StaticData::db->update("orderedDish",
+                                   "datetime", "\"" + cur.getDatetime() + "\"",
+                                   "id = " + ntos(cur.getOrderedDishID()));
+        }
+        else {
+            StaticData::db->insert("orderedDish",
+                                   "NULL, "
+                                   + ntos(cur.getDishID()) + ", \""
+                                   + cur.getOrderer() + "\", "
+                                   + ntos(cur.getTable()) + ", "
+                                   + ntos(cur.getStatus()) + ", \""
+                                   + cur.getDatetime() + "\"");
+        }
+    }
+
+    for(unsigned int i = 0; i < StaticData::msgList.size(); i ++) {
+        Msg& cur = StaticData::msgList[i];
+        if(StaticData::db->doesExist("msg", "msgid = " + ntos(cur.getMsgID()))) {
+            StaticData::db->update("msg", "isActive", ntos(cur.getState()), "msgid = " + ntos(cur.getMsgID()));
+        }
+        else {
+            StaticData::db->insert("msg",
+                                   "NULL, \"" + cur.getSender() + "\", \""
+                                   + cur.getReceiver() + "\", \""
+                                   + cur.getMsg() + "\", \""
+                                   + cur.getDatetime() + "\", "
+                                   + ntos(cur.getState()));
+        }
+    }
+}

@@ -11,6 +11,7 @@ Item::Item(Guest& guest, Dish& oriDish, QString listType, QWidget *parent) :
     dish(oriDish),
     dishNum(0),
     listType(listType),
+    itemRate(new RateItem(this)),
     QWidget(parent),
     ui(new Ui::Item)
 {
@@ -22,11 +23,13 @@ Item::Item(Guest& guest, Dish& oriDish, QString listType, QWidget *parent) :
 
     QImage *dishImg = new QImage;
     if(!dishImg->load(QString::fromStdString(dish.getImgDir())))
-        dishImg->load("img/dishes/default.jpg");
+        dishImg->load("img/dishes/default.png");
     ui->itemImg->setPixmap(QPixmap::fromImage(*dishImg));
     ui->itemImg->setScaledContents(true);
     ui->itemName->setPlainText(QString::fromStdString(dish.getName()));
-    ui->itemRate->setValue((int)(20 * StaticData::getDishByID(dish.getDishID()).getRate()));
+    itemRate->setGeometry(420, 80, 150, 30);
+    itemRate->setRate(StaticData::getDishByID(dish.getDishID()).getRate());
+
     ui->itemRateInfo->setText(QString("Rated %1/5 from %2 people")
                               .arg(StaticData::getDishByID(dish.getDishID()).getRate())
                               .arg(StaticData::getDishByID(dish.getDishID()).getRateNum()));
@@ -122,7 +125,7 @@ void Item::setDishNumText(int finalNum) {
 
 void Item::rateDish(double newRate) {
     guest->rateDish(StaticData::getDishByID(dish.getDishID()), newRate);
-    ui->itemRate->setValue((int)(20 * StaticData::getDishByID(dish.getDishID()).getRate()));
+    itemRate->setRate(StaticData::getDishByID(dish.getDishID()).getRate());
     ui->itemRateInfo->setText(QString("Rated %1/5 from %2 people")
                               .arg(StaticData::getDishByID(dish.getDishID()).getRate())
                               .arg(StaticData::getDishByID(dish.getDishID()).getRateNum()));

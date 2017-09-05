@@ -7,6 +7,7 @@
 #include "clerkwindow.h"
 #include <QWidget>
 #include <QString>
+#include <QCloseEvent>
 
 namespace Ui {
 class LoginDlg;
@@ -52,6 +53,7 @@ private:
     int checkedIDLogin();
     int checkedIDSignup();
     void logIn(QString user, int userType);
+    void closeEvent(QCloseEvent* ev);
 };
 
 #endif // LOGINDLG_H

@@ -216,6 +216,11 @@ bool MySQLManager::deleteRow(string table, string wheres) {
         return runSQLCommand(cmd);
 }
 
+bool MySQLManager::doesExist(string table, string wheres) {
+    doQuery(table, "*", wheres);
+    return (resultList.size() > 0);
+}
+
 void MySQLManager::destroyConnection() {
         mysql_close(&mySQLClient);
         isConnected = false;

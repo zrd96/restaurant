@@ -120,7 +120,5 @@ void AboutMeWidget::on_logoutButton_clicked()
     int reply = QMessageBox::question(NULL, "Log Out", "Your unsubmitted contents will not be saved, log out?", QMessageBox::Yes, QMessageBox::No);
     if(reply != QMessageBox::Yes)
         return;
-
-    loginDlg->show();
     delete mainWindow;
 }
