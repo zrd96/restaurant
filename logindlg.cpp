@@ -11,19 +11,15 @@
 #include <QMessageBox>
 #include <QString>
 
-LoginDlg::LoginDlg(AdminWindow *adminWindow, GuestWindow *guestWindow, ChefWindow *chefWindow, ClerkWindow *clerkWindow, QWidget *parent) :
-    adminWindow(adminWindow),
-    guestWindow(guestWindow),
-    chefWindow(chefWindow),
-    clerkWindow(clerkWindow),
+LoginDlg::LoginDlg(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::LoginDlg)
 {
     ui->setupUi(this);
-    connect(this, SIGNAL(openAdminWindow(const QString)), adminWindow, SLOT(openWindow(QString)));
-    connect(this, SIGNAL(openGuestWindow(const QString)), guestWindow, SLOT(openWindow(QString)));
-    connect(this, SIGNAL(openChefWindow(const QString)), chefWindow, SLOT(openWindow(QString)));
-    connect(this, SIGNAL(openClerkWindow(const QString)), clerkWindow, SLOT(openWindow(QString)));
+//    connect(this, SIGNAL(openAdminWindow(const QString)), adminWindow, SLOT(openWindow(QString)));
+//    connect(this, SIGNAL(openGuestWindow(const QString)), guestWindow, SLOT(openWindow(QString)));
+//    connect(this, SIGNAL(openChefWindow(const QString)), chefWindow, SLOT(openWindow(QString)));
+//    connect(this, SIGNAL(openClerkWindow(const QString)), clerkWindow, SLOT(openWindow(QString)));
 }
 
 LoginDlg::~LoginDlg()
@@ -109,7 +105,7 @@ bool LoginDlg::checkEnteredSignup() {
         return false;
     }
 
-    StaticData::db->insert("person", "\"" + phone.toStdString() + "\", \"" + name.toStdString() + "\", \"" + password.toStdString() + "\", " + ntos(userType) + ", NULL, NULL");
+    StaticData::db->insert("person", "\"" + phone.toStdString() + "\", \"" + name.toStdString() + "\", \"" + password.toStdString() + "\", " + ntos(userType) + ", NULL, NULL, NULL");
     QMessageBox::information(this, tr("Success"), tr("Successfully signed up, now log in using new account"));
     return true;
 }
@@ -138,30 +134,23 @@ int LoginDlg::checkedIDSignup() {
 
 void LoginDlg::logIn(const QString user, int userType) {
     switch (userType) {
-        case 0: emit openAdminWindow(user);break;
-        case 1: emit openGuestWindow(user);break;
-        case 2: emit openChefWindow(user); break;
-        case 3: emit openClerkWindow(user);break;
+        case 0:
+            adminWindow = new AdminWindow();
+            adminWindow->show();
+            break;
+        case 1:
+            guestWindow = new GuestWindow(user, this);
+            guestWindow->show();
+            break;
+        case 2:
+            chefWindow = new ChefWindow();
+            chefWindow->show();
+            break;
+        case 3:
+            clerkWindow = new ClerkWindow();
+            clerkWindow->show();
+            break;
     }
-    this->close();
+    this->hide();
 }
-/*
-void LoginDlg::openAdminWindow(const QString user) {
-    GuestWindow guestWindow;
-    guestWindow.show();
-    this->close();
-}
-
-void LoginDlg::openGuestWindow(const QString user) {}
-
-void LoginDlg::openChefWindow(const QString user) {
-    emit setUser()
-    //GuestWindow guestWindow;
-    //guestWindow.show();
-    this->close();
-}
-
-void LoginDlg::openClerkWindow(const QString user) {}
-*/
-
 

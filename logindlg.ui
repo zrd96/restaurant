@@ -179,7 +179,7 @@
       <item row="0" column="1">
        <widget class="QLineEdit" name="lineEditPhoneLogin">
         <property name="text">
-         <string>11111111111</string>
+         <string>18110026291</string>
         </property>
        </widget>
       </item>
@@ -203,7 +203,7 @@
          </font>
         </property>
         <property name="text">
-         <string>1</string>
+         <string>111111</string>
         </property>
         <property name="echoMode">
          <enum>QLineEdit::Password</enum>

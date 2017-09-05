@@ -13,40 +13,38 @@
 #include "table.h"
 #include "msg.h"
 #include "aboutmewidget.h"
+#include "logindlg.h"
+#include "order.h"
+#include "orderitem.h"
 
-GuestWindow::GuestWindow(QWidget *parent) :
+GuestWindow::GuestWindow(const QString user, LoginDlg* loginDlg, QWidget *parent) :
     QMainWindow(parent),
     guest("", ""),
     orderedSum(0),
     submittedSum(0),
+    loginDlg(loginDlg),
     ui(new Ui::GuestWindow)
 {
     ui->setupUi(this);
-}
-
-GuestWindow::~GuestWindow()
-{
-    clearPointerList(tableItem);
-    clearPointerList(dishItem);
-    clearPointerList(cartItem);
-    clearPointerList(orderItem);
-    delete aboutMe;
-    delete ui;
-}
-//QItemDelegate
-void GuestWindow::openWindow(const QString user) {
-    StaticData::db->doQuery("person", "name, password", "phone = \"" + user.toStdString() + "\"");
-    guest = Guest(user.toStdString(), StaticData::db->getResultList()[0][0], StaticData::db->getResultList()[0][1]);
+    StaticData::db->doQuery("person", "name, password, tableID", "phone = \"" + user.toStdString() + "\"");
+    if(StaticData::db->getResultList()[0][2] != "NULL")
+        guest = Guest(user.toStdString(), StaticData::db->getResultList()[0][0], StaticData::db->getResultList()[0][1], atoi(StaticData::db->getResultList()[0][2].c_str()));
+    else
+        guest = Guest(user.toStdString(), StaticData::db->getResultList()[0][0], StaticData::db->getResultList()[0][1]);
     StaticData::queryTable();
     StaticData::queryDish();
     StaticData::queryMsg();
+    StaticData::queryOrder();
+    for(unsigned int i = 0; i < StaticData::orderedDishList.size(); i ++)
+        if(StaticData::orderedDishList[i].getOrderer() == guest.getPhone())
+            submittedSum += StaticData::orderedDishList[i].getPrice();
     ui->inboxList->setColumnWidth(0, 150);
     ui->inboxList->setColumnWidth(1, 150);
     ui->inboxList->setColumnWidth(2, 850);
     ui->outboxList->setColumnWidth(0, 150);
     ui->outboxList->setColumnWidth(1, 150);
     ui->outboxList->setColumnWidth(2, 850);
-    aboutMe = new AboutMeWidget(&guest, ui->selfTab);
+    aboutMe = new AboutMeWidget(&guest, loginDlg, this, ui->selfTab);
     aboutMe->show();
     this->show();
     viewTableList();
@@ -55,6 +53,21 @@ void GuestWindow::openWindow(const QString user) {
     viewOrderList();
     viewMsgList();
 }
+
+GuestWindow::~GuestWindow()
+{
+    if(guest.getTable() > 0) {
+        StaticData::db->update("person", "tableID", ntos(guest.getTable()), "phone = \"" + guest.getPhone() + "\"");
+        StaticData::db->update("tableList", "freeseats", ntos(StaticData::getTableByID(guest.getTable()).getFreeSeats() - 1), "id = " + ntos(guest.getTable()));
+    }
+    clearPointerList(tableItem);
+    clearPointerList(dishItem);
+    clearPointerList(cartItem);
+    clearPointerList(orderItem);
+    delete aboutMe;
+    delete ui;
+}
+//QItemDelegate
 
 void GuestWindow::viewTableList() {
     clearPointerList(tableItem);
@@ -66,6 +79,11 @@ void GuestWindow::viewTableList() {
         TableItem* table = new TableItem(guest, StaticData::tableList[i], this, ui->tableList);
         ui->tableList->setCellWidget(row, col, table);
         tableItem.push_back(table);
+    }
+    if(guest.getTable() > 0) {
+        selectedTable = guest.getTable();
+        ui->selectedTable->setText(QString("Selected Table: No. %1").arg(selectedTable));
+        ui->submitTableButton->setEnabled(false);
     }
     ui->tableList->setEnabled(ui->submitTableButton->isEnabled());
 }
@@ -102,17 +120,40 @@ void GuestWindow::viewCartList() {
 }
 
 void GuestWindow::viewOrderList() {
+    ui->viewOrderButton->setText("Refresh");
+    clearPointerList(dishInOrderItem);
     clearPointerList(orderItem);
-    for(unsigned int i = 0; i < StaticData::orderedDishList.size(); i ++) {
-        if(StaticData::orderedDishList[i].getOrderer() == guest.getPhone()) {
-            Item* item = new Item(guest, StaticData::orderedDishList[i], "orderList", ui->cartList);
-            ui->cartList->addItem(item);
+    ui->orderList->clearContents();
+    ui->orderList->setRowCount(0);
+    for(unsigned int i = 0; i < StaticData::orderList.size(); i ++) {
+        if(StaticData::orderList[i].getOrderer().toStdString() == guest.getPhone()) {
+            OrderItem* item = new OrderItem(&StaticData::orderList[i], ui->orderList);
+            connect(item, SIGNAL(orderClicked(Order*)), this, SLOT(viewDishInOrderList(Order*)));
+            ui->orderList->setRowCount(ui->orderList->rowCount() + 1);
+            ui->orderList->setCellWidget(ui->orderList->rowCount() - 1, 0, item);
             orderItem.push_back(item);
+            item->show();
         }
     }
-    ui->scrollAreaCartList->show();
-    ui->cartTab->show();
-    this->show();
+}
+
+void GuestWindow::viewDishInOrderList(Order* order) {
+    ui->viewOrderButton->setText("Back");
+    clearPointerList(orderItem);
+    clearPointerList(dishInOrderItem);
+    ui->orderList->clearContents();
+    ui->orderList->setRowCount(0);
+    for(unsigned int i = 0; i < order->getOrderDishes().size(); i ++) {
+        Item* item = new Item(guest, order->getOrderDishes()[i], "orderList", ui->orderList);
+        ui->orderList->setRowCount(ui->orderList->rowCount() + 1);
+        ui->orderList->setCellWidget(ui->orderList->rowCount() - 1, 0, item);
+        dishInOrderItem.push_back(item);
+        item->show();
+    }
+//    updateSum();
+//    ui->scrollAreaCartList->show();
+//    ui->cartTab->show();
+//    this->show();
 }
 
 void GuestWindow::viewMsgList() {
@@ -257,4 +298,10 @@ void GuestWindow::on_sendMsgButton_clicked()
 void GuestWindow::on_refreshMsg_clicked()
 {
     viewMsgList();
+}
+
+
+void GuestWindow::on_viewOrderButton_clicked()
+{
+    viewOrderList();
 }

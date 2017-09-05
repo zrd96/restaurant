@@ -257,7 +257,7 @@
      <widget class="QPushButton" name="RefreshCart">
       <property name="geometry">
        <rect>
-        <x>830</x>
+        <x>860</x>
         <y>790</y>
         <width>80</width>
         <height>40</height>
@@ -288,7 +288,7 @@
      <widget class="QPushButton" name="submitButton">
       <property name="geometry">
        <rect>
-        <x>960</x>
+        <x>1020</x>
         <y>790</y>
         <width>80</width>
         <height>40</height>
@@ -319,19 +319,6 @@
        <string>￥0</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="checkOutButton">
-      <property name="geometry">
-       <rect>
-        <x>1090</x>
-        <y>790</y>
-        <width>80</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Check Out</string>
-      </property>
-     </widget>
      <widget class="QLabel" name="submittedTotal">
       <property name="geometry">
        <rect>
@@ -351,6 +338,65 @@
       </property>
       <property name="text">
        <string/>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>My Orders</string>
+     </attribute>
+     <widget class="QTableWidget" name="orderList">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1200</width>
+        <height>781</height>
+       </rect>
+      </property>
+      <property name="verticalScrollMode">
+       <enum>QAbstractItemView::ScrollPerPixel</enum>
+      </property>
+      <property name="horizontalScrollMode">
+       <enum>QAbstractItemView::ScrollPerPixel</enum>
+      </property>
+      <property name="rowCount">
+       <number>0</number>
+      </property>
+      <property name="columnCount">
+       <number>1</number>
+      </property>
+      <attribute name="horizontalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>1184</number>
+      </attribute>
+      <attribute name="horizontalHeaderMinimumSectionSize">
+       <number>1150</number>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="verticalHeaderDefaultSectionSize">
+       <number>200</number>
+      </attribute>
+      <attribute name="verticalHeaderMinimumSectionSize">
+       <number>200</number>
+      </attribute>
+      <column/>
+     </widget>
+     <widget class="QPushButton" name="viewOrderButton">
+      <property name="geometry">
+       <rect>
+        <x>1000</x>
+        <y>790</y>
+        <width>80</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Refresh</string>
       </property>
      </widget>
     </widget>

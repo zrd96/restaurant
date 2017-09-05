@@ -3,6 +3,8 @@
 #include "dish.h"
 #include "tools.h"
 #include "guest.h"
+#include "rateitem.h"
+#include "staticdata.h"
 
 Item::Item(Guest& guest, Dish& oriDish, QString listType, QWidget *parent) :
     guest(&guest),
@@ -21,11 +23,13 @@ Item::Item(Guest& guest, Dish& oriDish, QString listType, QWidget *parent) :
     QImage *dishImg = new QImage;
     if(!dishImg->load(QString::fromStdString(dish.getImgDir())))
         dishImg->load("img/dishes/default.jpg");
-    *dishImg = dishImg->scaled(120, 120);
     ui->itemImg->setPixmap(QPixmap::fromImage(*dishImg));
+    ui->itemImg->setScaledContents(true);
     ui->itemName->setPlainText(QString::fromStdString(dish.getName()));
-    ui->itemRate->setValue((int)(dish.getRate() * 10));
-    ui->itemRateInfo->setText("Rate: " + QString::fromStdString(ntos(dish.getRate())) + "/10 from " + QString::fromStdString(ntos(dish.getRateNum())) + " people");
+    ui->itemRate->setValue((int)(20 * StaticData::getDishByID(dish.getDishID()).getRate()));
+    ui->itemRateInfo->setText(QString("Rated %1/5 from %2 people")
+                              .arg(StaticData::getDishByID(dish.getDishID()).getRate())
+                              .arg(StaticData::getDishByID(dish.getDishID()).getRateNum()));
     ui->itemPrice->setText("￥ " + QString::fromStdString(ntos(dish.getPrice())));
     if(dish.getTimeNeeded() > 0)
         ui->itemStatus->setPlainText("Time Needed: " + QString::fromStdString(ntos(dish.getTimeNeeded())));
@@ -53,6 +57,12 @@ Item::Item(Guest& guest, Dish& oriDish, QString listType, QWidget *parent) :
                 break;
             case 5:
                 status = "Checked out";
+                ui->addButton->hide();
+                ui->subButton->hide();
+                ui->itemNum->hide();
+                RateItem* rateItem = new RateItem(this);
+                connect(rateItem, SIGNAL(rateSet(double)), this, SLOT(rateDish(double)));
+                rateItem->setGeometry(860, 80, 150, 30);
                 break;
         }
         ui->itemStatus->setPlainText(status);
@@ -108,4 +118,12 @@ void Item::setNumTo() {
 void Item::setDishNumText(int finalNum) {
     ui->itemNum->setText(QString().setNum(finalNum));
     dishNum = finalNum;
+}
+
+void Item::rateDish(double newRate) {
+    guest->rateDish(StaticData::getDishByID(dish.getDishID()), newRate);
+    ui->itemRate->setValue((int)(20 * StaticData::getDishByID(dish.getDishID()).getRate()));
+    ui->itemRateInfo->setText(QString("Rated %1/5 from %2 people")
+                              .arg(StaticData::getDishByID(dish.getDishID()).getRate())
+                              .arg(StaticData::getDishByID(dish.getDishID()).getRateNum()));
 }

@@ -39,6 +39,7 @@ class OrderedDish: public Dish {
                 int status;
                 int num;
                 int orderedDishID;
+                string datetime;
         public:
                 OrderedDish(const Dish dish, string orderer, int tableNum, int status = -1);
                 OrderedDish(const Dish dish, int orderedDishID, string orderer, int tableNum, int status = -1);
@@ -47,6 +48,8 @@ class OrderedDish: public Dish {
                 void setStatus(int status) {this->status = status;}
                 int getStatus() const {return status;}
                 int getNum() const {return num;}
+                string getDatetime() const {return datetime;}
+                void setDatetime(string datetime) {this->datetime = datetime;}
                 void add() {num ++;}
                 void sub() {num --;}
                 void setTableNum(int tableNum) {this->tableNum = tableNum;}

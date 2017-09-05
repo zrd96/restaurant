@@ -64,7 +64,7 @@ bool MySQLManager::initDB() {
                 errInfo = "";
         }
         runSQLCommand("use restaurant");
-        if(!runSQLCommand("create table person(phone char(15) not NULL primary key, name char(20) default \"Client\", password char(20) not NULL, type tinyint not NULL, rate float, rateNum int unsigned)")) {
+        if(!runSQLCommand("create table person(phone char(15) not NULL primary key, name char(20) default \"Client\", password char(20) not NULL, type tinyint not NULL, rate float, rateNum int unsigned, tableID int unsigned)")) {
                 errInfo = (string)mysql_error(&mySQLClient);
                 if(errInfo.find("exist") < 0) {
                         viewErrInfo(errInfo);
@@ -89,7 +89,7 @@ bool MySQLManager::initDB() {
                 }
                 errInfo = "";
         }
-        if(!runSQLCommand("create table orderedDish(id int unsigned not NULL auto_increment primary key, dishid int unsigned not NULL, orderer char(15) not NULL, tableNum int unsigned not NULL, status tinyint unsigned not NULL)")) {
+        if(!runSQLCommand("create table orderedDish(id int unsigned not NULL auto_increment primary key, dishid int unsigned not NULL, orderer char(15) not NULL, tableNum int unsigned not NULL, status tinyint unsigned not NULL, datetime char(20) not NULL)")) {
                 errInfo = (string)mysql_error(&mySQLClient);
                 if(errInfo.find("exist") < 0) {
                         viewErrInfo(errInfo);

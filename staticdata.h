@@ -12,6 +12,9 @@
 #include "msg.h"
 #include "datamanager.h"
 #include "mysqlmanager.h"
+#include "order.h"
+
+class Order;
 
 class StaticData {
         public:
@@ -21,6 +24,7 @@ class StaticData {
                 static vector<Msg> msgList;
                 static vector<Clerk> clerkList;
                 static vector<Table> tableList;
+                static vector<Order> orderList;
                 //static vector<Person> personList;
                 
                 static bool queryTable();
@@ -28,6 +32,7 @@ class StaticData {
                 static bool queryOrderedDish();
                 static bool queryMsg();
                 static bool queryClerk();
+                static bool queryOrder();
                 //static bool queryPerson();
 
                 static Dish& getDishByID(int dishID);
@@ -37,6 +42,7 @@ class StaticData {
                 static string getClerkPhoneByTable(int table);
                 static string getPersonNameByPhone(string phone);
                 static void updateEverythingAboutUser(Person* person, string newPhone);
+                static Table& getTableByID(int tableID);
 
                 //static Person& getPersonByID(int id);
 };

@@ -9,8 +9,9 @@
 #include "dish.h"
 #include "staticdata.h"
 
-Guest::Guest(string phone, string name): Person(phone, name), Cart() {}
-Guest::Guest(string phone, string name, string password): Person(phone, name, password), Cart() {}
+Guest::Guest(string phone, string name): Person(phone, name), Cart(), table(-1) {}
+Guest::Guest(string phone, string name, string password): Person(phone, name, password), Cart(), table(-1) {}
+Guest::Guest(string phone, string name, string password, int table):  Person(phone, name, password), Cart(), table(table) {}
 
 bool Guest::addDish(const Dish& dish) {
     return add(dish, getPhone(), table);

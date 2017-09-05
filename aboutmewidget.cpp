@@ -4,10 +4,13 @@
 #include "clerk.h"
 #include "tools.h"
 #include "staticdata.h"
+#include <QMessageBox>
 
-AboutMeWidget::AboutMeWidget(Person* person, QWidget *parent) :
+AboutMeWidget::AboutMeWidget(Person* person, LoginDlg* loginDlg, QMainWindow* mainWindow, QWidget *parent) :
     QWidget(parent),
     person(person),
+    loginDlg(loginDlg),
+    mainWindow(mainWindow),
     ui(new Ui::AboutMeWidget)
 {
     ui->setupUi(this);
@@ -110,4 +113,14 @@ void AboutMeWidget::on_phoneEdit_textChanged(const QString &newPhone)
 {
     if(newPhone.toStdString() != person->getPhone())
         ui->submitInfoButton->setEnabled(true);
+}
+
+void AboutMeWidget::on_logoutButton_clicked()
+{
+    int reply = QMessageBox::question(NULL, "Log Out", "Your unsubmitted contents will not be saved, log out?", QMessageBox::Yes, QMessageBox::No);
+    if(reply != QMessageBox::Yes)
+        return;
+
+    loginDlg->show();
+    delete mainWindow;
 }

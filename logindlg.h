@@ -12,12 +12,17 @@ namespace Ui {
 class LoginDlg;
 }
 
+class AdminWindow;
+class GuestWindow;
+class ChefWindow;
+class ClerkWindow;
+
 class LoginDlg : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit LoginDlg(AdminWindow *adminWindow, GuestWindow *guestWindow, ChefWindow *chefWindow, ClerkWindow *clerkWindow, QWidget *parent = 0);
+    explicit LoginDlg(QWidget *parent = 0);
     ~LoginDlg();
 
 private slots:
@@ -33,15 +38,15 @@ signals:
     void openClerkWindow(const QString user);
 
 private:
-    AdminWindow *adminWindow;
-    GuestWindow *guestWindow;
-    ChefWindow *chefWindow;
-    ClerkWindow *clerkWindow;
     Ui::LoginDlg *ui;
     QString phone;
     QString password;
     QString name;
     int userType;
+    AdminWindow* adminWindow;
+    GuestWindow* guestWindow;
+    ChefWindow* chefWindow;
+    ClerkWindow* clerkWindow;
     bool checkEnteredLogin();
     bool checkEnteredSignup();
     int checkedIDLogin();

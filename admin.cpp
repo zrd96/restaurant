@@ -65,7 +65,7 @@ bool Admin::addPerson(const Person& person, int type) {
         if(StaticData::db->getResultList().size())
                 if(!confirm("User " + person.getPhone() + " already exists, overwrite?"))
                         return false;
-        return StaticData::db->insert("person", "\"" + person.getPhone() +"\", \"" + person.getName() + "\", \"" + person.getPassword() + "\", " + ntos(type) + ", NULL, NULL");
+        return StaticData::db->insert("person", "\"" + person.getPhone() +"\", \"" + person.getName() + "\", \"" + person.getPassword() + "\", " + ntos(type) + ", NULL, NULL, NULL");
 }
 
 bool Admin::removePerson(const Person& person) {

@@ -47,7 +47,10 @@ SOURCES += \
     item.cpp \
     itemlist.cpp \
     tableitem.cpp \
-    aboutmewidget.cpp
+    aboutmewidget.cpp \
+    rateitem.cpp \
+    order.cpp \
+    orderitem.cpp
 
 HEADERS += \
     logindlg.h \
@@ -71,7 +74,10 @@ HEADERS += \
     item.h \
     itemlist.h \
     tableitem.h \
-    aboutmewidget.h
+    aboutmewidget.h \
+    rateitem.h \
+    order.h \
+    orderitem.h
 
 FORMS += \
     logindlg.ui \
@@ -82,4 +88,6 @@ FORMS += \
     item.ui \
     itemlist.ui \
     tableitem.ui \
-    aboutmewidget.ui
+    aboutmewidget.ui \
+    rateitem.ui \
+    orderitem.ui

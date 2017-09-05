@@ -13,6 +13,7 @@ class Guest: public Person, public Cart {
     public:
         Guest(string phone, string name);
         Guest(string phone, string name, string password);
+        Guest(string phone, string name, string password, int table);
         bool addDish(const Dish& dish);
         bool removeDish(const Dish& dish);
         bool selectTable(Table& table);

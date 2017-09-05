@@ -35,6 +35,7 @@ private:
 
 private slots:
     void setNumTo();
+    void rateDish(double newRate);
 
 signals:
     void dishNumChanged(int dishID, int finalNum);

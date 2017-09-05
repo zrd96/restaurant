@@ -41,11 +41,15 @@ bool Cart::remove(const Dish &dish) {
 }
 
 bool Cart::submit() {
+    string datetime = getTime();
     for(unsigned int i = 0; i < orderedDishes.size(); i ++) {
         orderedDishes[i].setStatus(1);
+        orderedDishes[i].setDatetime(datetime);
         for(int j = 0; j < orderedDishes[i].getNum(); j ++)//split orders of the same dish and disable the num feature
             StaticData::orderedDishList.push_back(orderedDishes[i]);
     }
+    Order newOrder(QString::fromStdString(orderedDishes[0].getOrderer()), orderedDishes);
+    StaticData::orderList.push_back(newOrder);
     orderedDishes.clear();
     num = 0;
     sum = 0;

@@ -71,24 +71,24 @@ int main(int argc, char *argv[])
         zrd.removeTable(tb4);
         cout<<"removing table succeeded"<<endl;
 
-        Guest daddy("18110020001", "daddy", "000000");
+        //Guest daddy("18110020001", "daddy", "000000");
 
-        daddy.selectTable(tb3);
-        cout<<"Guest selecting table succeeded"<<endl;
+        //daddy.selectTable(tb3);
+        //cout<<"Guest selecting table succeeded"<<endl;
 
-        StaticData::queryDish();
+        //StaticData::queryDish();
 
-        for(int i = 0; i < StaticData::dishList.size(); i ++)
-                daddy.addDish(StaticData::dishList[i]);
-        daddy.addDish(StaticData::dishList[2]);
-        daddy.removeDish(StaticData::dishList[1]);
-        daddy.removeDish(StaticData::dishList[2]);
+//        for(int i = 0; i < StaticData::dishList.size(); i ++)
+//                daddy.addDish(StaticData::dishList[i]);
+//        daddy.addDish(StaticData::dishList[2]);
+//        daddy.removeDish(StaticData::dishList[1]);
+//        daddy.removeDish(StaticData::dishList[2]);
 
-        cout<<"Cart management succeeded"<<endl;
+//        cout<<"Cart management succeeded"<<endl;
 
-        cout<<daddy.getSumInCart()<<endl;
-        daddy.submit();
-        cout<<"Cart submitted"<<endl;
+//        cout<<daddy.getSumInCart()<<endl;
+//        //daddy.submit();
+//        cout<<"Cart submitted"<<endl;
 
         Chef chef1("18110020003", "chef1", "123456");
         Chef chef2("18110020004", "chef2", "66666");
@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
         zrd.addPerson(clk1, 3);
         zrd.addPerson(clk2, 3);
         zrd.addPerson(clk3, 3);
-        zrd.addPerson(daddy, 1);
+        //zrd.addPerson(daddy, 1);
 
         cout<<"Adding person succeeded"<<endl;
 
@@ -113,17 +113,22 @@ int main(int argc, char *argv[])
 
         StaticData::queryDish();
         StaticData::queryOrderedDish();
-        chef1.takeDish(StaticData::getOrderedDishByID(2));
-        chef1.finishDish(StaticData::getOrderedDishByID(2));
+        //chef1.takeDish(StaticData::getOrderedDishByID(2));
+        //chef1.finishDish(StaticData::getOrderedDishByID(2));
     }
     QApplication a(argc, argv);
-    AdminWindow adminWindow;
-    GuestWindow guestWindow;
-    ChefWindow chefWindow;
-    ClerkWindow clerkWindow;
     //w.show();
-    LoginDlg loginDlg(&adminWindow, &guestWindow, &chefWindow, &clerkWindow);
-    loginDlg.show();
+//    AdminWindow *adminWindow = new AdminWindow();
+//    GuestWindow *guestWindow = new GuestWindow();
+//    ChefWindow *chefWindow = new ChefWindow();
+//    ClerkWindow *clerkWindow = new ClerkWindow();
+    LoginDlg* loginDlg = new LoginDlg();
+//    guestWindow->setLoginDlg(loginDlg);
+//    adminWindow->setParent(loginDlg);
+//    guestWindow->setParent(loginDlg);
+//    chefWindow->setParent(loginDlg);
+//    clerkWindow->setParent(loginDlg);
+    loginDlg->show();
 
     return a.exec();
 }

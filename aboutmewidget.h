@@ -3,17 +3,20 @@
 
 #include <QWidget>
 #include "person.h"
+#include "logindlg.h"
 
 namespace Ui {
 class AboutMeWidget;
 }
+
+class LoginDlg;
 
 class AboutMeWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    AboutMeWidget(Person* person, QWidget *parent = 0);
+    AboutMeWidget(Person* person, LoginDlg* loginDlg, QMainWindow* mainWindow, QWidget *parent = 0);
     ~AboutMeWidget();
 
 private slots:
@@ -29,10 +32,14 @@ private slots:
 
     void on_currentPassword_textChanged(const QString &curPassword);
 
+    void on_logoutButton_clicked();
+
 private:
     Ui::AboutMeWidget *ui;
     void dealWithRateInfo();
     Person* person;
+    LoginDlg* loginDlg;
+    QMainWindow* mainWindow;
 };
 
 #endif // ABOUTMEWIDGET_H
