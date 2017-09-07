@@ -13,16 +13,14 @@
 #include "table.h"
 #include "msg.h"
 #include "aboutmewidget.h"
-#include "logindlg.h"
 #include "order.h"
 #include "orderitem.h"
 
-GuestWindow::GuestWindow(const QString user, LoginDlg* loginDlg, QWidget *parent) :
+GuestWindow::GuestWindow(const QString user, QWidget *parent) :
     QMainWindow(parent),
     guest("", ""),
     orderedSum(0),
     submittedSum(0),
-    loginDlg(loginDlg),
     checkedOut(true),
     currentOrder(NULL),
     ui(new Ui::GuestWindow)
@@ -48,7 +46,7 @@ GuestWindow::GuestWindow(const QString user, LoginDlg* loginDlg, QWidget *parent
     ui->outboxList->setColumnWidth(0, 150);
     ui->outboxList->setColumnWidth(1, 150);
     ui->outboxList->setColumnWidth(2, 850);
-    aboutMe = new AboutMeWidget(&guest, loginDlg, this, ui->selfTab);
+    aboutMe = new AboutMeWidget(&guest, this, ui->selfTab);
     aboutMe->show();
     this->show();
     viewTableList();
@@ -61,7 +59,6 @@ GuestWindow::GuestWindow(const QString user, LoginDlg* loginDlg, QWidget *parent
 
 GuestWindow::~GuestWindow()
 {
-    loginDlg->show();
     clearPointerList(tableItem);
     clearPointerList(dishItem);
     clearPointerList(cartItem);

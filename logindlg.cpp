@@ -140,11 +140,13 @@ int LoginDlg::checkedIDSignup() {
 void LoginDlg::logIn(const QString user, int userType) {
     switch (userType) {
         case 0:
-            adminWindow = new AdminWindow();
+            adminWindow = new AdminWindow(user, this);
+            connect(adminWindow, SIGNAL(closeEvent(QCloseEvent*)), this, SLOT(show()));
             adminWindow->show();
             break;
         case 1:
             guestWindow = new GuestWindow(user, this);
+            connect(guestWindow, SIGNAL(closeEvent(QCloseEvent*)), this, SLOT(show()));
             guestWindow->show();
             break;
         case 2:

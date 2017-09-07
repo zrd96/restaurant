@@ -6,10 +6,9 @@
 #include "staticdata.h"
 #include <QMessageBox>
 
-AboutMeWidget::AboutMeWidget(Person* person, LoginDlg* loginDlg, QMainWindow* mainWindow, QWidget *parent) :
+AboutMeWidget::AboutMeWidget(Person* person, QMainWindow* mainWindow, QWidget *parent) :
     QWidget(parent),
     person(person),
-    loginDlg(loginDlg),
     mainWindow(mainWindow),
     ui(new Ui::AboutMeWidget)
 {
@@ -120,5 +119,5 @@ void AboutMeWidget::on_logoutButton_clicked()
     int reply = QMessageBox::question(NULL, "Log Out", "Your unsubmitted contents will not be saved, log out?", QMessageBox::Yes, QMessageBox::No);
     if(reply != QMessageBox::Yes)
         return;
-    delete mainWindow;
+    mainWindow->close();
 }

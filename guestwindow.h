@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <vector>
 #include <QTableWidgetItem>
+#include <QCloseEvent>
 
 #include "dish.h"
 #include "guest.h"
@@ -27,7 +28,7 @@ class GuestWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit GuestWindow(const QString user, LoginDlg* loginDlg, QWidget *parent = 0);
+    explicit GuestWindow(const QString user, QWidget *parent = 0);
     ~GuestWindow();
     void viewTableList();
     void viewDishList();
@@ -35,7 +36,6 @@ public:
     void viewOrderList();
     void viewMsgList();
     void setSelectedTable(int tableID);
-    void setLoginDlg(LoginDlg* loginDlg) {this->loginDlg = loginDlg;}
 
 public slots:
     void setDishNum(int dishID, int finalNum);
@@ -64,6 +64,10 @@ private slots:
 
     void on_checkOutButton_clicked();
 
+signals:
+    //void windowClosed();
+    void closeEvent(QCloseEvent* ev);
+
 private:
     vector<TableItem*> tableItem;
     vector<Item*> dishItem;
@@ -78,9 +82,9 @@ private:
     template<typename T> void clearPointerList(vector<T*>& pointorList);
     Ui::GuestWindow *ui;
     AboutMeWidget* aboutMe;
-    LoginDlg* loginDlg;
     bool checkedOut;
     Order* currentOrder;
+    //void closeEvent(QCloseEvent* ev) {emit windowClosed();}
 };
 
 #endif // GUESTWINDOW_H

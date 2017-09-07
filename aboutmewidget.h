@@ -16,7 +16,7 @@ class AboutMeWidget : public QWidget
     Q_OBJECT
 
 public:
-    AboutMeWidget(Person* person, LoginDlg* loginDlg, QMainWindow* mainWindow, QWidget *parent = 0);
+    AboutMeWidget(Person* person, QMainWindow* mainWindow, QWidget *parent = 0);
     ~AboutMeWidget();
 
 private slots:
@@ -38,7 +38,6 @@ private:
     Ui::AboutMeWidget *ui;
     void dealWithRateInfo();
     Person* person;
-    LoginDlg* loginDlg;
     QMainWindow* mainWindow;
 };
 
