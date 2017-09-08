@@ -2,6 +2,8 @@
 #define ADMINWINDOW_H
 
 #include <QMainWindow>
+#include <QTableWidget>
+#include <vector>
 
 namespace Ui {
 class AdminWindow;
@@ -16,21 +18,19 @@ public:
     ~AdminWindow();
     void viewTableList();
     void viewDishList();
-
-public slots:
-    void openWindow(const QString user);
-
-private slots:
-    void on_refreshButtonTable_clicked();
-
-    void on_restoreButtonTable_clicked();
-
-    void on_addButtonTable_clicked();
-
-    void on_removeButtonDish_clicked();
+    void viewGuestList();
+    //void viewStuffList();
+    void viewChefList();
+    void viewClerkList();
+    void addItem(QTableWidget* list);
+    void removeSelected(QTableWidget* list);
+    void refreshList();
+    void saveList();
 
 private:
     Ui::AdminWindow *ui;
+    QTableWidget* getActiveList();
+    vector<bool> removeList;
 };
 
 #endif // ADMINWINDOW_H

@@ -3,21 +3,23 @@
 #include <QMessageBox>
 #include <QTableWidget>
 #include "staticdata.h"
+#include "guest.h"
+#include "chef.h"
+#include "clerk.h"
+#include "admin.h"
 
 AdminWindow::AdminWindow(const QString& user, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::AdminWindow)
 {
     ui->setupUi(this);
-    QMessageBox::information(NULL, "StaticData",
-                             QString("tableList: %1\n"
-                                     "dishList: %2 \n"
-                                     "orderedDishList: %3\n"
-                                     "msgList: %4\n")
-                             .arg(StaticData::tableList.size())
-                             .arg(StaticData::dishList.size())
-                             .arg(StaticData::orderedDishList.size())
-                             .arg(StaticData::msgList.size()));
+    StaticData::queryGuest();
+    StaticData::queryClerk();
+    StaticData::queryChef();
+    connect(ui->addButton, &QPushButton::clicked, this, [this]{addItem(getActiveList());});
+    connect(ui->removeButton, &QPushButton::clicked, this, [this]{removeSelected(getActiveList());});
+    connect(ui->refreshButton, &QPushButton::clicked, this, [this]{refreshList();});
+    connect(ui->restoreButton, &QPushButton::clicked, this, [this]{refreshList();});
     ui->tableList->setColumnWidth(0, 410);
     ui->tableList->setColumnWidth(1, 410);
     ui->dishList->setColumnWidth(0, 80);    //dishID
@@ -27,8 +29,25 @@ AdminWindow::AdminWindow(const QString& user, QWidget *parent) :
     ui->dishList->setColumnWidth(4, 80);    //time
     ui->dishList->setColumnWidth(5, 80);    //rate
     ui->dishList->setColumnWidth(6, 80);    //rateNum
+    ui->guestList->setColumnWidth(0, 250);
+    ui->guestList->setColumnWidth(1, 200);
+    ui->guestList->setColumnWidth(2, 250);
+    ui->guestList->setColumnWidth(3, 110);
+    ui->chefList->setColumnWidth(0, 250);
+    ui->chefList->setColumnWidth(1, 200);
+    ui->chefList->setColumnWidth(2, 250);
+    ui->chefList->setColumnWidth(3, 110);
+    ui->clerkList->setColumnWidth(0, 210);
+    ui->clerkList->setColumnWidth(1, 150);
+    ui->clerkList->setColumnWidth(2, 210);
+    ui->clerkList->setColumnWidth(3, 80);
+    ui->clerkList->setColumnWidth(4, 80);
+    ui->clerkList->setColumnWidth(5, 80);
     viewTableList();
     viewDishList();
+    viewGuestList();
+    viewChefList();
+    viewClerkList();
 }
 
 void AdminWindow::viewTableList() {
@@ -54,44 +73,102 @@ void AdminWindow::viewDishList() {
     }
 }
 
-AdminWindow::~AdminWindow()
-{
-    delete ui;
+void AdminWindow::viewGuestList() {
+    ui->guestList->setRowCount(StaticData::guestList.size());
+    for(unsigned int i = 0; i < StaticData::guestList.size(); i ++) {
+        Guest& cur = StaticData::guestList[i];
+        ui->guestList->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(cur.getPhone())));
+        ui->guestList->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(cur.getName())));
+        ui->guestList->setItem(i, 2, new QTableWidgetItem(QString::fromStdString(cur.getPassword())));
+        ui->guestList->setItem(i, 3, new QTableWidgetItem(QString::fromStdString("0")));
+    }
 }
 
-void AdminWindow::openWindow(const QString user) {
-    this->show();
+void AdminWindow::viewChefList() {
+    ui->chefList->setRowCount(StaticData::chefList.size());
+    for(unsigned int i = 0; i < StaticData::chefList.size(); i ++) {
+        Chef& cur = StaticData::chefList[i];
+        ui->chefList->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(cur.getPhone())));
+        ui->chefList->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(cur.getName())));
+        ui->chefList->setItem(i, 2, new QTableWidgetItem(QString::fromStdString(cur.getPassword())));
+        ui->chefList->setItem(i, 3, new QTableWidgetItem(QString::fromStdString("0")));
+    }
 }
 
-void AdminWindow::on_refreshButtonTable_clicked()
-{
-    viewTableList();
+void AdminWindow::viewClerkList() {
+    ui->clerkList->setRowCount(StaticData::clerkList.size());
+    for(unsigned int i = 0; i < StaticData::clerkList.size(); i ++) {
+        Clerk& cur = StaticData::clerkList[i];
+        ui->clerkList->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(cur.getPhone())));
+        ui->clerkList->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(cur.getName())));
+        ui->clerkList->setItem(i, 2, new QTableWidgetItem(QString::fromStdString(cur.getPassword())));
+        ui->clerkList->setItem(i, 3, new QTableWidgetItem(QString().setNum(cur.getRate())));
+        ui->clerkList->setItem(i, 4, new QTableWidgetItem(QString().setNum(cur.getRateNum())));
+        ui->clerkList->setItem(i, 5, new QTableWidgetItem(QString::fromStdString("0")));
+    }
 }
 
-void AdminWindow::on_restoreButtonTable_clicked()
-{
-    viewTableList();
+void AdminWindow::addItem(QTableWidget *list) {
+    if (list == NULL)
+        return;
+    list->setRowCount(list->rowCount() + 1);
+    list->setItem(list->rowCount() - 1, 0, new QTableWidgetItem(QString("")));
+    list->editItem(list->item(list->rowCount() - 1, 0));
 }
 
-void AdminWindow::on_addButtonTable_clicked()
-{
-    ui->tableList->setRowCount(ui->tableList->rowCount() + 1);
-}
-
-void AdminWindow::on_removeButtonDish_clicked()
-{
-    QList<QTableWidgetSelectionRange> selectedRowList = ui->dishList->selectedRanges();
-    bool* selectedRows = new bool[ui->dishList->rowCount()];
-    for(int i = 0; i < ui->dishList->rowCount(); i ++)
+void AdminWindow::removeSelected(QTableWidget* list) {
+    if (list == NULL)
+        return;
+    QList<QTableWidgetSelectionRange> selectedRowList = list->selectedRanges();
+    bool* selectedRows = new bool[list->rowCount()];
+    for(int i = 0; i < list->rowCount(); i ++)
         selectedRows[i] = false;
     for (unsigned int i = 0; i < selectedRowList.size(); i ++)
         for (unsigned int j = selectedRowList[i].topRow(); j <= selectedRowList[i].bottomRow(); j ++) {
             viewErrInfo(ntos((int)j));
             selectedRows[j] = true;
         }
-    for(int i = ui->dishList->rowCount() - 1; i >= 0; i --)
+    for(int i = list->rowCount() - 1; i >= 0; i --)
         if(selectedRows[i])
-            ui->dishList->removeRow(i);
-
+            list->removeRow(i);
     delete []selectedRows;
+}
+
+void AdminWindow::refreshList() {
+    int index = ui->tabWidget->currentIndex();
+    if(index == 0)
+        viewTableList();
+    else if (index == 1)
+        viewDishList();
+    else if (index == 2)
+        viewGuestList();
+    else if (index == 3)
+        viewChefList();
+    else if (index == 4)
+        viewClerkList();
+}
+
+void AdminWindow::saveList() {
+
+}
+
+QTableWidget* AdminWindow::getActiveList() {
+    int index = ui->tabWidget->currentIndex();
+    if(index == 0)
+        return ui->tableList;
+    else if (index == 1)
+        return ui->dishList;
+    else if (index == 2)
+        return ui->guestList;
+    else if (index == 3)
+        return ui->chefList;
+    else if (index == 4)
+        return ui->clerkList;
+    else
+        return NULL;
+}
+
+AdminWindow::~AdminWindow()
+{
+    delete ui;
 }
