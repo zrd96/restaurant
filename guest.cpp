@@ -42,9 +42,9 @@ bool Guest::rateClerk(Clerk& clerk, double rate) {
 void Guest::modifyTable(int newTableNum) {
     for(unsigned int i = 0; i < orderedDishes.size(); i ++)
         orderedDishes[i].setTableNum(newTableNum);
-    for(unsigned int i = 0; i < StaticData::orderedDishList.size(); i ++)
-        if(StaticData::orderedDishList[i].getOrderer() == this->getPhone())
-            StaticData::orderedDishList[i].setTableNum(newTableNum);
+    for(unsigned int i = 0; i < StaticData::getOrderedDishList().size(); i ++)
+        if(StaticData::getOrderedDishList()[i].getOrderer() == this->getPhone())
+            StaticData::getOrderedDishList()[i].setTableNum(newTableNum);
 }
 
 void Guest::setPhone(string newPhone) {

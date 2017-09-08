@@ -311,8 +311,8 @@ void StaticData::modifyChef(const Chef& chef, const Chef& newChef) {
 
 void StaticData::writeTable() {
     for(unsigned int i = 0; i < tableList.size(); i ++) {
+        Table& cur = tableList[i];
         if(tableMaintainList[i] > 0) {
-            Table& cur = tableList[i];
             if(db->doesExist("tableList", "id = " + ntos(cur.getTableID()))) {
                 db->update("tableList", "seats", ntos(cur.getSeats()), "id = " + ntos(cur.getTableID()));
                 db->update("tableList", "freeSeats", ntos(cur.getFreeSeats()), "id = " + ntos(cur.getTableID()));
@@ -335,8 +335,8 @@ void StaticData::writeTable() {
 
 void StaticData::writeDish() {
     for(unsigned int i = 0; i < dishList.size(); i ++) {
+        Dish& cur = dishList[i];
         if(dishMaintainList[i] > 0) {
-            Dish& cur = dishList[i];
             if(db->doesExist("dish", "dishID = " + ntos(cur.getDishID()))) {
                 db->update("dish", "name", "\"" + cur.getName() + "\"", "dishID = " + ntos(cur.getDishID()));
                 db->update("dish", "price", ntos(cur.getPrice()), "dishID = " + ntos(cur.getDishID()));
@@ -360,8 +360,8 @@ void StaticData::writeDish() {
 
 void StaticData::writeOrderedDish() {
     for(unsigned int i = 0; i < orderedDishList.size(); i ++) {
+        OrderedDish& cur = orderedDishList[i];
         if(orderedDishMaintainList[i] > 0) {
-            OrderedDish& cur = orderedDishList[i];
             if(db->doesExist("orderedDish", "id = " + ntos(cur.getOrderedDishID()))) {
                 db->update("orderedDish",
                                        "orderer", "\"" + cur.getOrderer() + "\"",
@@ -393,8 +393,8 @@ void StaticData::writeOrderedDish() {
 
 void StaticData::writeMsg() {
     for(unsigned int i = 0; i < msgList.size(); i ++) {
+        Msg& cur = msgList[i];
         if(msgMaintainList[i] > 0) {
-            Msg& cur = msgList[i];
             if(db->doesExist("msg", "msgid = " + ntos(cur.getMsgID()))) {
                 db->update("msg", "isActive", ntos(cur.getState()), "msgid = " + ntos(cur.getMsgID()));
             }
@@ -414,12 +414,14 @@ void StaticData::writeMsg() {
 
 void StaticData::writeGuest() {
     for (unsigned int i = 0; i < guestList.size(); i ++) {
+        Guest& cur = guestList[i];
         if (guestMaintainList[i] > 0) {
-            Guest& cur = guestList[i];
             if(db->doesExist("person", "phone = \"" + cur.getPhone())) {
                 db->update("person", "name", "\"" + cur.getName() + "\"",
                            "phone = \"" + cur.getPhone());
                 db->update("person", "password", "\"" + cur.getPassword() + "\"",
+                           "phone = \"" + cur.getPhone());
+                db->update("peson", "table", ntos(cur.getTable()),
                            "phone = \"" + cur.getPhone());
 //                db->update("person", "password", "\"" + cur.getPassword() + "\"",
 //                           "phone = \"" + cur.getPhone());
@@ -427,7 +429,8 @@ void StaticData::writeGuest() {
             else {
                 db->insert("person", "\"" + cur.getPhone() + "\", \""
                            + cur.getName() + "\", \""
-                           + cur.getPassword() + "\", 1, NULL, NULL, NULL");
+                           + cur.getPassword() + "\", 1, NULL, NULL, "
+                           + ntos(cur.getTable()));
             }
         }
         else {
@@ -436,9 +439,63 @@ void StaticData::writeGuest() {
     }
 }
 
-void StaticData::writeClerk() {}
+void StaticData::writeClerk() {
+    for (unsigned int i = 0; i < clerkList.size(); i ++) {
+        Clerk& cur = clerkList[i];
+        if (clerkMaintainList[i] > 0) {
+            if(db->doesExist("person", "phone = \"" + cur.getPhone())) {
+                db->update("person", "name", "\"" + cur.getName() + "\"",
+                           "phone = \"" + cur.getPhone());
+                db->update("person", "password", "\"" + cur.getPassword() + "\"",
+                           "phone = \"" + cur.getPhone());
+                db->update("peson", "rate", ntos(cur.getRate()),
+                           "phone = \"" + cur.getPhone());
+                db->update("peson", "rateNum", ntos(cur.getRateNum()),
+                           "phone = \"" + cur.getPhone());
+//                db->update("peson", "table", ntos(cur.getTable()),
+//                           "phone = \"" + cur.getPhone());
+//                db->update("person", "password", "\"" + cur.getPassword() + "\"",
+//                           "phone = \"" + cur.getPhone());
+            }
+            else {
+                db->insert("person", "\"" + cur.getPhone() + "\", \""
+                           + cur.getName() + "\", \""
+                           + cur.getPassword() + "\", 3, "
+                           + ntos(cur.getRate()) + ", "
+                           + ntos(cur.getRateNum()) + ", NULL");
+            }
+        }
+        else {
+            db->deleteRow("person", "phone = \"" + cur.getPhone());
+        }
+    }
+}
 
-void StaticData::writeChef() {}
+void StaticData::writeChef() {
+    for (unsigned int i = 0; i < chefList.size(); i ++) {
+        Chef& cur = chefList[i];
+        if (chefMaintainList[i] > 0) {
+            if(db->doesExist("person", "phone = \"" + cur.getPhone())) {
+                db->update("person", "name", "\"" + cur.getName() + "\"",
+                           "phone = \"" + cur.getPhone());
+                db->update("person", "password", "\"" + cur.getPassword() + "\"",
+                           "phone = \"" + cur.getPhone());
+//                db->update("peson", "table", ntos(cur.getTable()),
+//                           "phone = \"" + cur.getPhone());
+//                db->update("person", "password", "\"" + cur.getPassword() + "\"",
+//                           "phone = \"" + cur.getPhone());
+            }
+            else {
+                db->insert("person", "\"" + cur.getPhone() + "\", \""
+                           + cur.getName() + "\", \""
+                           + cur.getPassword() + "\", 2, NULL, NULL, NULL");
+            }
+        }
+        else {
+            db->deleteRow("person", "phone = \"" + cur.getPhone());
+        }
+    }
+}
 
 Dish& StaticData::getDishByID(int dishID) {
         for(unsigned int i = 0; i < dishList.size(); i ++)

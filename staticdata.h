@@ -102,7 +102,7 @@ public:
     static vector<int>& getGuestMaintainList() {return guestMaintainList;}
     static vector<int>& getClerkMaintainList() {return clerkMaintainList;}
     static vector<int>& getChefMaintainList() {return chefMaintainList;}
-    static vector<int>& getOrderMaintainList() {return orderMaintainList;}
+    //static vector<int>& getOrderMaintainList() {return orderMaintainList;}
 
     static Dish& getDishByID(int dishID);
     static OrderedDish& getOrderedDishByID(int orderedDishID);

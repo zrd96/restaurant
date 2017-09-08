@@ -46,10 +46,10 @@ bool Cart::submit() {
         orderedDishes[i].setStatus(1);
         orderedDishes[i].setDatetime(datetime);
         for(int j = 0; j < orderedDishes[i].getNum(); j ++)//split orders of the same dish and disable the num feature
-            StaticData::orderedDishList.push_back(orderedDishes[i]);
+            StaticData::insertOrderedDish(orderedDishes[i], 1);
     }
     Order newOrder(QString::fromStdString(orderedDishes[0].getOrderer()), orderedDishes);
-    StaticData::orderList.push_back(newOrder);
+    StaticData::insertOrder(newOrder);
     orderedDishes.clear();
     num = 0;
     sum = 0;

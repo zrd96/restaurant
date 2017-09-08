@@ -51,18 +51,18 @@ AdminWindow::AdminWindow(const QString& user, QWidget *parent) :
 }
 
 void AdminWindow::viewTableList() {
-    ui->tableList->setRowCount(StaticData::tableList.size());
-    for(unsigned int i = 0; i < StaticData::tableList.size(); i ++) {
-        Table& cur = StaticData::tableList[i];
+    ui->tableList->setRowCount(StaticData::getTableList().size());
+    for(unsigned int i = 0; i < StaticData::getTableList().size(); i ++) {
+        Table& cur = StaticData::getTableList()[i];
         ui->tableList->setItem(i, 0, new QTableWidgetItem(QString().setNum(cur.getTableID())));
         ui->tableList->setItem(i, 1, new QTableWidgetItem(QString().setNum(cur.getSeats())));
     }
 }
 
 void AdminWindow::viewDishList() {
-    ui->dishList->setRowCount(StaticData::dishList.size());
-    for(unsigned int i = 0; i < StaticData::dishList.size(); i ++) {
-        Dish& cur = StaticData::dishList[i];
+    ui->dishList->setRowCount(StaticData::getDishList().size());
+    for(unsigned int i = 0; i < StaticData::getDishList().size(); i ++) {
+        Dish& cur = StaticData::getDishList()[i];
         ui->dishList->setItem(i, 0, new QTableWidgetItem(QString().setNum(cur.getDishID())));
         ui->dishList->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(cur.getImgDir())));
         ui->dishList->setItem(i, 2, new QTableWidgetItem(QString::fromStdString(cur.getName())));
@@ -74,9 +74,9 @@ void AdminWindow::viewDishList() {
 }
 
 void AdminWindow::viewGuestList() {
-    ui->guestList->setRowCount(StaticData::guestList.size());
-    for(unsigned int i = 0; i < StaticData::guestList.size(); i ++) {
-        Guest& cur = StaticData::guestList[i];
+    ui->guestList->setRowCount(StaticData::getGuestList().size());
+    for(unsigned int i = 0; i < StaticData::getGuestList().size(); i ++) {
+        Guest& cur = StaticData::getGuestList()[i];
         ui->guestList->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(cur.getPhone())));
         ui->guestList->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(cur.getName())));
         ui->guestList->setItem(i, 2, new QTableWidgetItem(QString::fromStdString(cur.getPassword())));
@@ -85,9 +85,9 @@ void AdminWindow::viewGuestList() {
 }
 
 void AdminWindow::viewChefList() {
-    ui->chefList->setRowCount(StaticData::chefList.size());
-    for(unsigned int i = 0; i < StaticData::chefList.size(); i ++) {
-        Chef& cur = StaticData::chefList[i];
+    ui->chefList->setRowCount(StaticData::getChefList().size());
+    for(unsigned int i = 0; i < StaticData::getChefList().size(); i ++) {
+        Chef& cur = StaticData::getChefList()[i];
         ui->chefList->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(cur.getPhone())));
         ui->chefList->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(cur.getName())));
         ui->chefList->setItem(i, 2, new QTableWidgetItem(QString::fromStdString(cur.getPassword())));
@@ -96,9 +96,9 @@ void AdminWindow::viewChefList() {
 }
 
 void AdminWindow::viewClerkList() {
-    ui->clerkList->setRowCount(StaticData::clerkList.size());
-    for(unsigned int i = 0; i < StaticData::clerkList.size(); i ++) {
-        Clerk& cur = StaticData::clerkList[i];
+    ui->clerkList->setRowCount(StaticData::getClerkList().size());
+    for(unsigned int i = 0; i < StaticData::getClerkList().size(); i ++) {
+        Clerk& cur = StaticData::getClerkList()[i];
         ui->clerkList->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(cur.getPhone())));
         ui->clerkList->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(cur.getName())));
         ui->clerkList->setItem(i, 2, new QTableWidgetItem(QString::fromStdString(cur.getPassword())));

@@ -11,9 +11,9 @@
 
 Admin::Admin(string phone, string name): Person(phone, name) {}
 
-bool Admin::addDish(const Dish &dish) {
+//bool Admin::addDish(const Dish &dish) {
 
-}
+//}
 
 bool Admin::addDish(const Dish& dish) {
         StaticData::db->doQuery("dish", "dishid", "name = \"" + dish.getName() + "\"");

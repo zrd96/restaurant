@@ -30,7 +30,7 @@ public:
 private:
     Ui::AdminWindow *ui;
     QTableWidget* getActiveList();
-    vector<bool> removeList;
+    std::vector<bool> removeList;
 };
 
 #endif // ADMINWINDOW_H

@@ -37,9 +37,9 @@ GuestWindow::GuestWindow(const QString user, QWidget *parent) :
                       StaticData::db->getResultList()[0][0],
                 StaticData::db->getResultList()[0][1]);
     StaticData::queryMsg(guest.getPhone());
-    for(unsigned int i = 0; i < StaticData::orderedDishList.size(); i ++)
-        if(StaticData::orderedDishList[i].getOrderer() == guest.getPhone())
-            submittedSum += StaticData::orderedDishList[i].getPrice();
+    for(unsigned int i = 0; i < StaticData::getOrderedDishList().size(); i ++)
+        if(StaticData::getOrderedDishList()[i].getOrderer() == guest.getPhone())
+            submittedSum += StaticData::getOrderedDishList()[i].getPrice();
     ui->inboxList->setColumnWidth(0, 150);
     ui->inboxList->setColumnWidth(1, 150);
     ui->inboxList->setColumnWidth(2, 850);
@@ -70,12 +70,12 @@ GuestWindow::~GuestWindow()
 
 void GuestWindow::viewTableList() {
     clearPointerList(tableItem);
-    for(unsigned int i = 0; i < StaticData::tableList.size(); i ++) {
+    for(unsigned int i = 0; i < StaticData::getTableList().size(); i ++) {
         if(i % 3 == 0 && ui->tableList->rowCount() <= (int)i/3)
             ui->tableList->setRowCount(ui->tableList->rowCount() + 1);
         int row = i / 3;
         int col = i % 3;
-        TableItem* table = new TableItem(guest, StaticData::tableList[i], this, ui->tableList);
+        TableItem* table = new TableItem(guest, StaticData::getTableList()[i], this, ui->tableList);
         ui->tableList->setCellWidget(row, col, table);
         tableItem.push_back(table);
     }
@@ -91,8 +91,8 @@ void GuestWindow::viewDishList() {
     clearPointerList(dishItem);
     ui->dishList->setMinimumSize(1080, 0);
     ui->dishList->resize(1080, 0);
-    for(unsigned int i = 0; i < StaticData::dishList.size(); i ++) {
-        Item* item = new Item(guest, StaticData::dishList[i], "dishList", ui->dishList);
+    for(unsigned int i = 0; i < StaticData::getDishList().size(); i ++) {
+        Item* item = new Item(guest, StaticData::getDishList()[i], "dishList", ui->dishList);
         ui->dishList->addItem(item);
         dishItem.push_back(item);
     }
@@ -128,11 +128,11 @@ void GuestWindow::viewOrderList() {
     ui->orderList->clearContents();
     ui->orderList->setRowCount(0);
     vector<bool> isFinished;
-    for(unsigned int i = 0; i < StaticData::orderList.size(); i ++) {
-        if(StaticData::orderList[i].getOrderer().toStdString() == guest.getPhone()) {
-            OrderItem* item = new OrderItem(&StaticData::orderList[i], ui->orderList);
+    for(unsigned int i = 0; i < StaticData::getOrderList().size(); i ++) {
+        if(StaticData::getOrderList()[i].getOrderer().toStdString() == guest.getPhone()) {
+            OrderItem* item = new OrderItem(&StaticData::getOrderList()[i], ui->orderList);
             orderItem.push_back(item);
-            isFinished.push_back(StaticData::orderList[i].isFinished());
+            isFinished.push_back(StaticData::getOrderList()[i].isFinished());
         }
     }
     for(unsigned int i = 0; i < isFinished.size(); i ++)
@@ -289,9 +289,9 @@ void GuestWindow::on_submitButton_clicked()
 
 void GuestWindow::on_submitTableButton_clicked()
 {
-    for(unsigned int i = 0; i < StaticData::tableList.size(); i ++)
-        if(StaticData::tableList[i].getTableID() == selectedTable) {
-            if(!guest.selectTable(StaticData::tableList[i])) {
+    for(unsigned int i = 0; i < StaticData::getTableList().size(); i ++)
+        if(StaticData::getTableList()[i].getTableID() == selectedTable) {
+            if(!guest.selectTable(StaticData::getTableList()[i])) {
                 viewErrInfo("No seats left for Table No. " + ntos(selectedTable) + ", please reselect.");
                 return;
             }
