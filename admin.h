@@ -10,19 +10,18 @@
 class Admin: public Person {
         public:
                 Admin(string phone, string name);
+                Admin(string phone, string name, string password);
                 void setPhone(string newPhone);
-                bool addDish(const Dish &dish);
-                bool removeDish(const Dish &dish);
-                bool modifyDish(const Dish& dish, string newName, double newPrice, int newTime, string nreImgDir);
-                void viewDish();
+                void addDish(const Dish &dish);
+                void removeDish(const Dish &dish);
+                void modifyDish(const Dish& dish, string newName, double newPrice, int newTime, string nreImgDir);
 
-                bool addPerson(const Person& person, int type);
-                bool removePerson(const Person& person);
-                bool modifyPerson(const Person& person, string newPhone, string newName, string newPassword);
-                void viewPerson();
+                void addPerson(const Person& person, int type);
+                void removePerson(const Person& person);
+                void modifyPerson(const Person& person, string newPhone, string newName, string newPassword);
 
-                bool addTable(const Table& table);
-                bool removeTable(const Table& table);
+                void addTable(const Table& table);
+                void removeTable(const Table& table);
 };
 
 #endif

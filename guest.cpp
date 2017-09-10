@@ -26,6 +26,7 @@ bool Guest::selectTable(Table& table) {
         return false;
     }
     this->table = table.getTableID();
+    modifyTable(table.getTableID());
     return true;
 }
 

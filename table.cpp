@@ -2,6 +2,7 @@
 
 #include "table.h"
 #include "clerk.h"
+#include "staticdata.h"
 
 Table::Table(int id, int seats, int freeSeats, string clerk):
     id(id),
@@ -20,6 +21,7 @@ bool Table::linkClerk(Clerk& clerk) {
 bool Table::addGuest() {
     if(freeSeats == 0)
         return false;
-    freeSeats --;
+    Table newTable(id, seats, freeSeats - 1, clerk);
+    StaticData::modifyTable(this->getTableID(), newTable);
     return true;
 }

@@ -27,7 +27,7 @@
      <enum>QTabWidget::South</enum>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>5</number>
     </property>
     <widget class="QWidget" name="tableTab">
      <attribute name="title">
@@ -175,6 +175,19 @@
       </column>
       <column>
        <property name="text">
+        <string>Time Needed</string>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
         <string>Dish Rate</string>
        </property>
        <property name="font">
@@ -258,6 +271,9 @@
         <height>830</height>
        </rect>
       </property>
+      <property name="rowCount">
+       <number>0</number>
+      </property>
       <property name="columnCount">
        <number>6</number>
       </property>
@@ -269,9 +285,9 @@
       <column/>
      </widget>
     </widget>
-    <widget class="QWidget" name="tab_6">
+    <widget class="QWidget" name="selfTab">
      <attribute name="title">
-      <string>页</string>
+      <string>About Me</string>
      </attribute>
      <widget class="QTableWidget" name="guestList_5">
       <property name="geometry">

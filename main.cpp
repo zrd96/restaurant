@@ -133,6 +133,7 @@ int main(int argc, char *argv[])
 //    chefWindow->setParent(loginDlg);
 //    clerkWindow->setParent(loginDlg);
     loginDlg->show();
+    a.setQuitOnLastWindowClosed(false);
 
     return a.exec();
 }

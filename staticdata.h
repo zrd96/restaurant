@@ -50,14 +50,14 @@ public:
     static bool queryOrder();
     static void clearMsgList();
 
-    static void insertTable(const Table& table, int type = 0);
-    static void insertDish(const Dish& dish, int type = 0);
-    static void insertOrderedDish(const OrderedDish& orderedDish, int type = 0);
-    static void insertMsg(const Msg& msg, int type = 0);
-    static void insertGuest(const Guest& guest, int type = 0);
-    static void insertClerk(const Clerk& clerk, int type = 0);
-    static void insertChef(const Chef& chef, int type = 0);
-    static void insertOrder(const Order& order);
+    static void insertTable(const Table table, int type = 0);
+    static void insertDish(const Dish dish, int type = 0);
+    static void insertOrderedDish(const OrderedDish orderedDish, int type = 0);
+    static void insertMsg(const Msg msg, int type = 0);
+    static void insertGuest(const Guest guest, int type = 0);
+    static void insertClerk(const Clerk clerk, int type = 0);
+    static void insertChef(const Chef chef, int type = 0);
+    static void insertOrder(const Order order);
 
     static void removeTable(const Table& table);
     static void removeDish(const Dish& dish);
@@ -68,13 +68,13 @@ public:
     static void removeChef(const Chef& chef);
     //static void removeOrder(const Order& order);
 
-    static void modifyTable(const Table& table, const Table& newTable);
-    static void modifyDish(const Dish& dish, const Dish& newDish);
-    static void modifyOrderedDish(const OrderedDish& orderedDish, const OrderedDish& newOrderedDish);
-    static void modifyMsg(const Msg& msg, const Msg& newMsg);
-    static void modifyGuest(const Guest& guest, const Guest& newGuest);
-    static void modifyClerk(const Clerk& clerk, const Clerk& newClerk);
-    static void modifyChef(const Chef& chef, const Chef& newChef);
+    static void modifyTable(int tableID, const Table& newTable);
+    static void modifyDish(int dishID, const Dish& newDish);
+    static void modifyOrderedDish(int orderedDishID, const OrderedDish& newOrderedDish);
+    static void modifyMsg(int msgID, const Msg& newMsg);
+    static void modifyGuest(const string& phone, const Guest& newGuest);
+    static void modifyClerk(const string& phone, const Clerk& newClerk);
+    static void modifyChef(const string& phone, const Chef& newChef);
     //static void modifyOrder(const Order& order, const Order& newOrder);
 
     static void writeTable();
@@ -95,7 +95,7 @@ public:
     static vector<Chef>& getChefList() {return chefList;}
     static vector<Order>& getOrderList() {return orderList;}
 
-    static vector<int>& getTableMaintainMaintainList() {return tableMaintainList;}
+    static vector<int>& getTableMaintainList() {return tableMaintainList;}
     static vector<int>& getDishMaintainList() {return dishMaintainList;}
     static vector<int>& getOrderedDishMaintainList() {return orderedDishMaintainList;}
     static vector<int>& getMsgMaintainList() {return msgMaintainList;}

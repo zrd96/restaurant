@@ -35,8 +35,9 @@ bool StaticData::queryTable() {
     if(!db->doQuery("tableList", "*"))
         return false;
     vector<vector<string> > resultList = db->getResultList();
-    for(unsigned int i = 0; i < resultList.size(); i ++)
-        tableList.push_back(Table(atoi(resultList[i][0].c_str()), atoi(resultList[i][1].c_str()), atoi(resultList[i][2].c_str()), resultList[i][3]));
+    for(unsigned int i = 0; i < resultList.size(); i ++) {
+        insertTable(Table(atoi(resultList[i][0].c_str()), atoi(resultList[i][1].c_str()), atoi(resultList[i][2].c_str()), resultList[i][3]));
+    }
     return true;
 }
 
@@ -46,7 +47,7 @@ bool StaticData::queryDish() {
                 return false;
         vector<vector<string> > resultList = db->getResultList();
         for(unsigned int i = 0; i < resultList.size(); i ++)
-                dishList.push_back(Dish(resultList[i][1], atof(resultList[i][2].c_str()), atoi(resultList[i][5].c_str()), resultList[i][6], atoi(resultList[i][0].c_str())));
+                insertDish(Dish(resultList[i][1], atof(resultList[i][2].c_str()), atoi(resultList[i][5].c_str()), resultList[i][6], atoi(resultList[i][0].c_str())));
         return true;
 }
 
@@ -62,7 +63,7 @@ bool StaticData::queryOrderedDish() {
                     atoi(resultList[i][3].c_str()),
                     atoi(resultList[i][4].c_str()));
             tmp.setDatetime(resultList[i][5]);
-            orderedDishList.push_back(tmp);
+            insertOrderedDish(tmp);
         }
         return true;
 }
@@ -82,7 +83,7 @@ bool StaticData::queryMsg(string person) {
                     break;
                 }
             if(!msgExists)
-                msgList.push_back(Msg(resultList[i][1], resultList[i][2], resultList[i][3], resultList[i][4], atoi(resultList[i][5].c_str()), atoi(resultList[i][0].c_str())));
+                insertMsg(Msg(resultList[i][1], resultList[i][2], resultList[i][3], resultList[i][4], atoi(resultList[i][5].c_str()), atoi(resultList[i][0].c_str())));
         }
         return true;
 }
@@ -93,7 +94,7 @@ bool StaticData::queryClerk() {
                 return false;
         vector<vector<string> > resultList = db->getResultList();
         for(unsigned int i = 0; i < resultList.size(); i ++)
-                clerkList.push_back(Clerk(resultList[i][0], resultList[i][1], resultList[i][2], atof(resultList[i][3].c_str()), atoi(resultList[i][4].c_str())));
+                insertClerk(Clerk(resultList[i][0], resultList[i][1], resultList[i][2], atof(resultList[i][3].c_str()), atoi(resultList[i][4].c_str())));
         return true;
 }
 
@@ -103,7 +104,7 @@ bool StaticData::queryChef() {
                 return false;
         vector<vector<string> > resultList = db->getResultList();
         for(unsigned int i = 0; i < resultList.size(); i ++)
-                chefList.push_back(Chef(resultList[i][0], resultList[i][1], resultList[i][2]));
+                insertChef(Chef(resultList[i][0], resultList[i][1], resultList[i][2]));
         return true;
 }
 
@@ -113,7 +114,7 @@ bool StaticData::queryGuest() {
                 return false;
         vector<vector<string> > resultList = db->getResultList();
         for(unsigned int i = 0; i < resultList.size(); i ++)
-                guestList.push_back(Guest(resultList[i][0], resultList[i][1], resultList[i][2]));
+                insertGuest(Guest(resultList[i][0], resultList[i][1], resultList[i][2]));
         return true;
 }
 
@@ -132,54 +133,54 @@ bool StaticData::queryOrder() {
         if(!found) {
             Order newOrder(QString::fromStdString(orderedDishList[i].getOrderer()), QString::fromStdString(orderedDishList[i].getDatetime()));
             newOrder.insertDish(orderedDishList[i]);
-            orderList.push_back(newOrder);
+            insertOrder(newOrder);
         }
     }
 }
 
-void StaticData::insertTable(const Table& table, int type) {
+void StaticData::insertTable(const Table table, int type) {
     tableList.push_back(table);
     tableMaintainList.push_back(type);
 }
 
-void StaticData::insertDish(const Dish& dish, int type) {
+void StaticData::insertDish(const Dish dish, int type) {
     dishList.push_back(dish);
     dishMaintainList.push_back(type);
 }
 
-void StaticData::insertOrderedDish(const OrderedDish& orderedDish, int type) {
+void StaticData::insertOrderedDish(const OrderedDish orderedDish, int type) {
     orderedDishList.push_back(orderedDish);
     orderedDishMaintainList.push_back(type);
 }
 
-void StaticData::insertMsg(const Msg& msg, int type) {
+void StaticData::insertMsg(const Msg msg, int type) {
     msgList.push_back(msg);
     msgMaintainList.push_back(type);
 }
 
-void StaticData::insertGuest(const Guest& guest, int type) {
+void StaticData::insertGuest(const Guest guest, int type) {
     guestList.push_back(guest);
     guestMaintainList.push_back(type);
 }
 
-void StaticData::insertClerk(const Clerk& clerk, int type) {
+void StaticData::insertClerk(const Clerk clerk, int type) {
     clerkList.push_back(clerk);
     clerkMaintainList.push_back(type);
 }
 
-void StaticData::insertChef(const Chef& chef, int type) {
+void StaticData::insertChef(const Chef chef, int type) {
     chefList.push_back(chef);
     chefMaintainList.push_back(type);
 }
 
-void StaticData::insertOrder(const Order& order) {
+void StaticData::insertOrder(const Order order) {
     orderList.push_back(order);
 }
 
 void StaticData::removeTable(const Table& table) {
     for (unsigned int i = 0; i < tableList.size(); i ++) {
         if(table.getTableID() == tableList[i].getTableID()) {
-            tableMaintainList.push_back(-1);
+            tableMaintainList[i] = -1;
             break;
         }
     }
@@ -188,7 +189,7 @@ void StaticData::removeTable(const Table& table) {
 void StaticData::removeDish(const Dish& dish) {
     for (unsigned int i = 0; i < dishList.size(); i ++) {
         if(dish.getDishID() == dishList[i].getDishID()) {
-            dishMaintainList.push_back(-1);
+            dishMaintainList[i] = -1;
             break;
         }
     }
@@ -197,7 +198,7 @@ void StaticData::removeDish(const Dish& dish) {
 void StaticData::removeOrderedDish(const OrderedDish& orderedDish) {
     for (unsigned int i = 0; i < orderedDishList.size(); i ++) {
         if(orderedDish.getOrderedDishID() == orderedDishList[i].getOrderedDishID()) {
-            orderedDishMaintainList.push_back(-1);
+            orderedDishMaintainList[i] = -1;
             break;
         }
     }
@@ -206,7 +207,7 @@ void StaticData::removeOrderedDish(const OrderedDish& orderedDish) {
 void StaticData::removeMsg(const Msg& msg) {
     for (unsigned int i = 0; i < msgList.size(); i ++) {
         if(msg.getMsgID() == msgList[i].getMsgID()) {
-            msgMaintainList.push_back(-1);
+            msgMaintainList[i] = -1;
             break;
         }
     }
@@ -215,7 +216,7 @@ void StaticData::removeMsg(const Msg& msg) {
 void StaticData::removeGuest(const Guest& guest) {
     for (unsigned int i = 0; i < guestList.size(); i ++) {
         if(guest.getPhone() == guestList[i].getPhone()) {
-            guestMaintainList.push_back(-1);
+            guestMaintainList[i] = -1;
             break;
         }
     }
@@ -224,7 +225,7 @@ void StaticData::removeGuest(const Guest& guest) {
 void StaticData::removeClerk(const Clerk& clerk) {
     for (unsigned int i = 0; i < clerkList.size(); i ++) {
         if(clerk.getPhone() == clerkList[i].getPhone()) {
-            clerkMaintainList.push_back(-1);
+            clerkMaintainList[i] = -1;
             break;
         }
     }
@@ -233,77 +234,77 @@ void StaticData::removeClerk(const Clerk& clerk) {
 void StaticData::removeChef(const Chef& chef) {
     for (unsigned int i = 0; i < chefList.size(); i ++) {
         if(chef.getPhone() == chefList[i].getPhone()) {
-            chefMaintainList.push_back(-1);
+            chefMaintainList[i] = -1;
             break;
         }
     }
 }
 
-void StaticData::modifyTable(const Table& table, const Table& newTable) {
+void StaticData::modifyTable(int tableID, const Table& newTable) {
     for (unsigned int i = 0; i < tableList.size(); i ++) {
-        if(table.getTableID() == tableList[i].getTableID()) {
+        if(tableID == tableList[i].getTableID()) {
             tableList[i] = newTable;
-            tableMaintainList.push_back(2);
+            tableMaintainList[i] = 2;
             break;
         }
     }
 }
 
-void StaticData::modifyDish(const Dish& dish, const Dish& newDish) {
+void StaticData::modifyDish(int dishID, const Dish& newDish) {
     for (unsigned int i = 0; i < dishList.size(); i ++) {
-        if(dish.getDishID() == dishList[i].getDishID()) {
+        if(dishID == dishList[i].getDishID()) {
             dishList[i] = newDish;
-            dishMaintainList.push_back(2);
+            dishMaintainList[i] = 2;
             break;
         }
     }
 }
 
-void StaticData::modifyOrderedDish(const OrderedDish& orderedDish, const OrderedDish& newOrderedDish) {
+void StaticData::modifyOrderedDish(int orderedDishID, const OrderedDish& newOrderedDish) {
     for (unsigned int i = 0; i < orderedDishList.size(); i ++) {
-        if(orderedDish.getOrderedDishID() == orderedDishList[i].getOrderedDishID()) {
+        if(orderedDishID == orderedDishList[i].getOrderedDishID()) {
             orderedDishList[i] = newOrderedDish;
-            orderedDishMaintainList.push_back(2);
+            orderedDishMaintainList[i] = 2;
             break;
         }
     }
 }
 
-void StaticData::modifyMsg(const Msg& msg, const Msg& newMsg) {
+void StaticData::modifyMsg(int msgID, const Msg& newMsg) {
     for (unsigned int i = 0; i < msgList.size(); i ++) {
-        if(msg.getMsgID() == msgList[i].getMsgID()) {
+        if(msgID == msgList[i].getMsgID()) {
             msgList[i] = newMsg;
-            msgMaintainList.push_back(2);
+            msgMaintainList[i] = 2;
             break;
         }
     }
 }
 
-void StaticData::modifyGuest(const Guest& guest, const Guest& newGuest) {
+void StaticData::modifyGuest(const string& phone, const Guest& newGuest) {
     for (unsigned int i = 0; i < guestList.size(); i ++) {
-        if(guest.getPhone() == guestList[i].getPhone()) {
+        if(phone == guestList[i].getPhone()) {
             guestList[i] = newGuest;
-            guestMaintainList.push_back(2);
+            guestMaintainList[i] = 2;
             break;
         }
     }
 }
 
-void StaticData::modifyClerk(const Clerk& clerk, const Clerk& newClerk) {
+void StaticData::modifyClerk(const string& phone, const Clerk& newClerk) {
     for (unsigned int i = 0; i < clerkList.size(); i ++) {
-        if(clerk.getPhone() == clerkList[i].getPhone()) {
+        if(phone == clerkList[i].getPhone()) {
             clerkList[i] = newClerk;
-            clerkMaintainList.push_back(2);
+            clerkMaintainList[i] = 2;
             break;
         }
     }
 }
 
-void StaticData::modifyChef(const Chef& chef, const Chef& newChef) {
+void StaticData::modifyChef(const string& phone, const Chef& newChef) {
     for (unsigned int i = 0; i < chefList.size(); i ++) {
-        if(chef.getPhone() == chefList[i].getPhone()) {
+        if(phone == chefList[i].getPhone()) {
             chefList[i] = newChef;
-            chefMaintainList.push_back(2);
+            chefMaintainList[i] = 2;
             break;
         }
     }
