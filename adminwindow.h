@@ -39,6 +39,8 @@ signals:
 private slots:
     void on_refreshButton_clicked();
 
+    void on_dishList_cellDoubleClicked(int row, int column);
+
 private:
     Ui::AdminWindow *ui;
     Admin admin;

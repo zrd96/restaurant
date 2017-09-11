@@ -3,6 +3,8 @@
 #include <QMessageBox>
 #include <QTableWidget>
 #include <QDebug>
+#include <QFileDialog>
+#include <QFile>
 #include "staticdata.h"
 #include "guest.h"
 #include "chef.h"
@@ -62,9 +64,10 @@ AdminWindow::AdminWindow(const QString& user, QWidget *parent) :
 }
 
 void AdminWindow::viewTableList() {
-    ui->tableList->setRowCount(StaticData::getTableList().size());
+    ui->tableList->setRowCount(0);
     for(unsigned int i = 0; i < StaticData::getTableList().size(); i ++)
         if (StaticData::getTableMaintainList()[i] >= 0) {
+            ui->tableList->setRowCount(ui->tableList->rowCount() + 1);
             Table& cur = StaticData::getTableList()[i];
             ui->tableList->setItem(i, 0, new QTableWidgetItem(QString().setNum(cur.getTableID())));
             ui->tableList->setItem(i, 1, new QTableWidgetItem(QString().setNum(cur.getSeats())));
@@ -74,9 +77,10 @@ void AdminWindow::viewTableList() {
 }
 
 void AdminWindow::viewDishList() {
-    ui->dishList->setRowCount(StaticData::getDishList().size());
+    ui->dishList->setRowCount(0);
     for(unsigned int i = 0; i < StaticData::getDishList().size(); i ++)
         if (StaticData::getDishMaintainList()[i] >= 0) {
+            ui->dishList->setRowCount(ui->dishList->rowCount() + 1);
             Dish& cur = StaticData::getDishList()[i];
             ui->dishList->setItem(i, 0, new QTableWidgetItem(QString().setNum(cur.getDishID())));
             ui->dishList->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(cur.getImgDir())));
@@ -91,9 +95,10 @@ void AdminWindow::viewDishList() {
 }
 
 void AdminWindow::viewGuestList() {
-    ui->guestList->setRowCount(StaticData::getGuestList().size());
+    ui->guestList->setRowCount(0);
     for(unsigned int i = 0; i < StaticData::getGuestList().size(); i ++)
         if (StaticData::getGuestMaintainList()[i] >= 0) {
+            ui->guestList->setRowCount(ui->guestList->rowCount() + 1);
             Guest& cur = StaticData::getGuestList()[i];
             ui->guestList->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(cur.getPhone())));
             ui->guestList->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(cur.getName())));
@@ -105,9 +110,10 @@ void AdminWindow::viewGuestList() {
 }
 
 void AdminWindow::viewChefList() {
-    ui->chefList->setRowCount(StaticData::getChefList().size());
+    ui->chefList->setRowCount(0);
     for(unsigned int i = 0; i < StaticData::getChefList().size(); i ++)
         if (StaticData::getChefMaintainList()[i] >= 0) {
+            ui->chefList->setRowCount(ui->chefList->rowCount() + 1);
             Chef& cur = StaticData::getChefList()[i];
             ui->chefList->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(cur.getPhone())));
             ui->chefList->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(cur.getName())));
@@ -119,9 +125,10 @@ void AdminWindow::viewChefList() {
 }
 
 void AdminWindow::viewClerkList() {
-    ui->clerkList->setRowCount(StaticData::getClerkList().size());
+    ui->clerkList->setRowCount(0);
     for(unsigned int i = 0; i < StaticData::getClerkList().size(); i ++)
         if (StaticData::getClerkMaintainList()[i] >= 0) {
+            ui->clerkList->setRowCount(ui->clerkList->rowCount() + 1);
             Clerk& cur = StaticData::getClerkList()[i];
             ui->clerkList->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(cur.getPhone())));
             ui->clerkList->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(cur.getName())));
@@ -212,23 +219,23 @@ void AdminWindow::removeSelected(QTableWidget* list) {
 
 void AdminWindow::markRemoved(int listTab, int row) {
     if (listTab == 0) {
-        Table tmpTable(ui->tableList->item(row, 0)->text().toInt(), 0, 0);
+        Table tmpTable(ui->tableList->item(row, 0)->data(Qt::UserRole).toInt(), 0, 0);
         StaticData::removeTable(tmpTable);
     }
     else if (listTab == 1) {
-        Dish tmpDish("", 0, 0, "", ui->dishList->item(row, 0)->text().toInt());
+        Dish tmpDish("", 0, 0, "", ui->dishList->item(row, 0)->data(Qt::UserRole).toInt());
         StaticData::removeDish(tmpDish);
     }
     else if (listTab == 2) {
-        Guest tmpGuest(ui->guestList->item(row, 0)->text().toStdString(), "");
+        Guest tmpGuest(ui->guestList->item(row, 0)->data(Qt::UserRole).toString().toStdString(), "");
         StaticData::removeGuest(tmpGuest);
     }
     else if (listTab == 3) {
-        Chef tmpChef(ui->chefList->item(row, 0)->text().toStdString(), "");
+        Chef tmpChef(ui->chefList->item(row, 0)->data(Qt::UserRole).toString().toStdString(), "");
         StaticData::removeChef(tmpChef);
     }
     else if (listTab == 4) {
-        Clerk tmpClerk(ui->clerkList->item(row, 0)->text().toStdString(), "");
+        Clerk tmpClerk(ui->clerkList->item(row, 0)->data(Qt::UserRole).toString().toStdString(), "");
         StaticData::removeClerk(tmpClerk);
     }
 }
@@ -249,32 +256,63 @@ void AdminWindow::refreshList() {
 
 void AdminWindow::saveList(int listTab) {
     if (listTab == 0) {
-        for (int row = 0; row < ui->tableList->rowCount(); row ++) {
-            QTableWidgetItem* curItem = ui->tableList->item(row, 0);
-            if (curItem->text() != curItem->data(Qt::UserRole).toString()) {
-                if(!checkID(ui->tableList, row, 0)) {
-                    //viewErrInfo("Invalid ID at line" + ntos(row + 1));
-                    ui->tableList->editItem(curItem);
-                    return;
-                }
-            }
+        for (int row = 0; row < ui->tableList->rowCount(); row ++)
+            for (int col = 0; col < ui->tableList->columnCount(); col ++) {
+                QTableWidgetItem* curItem = ui->tableList->item(row, col);
+                //detected some difference at line row, update the whole line
+                if (curItem->text() != curItem->data(Qt::UserRole).toString()) {
+                    curItem = ui->tableList->item(row, 0);
+                    //check and update col 0
+                    if(!checkID(ui->tableList, row, 0)) {
+                        ui->tableList->editItem(curItem);
+                        return;
+                    }
+                    curItem = ui->tableList->item(row, 1);
+                    //check and update col 1
+                    if (!checkNum(curItem->text())) {
+                        viewErrInfo("Invalid seat number at line " + ntos(row + 1));
+                        ui->tableList->editItem(curItem);
+                        return;
+                    }
+                    Table newTable(ui->tableList->item(row, 0)->text().toInt(),
+                                   ui->tableList->item(row, 1)->text().toInt(),
+                                   ui->tableList->item(row, 1)->text().toInt());
+                    StaticData::modifyTable(ui->tableList->item(row, 0)->data(Qt::UserRole).toInt(), newTable);
+                    setRowData(ui->tableList, row);
 
-            curItem = ui->tableList->item(row, 1);
-            if (curItem->text() != curItem->data(Qt::UserRole).toString()) {
-                if (!checkNum(curItem->text())) {
-                    viewErrInfo("Invalid seat number at line " + ntos(row + 1));
-                    ui->tableList->editItem(curItem);
-                    return;
+                    break;//this line has already been updated, exit inner loop and check the next line
                 }
             }
-            Table newTable(ui->tableList->item(row, 0)->text().toInt(),
-                           ui->tableList->item(row, 1)->text().toInt(),
-                           ui->tableList->item(row, 1)->text().toInt());
-            StaticData::modifyTable(ui->tableList->item(row, 0)->data(Qt::UserRole).toInt(), newTable);
-            setRowData(ui->tableList, row);
+    }
+    else if (listTab == 1) {
+        for (int row = 0; row < ui->dishList->rowCount(); row ++)
+            for (int col = 0; col < ui->dishList->columnCount(); col ++) {
+                QTableWidgetItem* curItem = ui->dishList->item(row, col);
+                if (curItem->text() != curItem->data(Qt::UserRole).toString()) {
+                    curItem = ui->dishList->item(row, 0);
+                    if (curItem->text() != curItem->data(Qt::UserRole).toString())
+                        if (!checkID(ui->dishList, row, 0)) {
+                            ui->dishList->editItem(curItem);
+                            return;
+                        }
+                    curItem = ui->dishList->item(row, 3);//price
+                    if (curItem->text() != curItem->data(Qt::UserRole).toString())
+                        if (!checkNum(curItem->text())) {
+                            viewErrInfo("Invalid price");
+                            ui->dishList->editItem(curItem);
+                            return;
+                        }
+                    curItem = ui->dishList->item(row, 1);
+                    if (curItem->text() != curItem->data(Qt::UserRole).toString())
+                        if(curItem->text()[0] == '/') {
+                            QString path = "img/" + ui->dishList->item(row, 0)->text() + "." + curItem->text().section('.', -1);
+                            QFile::copy(curItem->text(), path);
+                            curItem->setText(path);
+                        }
+                    break;
+                }
         }
     }
-    else if (listTab == 1) {}
 }
 
 bool AdminWindow::checkID(QTableWidget *list, int row, int col) {
@@ -295,7 +333,8 @@ bool AdminWindow::checkID(QTableWidget *list, int row, int col) {
 
 bool AdminWindow::checkNum(QString numString) {
     bool allDigit = true;
-    numString.toInt(&allDigit, 10);
+    if(numString.toInt(&allDigit, 10) < 0)
+        return false;
     return allDigit;
 }
 
@@ -352,5 +391,18 @@ void AdminWindow::on_refreshButton_clicked()
         for(int i = 0; i < ui->clerkList->rowCount(); i ++)
             for (int j = 0; j < ui->clerkList->columnCount(); j ++)
                 ui->clerkList->item(i, j)->setText(ui->clerkList->item(i, j)->data(Qt::UserRole).toString());
+    }
+}
+
+void AdminWindow::on_dishList_cellDoubleClicked(int row, int column)
+{
+    if (column != 1)
+        return;
+    QString path = QFileDialog::getOpenFileName(this, tr("Open Image"), ".", tr("Image Files(*.jpg *.png *.bmp *.tif *.GIF)"));
+    if (path.size() == 0)
+        viewErrInfo("Empty file");
+    else {
+        QFile::copy(path, "img/copytest.png");
+        ui->dishList->item(row, column)->setText(path);
     }
 }
