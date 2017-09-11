@@ -158,7 +158,7 @@ void LoginDlg::logIn(const QString user, int userType) {
 }
 
 void LoginDlg::closeEvent(QCloseEvent *ev) {
-    //viewErrInfo("*****");
+    viewErrInfo("*****");
     StaticData::writeTable();
 
     StaticData::writeDish();

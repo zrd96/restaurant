@@ -47,7 +47,7 @@ private:
     AboutMeWidget* aboutMe;
     QTableWidget* getActiveList();
     bool checkID(QTableWidget* list, int row, int col);
-    bool checkNum(QString numString);
+    bool checkNum(const QString& numString);
     void setRowData(QTableWidget* list, int row);
     std::vector<bool> removeList;
 };

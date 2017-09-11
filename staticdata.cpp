@@ -348,10 +348,11 @@ void StaticData::writeDish() {
             }
             else {
                 db->insert("dish",
-                                       "NULL, \"" + cur.getName() + "\", "
-                                       + ntos(cur.getPrice()) + ", "
-                                       + ntos(cur.getRate()) + ", " + ntos(cur.getRateNum()) + ", "
-                                       + "\"" + cur.getImgDir() + "\"");
+                           "NULL, \"" + cur.getName() + "\", "
+                           + ntos(cur.getPrice()) + ", "
+                           + ntos(cur.getRate()) + ", " + ntos(cur.getRateNum()) + ", "
+                           + ntos(cur.getTimeNeeded()) + ", \""
+                           + cur.getImgDir() + "\"");
             }
         }
         else if (dishMaintainList[i] < 0)
