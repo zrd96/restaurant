@@ -47,7 +47,13 @@ bool StaticData::queryDish() {
                 return false;
         vector<vector<string> > resultList = db->getResultList();
         for(unsigned int i = 0; i < resultList.size(); i ++)
-                insertDish(Dish(resultList[i][1], atof(resultList[i][2].c_str()), atoi(resultList[i][5].c_str()), resultList[i][6], atoi(resultList[i][0].c_str())));
+                insertDish(Dish(resultList[i][0],
+                           resultList[i][1],
+                        atof(resultList[i][2].c_str()),
+                        atoi(resultList[i][5].c_str()),
+                        atof(resultList[i][3].c_str()),
+                        atoi(resultList[i][4].c_str()),
+                        resultList[i][6]));
         return true;
 }
 
@@ -57,12 +63,13 @@ bool StaticData::queryOrderedDish() {
                 return false;
         vector<vector<string> > resultList = db->getResultList();
         for(unsigned int i = 0; i < resultList.size(); i ++) {
-            OrderedDish tmp(getDishByID(atoi(resultList[i][1].c_str())),
-                    atoi(resultList[i][0].c_str()),
+            OrderedDish tmp(getDishByID(resultList[i][1]),
+                    resultList[i][0],
                     resultList[i][2],
                     atoi(resultList[i][3].c_str()),
                     atoi(resultList[i][4].c_str()));
             tmp.setDatetime(resultList[i][5]);
+            tmp.setChef(resultList[i][6]);
             insertOrderedDish(tmp);
         }
         return true;
@@ -75,7 +82,7 @@ bool StaticData::queryMsg(string person) {
                 return false;
         vector<vector<string> > resultList = db->getResultList();
         for (unsigned int i = 0; i < resultList.size(); i ++) {
-            int msgID = atoi(resultList[i][0].c_str());
+            string msgID = resultList[i][0].c_str();
             bool msgExists = false;
             for (unsigned int j = 0; j < msgList.size(); j ++)
                 if(msgID == msgList[j].getMsgID()) {
@@ -83,7 +90,7 @@ bool StaticData::queryMsg(string person) {
                     break;
                 }
             if(!msgExists)
-                insertMsg(Msg(resultList[i][1], resultList[i][2], resultList[i][3], resultList[i][4], atoi(resultList[i][5].c_str()), atoi(resultList[i][0].c_str())));
+                insertMsg(Msg(resultList[i][0], resultList[i][1], resultList[i][2], resultList[i][3], resultList[i][4], atoi(resultList[i][5].c_str())));
         }
         return true;
 }
@@ -119,7 +126,7 @@ bool StaticData::queryGuest() {
 }
 
 bool StaticData::queryOrder() {
-    queryOrderedDish();
+    //queryOrderedDish();
     orderList.clear();
     for(unsigned int i = 0; i < orderedDishList.size(); i ++) {
         bool found = 0;
@@ -177,63 +184,63 @@ void StaticData::insertOrder(const Order order) {
     orderList.push_back(order);
 }
 
-void StaticData::removeTable(const Table& table) {
+void StaticData::removeTable(int tableID) {
     for (unsigned int i = 0; i < tableList.size(); i ++) {
-        if(table.getTableID() == tableList[i].getTableID()) {
+        if(tableID == tableList[i].getTableID()) {
             tableMaintainList[i] = -1;
             break;
         }
     }
 }
 
-void StaticData::removeDish(const Dish& dish) {
+void StaticData::removeDish(const string& dishID) {
     for (unsigned int i = 0; i < dishList.size(); i ++) {
-        if(dish.getDishID() == dishList[i].getDishID()) {
+        if(dishID == dishList[i].getDishID()) {
             dishMaintainList[i] = -1;
             break;
         }
     }
 }
 
-void StaticData::removeOrderedDish(const OrderedDish& orderedDish) {
+void StaticData::removeOrderedDish(const string& orderedDishID) {
     for (unsigned int i = 0; i < orderedDishList.size(); i ++) {
-        if(orderedDish.getOrderedDishID() == orderedDishList[i].getOrderedDishID()) {
+        if(orderedDishID == orderedDishList[i].getOrderedDishID()) {
             orderedDishMaintainList[i] = -1;
             break;
         }
     }
 }
 
-void StaticData::removeMsg(const Msg& msg) {
+void StaticData::removeMsg(const string& msgID) {
     for (unsigned int i = 0; i < msgList.size(); i ++) {
-        if(msg.getMsgID() == msgList[i].getMsgID()) {
+        if(msgID == msgList[i].getMsgID()) {
             msgMaintainList[i] = -1;
             break;
         }
     }
 }
 
-void StaticData::removeGuest(const Guest& guest) {
+void StaticData::removeGuest(const string& phone) {
     for (unsigned int i = 0; i < guestList.size(); i ++) {
-        if(guest.getPhone() == guestList[i].getPhone()) {
+        if(phone == guestList[i].getPhone()) {
             guestMaintainList[i] = -1;
             break;
         }
     }
 }
 
-void StaticData::removeClerk(const Clerk& clerk) {
+void StaticData::removeClerk(const string& phone) {
     for (unsigned int i = 0; i < clerkList.size(); i ++) {
-        if(clerk.getPhone() == clerkList[i].getPhone()) {
+        if(phone == clerkList[i].getPhone()) {
             clerkMaintainList[i] = -1;
             break;
         }
     }
 }
 
-void StaticData::removeChef(const Chef& chef) {
+void StaticData::removeChef(const string& phone) {
     for (unsigned int i = 0; i < chefList.size(); i ++) {
-        if(chef.getPhone() == chefList[i].getPhone()) {
+        if(phone == chefList[i].getPhone()) {
             chefMaintainList[i] = -1;
             break;
         }
@@ -250,7 +257,7 @@ void StaticData::modifyTable(int tableID, const Table& newTable) {
     }
 }
 
-void StaticData::modifyDish(int dishID, const Dish& newDish) {
+void StaticData::modifyDish(const string& dishID, const Dish& newDish) {
     for (unsigned int i = 0; i < dishList.size(); i ++) {
         if(dishID == dishList[i].getDishID()) {
             dishList[i] = newDish;
@@ -260,7 +267,7 @@ void StaticData::modifyDish(int dishID, const Dish& newDish) {
     }
 }
 
-void StaticData::modifyOrderedDish(int orderedDishID, const OrderedDish& newOrderedDish) {
+void StaticData::modifyOrderedDish(const string& orderedDishID, const OrderedDish& newOrderedDish) {
     for (unsigned int i = 0; i < orderedDishList.size(); i ++) {
         if(orderedDishID == orderedDishList[i].getOrderedDishID()) {
             orderedDishList[i] = newOrderedDish;
@@ -270,7 +277,7 @@ void StaticData::modifyOrderedDish(int orderedDishID, const OrderedDish& newOrde
     }
 }
 
-void StaticData::modifyMsg(int msgID, const Msg& newMsg) {
+void StaticData::modifyMsg(const string& msgID, const Msg& newMsg) {
     for (unsigned int i = 0; i < msgList.size(); i ++) {
         if(msgID == msgList[i].getMsgID()) {
             msgList[i] = newMsg;
@@ -338,17 +345,17 @@ void StaticData::writeDish() {
     for(unsigned int i = 0; i < dishList.size(); i ++) {
         Dish& cur = dishList[i];
         if(dishMaintainList[i] > 0) {
-            if(db->doesExist("dish", "dishID = " + ntos(cur.getDishID()))) {
-                db->update("dish", "name", "\"" + cur.getName() + "\"", "dishID = " + ntos(cur.getDishID()));
-                db->update("dish", "price", ntos(cur.getPrice()), "dishID = " + ntos(cur.getDishID()));
-                db->update("dish", "rate", ntos(cur.getRate()), "dishID = " + ntos(cur.getDishID()));
-                db->update("dish", "rateNum", ntos(cur.getRateNum()), "dishID = " + ntos(cur.getDishID()));
-                db->update("dish", "time", ntos(cur.getTimeNeeded()), "dishID = " + ntos(cur.getDishID()));
-                db->update("dish", "imgdir", "\"" + cur.getImgDir() + "\"", "dishID = " + ntos(cur.getDishID()));
+            if(db->doesExist("dish", "dishID = \"" + cur.getDishID() + "\"")) {
+                db->update("dish", "name", "\"" + cur.getName() + "\"", "dishID = \"" + cur.getDishID() + "\"");
+                db->update("dish", "price", ntos(cur.getPrice()), "dishID = \"" + cur.getDishID() + "\"");
+                db->update("dish", "rate", ntos(cur.getRate()), "dishID = \"" + cur.getDishID() + "\"");
+                db->update("dish", "rateNum", ntos(cur.getRateNum()), "dishID = \"" + cur.getDishID() + "\"");
+                db->update("dish", "time", ntos(cur.getTimeNeeded()), "dishID = \"" + cur.getDishID() + "\"");
+                db->update("dish", "imgdir", "\"" + cur.getImgDir() + "\"", "dishID = \"" + cur.getDishID() + "\"");
             }
             else {
                 db->insert("dish",
-                           "NULL, \"" + cur.getName() + "\", "
+                           "\"" + cur.getDishID() + "\", \"" + cur.getName() + "\", "
                            + ntos(cur.getPrice()) + ", "
                            + ntos(cur.getRate()) + ", " + ntos(cur.getRateNum()) + ", "
                            + ntos(cur.getTimeNeeded()) + ", \""
@@ -356,7 +363,7 @@ void StaticData::writeDish() {
             }
         }
         else if (dishMaintainList[i] < 0)
-            db->deleteRow("dish", "dishID = " + ntos(cur.getDishID()));
+            db->deleteRow("dish", "dishID = \"" + cur.getDishID() + "\"");
     }
 }
 
@@ -364,32 +371,36 @@ void StaticData::writeOrderedDish() {
     for(unsigned int i = 0; i < orderedDishList.size(); i ++) {
         OrderedDish& cur = orderedDishList[i];
         if(orderedDishMaintainList[i] > 0) {
-            if(db->doesExist("orderedDish", "id = " + ntos(cur.getOrderedDishID()))) {
+            if(db->doesExist("orderedDish", "id = \"" + cur.getOrderedDishID() + "\"")) {
                 db->update("orderedDish",
                                        "orderer", "\"" + cur.getOrderer() + "\"",
-                                       "id = " + ntos(cur.getOrderedDishID()));
+                                       "id = \"" + cur.getOrderedDishID() + "\"");
                 db->update("orderedDish",
                                        "tableNum", ntos(cur.getTable()),
-                                       "id = " + ntos(cur.getOrderedDishID()));
+                                       "id = \"" + cur.getOrderedDishID() + "\"");
                 db->update("orderedDish",
                                        "status", ntos(cur.getStatus()),
-                                       "id = " + ntos(cur.getOrderedDishID()));
+                                       "id = \"" + cur.getOrderedDishID() + "\"");
                 db->update("orderedDish",
                                        "datetime", "\"" + cur.getDatetime() + "\"",
-                                       "id = " + ntos(cur.getOrderedDishID()));
+                                       "id = \"" + cur.getOrderedDishID() + "\"");
+                db->update("orderedDish",
+                                       "chef", "\"" + cur.getChef() + "\"",
+                                       "id = \"" + cur.getOrderedDishID() + "\"");
             }
             else {
                 db->insert("orderedDish",
-                                       "NULL, "
-                                       + ntos(cur.getDishID()) + ", \""
-                                       + cur.getOrderer() + "\", "
-                                       + ntos(cur.getTable()) + ", "
-                                       + ntos(cur.getStatus()) + ", \""
-                                       + cur.getDatetime() + "\"");
+                           "\"" + cur.getOrderedDishID() + "\", \""
+                           + cur.getDishID() + "\", \""
+                           + cur.getOrderer() + "\", "
+                           + ntos(cur.getTable()) + ", "
+                           + ntos(cur.getStatus()) + ", \""
+                           + cur.getDatetime() + "\", \""
+                           + cur.getChef() + "\"");
             }
         }
         else if (orderedDishMaintainList[i] < 0)
-            db->deleteRow("orderedDish", "id = " + ntos(cur.getOrderedDishID()));
+            db->deleteRow("orderedDish", "id = \"" + cur.getOrderedDishID() + "\"");
     }
 }
 
@@ -397,20 +408,21 @@ void StaticData::writeMsg() {
     for(unsigned int i = 0; i < msgList.size(); i ++) {
         Msg& cur = msgList[i];
         if(msgMaintainList[i] > 0) {
-            if(db->doesExist("msg", "msgid = " + ntos(cur.getMsgID()))) {
-                db->update("msg", "isActive", ntos(cur.getState()), "msgid = " + ntos(cur.getMsgID()));
+            if(db->doesExist("msg", "msgid = \"" + cur.getMsgID() + "\"")) {
+                db->update("msg", "isActive", ntos(cur.getState()), "msgid = \"" + cur.getMsgID() + "\"");
             }
             else {
                 db->insert("msg",
-                                       "NULL, \"" + cur.getSender() + "\", \""
-                                       + cur.getReceiver() + "\", \""
-                                       + cur.getMsg() + "\", \""
-                                       + cur.getDatetime() + "\", "
-                                       + ntos(cur.getState()));
+                           "\"" + cur.getMsgID() + "\", \""
+                           + cur.getSender() + "\", \""
+                           + cur.getReceiver() + "\", \""
+                           + cur.getMsg() + "\", \""
+                           + cur.getDatetime() + "\", "
+                           + ntos(cur.getState()));
             }
         }
         else if (msgMaintainList[i] < 0)
-            db->deleteRow("msg", "msgid = " + ntos(cur.getMsgID()));
+            db->deleteRow("msg", "msgid = \"" + cur.getMsgID() + "\"");
     }
 }
 
@@ -418,15 +430,15 @@ void StaticData::writeGuest() {
     for (unsigned int i = 0; i < guestList.size(); i ++) {
         Guest& cur = guestList[i];
         if (guestMaintainList[i] > 0) {
-            if(db->doesExist("person", "phone = \"" + cur.getPhone())) {
+            if(db->doesExist("person", "phone = \"" + cur.getPhone() + "\"")) {
                 db->update("person", "name", "\"" + cur.getName() + "\"",
-                           "phone = \"" + cur.getPhone());
+                           "phone = \"" + cur.getPhone() + "\"");
                 db->update("person", "password", "\"" + cur.getPassword() + "\"",
-                           "phone = \"" + cur.getPhone());
+                           "phone = \"" + cur.getPhone() + "\"");
                 db->update("peson", "table", ntos(cur.getTable()),
-                           "phone = \"" + cur.getPhone());
+                           "phone = \"" + cur.getPhone() + "\"");
 //                db->update("person", "password", "\"" + cur.getPassword() + "\"",
-//                           "phone = \"" + cur.getPhone());
+//                           "phone = \"" + cur.getPhone() + "\"");
             }
             else {
                 db->insert("person", "\"" + cur.getPhone() + "\", \""
@@ -435,8 +447,8 @@ void StaticData::writeGuest() {
                            + ntos(cur.getTable()));
             }
         }
-        else {
-            db->deleteRow("person", "phone = \"" + cur.getPhone());
+        else if (guestMaintainList[i] < 0) {
+            db->deleteRow("person", "phone = \"" + cur.getPhone() + "\"");
         }
     }
 }
@@ -445,21 +457,21 @@ void StaticData::writeClerk() {
     for (unsigned int i = 0; i < clerkList.size(); i ++) {
         Clerk& cur = clerkList[i];
         if (clerkMaintainList[i] > 0) {
-            if(db->doesExist("person", "phone = \"" + cur.getPhone())) {
+            if(db->doesExist("person", "phone = \"" + cur.getPhone() + "\"")) {
                 db->update("person", "name", "\"" + cur.getName() + "\"",
-                           "phone = \"" + cur.getPhone());
+                           "phone = \"" + cur.getPhone() + "\"");
                 db->update("person", "password", "\"" + cur.getPassword() + "\"",
-                           "phone = \"" + cur.getPhone());
+                           "phone = \"" + cur.getPhone() + "\"");
                 db->update("peson", "rate", ntos(cur.getRate()),
-                           "phone = \"" + cur.getPhone());
+                           "phone = \"" + cur.getPhone() + "\"");
                 db->update("peson", "rateNum", ntos(cur.getRateNum()),
-                           "phone = \"" + cur.getPhone());
+                           "phone = \"" + cur.getPhone() + "\"");
 //                db->update("peson", "table", ntos(cur.getTable()),
-//                           "phone = \"" + cur.getPhone());
+//                           "phone = \"" + cur.getPhone() + "\"");
 //                db->update("person", "password", "\"" + cur.getPassword() + "\"",
-//                           "phone = \"" + cur.getPhone());
+//                           "phone = \"" + cur.getPhone() + "\"");
             }
-            else {
+            else if (clerkMaintainList[i] < 0) {
                 db->insert("person", "\"" + cur.getPhone() + "\", \""
                            + cur.getName() + "\", \""
                            + cur.getPassword() + "\", 3, "
@@ -468,7 +480,7 @@ void StaticData::writeClerk() {
             }
         }
         else {
-            db->deleteRow("person", "phone = \"" + cur.getPhone());
+            db->deleteRow("person", "phone = \"" + cur.getPhone() + "\"");
         }
     }
 }
@@ -477,15 +489,15 @@ void StaticData::writeChef() {
     for (unsigned int i = 0; i < chefList.size(); i ++) {
         Chef& cur = chefList[i];
         if (chefMaintainList[i] > 0) {
-            if(db->doesExist("person", "phone = \"" + cur.getPhone())) {
+            if(db->doesExist("person", "phone = \"" + cur.getPhone() + "\"")) {
                 db->update("person", "name", "\"" + cur.getName() + "\"",
-                           "phone = \"" + cur.getPhone());
+                           "phone = \"" + cur.getPhone() + "\"");
                 db->update("person", "password", "\"" + cur.getPassword() + "\"",
-                           "phone = \"" + cur.getPhone());
+                           "phone = \"" + cur.getPhone() + "\"");
 //                db->update("peson", "table", ntos(cur.getTable()),
-//                           "phone = \"" + cur.getPhone());
+//                           "phone = \"" + cur.getPhone() + "\"");
 //                db->update("person", "password", "\"" + cur.getPassword() + "\"",
-//                           "phone = \"" + cur.getPhone());
+//                           "phone = \"" + cur.getPhone() + "\"");
             }
             else {
                 db->insert("person", "\"" + cur.getPhone() + "\", \""
@@ -493,27 +505,27 @@ void StaticData::writeChef() {
                            + cur.getPassword() + "\", 2, NULL, NULL, NULL");
             }
         }
-        else {
-            db->deleteRow("person", "phone = \"" + cur.getPhone());
+        else if (chefMaintainList[i] < 0) {
+            db->deleteRow("person", "phone = \"" + cur.getPhone() + "\"");
         }
     }
 }
 
-Dish& StaticData::getDishByID(int dishID) {
+Dish& StaticData::getDishByID(const string& dishID) {
         for(unsigned int i = 0; i < dishList.size(); i ++)
                 if(dishList[i].getDishID() == dishID)
                         return dishList[i];
         return dishList[0];
 }
 
-OrderedDish& StaticData::getOrderedDishByID(int orderedDishID) {
+OrderedDish& StaticData::getOrderedDishByID(const string& orderedDishID) {
         for(unsigned int i = 0; i < orderedDishList.size(); i ++)
                 if(orderedDishList[i].getOrderedDishID() == orderedDishID)
                         return orderedDishList[i];
         return orderedDishList[0];
 }
 
-vector<Msg*> StaticData::getMsgByReceiver(string receiver) {
+vector<Msg*> StaticData::getMsgByReceiver(const string& receiver) {
         vector<Msg*> msgListByReceiver;
         for(unsigned int i = 0; i < msgList.size(); i ++)
                 if(msgList[i].getReceiver() == receiver)
@@ -521,7 +533,7 @@ vector<Msg*> StaticData::getMsgByReceiver(string receiver) {
         return msgListByReceiver;
 }
 
-vector<Msg*> StaticData::getMsgBySender(string sender) {
+vector<Msg*> StaticData::getMsgBySender(const string& sender) {
         vector<Msg*> msgListBySender;
         for(unsigned int i = 0; i < msgList.size(); i ++)
                 if(msgList[i].getSender() == sender)
@@ -535,13 +547,13 @@ string StaticData::getClerkPhoneByTable(int table) {
         return db->getResultList()[0][0];
 }
 
-string StaticData::getPersonNameByPhone(string phone) {
+string StaticData::getPersonNameByPhone(const string& phone) {
     if(!db->doQuery("person", "name", "phone = \"" + phone + "\""))
             return false;
     return db->getResultList()[0][0];
 }
 
-void StaticData::updateEverythingAboutUser(Person *person, string newPhone) {
+void StaticData::updateEverythingAboutUser(Person *person, const string& newPhone) {
     for(unsigned int i = 0; i < clerkList.size(); i ++)
         if(clerkList[i].getPhone() == person->getPhone())
             clerkList[i].setPhone(newPhone);

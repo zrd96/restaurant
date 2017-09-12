@@ -12,17 +12,31 @@ using namespace std;
 Chef::Chef(string phone, string name): Person(phone, name) {}
 Chef::Chef(string phone, string name, string password): Person(phone, name, password) {}
 
-bool Chef::takeDish(const OrderedDish &dish) {
-        if(StaticData::db->update("orderedDish", "status", "1", "id = " + ntos(dish.getOrderedDishID()))) {
-                dishTaken.push_back(dish);
-                return true;
-        }
-        return false;
+bool Chef::takeDish(OrderedDish &dish) {
+    dish.setStatus(2);
+    dish.setChef(this->getPhone());
+    StaticData::modifyOrderedDish(dish.getOrderedDishID(), dish);
+    dishTaken.push_back(dish);
+    return true;
 }
 
-bool Chef::finishDish(const OrderedDish &dish) {
-        sendMsg(StaticData::getClerkPhoneByTable(dish.getTable()), "Dish ready " + ntos(dish.getTable()) + " " + dish.getOrderer() + " " + ntos(dish.getOrderedDishID()));
-        return StaticData::db->update("orderedDish", "status", "2", "id = " + ntos(dish.getOrderedDishID()));
+bool Chef::finishDish(OrderedDish &dish) {
+        sendMsg(StaticData::getClerkPhoneByTable(dish.getTable()), "Dish ready " + ntos(dish.getTable()) + " " + dish.getOrderer() + " " + dish.getOrderedDishID());
+        dish.setStatus(3);
+        StaticData::modifyOrderedDish(dish.getOrderedDishID(), dish);
+//        for (unsigned int i = 0; i < dishTaken.size(); i ++)
+//            if (dishTaken[i].getOrderedDishID() == dish.getOrderedDishID())
+//                dishTaken.erase(dishTaken.begin() + i);
+        return true;
+}
+
+void Chef::checkDish() {
+    this->dishTaken.clear();
+    for (unsigned int i = 0; i < StaticData::getOrderedDishList().size(); i ++)
+        if (StaticData::getOrderedDishMaintainList()[i] >= 0
+                && StaticData::getOrderedDishList()[i].getChef() == this->getPhone()
+                && StaticData::getOrderedDishList()[i].getStatus() < 3)
+            this->dishTaken.push_back(StaticData::getOrderedDishList()[i]);
 }
 
 void Chef::setPhone(string newPhone) {

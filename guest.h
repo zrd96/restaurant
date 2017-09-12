@@ -14,13 +14,13 @@ class Guest: public Person, public Cart {
         Guest(string phone, string name);
         Guest(string phone, string name, string password);
         Guest(string phone, string name, string password, int table);
-        bool addDish(const Dish& dish);
-        bool removeDish(const Dish& dish);
+        void addDish(const Dish& dish);
+        void removeDish(const Dish& dish);
         bool selectTable(Table& table);
         int getTable() const {return table;}
         void viewProgress();
-        bool rateDish(Dish& dish, double rate);
-        bool rateClerk(Clerk& clerk, double rate);
+        void rateDish(Dish& dish, double rate);
+        void rateClerk(Clerk& clerk, double rate);
         void modifyTable(int newTableNum);
         void setPhone(string newPhone);
     private:

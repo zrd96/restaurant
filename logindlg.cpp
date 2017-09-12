@@ -146,7 +146,8 @@ void LoginDlg::logIn(const QString user, int userType) {
             guestWindow->show();
             break;
         case 2:
-            chefWindow = new ChefWindow();
+            chefWindow = new ChefWindow(user, this);
+            connect(chefWindow, SIGNAL(closeEvent(QCloseEvent*)), this, SLOT(show()));
             chefWindow->show();
             break;
         case 3:
@@ -158,12 +159,11 @@ void LoginDlg::logIn(const QString user, int userType) {
 }
 
 void LoginDlg::closeEvent(QCloseEvent *ev) {
-    viewErrInfo("*****");
     StaticData::writeTable();
-
     StaticData::writeDish();
-
     StaticData::writeOrderedDish();
-
     StaticData::writeMsg();
+    StaticData::writeGuest();
+    StaticData::writeChef();
+    StaticData::writeClerk();
 }

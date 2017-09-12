@@ -5,9 +5,10 @@
 #include "guest.h"
 #include "rateitem.h"
 #include "staticdata.h"
+#include <QPushButton>
 
-Item::Item(Guest& guest, Dish& oriDish, QString listType, QWidget *parent) :
-    guest(&guest),
+Item::Item(Person& person, Dish& oriDish, QString listType, QWidget *parent) :
+    person(&person),
     dish(oriDish),
     dishNum(0),
     listType(listType),
@@ -36,6 +37,8 @@ Item::Item(Guest& guest, Dish& oriDish, QString listType, QWidget *parent) :
     ui->itemPrice->setText("￥ " + QString::fromStdString(ntos(dish.getPrice())));
     if(dish.getTimeNeeded() > 0)
         ui->itemStatus->setPlainText("Time Needed: " + QString::fromStdString(ntos(dish.getTimeNeeded())));
+    guest = dynamic_cast<Guest*> (this->person);
+    chef = dynamic_cast<Chef*> (this->person);
     try {
         OrderedDish& orderedDish = dynamic_cast<OrderedDish &> (oriDish);
         dishNum = orderedDish.getNum();
@@ -75,7 +78,35 @@ Item::Item(Guest& guest, Dish& oriDish, QString listType, QWidget *parent) :
             ui->itemNum->setText("1");
             ui->itemNum->setEnabled(false);
         }
+        if (chef != NULL) {
+            ui->addButton->hide();
+            ui->subButton->hide();
+            ui->itemNum->hide();
+            QPushButton *takeButton = new QPushButton(this);
+            takeButton->setGeometry(860, 70, 80, 40);
+            if (listType == "chefDishList") {
+                takeButton->setText("Take this dish");
+                connect(takeButton, &QPushButton::clicked, this, [takeButton, &orderedDish, this] () {
+                    chef->takeDish(StaticData::getOrderedDishByID(orderedDish.getOrderedDishID()));
+                    takeButton->setText("Taken");
+                    takeButton->setEnabled(false);
+                });
+            }
+            else if (listType == "chefTakenDishList") {
+                takeButton->setText("Finish cooking");
+                if(orderedDish.getStatus() >= 3) {
+                    takeButton->setText("Finished");
+                    takeButton->setEnabled(false);
+                }
+                connect(takeButton, &QPushButton::clicked, this, [takeButton, &orderedDish, this] () {
+                    chef->finishDish(StaticData::getOrderedDishByID(orderedDish.getOrderedDishID()));
+                    takeButton->setText("Finished");
+                    takeButton->setEnabled(false);
+                });
+            }
+        }
     } catch(bad_cast) {}
+
     //show();
 }
 
@@ -84,6 +115,8 @@ Item::~Item()
     delete ui;
 }
 void Item::addItemNum() {
+    if (guest == NULL)
+        return;
     guest->addDish(dish);
     dishNum ++;
     ui->itemNum->setText(QString().setNum(dishNum));
@@ -91,7 +124,7 @@ void Item::addItemNum() {
     emit dishNumChanged(dish.getDishID(), dishNum);
 }
 void Item::subItemNum() {
-    if(dishNum <= 0)
+    if (guest == NULL || dishNum <= 0)
         return;
     guest->removeDish(dish);
     dishNum --;

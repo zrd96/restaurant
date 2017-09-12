@@ -13,12 +13,12 @@ Guest::Guest(string phone, string name): Person(phone, name), Cart(), table(-1) 
 Guest::Guest(string phone, string name, string password): Person(phone, name, password), Cart(), table(-1) {}
 Guest::Guest(string phone, string name, string password, int table):  Person(phone, name, password), Cart(), table(table) {}
 
-bool Guest::addDish(const Dish& dish) {
-    return add(dish, getPhone(), table);
+void Guest::addDish(const Dish& dish) {
+    add(dish, getPhone(), table);
 }
 
-bool Guest::removeDish(const Dish& dish) {
-    return remove(dish);
+void Guest::removeDish(const Dish& dish) {
+    remove(dish);
 }
 
 bool Guest::selectTable(Table& table) {
@@ -32,12 +32,12 @@ bool Guest::selectTable(Table& table) {
 
 void Guest::viewProgress() {}
 
-bool Guest::rateDish(Dish& dish, double rate) {
-        return dish.updateRate(rate);
+void Guest::rateDish(Dish& dish, double rate) {
+        dish.updateRate(rate);
 }
 
-bool Guest::rateClerk(Clerk& clerk, double rate) {
-        return clerk.updateRate(rate);
+void Guest::rateClerk(Clerk& clerk, double rate) {
+        clerk.updateRate(rate);
 }
 
 void Guest::modifyTable(int newTableNum) {

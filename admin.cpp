@@ -18,12 +18,12 @@ void Admin::addDish(const Dish& dish) {
 }
 
 void Admin::removeDish(const Dish& dish) {
-        StaticData::removeDish(dish);
+        StaticData::removeDish(dish.getDishID());
 }
 
 void Admin::modifyDish(const Dish& dish, string newName, double newPrice, int newTime, string newImgDir) {
-    Dish newDish = Dish(newName, newPrice, newTime, newImgDir);
-    StaticData::modifyDish(dish.getDishID(), newDish);
+//    Dish newDish = Dish(newName, newPrice, newTime, newImgDir);
+//    StaticData::modifyDish(dish.getDishID(), newDish);
 }
 
 void Admin::addPerson(const Person& person, int type) {
@@ -42,9 +42,9 @@ void Admin::addPerson(const Person& person, int type) {
 }
 
 void Admin::removePerson(const Person& person) {
-    StaticData::removeGuest(Guest(person.getPhone(), person.getName()));
-    StaticData::removeChef(Chef(person.getPhone(), person.getName()));
-    StaticData::removeClerk(Clerk(person.getPhone(), person.getName()));
+    StaticData::removeGuest(person.getPhone());
+    StaticData::removeChef(person.getPhone());
+    StaticData::removeClerk(person.getPhone());
 }
 
 void Admin::modifyPerson(const Person& person, string newPhone, string newName, string newPassword) {
@@ -61,7 +61,7 @@ void Admin::addTable(const Table& table) {
 }
 
 void Admin::removeTable(const Table& table) {
-    StaticData::removeTable(table);
+    StaticData::removeTable(table.getTableID());
 }
 
 void Admin::setPhone(string newPhone) {

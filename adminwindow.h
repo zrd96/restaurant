@@ -41,6 +41,8 @@ private slots:
 
     void on_dishList_cellDoubleClicked(int row, int column);
 
+    void on_tabWidget_currentChanged(int index);
+
 private:
     Ui::AdminWindow *ui;
     Admin admin;

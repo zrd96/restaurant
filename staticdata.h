@@ -59,19 +59,19 @@ public:
     static void insertChef(const Chef chef, int type = 0);
     static void insertOrder(const Order order);
 
-    static void removeTable(const Table& table);
-    static void removeDish(const Dish& dish);
-    static void removeOrderedDish(const OrderedDish& orderedDish);
-    static void removeMsg(const Msg& msg);
-    static void removeGuest(const Guest& guest);
-    static void removeClerk(const Clerk& clerk);
-    static void removeChef(const Chef& chef);
+    static void removeTable(int tableID);
+    static void removeDish(const string& dishID);
+    static void removeOrderedDish(const string& orderedDishID);
+    static void removeMsg(const string& msgID);
+    static void removeGuest(const string& phone);
+    static void removeClerk(const string& phone);
+    static void removeChef(const string& phone);
     //static void removeOrder(const Order& order);
 
     static void modifyTable(int tableID, const Table& newTable);
-    static void modifyDish(int dishID, const Dish& newDish);
-    static void modifyOrderedDish(int orderedDishID, const OrderedDish& newOrderedDish);
-    static void modifyMsg(int msgID, const Msg& newMsg);
+    static void modifyDish(const string& dishID, const Dish& newDish);
+    static void modifyOrderedDish(const string& orderedDishID, const OrderedDish& newOrderedDish);
+    static void modifyMsg(const string& msgID, const Msg& newMsg);
     static void modifyGuest(const string& phone, const Guest& newGuest);
     static void modifyClerk(const string& phone, const Clerk& newClerk);
     static void modifyChef(const string& phone, const Chef& newChef);
@@ -104,13 +104,13 @@ public:
     static vector<int>& getChefMaintainList() {return chefMaintainList;}
     //static vector<int>& getOrderMaintainList() {return orderMaintainList;}
 
-    static Dish& getDishByID(int dishID);
-    static OrderedDish& getOrderedDishByID(int orderedDishID);
-    static vector<Msg*> getMsgByReceiver(string receiver);
-    static vector<Msg*> getMsgBySender(string sender);
+    static Dish& getDishByID(const string& dishID);
+    static OrderedDish& getOrderedDishByID(const string& orderedDishID);
+    static vector<Msg*> getMsgByReceiver(const string& receiver);
+    static vector<Msg*> getMsgBySender(const string& sender);
     static string getClerkPhoneByTable(int table);
-    static string getPersonNameByPhone(string phone);
-    static void updateEverythingAboutUser(Person* person, string newPhone);
+    static string getPersonNameByPhone(const string& phone);
+    static void updateEverythingAboutUser(Person* person, const string& newPhone);
     static Table& getTableByID(int tableID);
 };
 

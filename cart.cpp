@@ -15,7 +15,7 @@ bool Cart::add(const Dish &dish, string owner, int tableNum) {
                         found = true;
                 }
         if(!found)
-                orderedDishes.push_back(OrderedDish(dish, owner,tableNum, 0));
+                orderedDishes.push_back(OrderedDish(dish, "OD" + getTimeUniform() + owner, owner, tableNum, 0));
         num ++;
         sum += dish.getPrice();
 
@@ -41,12 +41,14 @@ bool Cart::remove(const Dish &dish) {
 }
 
 bool Cart::submit() {
-    string datetime = getTime();
+    string datetime = getTimeUniform();
     for(unsigned int i = 0; i < orderedDishes.size(); i ++) {
         orderedDishes[i].setStatus(1);
         orderedDishes[i].setDatetime(datetime);
-        for(int j = 0; j < orderedDishes[i].getNum(); j ++)//split orders of the same dish and disable the num feature
+        for(int j = 0; j < orderedDishes[i].getNum(); j ++) {//split orders of the same dish and disable the num feature
+            orderedDishes[i].setOrderedDishID(orderedDishes[i].getOrderedDishID() + ntos((int)i) + ntos((int)j));
             StaticData::insertOrderedDish(orderedDishes[i], 1);
+        }
     }
     Order newOrder(QString::fromStdString(orderedDishes[0].getOrderer()), orderedDishes);
     StaticData::insertOrder(newOrder);

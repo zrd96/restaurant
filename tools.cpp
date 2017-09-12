@@ -33,6 +33,14 @@ string getTime() {
         return (string)res;
 }
 
+string getTimeUniform() {
+    char *res = new char[30];
+    time_t now = time(NULL);
+    tm *ltm = localtime(&now);
+    strftime(res, 30, "%Y%m%d%H%M%S", ltm);
+    return (string)res;
+}
+
 void viewResultList(vector<vector<string> > resultList) {
         for(unsigned int i = 0; i < resultList.size(); i ++) {
                 for(unsigned int j = 0; j < resultList[i].size(); j ++)

@@ -9,7 +9,7 @@
 
 class Dish {
         private:
-                int dishID;
+                string dishID;
                 string name;
                 double price;
                 double rate;
@@ -17,45 +17,49 @@ class Dish {
                 int timeNeeded;
                 string imgdir;
         public:
-                Dish(string name, double price, int timeNeeded = -1, string imgdir = "img/dishes/default.png", int confirmedDishID = -1);
+                Dish(string dishID, string name, double price, int timeNeeded = -1, double rate = 0, int rateNum = 0, string imgdir = "img/dishes/default.png");
                 Dish(const Dish& dish);
-                int getDishID() const {return dishID;}
+                string getDishID() const {return dishID;}
                 string getName() const {return name;}
                 double getPrice() const {return price;}
                 double getRate() const {return rate;}
                 int getRateNum() const {return rateNum;}
                 int getTimeNeeded() const {return timeNeeded;}
                 string getImgDir() const {return imgdir;}
-                bool updateRate(double newRate);
+                void updateRate(double newRate);
                 void show() const;
                 static void showAll();
-                virtual void useless() {}
+                virtual void doNothing() {}
 };
 
 class OrderedDish: public Dish {
         private:
                 string orderer;
+                string chef;
                 int tableNum;
                 int status;
                 int num;
-                int orderedDishID;
+                string orderedDishID;
                 string datetime;
         public:
-                OrderedDish(const Dish dish, string orderer, int tableNum, int status = -1);
-                OrderedDish(const Dish dish, int orderedDishID, string orderer, int tableNum, int status = -1);
+                OrderedDish(const Dish& dish, const string &orderer, int tableNum, int status = -1, const string& chef = "NULL");
+                OrderedDish(const Dish& dish, const string &orderedDishID, const string &orderer, int tableNum, int status = -1, const string& chef = "NULL");
                 string getOrderer() const {return orderer;}
-                int getOrderedDishID() const {return orderedDishID;}
+                string getOrderedDishID() const {return orderedDishID;}
                 void setStatus(int status) {this->status = status;}
                 int getStatus() const {return status;}
                 int getNum() const {return num;}
+                string getChef() {return chef;}
                 string getDatetime() const {return datetime;}
-                void setDatetime(string datetime) {this->datetime = datetime;}
+                void setDatetime(const string &datetime) {this->datetime = datetime;}
                 void add() {num ++;}
                 void sub() {num --;}
                 void setTableNum(int tableNum) {this->tableNum = tableNum;}
-                void setOrderer(string orderer) {this->orderer = orderer;}
+                void setOrderer(const string &orderer) {this->orderer = orderer;}
+                void setOrderedDishID(const string& id) {orderedDishID = id;}
+                void setChef(const string &chef) {this->chef = chef;}
                 int getTable() const {return tableNum;}
-                void useless() {}
+                void doNothing() {}
 };
 
 #endif

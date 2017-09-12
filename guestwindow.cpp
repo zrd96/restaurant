@@ -16,7 +16,7 @@
 #include "order.h"
 #include "orderitem.h"
 
-GuestWindow::GuestWindow(const QString user, QWidget *parent) :
+GuestWindow::GuestWindow(const QString& user, QWidget *parent) :
     QMainWindow(parent),
     guest("", ""),
     orderedSum(0),
@@ -49,6 +49,7 @@ GuestWindow::GuestWindow(const QString user, QWidget *parent) :
     aboutMe = new AboutMeWidget(&guest, this, ui->selfTab);
     aboutMe->show();
     this->show();
+    StaticData::queryOrder();
     viewTableList();
     viewDishList();
     viewCartList();
@@ -104,7 +105,7 @@ void GuestWindow::viewCartList() {
     ui->cartList->resize(1080, 0);
     for(unsigned int i = 0; i < guest.getOrderedDishList().size(); i ++) {
         Item* item = new Item(guest, guest.getOrderedDishList()[i], "cartList", ui->cartList);
-        connect(item, SIGNAL(dishNumChanged(int,int)), this, SLOT(setDishNum(int, int)));
+        connect(item, SIGNAL(dishNumChanged(const string&, int)), this, SLOT(setDishNum(const string&, int)));
         ui->cartList->addItem(item);
         cartItem.push_back(item);
     }
@@ -209,13 +210,7 @@ void GuestWindow::viewMsgList() {
     }
 }
 
-template<typename T> void GuestWindow::clearPointerList(vector<T*>& pointerList) {
-    for(unsigned int i = 0; i < pointerList.size(); i ++)
-            delete pointerList[i];
-        pointerList.clear();
-}
-
-void GuestWindow::setDishNum(int dishID, int finalNum) {
+void GuestWindow::setDishNum(const string& dishID, int finalNum) {
     for(unsigned int i = 0; i < dishItem.size(); i ++)
         if(dishItem[i]->getDishID() == dishID) {
             dishItem[i]->setDishNumText(finalNum);

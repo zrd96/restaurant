@@ -7,7 +7,7 @@
 
 Order::Order(const QString &orderer, const vector<OrderedDish>& orderedDishes):
     orderer(orderer),
-    datetime(QString::fromStdString(getTime())),
+    datetime(QString::fromStdString(getTimeUniform())),
     orderID("O" + datetime + orderer),
     orderSum(0),
     finished(true)

@@ -28,7 +28,7 @@ class GuestWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit GuestWindow(const QString user, QWidget *parent = 0);
+    explicit GuestWindow(const QString& user, QWidget *parent = 0);
     ~GuestWindow();
     void viewTableList();
     void viewDishList();
@@ -38,7 +38,7 @@ public:
     void setSelectedTable(int tableID);
 
 public slots:
-    void setDishNum(int dishID, int finalNum);
+    void setDishNum(const string& dishID, int finalNum);
     void updateSum();
 
 private slots:
@@ -79,7 +79,6 @@ private:
     int selectedTable;
     Guest guest;
     double orderedSum, submittedSum;
-    template<typename T> void clearPointerList(vector<T*>& pointorList);
     Ui::GuestWindow *ui;
     AboutMeWidget* aboutMe;
     bool checkedOut;

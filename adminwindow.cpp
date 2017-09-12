@@ -31,6 +31,7 @@ AdminWindow::AdminWindow(const QString& user, QWidget *parent) :
     connect(ui->restoreButton, &QPushButton::clicked, this, [this]{refreshList();});
     connect(ui->saveButton, &QPushButton::clicked, this, [this]{saveList(ui->tabWidget->currentIndex());});
     aboutMe = new AboutMeWidget(&admin, this, ui->selfTab);
+    aboutMe->setAutoFillBackground(true);
     aboutMe->show();
     ui->tableList->setColumnWidth(0, 410);
     ui->tableList->setColumnWidth(1, 410);
@@ -84,7 +85,7 @@ void AdminWindow::viewDishList() {
             ui->dishList->setRowCount(ui->dishList->rowCount() + 1);
             Dish& cur = StaticData::getDishList()[i];
             int row = ui->dishList->rowCount() - 1;
-            ui->dishList->setItem(row, 0, new QTableWidgetItem(QString().setNum(cur.getDishID())));
+            ui->dishList->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(cur.getDishID())));
             ui->dishList->setItem(row, 1, new QTableWidgetItem(QString::fromStdString(cur.getImgDir())));
             ui->dishList->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(cur.getName())));
             ui->dishList->setItem(row, 3, new QTableWidgetItem(QString().setNum(cur.getPrice())));
@@ -93,6 +94,8 @@ void AdminWindow::viewDishList() {
             ui->dishList->setItem(row, 6, new QTableWidgetItem(QString().setNum(cur.getRateNum())));
             for (int j = 0; j < 7; j ++)
                 ui->dishList->item(row, j)->setData(Qt::UserRole, ui->dishList->item(row, j)->text());
+            ui->dishList->item(row, 5)->setFlags(ui->dishList->item(row, 5)->flags() & (~Qt::ItemIsEditable));
+            ui->dishList->item(row, 6)->setFlags(ui->dishList->item(row, 6)->flags() & (~Qt::ItemIsEditable));
         }
 }
 
@@ -109,6 +112,7 @@ void AdminWindow::viewGuestList() {
             ui->guestList->setItem(row, 3, new QTableWidgetItem(QString::fromStdString("0")));
             for (int j = 0; j < 4; j ++)
                 ui->guestList->item(row, j)->setData(Qt::UserRole, ui->guestList->item(row, j)->text());
+            ui->guestList->item(row, 3)->setFlags(ui->guestList->item(row, 3)->flags() & (~Qt::ItemIsEditable));
         }
 }
 
@@ -125,6 +129,7 @@ void AdminWindow::viewChefList() {
             ui->chefList->setItem(row, 3, new QTableWidgetItem(QString::fromStdString("0")));
             for (int j = 0; j < 4; j ++)
                 ui->chefList->item(row, j)->setData(Qt::UserRole, ui->chefList->item(row, j)->text());
+            ui->chefList->item(row, 3)->setFlags(ui->chefList->item(row, 3)->flags() & (~Qt::ItemIsEditable));
         }
 }
 
@@ -143,6 +148,9 @@ void AdminWindow::viewClerkList() {
             ui->clerkList->setItem(row, 5, new QTableWidgetItem(QString::fromStdString("0")));
             for (int j = 0; j < 6; j ++)
                 ui->clerkList->item(row, j)->setData(Qt::UserRole, ui->clerkList->item(row, j)->text());
+            ui->clerkList->item(row, 3)->setFlags(ui->clerkList->item(row, 3)->flags() & (~Qt::ItemIsEditable));
+            ui->clerkList->item(row, 4)->setFlags(ui->clerkList->item(row, 4)->flags() & (~Qt::ItemIsEditable));
+            ui->clerkList->item(row, 5)->setFlags(ui->clerkList->item(row, 5)->flags() & (~Qt::ItemIsEditable));
         }
 }
 
@@ -165,31 +173,46 @@ void AdminWindow::addItem(QTableWidget *list) {
     if(index == 0) {
         list->item(buttomRow, 1)->setData(Qt::UserRole, 0);
         Table newTable(curItem->data(Qt::UserRole).toInt(), 0, 0);
-        admin.addTable(newTable);
+        StaticData::insertTable(newTable, 1);
     }
     else if (index == 1) {
-        list->item(buttomRow, 1)->setData(Qt::UserRole, 0);
-        list->item(buttomRow, 2)->setData(Qt::UserRole, "img/dishes/default.png");
-        list->item(buttomRow, 3)->setData(Qt::UserRole, "");
-        list->item(buttomRow, 4)->setData(Qt::UserRole, 0);
+        list->item(buttomRow, 0)->setData(Qt::UserRole, QString("D%1%2%3")
+                                          .arg(QString::fromStdString(getTimeUniform()))
+                                          .arg(QString::fromStdString(admin.getPhone()))
+                                          .arg(StaticData::getDishList().size()));
+        list->item(buttomRow, 1)->setData(Qt::UserRole, "img/dishes/default.png");
+        list->item(buttomRow, 2)->setData(Qt::UserRole, "");
+        list->item(buttomRow, 3)->setData(Qt::UserRole, 0);
+        list->item(buttomRow, 4)->setData(Qt::UserRole, -1);
         list->item(buttomRow, 5)->setData(Qt::UserRole, 0);
         list->item(buttomRow, 6)->setData(Qt::UserRole, 0);
-        Dish newDish("", 0, -1, "img/dishes/default.png", curItem->data(Qt::UserRole).toInt());
-        admin.addDish(newDish);
+        list->item(buttomRow, 0)->setText(list->item(buttomRow, 0)->data(Qt::UserRole).toString());
+        ui->dishList->item(buttomRow, 5)->setText("0");
+        ui->dishList->item(buttomRow, 6)->setText("0");
+        ui->dishList->item(buttomRow, 5)->setFlags(ui->dishList->item(buttomRow, 5)->flags() & (~Qt::ItemIsEditable));
+        ui->dishList->item(buttomRow, 6)->setFlags(ui->dishList->item(buttomRow, 6)->flags() & (~Qt::ItemIsEditable));
+        Dish newDish(list->item(buttomRow, 0)->data(Qt::UserRole).toString().toStdString(), "", 0, -1, 0, 0, "img/dishes/default.png");
+        StaticData::insertDish(newDish, 1);
     }
     else if (index == 2) {
         list->item(buttomRow, 1)->setData(Qt::UserRole, "Guest");
         list->item(buttomRow, 2)->setData(Qt::UserRole, "123456");
         list->item(buttomRow, 3)->setData(Qt::UserRole, 0);
+        ui->guestList->item(buttomRow, 1)->setText("Guest");
+        ui->guestList->item(buttomRow, 3)->setText("0");
+        ui->guestList->item(buttomRow, 3)->setFlags(ui->guestList->item(buttomRow, 3)->flags() & (~Qt::ItemIsEditable));
         Guest newGuest(curItem->data(Qt::UserRole).toString().toStdString(), "Guest", "123456");
-        admin.addPerson(newGuest, 1);
+        StaticData::insertGuest(newGuest, 1);
     }
     else if (index == 3) {
         list->item(buttomRow, 1)->setData(Qt::UserRole, "Chef");
         list->item(buttomRow, 2)->setData(Qt::UserRole, "123456");
         list->item(buttomRow, 3)->setData(Qt::UserRole, 0);
         Chef newChef(curItem->data(Qt::UserRole).toString().toStdString(), "Chef", "123456");
-        admin.addPerson(newChef, 2);
+        ui->chefList->item(buttomRow, 1)->setText("Chef");
+        ui->chefList->item(buttomRow, 3)->setText("0");
+        ui->chefList->item(buttomRow, 3)->setFlags(ui->chefList->item(buttomRow, 3)->flags() & (~Qt::ItemIsEditable));
+        StaticData::insertChef(newChef, 1);
     }
     else if (index == 4) {
         list->item(buttomRow, 1)->setData(Qt::UserRole, "Clerk");
@@ -197,8 +220,15 @@ void AdminWindow::addItem(QTableWidget *list) {
         list->item(buttomRow, 3)->setData(Qt::UserRole, 0);
         list->item(buttomRow, 4)->setData(Qt::UserRole, 0);
         list->item(buttomRow, 5)->setData(Qt::UserRole, 0);
+        ui->clerkList->item(buttomRow, 1)->setText("Clerk");
+        ui->clerkList->item(buttomRow, 3)->setText("0");
+        ui->clerkList->item(buttomRow, 4)->setText("0");
+        ui->clerkList->item(buttomRow, 5)->setText("0");
+        ui->clerkList->item(buttomRow, 3)->setFlags(ui->clerkList->item(buttomRow, 3)->flags() & (~Qt::ItemIsEditable));
+        ui->clerkList->item(buttomRow, 4)->setFlags(ui->clerkList->item(buttomRow, 4)->flags() & (~Qt::ItemIsEditable));
+        ui->clerkList->item(buttomRow, 5)->setFlags(ui->clerkList->item(buttomRow, 5)->flags() & (~Qt::ItemIsEditable));
         Clerk newClerk(curItem->data(Qt::UserRole).toString().toStdString(), "Clerk", "123456", 0, 0);
-        admin.addPerson(newClerk, 3);
+        StaticData::insertClerk(newClerk, 1);
     }
     list->editItem(list->item(list->rowCount() - 1, 0));
 }
@@ -224,24 +254,19 @@ void AdminWindow::removeSelected(QTableWidget* list) {
 
 void AdminWindow::markRemoved(int listTab, int row) {
     if (listTab == 0) {
-        Table tmpTable(ui->tableList->item(row, 0)->data(Qt::UserRole).toInt(), 0, 0);
-        StaticData::removeTable(tmpTable);
+        StaticData::removeTable(ui->tableList->item(row, 0)->data(Qt::UserRole).toInt());
     }
     else if (listTab == 1) {
-        Dish tmpDish("", 0, 0, "", ui->dishList->item(row, 0)->data(Qt::UserRole).toInt());
-        StaticData::removeDish(tmpDish);
+        StaticData::removeDish(ui->dishList->item(row, 0)->data(Qt::UserRole).toString().toStdString());
     }
     else if (listTab == 2) {
-        Guest tmpGuest(ui->guestList->item(row, 0)->data(Qt::UserRole).toString().toStdString(), "");
-        StaticData::removeGuest(tmpGuest);
+        StaticData::removeGuest(ui->guestList->item(row, 0)->data(Qt::UserRole).toString().toStdString());
     }
     else if (listTab == 3) {
-        Chef tmpChef(ui->chefList->item(row, 0)->data(Qt::UserRole).toString().toStdString(), "");
-        StaticData::removeChef(tmpChef);
+        StaticData::removeChef(ui->chefList->item(row, 0)->data(Qt::UserRole).toString().toStdString());
     }
     else if (listTab == 4) {
-        Clerk tmpClerk(ui->clerkList->item(row, 0)->data(Qt::UserRole).toString().toStdString(), "");
-        StaticData::removeClerk(tmpClerk);
+        StaticData::removeClerk(ui->clerkList->item(row, 0)->data(Qt::UserRole).toString().toStdString());
     }
 }
 
@@ -295,31 +320,36 @@ void AdminWindow::saveList(int listTab) {
                 QTableWidgetItem* curItem = ui->dishList->item(row, col);
                 if (curItem->text() != curItem->data(Qt::UserRole).toString()) {
                     curItem = ui->dishList->item(row, 0);
-                    if (curItem->text() != curItem->data(Qt::UserRole).toString())
-                        if (!checkID(ui->dishList, row, 0)) {
-                            ui->dishList->editItem(curItem);
-                            return;
-                        }
+                    if (!checkID(ui->dishList, row, 0)) {
+                        ui->dishList->editItem(curItem);
+                        return;
+                    }
+                    curItem = ui->dishList->item(row, 2);
+                    if (curItem->text().size() == 0) {
+                        viewErrInfo("Empty name");
+                        ui->dishList->editItem(curItem);
+                        return;
+                    }
                     curItem = ui->dishList->item(row, 3);//price
-                    if (curItem->text() != curItem->data(Qt::UserRole).toString())
-                        if (!checkNum(curItem->text())) {
-                            viewErrInfo("Invalid price");
-                            ui->dishList->editItem(curItem);
-                            return;
-                        }
+                    if (!checkNum(curItem->text())) {
+                        viewErrInfo("Invalid price");
+                        ui->dishList->editItem(curItem);
+                        return;
+                    }
                     curItem = ui->dishList->item(row, 1);
-                    if (curItem->text() != curItem->data(Qt::UserRole).toString())
-                        if(curItem->text()[0] == '/') {
-                            QString path = "img/dishes/" + ui->dishList->item(row, 0)->text() + "." + curItem->text().section('.', -1);
-                            QFile::copy(curItem->text(), path);
-                            curItem->setText(path);
-                        }
-                    Dish newDish(ui->dishList->item(row, 1)->text().toStdString(),
+                    if(curItem->text()[0] == '/') {
+                        QString path = "img/dishes/" + ui->dishList->item(row, 0)->text() + "." + curItem->text().section('.', -1);
+                        QFile::copy(curItem->text(), path);
+                        curItem->setText(path);
+                    }
+                    Dish newDish(ui->dishList->item(row, 0)->text().toStdString(),
+                                 ui->dishList->item(row, 2)->text().toStdString(),
                                  ui->dishList->item(row, 3)->text().toDouble(),
                                  ui->dishList->item(row, 4)->text().toInt(),
-                                 ui->dishList->item(row, 2)->text().toStdString(),
-                                 ui->dishList->item(row, 0)->text().toInt());
-                    StaticData::modifyDish(ui->dishList->item(row, 0)->data(Qt::UserRole).toInt(), newDish);
+                                 ui->dishList->item(row, 5)->text().toDouble(),
+                                 ui->dishList->item(row, 6)->text().toInt(),
+                                 ui->dishList->item(row, 1)->text().toStdString());
+                    StaticData::modifyDish(ui->dishList->item(row, 0)->data(Qt::UserRole).toString().toStdString(), newDish);
                     setRowData(ui->dishList, row);
                     break;
                 }
@@ -331,21 +361,21 @@ void AdminWindow::saveList(int listTab) {
                 QTableWidgetItem* curItem = ui->guestList->item(row, col);
                 if (curItem->text() != curItem->data(Qt::UserRole).toString()) {
                     curItem = ui->guestList->item(row, 0);
-                    if (curItem->text() != curItem->data(Qt::UserRole).toString())
-                        if (!checkID(ui->guestList, row, 0) || curItem->text().size() != 11) {
-                            ui->guestList->editItem(curItem);
-                            return;
-                        }
+                    if (curItem->text().size() != 11) {
+                        viewErrInfo("Invalid phone");
+                        ui->guestList->editItem(curItem);
+                        return;
+                    }
+                    if (!checkID(ui->guestList, row, 0)) {
+                        ui->guestList->editItem(curItem);
+                        return;
+                    }
                     curItem = ui->guestList->item(row, 2);
                     if (curItem->text().size() < 6) {
                         viewErrInfo("Password must be longer than 6 digits");
                         ui->guestList->editItem(curItem);
                         return;
                     }
-                    if (ui->guestList->item(row, 1)->text().size() == 0)
-                        ui->guestList->item(row, 1)->setText("Guest");
-                    if (ui->guestList->item(row, 3)->text().size() == 0)
-                        ui->guestList->item(row, 3)->setText("0");
                     Guest newGuest(ui->guestList->item(row, 0)->text().toStdString(),
                                    ui->guestList->item(row, 1)->text().toStdString(),
                                    ui->guestList->item(row, 2)->text().toStdString());
@@ -361,21 +391,21 @@ void AdminWindow::saveList(int listTab) {
                 QTableWidgetItem* curItem = ui->chefList->item(row, col);
                 if (curItem->text() != curItem->data(Qt::UserRole).toString()) {
                     curItem = ui->chefList->item(row, 0);
-                    if (curItem->text() != curItem->data(Qt::UserRole).toString())
-                        if (!checkID(ui->chefList, row, 0) || curItem->text().size() != 11) {
-                            ui->chefList->editItem(curItem);
-                            return;
-                        }
+                    if (curItem->text().size() != 11) {
+                        viewErrInfo("Invalid phone");
+                        ui->chefList->editItem(curItem);
+                        return;
+                    }
+                    if (!checkID(ui->chefList, row, 0)) {
+                        ui->chefList->editItem(curItem);
+                        return;
+                    }
                     curItem = ui->chefList->item(row, 2);
                     if (curItem->text().size() < 6) {
                         viewErrInfo("Password must be longer than 6 digits");
                         ui->chefList->editItem(curItem);
                         return;
                     }
-                    if (ui->chefList->item(row, 1)->text().size() == 0)
-                        ui->chefList->item(row, 1)->setText("Chef");
-                    if (ui->chefList->item(row, 3)->text().size() == 0)
-                        ui->chefList->item(row, 3)->setText("0");
                     Chef newChef(ui->chefList->item(row, 0)->text().toStdString(),
                                    ui->chefList->item(row, 1)->text().toStdString(),
                                    ui->chefList->item(row, 2)->text().toStdString());
@@ -391,25 +421,21 @@ void AdminWindow::saveList(int listTab) {
                 QTableWidgetItem* curItem = ui->clerkList->item(row, col);
                 if (curItem->text() != curItem->data(Qt::UserRole).toString()) {
                     curItem = ui->clerkList->item(row, 0);
-                    if (curItem->text() != curItem->data(Qt::UserRole).toString())
-                        if (!checkID(ui->clerkList, row, 0) || curItem->text().size() != 11) {
-                            ui->clerkList->editItem(curItem);
-                            return;
-                        }
+                    if (curItem->text().size() != 11) {
+                        viewErrInfo("Invalid phone");
+                        ui->clerkList->editItem(curItem);
+                        return;
+                    }
+                    if (!checkID(ui->clerkList, row, 0) || curItem->text().size() != 11) {
+                        ui->clerkList->editItem(curItem);
+                        return;
+                    }
                     curItem = ui->clerkList->item(row, 2);
                     if (curItem->text().size() < 6) {
                         viewErrInfo("Password must be longer than 6 digits");
                         ui->clerkList->editItem(curItem);
                         return;
                     }
-                    if (ui->clerkList->item(row, 1)->text().size() == 0)
-                        ui->clerkList->item(row, 1)->setText("Clerk");
-                    if (ui->clerkList->item(row, 3)->text().size() == 0)
-                        ui->clerkList->item(row, 3)->setText("0");
-                    if (ui->clerkList->item(row, 4)->text().size() == 0)
-                        ui->clerkList->item(row, 4)->setText("0");
-                    if (ui->clerkList->item(row, 5)->text().size() == 0)
-                        ui->clerkList->item(row, 5)->setText("0");
                     Clerk newClerk(ui->clerkList->item(row, 0)->text().toStdString(),
                                    ui->clerkList->item(row, 1)->text().toStdString(),
                                    ui->clerkList->item(row, 2)->text().toStdString(),
@@ -424,12 +450,6 @@ void AdminWindow::saveList(int listTab) {
 }
 
 bool AdminWindow::checkID(QTableWidget *list, int row, int col) {
-    bool allDigit = true;
-    list->item(row, col)->text().toLongLong(&allDigit, 10);
-    if(!allDigit) {
-        viewErrInfo("Invalid ID at line " + ntos(row + 1));
-        return false;
-    }
     for (int i = 0; i < list->rowCount(); i ++) {
         if(row != i && list->item(i, col)->text() == list->item(row, col)->text()) {
             viewErrInfo("Duplicate ID at lines " + ntos(row + 1) + " and " + ntos(i + 1));
@@ -440,10 +460,10 @@ bool AdminWindow::checkID(QTableWidget *list, int row, int col) {
 }
 
 bool AdminWindow::checkNum(const QString& numString) {
-    bool allDigit = true;
-    if(numString.toInt(&allDigit, 10) < 0)
+    bool allDigitInt = true, allDigitDouble = true;
+    if(numString.toInt(&allDigitInt, 10) < 0 || numString.toDouble(&allDigitDouble) < 0)
         return false;
-    return allDigit;
+    return (allDigitInt || allDigitDouble);
 }
 
 void AdminWindow::setRowData(QTableWidget *list, int row) {
@@ -512,5 +532,23 @@ void AdminWindow::on_dishList_cellDoubleClicked(int row, int column)
     else {
         QFile::copy(path, "img/copytest.png");
         ui->dishList->item(row, column)->setText(path);
+    }
+}
+
+void AdminWindow::on_tabWidget_currentChanged(int index)
+{
+    if (index == 5) {
+        ui->refreshButton->hide();
+        ui->addButton->hide();
+        ui->removeButton->hide();
+        ui->restoreButton->hide();
+        ui->saveButton->hide();
+    }
+    else {
+        ui->refreshButton->show();
+        ui->addButton->show();
+        ui->removeButton->show();
+        ui->restoreButton->show();
+        ui->saveButton->show();
     }
 }

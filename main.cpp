@@ -117,7 +117,10 @@ int main(int argc, char *argv[])
 //        //chef1.finishDish(StaticData::getOrderedDishByID(2));
         StaticData::queryTable();
         StaticData::queryDish();
+        StaticData::queryOrderedDish();
         StaticData::queryOrder();
+        StaticData::queryClerk();
+        StaticData::queryChef();
         //StaticData::queryClerk();
     }
     QApplication a(argc, argv);

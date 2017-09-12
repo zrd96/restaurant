@@ -5,6 +5,7 @@
 
 #include "dish.h"
 #include "guest.h"
+#include "chef.h"
 #include "rateitem.h"
 
 namespace Ui {
@@ -16,11 +17,10 @@ class Item : public QWidget
     Q_OBJECT
 
 public:
-    explicit
-    Item(Guest& guest, Dish& oriDish, QString listType, QWidget *parent = 0);
+    Item(Person& person, Dish& oriDish, QString listType, QWidget *parent = 0);
     //explicit Item(Guest& guest, const OrderedDish& dish, int num, QWidget *parent = 0);
     ~Item();
-    int getDishID() const {return dish.getDishID();}
+    string getDishID() const {return dish.getDishID();}
     void setDishNumText(int finalNum);
 
 public slots:
@@ -30,7 +30,9 @@ public slots:
 private:
     Ui::Item *ui;
     Dish dish;
+    Person* person;
     Guest *guest;
+    Chef* chef;
     int dishNum;
     QString listType;
     RateItem* itemRate;
@@ -40,7 +42,7 @@ private slots:
     void rateDish(double newRate);
 
 signals:
-    void dishNumChanged(int dishID, int finalNum);
+    void dishNumChanged(const string& dishID, int finalNum);
     void numChanged();
 };
 

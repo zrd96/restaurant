@@ -72,7 +72,7 @@ bool MySQLManager::initDB() {
                 }
                 errInfo = "";
         }
-        if(!runSQLCommand("create table msg(msgid int unsigned not NULL auto_increment primary key, sender char(15) not NULL, receiver char(15) not NULL, msg char(200) not NULL, time datetime not NULL, isActive tinyint unsigned not NULL)")) {
+        if(!runSQLCommand("create table msg(msgid char(40) not NULL primary key, sender char(15) not NULL, receiver char(15) not NULL, msg char(200) not NULL, time datetime not NULL, isActive tinyint unsigned not NULL)")) {
                 errInfo = (string)mysql_error(&mySQLClient);
                 if(errInfo.find("exist") < 0) {
                         viewErrInfo(errInfo);
@@ -80,7 +80,7 @@ bool MySQLManager::initDB() {
                 }
                 errInfo = "";
         }
-        if(!runSQLCommand("create table dish(dishid int unsigned not NULL auto_increment primary key, name char(200) not NULL, price float not NULL, rate float default 0, rateNum int unsigned default 0, time tinyint unsigned, imgdir char(250) default \"img/dishes/default.jpg\")")) {
+        if(!runSQLCommand("create table dish(dishid char(40) not NULL primary key, name char(200) not NULL, price float not NULL, rate float default 0, rateNum int unsigned default 0, time tinyint unsigned, imgdir char(250) default \"img/dishes/default.jpg\")")) {
                 errInfo = (string)mysql_error(&mySQLClient);
                 viewErrInfo(errInfo);
                 if(errInfo.find("exist") < 0) {
@@ -89,7 +89,7 @@ bool MySQLManager::initDB() {
                 }
                 errInfo = "";
         }
-        if(!runSQLCommand("create table orderedDish(id int unsigned not NULL auto_increment primary key, dishid int unsigned not NULL, orderer char(15) not NULL, tableNum int unsigned not NULL, status tinyint unsigned not NULL, datetime char(20) not NULL)")) {
+        if(!runSQLCommand("create table orderedDish(id char(40) not NULL primary key, dishid char(40) not NULL, orderer char(15) not NULL, tableNum int unsigned not NULL, status tinyint unsigned not NULL, datetime char(20) not NULL, chef char(15) not NULL)")) {
                 errInfo = (string)mysql_error(&mySQLClient);
                 if(errInfo.find("exist") < 0) {
                         viewErrInfo(errInfo);
@@ -192,11 +192,11 @@ int MySQLManager::queryID(string name, double price, int timeNeeded, string imgd
 vector<Msg> MySQLManager::queryMsg(string receiver) {
         vector<Msg> msgs;
 
-        if (!doQuery("msg", "sender, receiver, msg, time, isActive", "receiver = \"" + receiver + "\""))
+        if (!doQuery("msg", "msgid, sender, receiver, msg, time, isActive", "receiver = \"" + receiver + "\""))
                 return msgs;
         
         for (unsigned int i = 0; i < resultList.size(); i ++)
-                msgs.push_back(Msg(resultList[i][0], resultList[i][1], resultList[i][2], resultList[i][3], atoi(resultList[i][4].c_str())));
+                msgs.push_back(Msg(resultList[i][0], resultList[i][1], resultList[i][2], resultList[i][3], resultList[i][4], atoi(resultList[i][5].c_str())));
 
         return msgs;
 }

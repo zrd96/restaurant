@@ -12,9 +12,11 @@ class Chef: public Person {
         public:
                 Chef(string phone, string name);
                 Chef(string phone, string name, string password);
-                bool takeDish(const OrderedDish &dish);
-                bool finishDish(const OrderedDish &dish);
+                bool takeDish(OrderedDish &dish);
+                bool finishDish(OrderedDish &dish);
+                void checkDish();
                 void setPhone(string newPhone);
+                vector<OrderedDish>& getTakenDish() {return dishTaken;}
         private:
                 vector<OrderedDish>dishTaken;
 
