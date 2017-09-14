@@ -40,6 +40,7 @@ public slots:
     void setDishNum(const string& dishID, int finalNum);
     void updateSum();
     void setSelectedTable(int tableID);
+    void rateClerk(double newRate);
 
 private slots:
     void on_tabWidget_currentChanged(int index);
@@ -74,10 +75,8 @@ private:
     vector<TableItem*> tableItem;
     vector<Item*> dishItem;
     vector<Item*> cartItem;
-    //vector<Item*> orderItem;
     vector<OrderItem*> orderItem;
     vector<Item*> dishInOrderItem;
-    vector<QTableWidgetItem*> msgItem;
     int selectedTable;
     Guest guest;
     double orderedSum, submittedSum;
@@ -85,6 +84,7 @@ private:
     AboutMeWidget* aboutMe;
     bool checkedOut;
     Order* currentOrder;
+    void sendMsg(const QString &msg);
     //void closeEvent(QCloseEvent* ev) {emit windowClosed();}
 };
 

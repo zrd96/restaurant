@@ -39,6 +39,10 @@ void Order::insertDish(const OrderedDish dish) {
 }
 
 int Order::checkStatus() {
+    for(unsigned int i = 0; i < dishes.size(); i ++)
+        if (dishes[i].getStatus() == 7 || dishes[i].getStatus() == 8) {
+            return status = 6;
+        }
     bool checkedOut = true;
     for(unsigned int i = 0; i < dishes.size(); i ++)
         if(dishes[i].getStatus() < 5) {

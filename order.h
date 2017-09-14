@@ -14,7 +14,7 @@ private:
     QString datetime;
     QString orderID;
     double orderSum;
-    int status;      //3 not all served, 4 all served, 5 all checked out
+    int status;      //3 not all served, 4 all served, 5 all checked out, 6 clerk rated
     vector<OrderedDish> dishes;
     void insertDish(const OrderedDish dish);
 public:

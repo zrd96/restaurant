@@ -13,6 +13,7 @@
 #include "datamanager.h"
 #include "mysqlmanager.h"
 #include "order.h"
+#include "rate.h"
 
 class Order;
 class Chef;
@@ -27,6 +28,7 @@ private:
     static vector<Clerk> clerkList;
     static vector<Table> tableList;
     static vector<Order> orderList;
+    static vector<Rate> rateList;
 
     static vector<int> dishMaintainList;
     static vector<int> orderedDishMaintainList;
@@ -35,6 +37,7 @@ private:
     static vector<int> chefMaintainList;
     static vector<int> clerkMaintainList;
     static vector<int> tableMaintainList;
+    static vector<int> rateMaintainList;
     //static vector<int> orderMaintainList;
 
 public:
@@ -48,16 +51,18 @@ public:
     static bool queryGuest();
     static bool queryChef();
     static bool queryOrder();
+    static bool queryRate();
     static void clearMsgList();
 
-    static void insertTable(const Table table, int type = 0);
-    static void insertDish(const Dish dish, int type = 0);
-    static void insertOrderedDish(const OrderedDish orderedDish, int type = 0);
-    static void insertMsg(const Msg msg, int type = 0);
-    static void insertGuest(const Guest guest, int type = 0);
-    static void insertClerk(const Clerk clerk, int type = 0);
-    static void insertChef(const Chef chef, int type = 0);
-    static void insertOrder(const Order order);
+    static void insertTable(const Table &table, int type = 0);
+    static void insertDish(const Dish &dish, int type = 0);
+    static void insertOrderedDish(const OrderedDish &orderedDish, int type = 0);
+    static void insertMsg(const Msg &msg, int type = 0);
+    static void insertGuest(const Guest &guest, int type = 0);
+    static void insertClerk(const Clerk &clerk, int type = 0);
+    static void insertChef(const Chef &chef, int type = 0);
+    static void insertOrder(const Order &order);
+    static void insertRate(const Rate &rate, int type = 0);
 
     static void removeTable(int tableID);
     static void removeDish(const string& dishID);
@@ -84,6 +89,7 @@ public:
     static void writeGuest();
     static void writeClerk();
     static void writeChef();
+    static void writeRate();
     //static void writeOrder();
 
     static vector<Table>& getTableList() {return tableList;}
@@ -94,6 +100,7 @@ public:
     static vector<Clerk>& getClerkList() {return clerkList;}
     static vector<Chef>& getChefList() {return chefList;}
     static vector<Order>& getOrderList() {return orderList;}
+    static vector<Rate>& getRateList() {return rateList;}
 
     static vector<int>& getTableMaintainList() {return tableMaintainList;}
     static vector<int>& getDishMaintainList() {return dishMaintainList;}
@@ -102,6 +109,7 @@ public:
     static vector<int>& getGuestMaintainList() {return guestMaintainList;}
     static vector<int>& getClerkMaintainList() {return clerkMaintainList;}
     static vector<int>& getChefMaintainList() {return chefMaintainList;}
+    static vector<int>& getRateMaintainList() {return rateMaintainList;}
     //static vector<int>& getOrderMaintainList() {return orderMaintainList;}
 
     static Dish& getDishByID(const string& dishID);
@@ -112,6 +120,7 @@ public:
     static string getPersonNameByPhone(const string& phone);
     static void updateEverythingAboutUser(Person* person, const string& newPhone);
     static Table& getTableByID(int tableID);
+    static Clerk& getClerkByPhone(const QString &phone);
 };
 
 #endif

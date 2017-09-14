@@ -50,7 +50,7 @@ SOURCES += \
     rateitem.cpp \
     order.cpp \
     orderitem.cpp \
-    msgcenter.cpp
+    rate.cpp
 
 HEADERS += \
     logindlg.h \
@@ -77,7 +77,7 @@ HEADERS += \
     rateitem.h \
     order.h \
     orderitem.h \
-    msgcenter.h
+    rate.h
 
 FORMS += \
     logindlg.ui \
@@ -89,5 +89,4 @@ FORMS += \
     tableitem.ui \
     aboutmewidget.ui \
     rateitem.ui \
-    orderitem.ui \
-    msgcenter.ui
+    orderitem.ui

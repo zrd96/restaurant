@@ -6,6 +6,7 @@
 #include "tools.h"
 #include "datamanager.h"
 #include "table.h"
+#include "rate.h"
 
 class Dish {
         private:
@@ -16,9 +17,9 @@ class Dish {
                 int rateNum;
                 int timeNeeded;
                 string imgdir;
+                vector<Rate> rateList;
         public:
                 Dish(string dishID, string name, double price, int timeNeeded = -1, double rate = 0, int rateNum = 0, string imgdir = "img/dishes/default.png");
-                Dish(const Dish& dish);
                 string getDishID() const {return dishID;}
                 string getName() const {return name;}
                 double getPrice() const {return price;}
@@ -26,7 +27,9 @@ class Dish {
                 int getRateNum() const {return rateNum;}
                 int getTimeNeeded() const {return timeNeeded;}
                 string getImgDir() const {return imgdir;}
+                vector<Rate>& getRateList() {return rateList;}
                 void updateRate(double newRate);
+                void queryRate();
                 void show() const;
                 static void showAll();
                 virtual void doNothing() {}
@@ -61,5 +64,16 @@ class OrderedDish: public Dish {
                 int getTable() const {return tableNum;}
                 void doNothing() {}
 };
+/* status:
+ * 0  not submitted
+ * 1  queueing
+ * 2  cooking
+ * 3  waiting to be served (cooked)
+ * 4  served
+ * 5  cheched out (both not rated)
+ * 6  rated clerk not rated
+ * 7  not rated clerk rated
+ * 8  rated clerk rated
+*/
 
 #endif

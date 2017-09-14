@@ -10,6 +10,7 @@
 #include "guest.h"
 #include "clerk.h"
 #include "chef.h"
+#include "rate.h"
 
 vector<Dish> StaticData::dishList;
 vector<OrderedDish> StaticData::orderedDishList;
@@ -19,6 +20,7 @@ vector<Clerk> StaticData::clerkList;
 vector<Chef> StaticData::chefList;
 vector<Guest> StaticData::guestList;
 vector<Table> StaticData::tableList;
+vector<Rate> StaticData::rateList;
 
 vector<int> StaticData::dishMaintainList;
 vector<int> StaticData::orderedDishMaintainList;
@@ -27,6 +29,7 @@ vector<int> StaticData::guestMaintainList;
 vector<int> StaticData::chefMaintainList;
 vector<int> StaticData::clerkMaintainList;
 vector<int> StaticData::tableMaintainList;
+vector<int> StaticData::rateMaintainList;
 
 DataManager* StaticData::db = NULL;
 
@@ -145,43 +148,64 @@ bool StaticData::queryOrder() {
     }
 }
 
-void StaticData::insertTable(const Table table, int type) {
+bool StaticData::queryRate() {
+    rateList.clear();
+    if (!db->doQuery("rate", "*"))
+        return false;
+    vector<vector<string> > resultList = db->getResultList();
+    for(unsigned int i = 0; i < resultList.size(); i ++)
+        insertRate(Rate(QString::fromStdString(resultList[i][0]),
+                   atof(resultList[i][1].c_str()),
+                QString::fromStdString(resultList[i][2]),
+                QString::fromStdString(resultList[i][3]),
+                QString::fromStdString(resultList[i][4]),
+                QString::fromStdString(resultList[i][5]),
+                QString::fromStdString(resultList[i][6])));
+    return true;
+}
+
+void StaticData::insertTable(const Table &table, int type) {
     tableList.push_back(table);
     tableMaintainList.push_back(type);
 }
 
-void StaticData::insertDish(const Dish dish, int type) {
+void StaticData::insertDish(const Dish &dish, int type) {
     dishList.push_back(dish);
     dishMaintainList.push_back(type);
 }
 
-void StaticData::insertOrderedDish(const OrderedDish orderedDish, int type) {
+void StaticData::insertOrderedDish(const OrderedDish &orderedDish, int type) {
     orderedDishList.push_back(orderedDish);
     orderedDishMaintainList.push_back(type);
 }
 
-void StaticData::insertMsg(const Msg msg, int type) {
+void StaticData::insertMsg(const Msg &msg, int type) {
     msgList.push_back(msg);
     msgMaintainList.push_back(type);
 }
 
-void StaticData::insertGuest(const Guest guest, int type) {
+void StaticData::insertGuest(const Guest &guest, int type) {
     guestList.push_back(guest);
     guestMaintainList.push_back(type);
 }
 
-void StaticData::insertClerk(const Clerk clerk, int type) {
+void StaticData::insertClerk(const Clerk &clerk, int type) {
     clerkList.push_back(clerk);
     clerkMaintainList.push_back(type);
 }
 
-void StaticData::insertChef(const Chef chef, int type) {
+void StaticData::insertChef(const Chef &chef, int type) {
     chefList.push_back(chef);
     chefMaintainList.push_back(type);
 }
 
-void StaticData::insertOrder(const Order order) {
+void StaticData::insertOrder(const Order &order) {
     orderList.push_back(order);
+}
+
+void StaticData::insertRate(const Rate &rate, int type) {
+    rateList.push_back(rate);
+    rateMaintainList.push_back(type);
 }
 
 void StaticData::removeTable(int tableID) {
@@ -511,6 +535,21 @@ void StaticData::writeChef() {
     }
 }
 
+void StaticData::writeRate() {
+    for (unsigned int i = 0; i < rateList.size(); i ++) {
+        Rate& cur = rateList[i];
+        if (rateMaintainList[i] > 0) {
+                db->insert("rate", "\"" + cur.getRateID().toStdString() + "\", "
+                           + ntos(cur.getRate()) + ", \""
+                           + cur.getSubject().toStdString() + "\", \""
+                           + cur.getObject().toStdString() + "\", \""
+                           + cur.getDatetime().toStdString() + "\", \""
+                           + cur.getTitle().toStdString() + "\", \""
+                           + cur.getComments().toStdString() + "\", \"");
+        }
+    }
+}
+
 Dish& StaticData::getDishByID(const string& dishID) {
         for(unsigned int i = 0; i < dishList.size(); i ++)
                 if(dishList[i].getDishID() == dishID)
@@ -578,6 +617,14 @@ Table& StaticData::getTableByID(int tableID) {
             return tableList[i];
         }
     }
+}
+
+Clerk& StaticData::getClerkByPhone(const QString &phone) {
+    if (clerkList.empty())
+        queryClerk();
+    for (unsigned int i = 0; i < clerkList.size(); i ++)
+        if (clerkList[i].getPhone() == phone.toStdString())
+            return clerkList[i];
 }
 
 //Person& getPersonByID(int id) {

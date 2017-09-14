@@ -49,6 +49,9 @@ GuestWindow::GuestWindow(const QString& user, QWidget *parent) :
     aboutMe->show();
     this->show();
     StaticData::queryOrder();
+    connect(ui->sendWaterButton, &QPushButton::clicked, this, [this] {sendMsg("Water");});
+    connect(ui->sendNapkinButton, &QPushButton::clicked, this, [this] {sendMsg("Napkin");});
+    connect(ui->sendQuicklyButton, &QPushButton::clicked, this, [this] {sendMsg("Quickly");});
     viewTableList();
     viewDishList();
     viewCartList();
@@ -172,39 +175,32 @@ void GuestWindow::viewDishInOrderList(Order* order) {
         item->show();
     }
     ui->checkOutButton->setEnabled(order->checkStatus() == 4);
+    if (order->checkStatus() == 5) {
+        ui->rateClerkNote->show();
+        RateItem* rateItem = new RateItem(this);
+        rateItem->setGeometry(260, 800, 150, 30);
+        connect(rateItem, SIGNAL(rateSet(double)), this, SLOT(rateClerk(double)));
+    }
 }
 
 void GuestWindow::viewMsgList() {
-    ui->inboxList->clearContents();
-    ui->outboxList->clearContents();
-    clearPointerList(msgItem);
-
+    ui->inboxList->setRowCount(0);
     vector<Msg*> msgReceived = StaticData::getMsgByReceiver(guest.getPhone());
     for(unsigned int i = 0; i < msgReceived.size(); i ++) {
-        ui->inboxList->setRowCount(ui->inboxList->rowCount() + 1);
-        QTableWidgetItem* cell1 = new QTableWidgetItem(QString::fromStdString(StaticData::getPersonNameByPhone(msgReceived[i]->getSender())));
-        ui->inboxList->setItem(ui->inboxList->rowCount() - 1, 0, cell1);
-        QTableWidgetItem* cell2 = new QTableWidgetItem(QString::fromStdString(msgReceived[i]->getDatetime()));
-        ui->inboxList->setItem(ui->inboxList->rowCount() - 1, 1, cell2);
-        QTableWidgetItem* cell3 = new QTableWidgetItem(QString::fromStdString(msgReceived[i]->getMsg()));
-        ui->inboxList->setItem(ui->inboxList->rowCount() - 1, 2, cell3);
-        msgItem.push_back(cell1);
-        msgItem.push_back(cell2);
-        msgItem.push_back(cell3);
+        int row = ui->inboxList->rowCount();
+        ui->inboxList->setRowCount(row + 1);
+        ui->inboxList->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(StaticData::getPersonNameByPhone(msgReceived[i]->getSender()))));
+        ui->inboxList->setItem(row, 1, new QTableWidgetItem(QString::fromStdString(msgReceived[i]->getDatetime())));
+        ui->inboxList->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(msgReceived[i]->getMsg())));
     }
-
+    ui->outboxList->setRowCount(0);
     vector<Msg*> msgSent = StaticData::getMsgBySender(guest.getPhone());
     for(unsigned int i = 0; i < msgReceived.size(); i ++) {
-        ui->outboxList->setRowCount(ui->outboxList->rowCount() + 1);
-        QTableWidgetItem* cell1 = new QTableWidgetItem(QString::fromStdString(StaticData::getPersonNameByPhone(msgSent[i]->getSender())));
-        ui->outboxList->setItem(ui->outboxList->rowCount() - 1, 0, cell1);
-        QTableWidgetItem* cell2 = new QTableWidgetItem(QString::fromStdString(msgSent[i]->getDatetime()));
-        ui->outboxList->setItem(ui->outboxList->rowCount() - 1, 1, cell2);
-        QTableWidgetItem* cell3 = new QTableWidgetItem(QString::fromStdString(msgSent[i]->getMsg()));
-        ui->outboxList->setItem(ui->outboxList->rowCount() - 1, 2, cell3);
-        msgItem.push_back(cell1);
-        msgItem.push_back(cell2);
-        msgItem.push_back(cell3);
+        int row = ui->outboxList->rowCount();
+        ui->outboxList->setRowCount(row + 1);
+        ui->outboxList->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(StaticData::getPersonNameByPhone(msgSent[i]->getReceiver()))));
+        ui->outboxList->setItem(row, 1, new QTableWidgetItem(QString::fromStdString(msgSent[i]->getDatetime())));
+        ui->outboxList->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(msgSent[i]->getMsg())));
     }
 }
 
@@ -221,6 +217,14 @@ void GuestWindow::on_RefreshCart_clicked()
 {
     viewCartList();
     viewOrderList();
+}
+
+void GuestWindow::rateClerk(double newRate) {
+    Clerk &clerk = StaticData::getClerkByPhone(QString::fromStdString(StaticData::getTableByID(guest.getTable()).getClerk()));
+    clerk.updateRate(newRate);
+    StaticData::modifyClerk(clerk.getPhone(), clerk);
+    currentOrder->getOrderDishes()[0].setStatus(currentOrder->getOrderDishes()[0].getStatus() + 2);
+    StaticData::modifyOrderedDish(currentOrder->getOrderDishes()[0].getOrderedDishID(), currentOrder->getOrderDishes()[0]);
 }
 
 void GuestWindow::on_tabWidget_currentChanged(int index)
@@ -244,6 +248,18 @@ void GuestWindow::updateSum() {
         ui->submitButton->setEnabled(false);
     else
         ui->submitButton->setEnabled(true);
+}
+
+void GuestWindow::sendMsg(const QString &msg) {
+    if (ui->submitTableButton->isEnabled()) {
+        viewErrInfo("Please select a table before sending messages");
+        return;
+    }
+    if (msg.length() == 0) {
+        viewErrInfo("Empty message");
+        return;
+    }
+    guest.sendMsg("Table_" + ntos(guest.getTable()), msg.toStdString());
 }
 
 void GuestWindow::setSelectedTable(int tableID) {
@@ -297,18 +313,13 @@ void GuestWindow::on_refreshTableButton_clicked()
 
 void GuestWindow::on_sendMsgButton_clicked()
 {
-    if(ui->newMsgText->toPlainText().size() == 0) {
-        viewErrInfo("Empty message");
-        return;
-    }
-    guest.sendMsg("Table_" + ntos(guest.getTable()), ui->newMsgText->toPlainText().toStdString());
+    sendMsg(ui->newMsgText->toPlainText());
 }
 
 void GuestWindow::on_refreshMsg_clicked()
 {
     viewMsgList();
 }
-
 
 void GuestWindow::on_viewOrderButton_clicked()
 {
@@ -326,6 +337,7 @@ void GuestWindow::on_checkOutButton_clicked()
         currentOrder->getOrderDishes()[i].setStatus(5);
         StaticData::modifyOrderedDish(currentOrder->getOrderDishes()[i].getOrderedDishID(), currentOrder->getOrderDishes()[i]);
     }
+    sendMsg("Check Out");
     ui->checkOutButton->setEnabled(currentOrder->checkStatus() == 4);
     viewDishInOrderList(currentOrder);
 }
