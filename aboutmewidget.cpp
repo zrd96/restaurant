@@ -4,6 +4,7 @@
 #include "clerk.h"
 #include "tools.h"
 #include "staticdata.h"
+#include "rateitem.h"
 #include <QMessageBox>
 
 AboutMeWidget::AboutMeWidget(Person* person, QMainWindow* mainWindow, QWidget *parent) :
@@ -33,11 +34,14 @@ void AboutMeWidget::dealWithRateInfo() {
     if(clerk == NULL) {
         ui->rateLabel->setVisible(false);
         ui->rateInfo->setVisible(false);
-        ui->rateProgressBar->setVisible(false);
+        //ui->rateProgressBar->setVisible(false);
         return;
     }
-    ui->rateProgressBar->setValue(10 * clerk->getRate());
-    ui->rateInfo->setText(QString("Rate %1/10 from %2 people").arg(clerk->getRate()).arg(clerk->getRateNum()));
+    RateItem* rate = new RateItem(this);
+    rate->setGeometry(590, 510, 150, 30);
+    rate->setRate(clerk->getRate());
+    rate->show();
+    ui->rateInfo->setText(QString("Rate %1/5 from %2 people").arg(clerk->getRate()).arg(clerk->getRateNum()));
 }
 
 void AboutMeWidget::on_refreshInfoButton_clicked()

@@ -17,17 +17,18 @@ class TableItem : public QWidget
     Q_OBJECT
 
 public:
-    explicit TableItem(Guest& guest, const Table& table, GuestWindow* guestWindow, QWidget *parent = 0);
+    explicit TableItem(const Table& table, QWidget *parent = 0);
     ~TableItem();
 
 private slots:
     void on_selectTable_clicked();
 
+signals:
+    void tableSelected(int);
+
 private:
     Ui::TableItem *ui;
     Table table;
-    Guest* guest;
-    GuestWindow* guestWindow;
 };
 
 #endif // TABLEITEM_H

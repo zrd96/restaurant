@@ -12,16 +12,15 @@ Table::Table(int id, int seats, int freeSeats, string clerk):
 
 void Table::viewAll() {}
 
-bool Table::linkClerk(Clerk& clerk) {
-        this->clerk = clerk.getPhone();
-        return true;
+void Table::linkClerk(Clerk& clerk) {
+    this->clerk = clerk.getPhone();
+    StaticData::modifyTable(this->getTableID(), *this);
 }
-
 
 bool Table::addGuest() {
     if(freeSeats == 0)
         return false;
-    Table newTable(id, seats, freeSeats - 1, clerk);
-    StaticData::modifyTable(this->getTableID(), newTable);
+    freeSeats --;
+    StaticData::modifyTable(this->getTableID(), *this);
     return true;
 }

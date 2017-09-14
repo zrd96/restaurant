@@ -7,8 +7,8 @@
 #include <QCloseEvent>
 
 #include "dish.h"
+#include "item.h"
 #include "guest.h"
-#include "itemlist.h"
 #include "tableitem.h"
 #include "aboutmewidget.h"
 #include "logindlg.h"
@@ -35,11 +35,11 @@ public:
     void viewCartList();
     void viewOrderList();
     void viewMsgList();
-    void setSelectedTable(int tableID);
 
 public slots:
     void setDishNum(const string& dishID, int finalNum);
     void updateSum();
+    void setSelectedTable(int tableID);
 
 private slots:
     void on_tabWidget_currentChanged(int index);
@@ -63,6 +63,8 @@ private slots:
     void on_refreshOrderInfoButton_clicked();
 
     void on_checkOutButton_clicked();
+
+    void on_refreshDishListButton_clicked();
 
 signals:
     //void windowClosed();

@@ -30,7 +30,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="tableTab">
      <attribute name="title">
@@ -81,6 +81,9 @@
       <attribute name="horizontalHeaderDefaultSectionSize">
        <number>400</number>
       </attribute>
+      <attribute name="horizontalHeaderHighlightSections">
+       <bool>false</bool>
+      </attribute>
       <attribute name="horizontalHeaderMinimumSectionSize">
        <number>390</number>
       </attribute>
@@ -92,6 +95,9 @@
       </attribute>
       <attribute name="verticalHeaderDefaultSectionSize">
        <number>240</number>
+      </attribute>
+      <attribute name="verticalHeaderHighlightSections">
+       <bool>false</bool>
       </attribute>
       <attribute name="verticalHeaderMinimumSectionSize">
        <number>240</number>
@@ -149,118 +155,84 @@
      <attribute name="title">
       <string>Select Dishes</string>
      </attribute>
-     <widget class="QScrollArea" name="scrollAreaDishList">
+     <widget class="QPushButton" name="refreshDishListButton">
+      <property name="geometry">
+       <rect>
+        <x>1010</x>
+        <y>780</y>
+        <width>80</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Refresh</string>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="dishList">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
         <width>1200</width>
-        <height>850</height>
+        <height>760</height>
        </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>1200</width>
-        <height>850</height>
-       </size>
-      </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAsNeeded</enum>
       </property>
       <property name="horizontalScrollBarPolicy">
        <enum>Qt::ScrollBarAlwaysOff</enum>
       </property>
-      <property name="sizeAdjustPolicy">
-       <enum>QAbstractScrollArea::AdjustIgnored</enum>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
       </property>
-      <property name="widgetResizable">
+      <property name="selectionMode">
+       <enum>QAbstractItemView::NoSelection</enum>
+      </property>
+      <property name="verticalScrollMode">
+       <enum>QAbstractItemView::ScrollPerPixel</enum>
+      </property>
+      <property name="horizontalScrollMode">
+       <enum>QAbstractItemView::ScrollPerPixel</enum>
+      </property>
+      <property name="columnCount">
+       <number>1</number>
+      </property>
+      <attribute name="horizontalHeaderVisible">
        <bool>false</bool>
-      </property>
-      <widget class="ItemList" name="dishList">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>1198</width>
-         <height>848</height>
-        </rect>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-      </widget>
+      </attribute>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>1200</number>
+      </attribute>
+      <attribute name="horizontalHeaderHighlightSections">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="horizontalHeaderMinimumSectionSize">
+       <number>1180</number>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="verticalHeaderDefaultSectionSize">
+       <number>140</number>
+      </attribute>
+      <attribute name="verticalHeaderHighlightSections">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="verticalHeaderMinimumSectionSize">
+       <number>140</number>
+      </attribute>
+      <column/>
      </widget>
     </widget>
     <widget class="QWidget" name="cartTab">
      <attribute name="title">
       <string>View Cart</string>
      </attribute>
-     <widget class="QScrollArea" name="scrollAreaCartList">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>40</y>
-        <width>1200</width>
-        <height>720</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>1200</width>
-        <height>720</height>
-       </size>
-      </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAsNeeded</enum>
-      </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="sizeAdjustPolicy">
-       <enum>QAbstractScrollArea::AdjustIgnored</enum>
-      </property>
-      <property name="widgetResizable">
-       <bool>false</bool>
-      </property>
-      <widget class="ItemList" name="cartList">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>1198</width>
-         <height>715</height>
-        </rect>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-      </widget>
-     </widget>
      <widget class="QPushButton" name="RefreshCart">
       <property name="geometry">
        <rect>
         <x>860</x>
-        <y>790</y>
+        <y>780</y>
         <width>80</width>
-        <height>40</height>
+        <height>50</height>
        </rect>
       </property>
       <property name="text">
@@ -289,9 +261,9 @@
       <property name="geometry">
        <rect>
         <x>1020</x>
-        <y>790</y>
+        <y>780</y>
         <width>80</width>
-        <height>40</height>
+        <height>50</height>
        </rect>
       </property>
       <property name="text">
@@ -339,6 +311,59 @@
       <property name="text">
        <string/>
       </property>
+     </widget>
+     <widget class="QTableWidget" name="cartList">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1200</width>
+        <height>760</height>
+       </rect>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::NoSelection</enum>
+      </property>
+      <property name="verticalScrollMode">
+       <enum>QAbstractItemView::ScrollPerPixel</enum>
+      </property>
+      <property name="horizontalScrollMode">
+       <enum>QAbstractItemView::ScrollPerPixel</enum>
+      </property>
+      <property name="columnCount">
+       <number>1</number>
+      </property>
+      <attribute name="horizontalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>1200</number>
+      </attribute>
+      <attribute name="horizontalHeaderHighlightSections">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="horizontalHeaderMinimumSectionSize">
+       <number>1180</number>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="verticalHeaderDefaultSectionSize">
+       <number>140</number>
+      </attribute>
+      <attribute name="verticalHeaderHighlightSections">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="verticalHeaderMinimumSectionSize">
+       <number>140</number>
+      </attribute>
+      <column/>
      </widget>
     </widget>
     <widget class="QWidget" name="tab">
@@ -602,7 +627,7 @@
        </widget>
       </widget>
      </widget>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="sendWaterButton">
       <property name="geometry">
        <rect>
         <x>200</x>
@@ -615,7 +640,7 @@
        <string>Water</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_4">
+     <widget class="QPushButton" name="sendCheckOutButton">
       <property name="geometry">
        <rect>
         <x>470</x>
@@ -628,7 +653,7 @@
        <string>Check Out</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="sendNapkinButton">
       <property name="geometry">
        <rect>
         <x>290</x>
@@ -641,7 +666,7 @@
        <string>Napkin</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_3">
+     <widget class="QPushButton" name="sendQuicklyButton">
       <property name="geometry">
        <rect>
         <x>380</x>
@@ -728,13 +753,6 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>ItemList</class>
-   <extends>QWidget</extends>
-   <header>itemlist.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

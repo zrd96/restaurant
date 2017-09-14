@@ -21,7 +21,7 @@ bool Chef::takeDish(OrderedDish &dish) {
 }
 
 bool Chef::finishDish(OrderedDish &dish) {
-        sendMsg(StaticData::getClerkPhoneByTable(dish.getTable()), "Dish ready " + ntos(dish.getTable()) + " " + dish.getOrderer() + " " + dish.getOrderedDishID());
+        sendMsg("Table_" + ntos(dish.getTable()), "Dish ready " + dish.getOrderedDishID());
         dish.setStatus(3);
         StaticData::modifyOrderedDish(dish.getOrderedDishID(), dish);
 //        for (unsigned int i = 0; i < dishTaken.size(); i ++)

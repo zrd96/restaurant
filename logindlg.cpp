@@ -151,7 +151,8 @@ void LoginDlg::logIn(const QString user, int userType) {
             chefWindow->show();
             break;
         case 3:
-            clerkWindow = new ClerkWindow();
+            clerkWindow = new ClerkWindow(user, this);
+            connect(clerkWindow, SIGNAL(closeEvent(QCloseEvent*)), this, SLOT(show()));
             clerkWindow->show();
             break;
     }

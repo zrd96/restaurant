@@ -24,6 +24,7 @@ class Msg {
                 void setSender(string newSender) {sender = newSender;}
                 void setReceiver(string newReceiver) {receiver = newReceiver;}
                 bool getState() const {return isActive;}
+                void readMsg() {isActive = false;}
 };
 
 #endif

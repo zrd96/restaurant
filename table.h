@@ -11,7 +11,7 @@ class Clerk;
 class Table {
         public:
                 Table(int id, int seats, int freeSeats, string clerk = "");
-                bool linkClerk(Clerk& clerk);
+                void linkClerk(Clerk& clerk);
                 int getTableID() const {return id;}
                 int getSeats() const {return seats;}
                 int getFreeSeats() const {return freeSeats;}

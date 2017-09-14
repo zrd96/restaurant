@@ -223,22 +223,6 @@
     <string>My Rate Info</string>
    </property>
   </widget>
-  <widget class="QProgressBar" name="rateProgressBar">
-   <property name="geometry">
-    <rect>
-     <x>590</x>
-     <y>510</y>
-     <width>201</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="value">
-    <number>24</number>
-   </property>
-   <property name="format">
-    <string/>
-   </property>
-  </widget>
   <widget class="QLabel" name="rateInfo">
    <property name="geometry">
     <rect>
@@ -254,7 +238,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Rated /10 from people</string>
+    <string>Rated /5 from people</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_8">

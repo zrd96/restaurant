@@ -444,7 +444,7 @@ void StaticData::writeGuest() {
                 db->insert("person", "\"" + cur.getPhone() + "\", \""
                            + cur.getName() + "\", \""
                            + cur.getPassword() + "\", 1, NULL, NULL, "
-                           + ntos(cur.getTable()));
+                           + (cur.getTable() > 0 ? ntos(cur.getTable()) : "NULL"));
             }
         }
         else if (guestMaintainList[i] < 0) {
@@ -471,7 +471,7 @@ void StaticData::writeClerk() {
 //                db->update("person", "password", "\"" + cur.getPassword() + "\"",
 //                           "phone = \"" + cur.getPhone() + "\"");
             }
-            else if (clerkMaintainList[i] < 0) {
+            else {
                 db->insert("person", "\"" + cur.getPhone() + "\", \""
                            + cur.getName() + "\", \""
                            + cur.getPassword() + "\", 3, "
@@ -479,7 +479,7 @@ void StaticData::writeClerk() {
                            + ntos(cur.getRateNum()) + ", NULL");
             }
         }
-        else {
+        else if (clerkMaintainList[i] < 0) {
             db->deleteRow("person", "phone = \"" + cur.getPhone() + "\"");
         }
     }

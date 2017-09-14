@@ -16,6 +16,8 @@ ChefWindow::ChefWindow(const QString& user, QWidget *parent) :
                   StaticData::db->getResultList()[0][0],
             StaticData::db->getResultList()[0][1]);
     viewOrderedDishList();
+    aboutMe = new AboutMeWidget(&chef, this, ui->selfTab);
+    aboutMe->show();
 }
 
 ChefWindow::~ChefWindow()

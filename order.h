@@ -14,7 +14,7 @@ private:
     QString datetime;
     QString orderID;
     double orderSum;
-    bool finished;
+    int status;      //3 not all served, 4 all served, 5 all checked out
     vector<OrderedDish> dishes;
     void insertDish(const OrderedDish dish);
 public:
@@ -24,8 +24,7 @@ public:
     QString getOrderer() const {return orderer;}
     QString getDatetime() const {return datetime;}
     double getOrderSum() const {return orderSum;}
-    bool isFinished() const {return finished;}
-    bool checkFinished();
+    int checkStatus();
     vector<OrderedDish>& getOrderDishes() {return dishes;}
     friend class StaticData;
 };

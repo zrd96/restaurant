@@ -8,7 +8,6 @@
 #include "tools.h"
 #include "dish.h"
 #include "item.h"
-#include "itemlist.h"
 #include "tableitem.h"
 #include "table.h"
 #include "msg.h"
@@ -76,8 +75,11 @@ void GuestWindow::viewTableList() {
             ui->tableList->setRowCount(ui->tableList->rowCount() + 1);
         int row = i / 3;
         int col = i % 3;
-        TableItem* table = new TableItem(guest, StaticData::getTableList()[i], this, ui->tableList);
+        TableItem* table = new TableItem(StaticData::getTableList()[i], ui->tableList);
+        connect(table, SIGNAL(tableSelected(int)), this, SLOT(setSelectedTable(int)));
         ui->tableList->setCellWidget(row, col, table);
+        if (StaticData::getTableList()[i].getFreeSeats() == 0)
+            table->setEnabled(false);
         tableItem.push_back(table);
     }
     if(guest.getTable() > 0) {
@@ -90,29 +92,28 @@ void GuestWindow::viewTableList() {
 
 void GuestWindow::viewDishList() {
     clearPointerList(dishItem);
-    ui->dishList->setMinimumSize(1080, 0);
-    ui->dishList->resize(1080, 0);
+    ui->dishList->setRowCount(0);
     for(unsigned int i = 0; i < StaticData::getDishList().size(); i ++) {
+        int row = ui->dishList->rowCount();
+        ui->dishList->setRowCount(row + 1);
         Item* item = new Item(guest, StaticData::getDishList()[i], "dishList", ui->dishList);
-        ui->dishList->addItem(item);
+        ui->dishList->setCellWidget(row, 0, item);
         dishItem.push_back(item);
     }
 }
 
 void GuestWindow::viewCartList() {
     clearPointerList(cartItem);
-    ui->cartList->setMinimumSize(1080, 0);
-    ui->cartList->resize(1080, 0);
+    ui->cartList->setRowCount(0);
     for(unsigned int i = 0; i < guest.getOrderedDishList().size(); i ++) {
+        int row = ui->cartList->rowCount();
+        ui->cartList->setRowCount(row + 1);
         Item* item = new Item(guest, guest.getOrderedDishList()[i], "cartList", ui->cartList);
         connect(item, SIGNAL(dishNumChanged(const string&, int)), this, SLOT(setDishNum(const string&, int)));
-        ui->cartList->addItem(item);
+        ui->cartList->setCellWidget(row, 0, item);
         cartItem.push_back(item);
     }
     updateSum();
-    ui->scrollAreaCartList->show();
-    ui->cartTab->show();
-    this->show();
     if(guest.getSumInCart() == 0)
         ui->submitButton->setEnabled(false);
     else
@@ -128,12 +129,13 @@ void GuestWindow::viewOrderList() {
     clearPointerList(orderItem);
     ui->orderList->clearContents();
     ui->orderList->setRowCount(0);
+    //check each order, if they are active, show them first;
     vector<bool> isFinished;
     for(unsigned int i = 0; i < StaticData::getOrderList().size(); i ++) {
         if(StaticData::getOrderList()[i].getOrderer().toStdString() == guest.getPhone()) {
             OrderItem* item = new OrderItem(&StaticData::getOrderList()[i], ui->orderList);
             orderItem.push_back(item);
-            isFinished.push_back(StaticData::getOrderList()[i].isFinished());
+            isFinished.push_back(StaticData::getOrderList()[i].checkStatus() == 5);
         }
     }
     for(unsigned int i = 0; i < isFinished.size(); i ++)
@@ -161,19 +163,15 @@ void GuestWindow::viewDishInOrderList(Order* order) {
     ui->checkOutButton->show();
     clearPointerList(orderItem);
     clearPointerList(dishInOrderItem);
-    ui->orderList->clearContents();
     ui->orderList->setRowCount(0);
-    bool orderAllServed = true;
     for(unsigned int i = 0; i < order->getOrderDishes().size(); i ++) {
         Item* item = new Item(guest, order->getOrderDishes()[i], "orderList", ui->orderList);
         ui->orderList->setRowCount(ui->orderList->rowCount() + 1);
         ui->orderList->setCellWidget(ui->orderList->rowCount() - 1, 0, item);
         dishInOrderItem.push_back(item);
-        if(order->getOrderDishes()[i].getStatus() < 4)
-            orderAllServed = false;
         item->show();
     }
-    ui->checkOutButton->setEnabled(orderAllServed);
+    ui->checkOutButton->setEnabled(order->checkStatus() == 4);
 }
 
 void GuestWindow::viewMsgList() {
@@ -232,11 +230,7 @@ void GuestWindow::on_tabWidget_currentChanged(int index)
         viewOrderList();
     }
     else if (index == 1) {
-        for(unsigned int i = 0; i < dishItem.size(); i ++)
-            dishItem[i] -> show();
-        ui->scrollAreaDishList->show();
-        ui->dishTab->show();
-        this->show();
+        viewDishList();
     }
 }
 
@@ -307,7 +301,7 @@ void GuestWindow::on_sendMsgButton_clicked()
         viewErrInfo("Empty message");
         return;
     }
-    guest.sendMsg(StaticData::getClerkPhoneByTable(guest.getTable()), ui->newMsgText->toPlainText().toStdString());
+    guest.sendMsg("Table_" + ntos(guest.getTable()), ui->newMsgText->toPlainText().toStdString());
 }
 
 void GuestWindow::on_refreshMsg_clicked()
@@ -330,8 +324,13 @@ void GuestWindow::on_checkOutButton_clicked()
 {
     for(unsigned int i = 0; i < currentOrder->getOrderDishes().size(); i ++) {
         currentOrder->getOrderDishes()[i].setStatus(5);
-        StaticData::getOrderedDishByID(currentOrder->getOrderDishes()[i].getOrderedDishID()).setStatus(5);
+        StaticData::modifyOrderedDish(currentOrder->getOrderDishes()[i].getOrderedDishID(), currentOrder->getOrderDishes()[i]);
     }
-    currentOrder->checkFinished();
+    ui->checkOutButton->setEnabled(currentOrder->checkStatus() == 4);
     viewDishInOrderList(currentOrder);
+}
+
+void GuestWindow::on_refreshDishListButton_clicked()
+{
+    viewDishList();
 }
