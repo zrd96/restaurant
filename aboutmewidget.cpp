@@ -14,8 +14,8 @@ AboutMeWidget::AboutMeWidget(Person* person, QMainWindow* mainWindow, QWidget *p
     ui(new Ui::AboutMeWidget)
 {
     ui->setupUi(this);
-    ui->nameEdit->setText(QString::fromStdString(person->getName()));
-    ui->phoneEdit->setText(QString::fromStdString(person->getPhone()));
+    ui->nameEdit->setText((person->getName()));
+    ui->phoneEdit->setText((person->getPhone()));
     dealWithRateInfo();
     ui->nameEdit->setEnabled(false);
     ui->phoneEdit->setEnabled(false);
@@ -46,17 +46,17 @@ void AboutMeWidget::dealWithRateInfo() {
 
 void AboutMeWidget::on_refreshInfoButton_clicked()
 {
-    ui->nameEdit->setText(QString::fromStdString(person->getName()));
-    ui->phoneEdit->setText(QString::fromStdString(person->getPhone()));
+    ui->nameEdit->setText((person->getName()));
+    ui->phoneEdit->setText((person->getPhone()));
     dealWithRateInfo();
 }
 
 void AboutMeWidget::on_submitInfoButton_clicked()
 {
-    string newName = ui->nameEdit->text().toStdString();
-    string newPhone = ui->phoneEdit->text().toStdString();
-    string newPassword = person->getPassword();
-    if(ui->currentPassword->text().toStdString() != person->getPassword()) {
+    QString newName = ui->nameEdit->text();
+    QString newPhone = ui->phoneEdit->text();
+    QString newPassword = person->getPassword();
+    if(ui->currentPassword->text() != person->getPassword()) {
         viewErrInfo("Password Incorrect");
         return;
     }
@@ -69,7 +69,7 @@ void AboutMeWidget::on_submitInfoButton_clicked()
             viewErrInfo("Password not identical");
             return;
         }
-        newPassword = ui->newPassword->text().toStdString();
+        newPassword = ui->newPassword->text();
     }
     if(newPhone != person->getPhone()) {
         StaticData::db->doQuery("person", "phone", "phone = \"" + newPhone + "\"");
@@ -108,13 +108,13 @@ void AboutMeWidget::on_currentPassword_textChanged(const QString &curPassword)
 
 void AboutMeWidget::on_nameEdit_textChanged(const QString &newName)
 {
-    if(newName.toStdString() != person->getName())
+    if(newName != person->getName())
         ui->submitInfoButton->setEnabled(true);
 }
 
 void AboutMeWidget::on_phoneEdit_textChanged(const QString &newPhone)
 {
-    if(newPhone.toStdString() != person->getPhone())
+    if(newPhone != person->getPhone())
         ui->submitInfoButton->setEnabled(true);
 }
 

@@ -46,7 +46,7 @@ public:
     static bool queryTable();
     static bool queryDish();
     static bool queryOrderedDish();
-    static bool queryMsg(string person);
+    static bool queryMsg(const QString &person);
     static bool queryClerk();
     static bool queryGuest();
     static bool queryChef();
@@ -65,21 +65,21 @@ public:
     static void insertRate(const Rate &rate, int type = 0);
 
     static void removeTable(int tableID);
-    static void removeDish(const string& dishID);
-    static void removeOrderedDish(const string& orderedDishID);
-    static void removeMsg(const string& msgID);
-    static void removeGuest(const string& phone);
-    static void removeClerk(const string& phone);
-    static void removeChef(const string& phone);
+    static void removeDish(const QString& dishID);
+    static void removeOrderedDish(const QString& orderedDishID);
+    static void removeMsg(const QString& msgID);
+    static void removeGuest(const QString& phone);
+    static void removeClerk(const QString& phone);
+    static void removeChef(const QString& phone);
     //static void removeOrder(const Order& order);
 
     static void modifyTable(int tableID, const Table& newTable);
-    static void modifyDish(const string& dishID, const Dish& newDish);
-    static void modifyOrderedDish(const string& orderedDishID, const OrderedDish& newOrderedDish);
-    static void modifyMsg(const string& msgID, const Msg& newMsg);
-    static void modifyGuest(const string& phone, const Guest& newGuest);
-    static void modifyClerk(const string& phone, const Clerk& newClerk);
-    static void modifyChef(const string& phone, const Chef& newChef);
+    static void modifyDish(const QString& dishID, const Dish& newDish);
+    static void modifyOrderedDish(const QString& orderedDishID, const OrderedDish& newOrderedDish);
+    static void modifyMsg(const QString& msgID, const Msg& newMsg);
+    static void modifyGuest(const QString& phone, const Guest& newGuest);
+    static void modifyClerk(const QString& phone, const Clerk& newClerk);
+    static void modifyChef(const QString& phone, const Chef& newChef);
     //static void modifyOrder(const Order& order, const Order& newOrder);
 
     static void writeTable();
@@ -112,13 +112,13 @@ public:
     static vector<int>& getRateMaintainList() {return rateMaintainList;}
     //static vector<int>& getOrderMaintainList() {return orderMaintainList;}
 
-    static Dish& getDishByID(const string& dishID);
-    static OrderedDish& getOrderedDishByID(const string& orderedDishID);
-    static vector<Msg*> getMsgByReceiver(const string& receiver);
-    static vector<Msg*> getMsgBySender(const string& sender);
-    static string getClerkPhoneByTable(int table);
-    static string getPersonNameByPhone(const string& phone);
-    static void updateEverythingAboutUser(Person* person, const string& newPhone);
+    static Dish& getDishByID(const QString& dishID);
+    static OrderedDish& getOrderedDishByID(const QString& orderedDishID);
+    static vector<Msg*> getMsgByReceiver(const QString& receiver);
+    static vector<Msg*> getMsgBySender(const QString& sender);
+    static QString getClerkPhoneByTable(int table);
+    static QString getPersonNameByPhone(const QString& phone);
+    static void updateEverythingAboutUser(Person* person, const QString& newPhone);
     static Table& getTableByID(int tableID);
     static Clerk& getClerkByPhone(const QString &phone);
     static Rate& getRateBySubjectAndObject(const QString &subject, const QString &object);

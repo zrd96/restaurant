@@ -10,12 +10,12 @@
 
 class Chef: public Person {
         public:
-                Chef(string phone, string name);
-                Chef(string phone, string name, string password);
+                Chef(const QString &phone, const QString &name);
+                Chef(const QString &phone, const QString &name, const QString &password);
                 bool takeDish(OrderedDish &dish);
                 bool finishDish(OrderedDish &dish);
                 void checkDish();
-                void setPhone(string newPhone);
+                void setPhone(const QString &newPhone);
                 vector<OrderedDish>& getTakenDish() {return dishTaken;}
         private:
                 vector<OrderedDish>dishTaken;

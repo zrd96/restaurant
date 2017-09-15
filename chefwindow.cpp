@@ -11,8 +11,8 @@ ChefWindow::ChefWindow(const QString& user, QWidget *parent) :
     ui(new Ui::ChefWindow)
 {
     ui->setupUi(this);
-    StaticData::db->doQuery("person", "name, password", "phone = \"" + user.toStdString() + "\"");
-    chef = Chef(user.toStdString(),
+    StaticData::db->doQuery("person", "name, password", "phone = \"" + user + "\"");
+    chef = Chef(user,
                   StaticData::db->getResultList()[0][0],
             StaticData::db->getResultList()[0][1]);
     viewOrderedDishList();

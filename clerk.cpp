@@ -1,4 +1,4 @@
-#include <string>
+#include <QString>
 #include <vector>
 #include <cstring>
 #include <cstdio>
@@ -9,12 +9,12 @@
 #include "tools.h"
 #include "table.h"
 
-Clerk::Clerk(string phone, string name, double rate, int rateNum):
+Clerk::Clerk(const QString &phone, const QString &name, double rate, int rateNum):
     Person(phone, name),
     rate(rate),
     rateNum(rateNum) {}
 
-Clerk::Clerk(string phone, string name, string password, double rate, int rateNum):
+Clerk::Clerk(const QString &phone, const QString &name, const QString &password, double rate, int rateNum):
     Person(phone, name, password),
     rate(rate),
     rateNum(rateNum) {}
@@ -45,7 +45,7 @@ void Clerk::queryMsg() {
     checkTable();
     msgList.clear();
     for (unsigned int i = 0; i < this->tableList.size(); i ++)
-        StaticData::queryMsg("Table_" + ntos(tableList[i]));
+        StaticData::queryMsg(QString("Table_%1").arg(tableList[i]));
     StaticData::queryMsg(this->getPhone());
     for (unsigned int i = 0; i < StaticData::getMsgList().size(); i ++) {
         Msg &cur = StaticData::getMsgList()[i];
@@ -55,8 +55,8 @@ void Clerk::queryMsg() {
         }
         else {
             for (unsigned int j = 0; j < this->tableList.size(); j ++)
-                if (cur.getSender() == "Table_" + ntos(this->tableList[j])
-                        || cur.getReceiver() == "Table_" + ntos(this->tableList[j])) {
+                if (cur.getSender() == QString("Table_%1").arg(this->tableList[j])
+                        || cur.getReceiver() == QString("Table_%1").arg(this->tableList[j])) {
                     msgList.push_back(cur);
                     break;
                 }
@@ -68,17 +68,17 @@ void Clerk::readMsg(Msg* msg) {}
 
 bool Clerk::updateRate(double newRate) {
         rate = (rate * rateNum + newRate) / ++rateNum;
-        return (StaticData::db->update("person", "rate", ntos(rate), "phone = \"" + getPhone() + "\"")
-                && StaticData::db->update("person", "rateNum", ntos(rateNum), "phone = \"" + getPhone() + "\""));
+        return (StaticData::db->update("person", "rate", QString().setNum(rate), "phone = \"" + getPhone() + "\"")
+                && StaticData::db->update("person", "rateNum", QString().setNum(rateNum), "phone = \"" + getPhone() + "\""));
 }
 
-void Clerk::serveDish(const string &orderedDishID, int tableNum, string orderer) {
+void Clerk::serveDish(const QString &orderedDishID, int tableNum, const QString &orderer) {
     OrderedDish &newOrderedDish = StaticData::getOrderedDishByID(orderedDishID);
     newOrderedDish.setStatus(4);
     StaticData::modifyOrderedDish(orderedDishID, newOrderedDish);
 }
 
-void Clerk::setPhone(string newPhone) {
+void Clerk::setPhone(const QString &newPhone) {
 //    for(unsigned int i = 0; i < unReadMsg.size(); i ++)
 //        unReadMsg[i]->setReceiver(newPhone);
     changePhone(newPhone);

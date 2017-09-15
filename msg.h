@@ -1,28 +1,28 @@
 #ifndef _MSG_H
 #define _MSG_H
 
-#include <string>
+#include <QString>
 
 using namespace std;
 
 class Msg {
         private:
-                string msgID;
-                string sender;
-                string receiver;
-                string msg;
-                string datetime;
+                QString msgID;
+                QString sender;
+                QString receiver;
+                QString msg;
+                QString datetime;
                 bool isActive;
         public:
-                //Msg(string sender, string receiver, string msg, string datetime, bool isActive);
-                Msg(const string& msgID, const string& sender, const string& receiver, const string& msg, const string& datetime, bool isActive);
-                string getMsgID() const {return msgID;}
-                string getSender() const {return sender;}
-                string getReceiver() const {return receiver;}
-                string getMsg() const {return msg;}
-                string getDatetime() const {return datetime;}
-                void setSender(string newSender) {sender = newSender;}
-                void setReceiver(string newReceiver) {receiver = newReceiver;}
+                //Msg(QString sender, QString receiver, QString msg, QString datetime, bool isActive);
+                Msg(const QString& msgID, const QString& sender, const QString& receiver, const QString& msg, const QString& datetime, bool isActive);
+                QString getMsgID() const {return msgID;}
+                QString getSender() const {return sender;}
+                QString getReceiver() const {return receiver;}
+                QString getMsg() const {return msg;}
+                QString getDatetime() const {return datetime;}
+                void setSender(const QString &newSender) {sender = newSender;}
+                void setReceiver(const QString &newReceiver) {receiver = newReceiver;}
                 bool getState() const {return isActive;}
                 void readMsg() {isActive = false;}
 };

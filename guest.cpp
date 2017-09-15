@@ -1,4 +1,4 @@
-#include <string>
+#include <QString>
 #include <vector>
 
 #include "tools.h"
@@ -9,9 +9,9 @@
 #include "dish.h"
 #include "staticdata.h"
 
-Guest::Guest(string phone, string name): Person(phone, name), Cart(), table(-1) {}
-Guest::Guest(string phone, string name, string password): Person(phone, name, password), Cart(), table(-1) {}
-Guest::Guest(string phone, string name, string password, int table):  Person(phone, name, password), Cart(), table(table) {}
+Guest::Guest(const QString &phone, const QString &name): Person(phone, name), Cart(), table(-1) {}
+Guest::Guest(const QString &phone, const QString &name, const QString &password): Person(phone, name, password), Cart(), table(-1) {}
+Guest::Guest(const QString &phone, const QString &name, const QString &password, int table):  Person(phone, name, password), Cart(), table(table) {}
 
 void Guest::addDish(const Dish& dish) {
     add(dish, getPhone(), table);
@@ -48,7 +48,7 @@ void Guest::modifyTable(int newTableNum) {
             StaticData::getOrderedDishList()[i].setTableNum(newTableNum);
 }
 
-void Guest::setPhone(string newPhone) {
+void Guest::setPhone(const QString &newPhone) {
     for(unsigned int i = 0; i < orderedDishes.size(); i ++)
         orderedDishes[i].setOrderer(newPhone);
     changePhone(newPhone);

@@ -9,8 +9,9 @@
 #include "dishinfo.h"
 #include <QPushButton>
 #include <QDebug>
+#include <QString>
 
-Item::Item(Person& person, Dish& oriDish, QString listType, QWidget *parent) :
+Item::Item(Person& person, Dish& oriDish, const QString &listType, QWidget *parent) :
     person(&person),
     dish(oriDish),
     dishNum(0),
@@ -25,11 +26,11 @@ Item::Item(Person& person, Dish& oriDish, QString listType, QWidget *parent) :
     connect(ui->subButton, &QToolButton::clicked, this, [this] {this->subItemNum();});
     connect(ui->itemNum, SIGNAL(editingFinished()), this, SLOT(setNumTo()));
     QImage *dishImg = new QImage;
-    if(!dishImg->load(QString::fromStdString(dish.getImgDir())))
+    if(!dishImg->load((dish.getImgDir())))
         dishImg->load("img/dishes/default.png");
     ui->itemImg->setPixmap(QPixmap::fromImage(*dishImg));
     ui->itemImg->setScaledContents(true);
-    ui->itemName->setText(QString::fromStdString(dish.getName()));
+    ui->itemName->setText((dish.getName()));
     itemRate->setGeometry(420, 80, 150, 30);
     itemRate->setRate(StaticData::getDishByID(dish.getDishID()).getRate());
 
@@ -38,7 +39,7 @@ Item::Item(Person& person, Dish& oriDish, QString listType, QWidget *parent) :
                               .arg(StaticData::getDishByID(dish.getDishID()).getRateNum()));
     ui->itemPrice->setText(QString("￥ %1").arg(dish.getPrice()));
     if(dish.getTimeNeeded() > 0)
-        ui->itemStatus->setPlainText("Time Needed: " + QString::fromStdString(ntos(dish.getTimeNeeded())));
+        ui->itemStatus->setPlainText(QString("Time Needed: %1").arg(dish.getTimeNeeded()));
     guest = dynamic_cast<Guest*> (this->person);
     chef = dynamic_cast<Chef*> (this->person);
     try {
@@ -167,12 +168,11 @@ void Item::rateDish(double newRate) {
                                   .arg(staticDish.getRate())
                                   .arg(staticDish.getRateNum()));
     } catch (EmptyResult er) {
-        viewErrInfo(er.getErrInfo().toStdString());
+        viewErrInfo(er.getErrInfo());
     }
 }
 
 void Item::mousePressEvent(QMouseEvent *ev) {
-    qDebug() << QString("%1 %2\n").arg(ev->x()).arg(ev->y());
     if (ev->x() >= 170 && ev->x() <= 170 + 880
             && ev->y() >= 10 && ev->y() <= 70) {
         DishInfo *dishInfo = new DishInfo(dish);

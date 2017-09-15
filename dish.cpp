@@ -1,4 +1,4 @@
-#include <string>
+#include <QString>
 #include <vector>
 #include <algorithm>
 
@@ -8,9 +8,10 @@
 
 using namespace std;
 
-Dish::Dish(string dishID, string name, double price, int timeNeeded, double rate, int rateNum, string imgdir):
+Dish::Dish(const QString &dishID, const QString &name, const QString &intro,  double price, int timeNeeded, double rate, int rateNum, QString imgdir):
     dishID(dishID),
     name(name),
+    intro(intro),
     price(price),
     timeNeeded(timeNeeded),
     rate(rate),
@@ -30,7 +31,7 @@ void Dish::queryRate() {
     if (StaticData::getRateList().empty())
         StaticData::queryRate();
     for (unsigned int i = 0; i < StaticData::getRateList().size(); i ++)
-        if (StaticData::getRateList()[i].getObject().toStdString() == this->dishID)
+        if (StaticData::getRateList()[i].getObject() == this->dishID)
             rateList.push_back(StaticData::getRateList()[i]);
 }
 
@@ -38,7 +39,7 @@ void Dish::show() const {}
 
 void Dish::showAll() {}
 
-OrderedDish::OrderedDish(const Dish& dish, const string &orderer, int tableNum, int status, const string &chef):
+OrderedDish::OrderedDish(const Dish& dish, const QString &orderer, int tableNum, int status, const QString &chef):
     Dish(dish),
     orderer(orderer),
     tableNum(tableNum),
@@ -46,7 +47,7 @@ OrderedDish::OrderedDish(const Dish& dish, const string &orderer, int tableNum, 
     chef(chef),
     num(1) {}
 
-OrderedDish::OrderedDish(const Dish& dish, const string &orderedDishID, const string &orderer, int tableNum, int status, const string &chef):
+OrderedDish::OrderedDish(const Dish& dish, const QString &orderedDishID, const QString &orderer, int tableNum, int status, const QString &chef):
     Dish(dish),
     orderedDishID(orderedDishID),
     orderer(orderer),

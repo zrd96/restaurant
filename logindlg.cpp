@@ -65,13 +65,13 @@ bool LoginDlg::checkEnteredLogin() {
         return false;
     }
 
-    StaticData::db->doQuery("person", "phone, password, type", "phone = \"" + phone.toStdString() + "\"");
-    if(StaticData::db->getResultList().empty() || (atoi(StaticData::db->getResultList()[0][2].c_str()) != userType && userType != 1)) {
+    StaticData::db->doQuery("person", "phone, password, type", "phone = \"" + phone + "\"");
+    if(StaticData::db->getResultList().empty() || (StaticData::db->getResultList()[0][2].toInt() != userType && userType != 1)) {
         QMessageBox::information(this, tr("Error"), tr("No such user"));
         return false;
     }
 
-    if (QString::fromStdString(StaticData::db->getResultList()[0][1]) != password) {
+    if ((StaticData::db->getResultList()[0][1]) != password) {
         QMessageBox::information(this, tr("Error"), tr("Phone and password do not match"));
         return false;
     }
@@ -100,13 +100,13 @@ bool LoginDlg::checkEnteredSignup() {
         return false;
     }
 
-    StaticData::db->doQuery("person", "phone, password, type", "phone = \"" + phone.toStdString() + "\"");
+    StaticData::db->doQuery("person", "phone, password, type", "phone = \"" + phone + "\"");
     if(!StaticData::db->getResultList().empty()) {
         QMessageBox::information(this, tr("Error"), tr("User exists"));
         return false;
     }
 
-    StaticData::db->insert("person", "\"" + phone.toStdString() + "\", \"" + name.toStdString() + "\", \"" + password.toStdString() + "\", " + ntos(userType) + ", NULL, NULL, NULL");
+    StaticData::db->insert("person", QString("\"%1\", \"%2\", \"%3\", %4, NULL, NULL, NULL").arg(phone).arg(name).arg(password).arg(userType));
     QMessageBox::information(this, tr("Success"), tr("Successfully signed up, now log in using new account"));
     return true;
 }

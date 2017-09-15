@@ -18,10 +18,10 @@ class Item : public QWidget
     Q_OBJECT
 
 public:
-    Item(Person& person, Dish& oriDish, QString listType, QWidget *parent = 0);
+    Item(Person& person, Dish& oriDish, const QString &listType, QWidget *parent = 0);
     //explicit Item(Guest& guest, const OrderedDish& dish, int num, QWidget *parent = 0);
     ~Item();
-    string getDishID() const {return dish.getDishID();}
+    QString getDishID() const {return dish.getDishID();}
     void setDishNumText(int finalNum);
 
 public slots:
@@ -44,7 +44,7 @@ private slots:
     void rateDish(double newRate);
 
 signals:
-    void dishNumChanged(const string& dishID, int finalNum);
+    void dishNumChanged(const QString& dishID, int finalNum);
     void numChanged();
 };
 

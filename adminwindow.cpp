@@ -18,8 +18,8 @@ AdminWindow::AdminWindow(const QString& user, QWidget *parent) :
     ui(new Ui::AdminWindow)
 {
     ui->setupUi(this);
-    StaticData::db->doQuery("person", "name, password", "phone = \"" + user.toStdString() + "\"");
-    admin = Admin(user.toStdString(),
+    StaticData::db->doQuery("person", "name, password", "phone = \"" + user + "\"");
+    admin = Admin(user,
                       StaticData::db->getResultList()[0][0],
                 StaticData::db->getResultList()[0][1]);
     StaticData::queryGuest();
@@ -85,9 +85,9 @@ void AdminWindow::viewDishList() {
             ui->dishList->setRowCount(ui->dishList->rowCount() + 1);
             Dish& cur = StaticData::getDishList()[i];
             int row = ui->dishList->rowCount() - 1;
-            ui->dishList->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(cur.getDishID())));
-            ui->dishList->setItem(row, 1, new QTableWidgetItem(QString::fromStdString(cur.getImgDir())));
-            ui->dishList->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(cur.getName())));
+            ui->dishList->setItem(row, 0, new QTableWidgetItem((cur.getDishID())));
+            ui->dishList->setItem(row, 1, new QTableWidgetItem((cur.getImgDir())));
+            ui->dishList->setItem(row, 2, new QTableWidgetItem((cur.getName())));
             ui->dishList->setItem(row, 3, new QTableWidgetItem(QString().setNum(cur.getPrice())));
             ui->dishList->setItem(row, 4, new QTableWidgetItem(QString().setNum(cur.getTimeNeeded())));
             ui->dishList->setItem(row, 5, new QTableWidgetItem(QString().setNum(cur.getRate())));
@@ -106,10 +106,10 @@ void AdminWindow::viewGuestList() {
             ui->guestList->setRowCount(ui->guestList->rowCount() + 1);
             Guest& cur = StaticData::getGuestList()[i];
             int row = ui->guestList->rowCount() - 1;
-            ui->guestList->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(cur.getPhone())));
-            ui->guestList->setItem(row, 1, new QTableWidgetItem(QString::fromStdString(cur.getName())));
-            ui->guestList->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(cur.getPassword())));
-            ui->guestList->setItem(row, 3, new QTableWidgetItem(QString::fromStdString("0")));
+            ui->guestList->setItem(row, 0, new QTableWidgetItem((cur.getPhone())));
+            ui->guestList->setItem(row, 1, new QTableWidgetItem((cur.getName())));
+            ui->guestList->setItem(row, 2, new QTableWidgetItem((cur.getPassword())));
+            ui->guestList->setItem(row, 3, new QTableWidgetItem(("0")));
             for (int j = 0; j < 4; j ++)
                 ui->guestList->item(row, j)->setData(Qt::UserRole, ui->guestList->item(row, j)->text());
             ui->guestList->item(row, 3)->setFlags(ui->guestList->item(row, 3)->flags() & (~Qt::ItemIsEditable));
@@ -123,10 +123,10 @@ void AdminWindow::viewChefList() {
             ui->chefList->setRowCount(ui->chefList->rowCount() + 1);
             Chef& cur = StaticData::getChefList()[i];
             int row = ui->chefList->rowCount() - 1;
-            ui->chefList->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(cur.getPhone())));
-            ui->chefList->setItem(row, 1, new QTableWidgetItem(QString::fromStdString(cur.getName())));
-            ui->chefList->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(cur.getPassword())));
-            ui->chefList->setItem(row, 3, new QTableWidgetItem(QString::fromStdString("0")));
+            ui->chefList->setItem(row, 0, new QTableWidgetItem((cur.getPhone())));
+            ui->chefList->setItem(row, 1, new QTableWidgetItem((cur.getName())));
+            ui->chefList->setItem(row, 2, new QTableWidgetItem((cur.getPassword())));
+            ui->chefList->setItem(row, 3, new QTableWidgetItem(("0")));
             for (int j = 0; j < 4; j ++)
                 ui->chefList->item(row, j)->setData(Qt::UserRole, ui->chefList->item(row, j)->text());
             ui->chefList->item(row, 3)->setFlags(ui->chefList->item(row, 3)->flags() & (~Qt::ItemIsEditable));
@@ -140,12 +140,12 @@ void AdminWindow::viewClerkList() {
             ui->clerkList->setRowCount(ui->clerkList->rowCount() + 1);
             Clerk& cur = StaticData::getClerkList()[i];
             int row = ui->clerkList->rowCount() - 1;
-            ui->clerkList->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(cur.getPhone())));
-            ui->clerkList->setItem(row, 1, new QTableWidgetItem(QString::fromStdString(cur.getName())));
-            ui->clerkList->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(cur.getPassword())));
+            ui->clerkList->setItem(row, 0, new QTableWidgetItem((cur.getPhone())));
+            ui->clerkList->setItem(row, 1, new QTableWidgetItem((cur.getName())));
+            ui->clerkList->setItem(row, 2, new QTableWidgetItem((cur.getPassword())));
             ui->clerkList->setItem(row, 3, new QTableWidgetItem(QString().setNum(cur.getRate())));
             ui->clerkList->setItem(row, 4, new QTableWidgetItem(QString().setNum(cur.getRateNum())));
-            ui->clerkList->setItem(row, 5, new QTableWidgetItem(QString::fromStdString("0")));
+            ui->clerkList->setItem(row, 5, new QTableWidgetItem(("0")));
             for (int j = 0; j < 6; j ++)
                 ui->clerkList->item(row, j)->setData(Qt::UserRole, ui->clerkList->item(row, j)->text());
             ui->clerkList->item(row, 3)->setFlags(ui->clerkList->item(row, 3)->flags() & (~Qt::ItemIsEditable));
@@ -177,8 +177,8 @@ void AdminWindow::addItem(QTableWidget *list) {
     }
     else if (index == 1) {
         list->item(buttomRow, 0)->setData(Qt::UserRole, QString("D%1%2%3")
-                                          .arg(QString::fromStdString(getTimeUniform()))
-                                          .arg(QString::fromStdString(admin.getPhone()))
+                                          .arg((getTimeUniform()))
+                                          .arg((admin.getPhone()))
                                           .arg(StaticData::getDishList().size()));
         list->item(buttomRow, 1)->setData(Qt::UserRole, "img/dishes/default.png");
         list->item(buttomRow, 2)->setData(Qt::UserRole, "");
@@ -191,7 +191,7 @@ void AdminWindow::addItem(QTableWidget *list) {
         ui->dishList->item(buttomRow, 6)->setText("0");
         ui->dishList->item(buttomRow, 5)->setFlags(ui->dishList->item(buttomRow, 5)->flags() & (~Qt::ItemIsEditable));
         ui->dishList->item(buttomRow, 6)->setFlags(ui->dishList->item(buttomRow, 6)->flags() & (~Qt::ItemIsEditable));
-        Dish newDish(list->item(buttomRow, 0)->data(Qt::UserRole).toString().toStdString(), "", 0, -1, 0, 0, "img/dishes/default.png");
+        Dish newDish(list->item(buttomRow, 0)->data(Qt::UserRole).toString(), "", "", 0, -1, 0, 0, "img/dishes/default.png");
         StaticData::insertDish(newDish, 1);
     }
     else if (index == 2) {
@@ -201,14 +201,14 @@ void AdminWindow::addItem(QTableWidget *list) {
         ui->guestList->item(buttomRow, 1)->setText("Guest");
         ui->guestList->item(buttomRow, 3)->setText("0");
         ui->guestList->item(buttomRow, 3)->setFlags(ui->guestList->item(buttomRow, 3)->flags() & (~Qt::ItemIsEditable));
-        Guest newGuest(curItem->data(Qt::UserRole).toString().toStdString(), "Guest", "123456");
+        Guest newGuest(curItem->data(Qt::UserRole).toString(), "Guest", "123456");
         StaticData::insertGuest(newGuest, 1);
     }
     else if (index == 3) {
         list->item(buttomRow, 1)->setData(Qt::UserRole, "Chef");
         list->item(buttomRow, 2)->setData(Qt::UserRole, "123456");
         list->item(buttomRow, 3)->setData(Qt::UserRole, 0);
-        Chef newChef(curItem->data(Qt::UserRole).toString().toStdString(), "Chef", "123456");
+        Chef newChef(curItem->data(Qt::UserRole).toString(), "Chef", "123456");
         ui->chefList->item(buttomRow, 1)->setText("Chef");
         ui->chefList->item(buttomRow, 3)->setText("0");
         ui->chefList->item(buttomRow, 3)->setFlags(ui->chefList->item(buttomRow, 3)->flags() & (~Qt::ItemIsEditable));
@@ -227,7 +227,7 @@ void AdminWindow::addItem(QTableWidget *list) {
         ui->clerkList->item(buttomRow, 3)->setFlags(ui->clerkList->item(buttomRow, 3)->flags() & (~Qt::ItemIsEditable));
         ui->clerkList->item(buttomRow, 4)->setFlags(ui->clerkList->item(buttomRow, 4)->flags() & (~Qt::ItemIsEditable));
         ui->clerkList->item(buttomRow, 5)->setFlags(ui->clerkList->item(buttomRow, 5)->flags() & (~Qt::ItemIsEditable));
-        Clerk newClerk(curItem->data(Qt::UserRole).toString().toStdString(), "Clerk", "123456", 0, 0);
+        Clerk newClerk(curItem->data(Qt::UserRole).toString(), "Clerk", "123456", 0, 0);
         StaticData::insertClerk(newClerk, 1);
     }
     list->editItem(list->item(list->rowCount() - 1, 0));
@@ -257,16 +257,16 @@ void AdminWindow::markRemoved(int listTab, int row) {
         StaticData::removeTable(ui->tableList->item(row, 0)->data(Qt::UserRole).toInt());
     }
     else if (listTab == 1) {
-        StaticData::removeDish(ui->dishList->item(row, 0)->data(Qt::UserRole).toString().toStdString());
+        StaticData::removeDish(ui->dishList->item(row, 0)->data(Qt::UserRole).toString());
     }
     else if (listTab == 2) {
-        StaticData::removeGuest(ui->guestList->item(row, 0)->data(Qt::UserRole).toString().toStdString());
+        StaticData::removeGuest(ui->guestList->item(row, 0)->data(Qt::UserRole).toString());
     }
     else if (listTab == 3) {
-        StaticData::removeChef(ui->chefList->item(row, 0)->data(Qt::UserRole).toString().toStdString());
+        StaticData::removeChef(ui->chefList->item(row, 0)->data(Qt::UserRole).toString());
     }
     else if (listTab == 4) {
-        StaticData::removeClerk(ui->clerkList->item(row, 0)->data(Qt::UserRole).toString().toStdString());
+        StaticData::removeClerk(ui->clerkList->item(row, 0)->data(Qt::UserRole).toString());
     }
 }
 
@@ -300,7 +300,7 @@ void AdminWindow::saveList(int listTab) {
                     curItem = ui->tableList->item(row, 1);
                     //check and update col 1
                     if (!checkNum(curItem->text())) {
-                        viewErrInfo("Invalid seat number at line " + ntos(row + 1));
+                        viewErrInfo(QString("Invalid seat number at line %1").arg(row + 1));
                         ui->tableList->editItem(curItem);
                         return;
                     }
@@ -342,14 +342,15 @@ void AdminWindow::saveList(int listTab) {
                         QFile::copy(curItem->text(), path);
                         curItem->setText(path);
                     }
-                    Dish newDish(ui->dishList->item(row, 0)->text().toStdString(),
-                                 ui->dishList->item(row, 2)->text().toStdString(),
+                    Dish newDish(ui->dishList->item(row, 0)->text(),
+                                 ui->dishList->item(row, 2)->text(),
+                                 "No description",
                                  ui->dishList->item(row, 3)->text().toDouble(),
                                  ui->dishList->item(row, 4)->text().toInt(),
                                  ui->dishList->item(row, 5)->text().toDouble(),
                                  ui->dishList->item(row, 6)->text().toInt(),
-                                 ui->dishList->item(row, 1)->text().toStdString());
-                    StaticData::modifyDish(ui->dishList->item(row, 0)->data(Qt::UserRole).toString().toStdString(), newDish);
+                                 ui->dishList->item(row, 1)->text());
+                    StaticData::modifyDish(ui->dishList->item(row, 0)->data(Qt::UserRole).toString(), newDish);
                     setRowData(ui->dishList, row);
                     break;
                 }
@@ -376,10 +377,10 @@ void AdminWindow::saveList(int listTab) {
                         ui->guestList->editItem(curItem);
                         return;
                     }
-                    Guest newGuest(ui->guestList->item(row, 0)->text().toStdString(),
-                                   ui->guestList->item(row, 1)->text().toStdString(),
-                                   ui->guestList->item(row, 2)->text().toStdString());
-                    StaticData::modifyGuest(ui->guestList->item(row, 0)->data(Qt::UserRole).toString().toStdString(), newGuest);
+                    Guest newGuest(ui->guestList->item(row, 0)->text(),
+                                   ui->guestList->item(row, 1)->text(),
+                                   ui->guestList->item(row, 2)->text());
+                    StaticData::modifyGuest(ui->guestList->item(row, 0)->data(Qt::UserRole).toString(), newGuest);
                     setRowData(ui->guestList, row);
                     break;
                 }
@@ -406,10 +407,10 @@ void AdminWindow::saveList(int listTab) {
                         ui->chefList->editItem(curItem);
                         return;
                     }
-                    Chef newChef(ui->chefList->item(row, 0)->text().toStdString(),
-                                   ui->chefList->item(row, 1)->text().toStdString(),
-                                   ui->chefList->item(row, 2)->text().toStdString());
-                    StaticData::modifyChef(ui->chefList->item(row, 0)->data(Qt::UserRole).toString().toStdString(), newChef);
+                    Chef newChef(ui->chefList->item(row, 0)->text(),
+                                   ui->chefList->item(row, 1)->text(),
+                                   ui->chefList->item(row, 2)->text());
+                    StaticData::modifyChef(ui->chefList->item(row, 0)->data(Qt::UserRole).toString(), newChef);
                     setRowData(ui->chefList, row);
                     break;
                 }
@@ -436,12 +437,12 @@ void AdminWindow::saveList(int listTab) {
                         ui->clerkList->editItem(curItem);
                         return;
                     }
-                    Clerk newClerk(ui->clerkList->item(row, 0)->text().toStdString(),
-                                   ui->clerkList->item(row, 1)->text().toStdString(),
-                                   ui->clerkList->item(row, 2)->text().toStdString(),
+                    Clerk newClerk(ui->clerkList->item(row, 0)->text(),
+                                   ui->clerkList->item(row, 1)->text(),
+                                   ui->clerkList->item(row, 2)->text(),
                                    ui->clerkList->item(row, 3)->text().toDouble(),
                                    ui->clerkList->item(row, 4)->text().toInt());
-                    StaticData::modifyClerk(ui->clerkList->item(row, 0)->data(Qt::UserRole).toString().toStdString(), newClerk);
+                    StaticData::modifyClerk(ui->clerkList->item(row, 0)->data(Qt::UserRole).toString(), newClerk);
                     setRowData(ui->clerkList, row);
                     break;
                 }
@@ -452,7 +453,7 @@ void AdminWindow::saveList(int listTab) {
 bool AdminWindow::checkID(QTableWidget *list, int row, int col) {
     for (int i = 0; i < list->rowCount(); i ++) {
         if(row != i && list->item(i, col)->text() == list->item(row, col)->text()) {
-            viewErrInfo("Duplicate ID at lines " + ntos(row + 1) + " and " + ntos(i + 1));
+            viewErrInfo(QString("Duplicate ID at lines %1 and %2").arg(row + 1).arg(i + 1));
             return false;
         }
     }

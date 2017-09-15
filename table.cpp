@@ -1,10 +1,10 @@
-#include <string>
+#include <QString>
 
 #include "table.h"
 #include "clerk.h"
 #include "staticdata.h"
 
-Table::Table(int id, int seats, int freeSeats, string clerk):
+Table::Table(int id, int seats, int freeSeats, const QString &clerk):
     id(id),
     seats(seats),
     freeSeats(freeSeats),

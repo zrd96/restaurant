@@ -5,6 +5,7 @@
 #include <vector>
 #include <QTableWidgetItem>
 #include <QCloseEvent>
+#include <QString>
 
 #include "dish.h"
 #include "item.h"
@@ -37,7 +38,7 @@ public:
     void viewMsgList();
 
 public slots:
-    void setDishNum(const string& dishID, int finalNum);
+    void setDishNum(const QString& dishID, int finalNum);
     void updateSum();
     void setSelectedTable(int tableID);
     void rateClerk(double newRate);

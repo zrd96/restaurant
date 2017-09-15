@@ -1,5 +1,6 @@
-#include <string>
+#include <QString>
 #include <cstring>
+#include <cstdio>
 #include <vector>
 
 #include "msg.h"
@@ -8,7 +9,7 @@
 
 using namespace std;
 
-MySQLManager::MySQLManager(string host = "127.0.0.1", string userName = "root", string password = "", unsigned int port = 3022u) {
+MySQLManager::MySQLManager(const QString &host = "127.0.0.1", const QString &userName = "root", const QString &password = "", unsigned int port = 3022u) {
 
         isConnected = false;
 
@@ -17,13 +18,13 @@ MySQLManager::MySQLManager(string host = "127.0.0.1", string userName = "root", 
         resultList.clear();
 
         HOST = new char[host.length()];
-        strcpy(HOST, host.c_str());
+        strcpy(HOST, host.toUtf8().data());
         
         USERNAME = new char[userName.length()];
-        strcpy(USERNAME, userName.c_str());
+        strcpy(USERNAME, userName.toUtf8().data());
 
         PASSWORD = new char[password.length()];
-        strcpy(PASSWORD, password.c_str());
+        strcpy(PASSWORD, password.toUtf8().data());
 
         DBNAME = NULL;
 
@@ -44,11 +45,12 @@ void MySQLManager::initConnection() {
         }
 }
 
-bool MySQLManager::runSQLCommand(const string cmd) {
-        int queryReturn = mysql_real_query(&mySQLClient, cmd.c_str(), (unsigned int)strlen(cmd.c_str()));
+bool MySQLManager::runSQLCommand(const QString &cmd) {
+    //printf("%s\n", cmd.toLocal8Bit().data());
+        int queryReturn = mysql_real_query(&mySQLClient, cmd.toLocal8Bit().data(), (unsigned int)strlen(cmd.toLocal8Bit().data()));
         if (queryReturn) {
                 errInfo = mysql_error(&mySQLClient);
-                if (errInfo.find("exist") == string::npos) {
+                if (!errInfo.contains("exist")) {
                     viewErrInfo(errInfo);
                     return false;
                 }
@@ -64,7 +66,7 @@ bool MySQLManager::initDB() {
             return false;
         if(!runSQLCommand("create table msg(msgid char(50) not NULL primary key, sender char(15) not NULL, receiver char(15) not NULL, msg char(200) not NULL, time datetime not NULL, isActive tinyint unsigned not NULL)"))
             return false;
-        if(!runSQLCommand("create table dish(dishid char(50) not NULL primary key, name char(200) not NULL, price float not NULL, rate float default 0, rateNum int unsigned default 0, time tinyint unsigned, imgdir char(250) default \"img/dishes/default.jpg\")"))
+        if(!runSQLCommand("create table dish(dishid char(50) not NULL primary key, name char(200) not NULL, intro char(200), price float not NULL, rate float default 0, rateNum int unsigned default 0, time tinyint unsigned, imgdir char(250) default \"img/dishes/default.jpg\")"))
             return false;
         if(!runSQLCommand("create table orderedDish(id char(50) not NULL primary key, dishid char(50) not NULL, orderer char(15) not NULL, tableNum int unsigned not NULL, status tinyint unsigned not NULL, datetime char(20) not NULL, chef char(15) not NULL)"))
             return false;
@@ -72,49 +74,15 @@ bool MySQLManager::initDB() {
             return false;
         if(!runSQLCommand("create table rate(id char(100) not NULL primary key, rate float not NULL, subject char(15) not NULL, object char(50) not NULL, datetime char(20) not NULL, title char(50) not NULL, comments char(200) not NULL)"))
             return false;
-
-        /*
-        insert("person", "\"18110026291\", \"ZRD\", 0, NULL, NULL");
-        insert("person", "\"18110020001\", \"gst1\", 1, NULL, NULL");
-        insert("person", "\"18110020002\", \"gst2\", 1, NULL, NULL");
-        insert("person", "\"18110020003\", \"chef1\", 2, NULL, NULL");
-        insert("person", "\"18110020004\", \"chef2\", 2, NULL, NULL");
-        insert("person", "\"18110020005\", \"clk1\", 3, 8.9, 20");
-        insert("person", "\"18110020006\", \"clk2\", 3, 8.8, 25");
-        insert("person", "\"18110020007\", \"clk3\", 3,9.2, 40");
-
-        insert("msg", "1, \"18110026291\", \"18110020005\", \"water\", \"2017-08-11 15:40:00\", 1");
-        insert("msg", "2, \"18110020001\", \"18110020007\", \"water\", \"2017-08-11 15:45:00\", 1");
-        insert("msg", "3, \"18110020001\", \"18110020007\", \"napkin\", \"2017-08-11 15:50:00\", 1");
-        insert("msg", "4, \"18110020002\", \"18110020007\", \"quickly\", \"2017-08-11 15:55:00\", 1");
-        insert("msg", "5, \"18110020007\", \"18110020003\", \"quickly\", \"2017-08-11 15:56:00\", 1");
-
-        insert("dish", "1, \"rice\", 2, 9.3, 258, 1, \"img/dishes/default.jpg\"");
-        insert("dish", "2, \"noodle\", 12, 8.9, 127, 5, \"img/dishes/default.jpg\"");
-        insert("dish", "3, \"potato\", 12, NULL, NULL, 10, \"img/dishes/default.jpg\"");
-        insert("dish", "4, \"tomato\", 9, NULL, NULL, 5, \"img/dishes/default.jpg\"");
-        insert("dish", "5, \"beaf\", 48, 9.6, 328, 20, \"img/dishes/default.jpg\"");
-        insert("dish", "6, \"lattice\", 8, 8.8, 68, 3, \"img/dishes/default.jpg\"");
-
-        insert("tableList", "1, 1, \"18110020005\"");
-        insert("tableList", "2, 1, \"18110020005\"");
-        insert("tableList", "3, 1, \"18110020006\"");
-        insert("tableList", "4, 1, \"18110020007\"");
-        insert("tableList", "5, 1, \"18110020007\"");
-*/
         return true;
 }
 
-bool MySQLManager::doQuery(string table, string columns, string wheres) {
-        string cmd = "select " + columns + " from " + table;
+bool MySQLManager::doQuery(const QString &table, const QString &columns, const QString &wheres) {
+        QString cmd = "select " + columns + " from " + table;
         if(wheres != "NULL")
                 cmd += " where " + wheres;
-        int queryReturn = mysql_real_query(&mySQLClient, cmd.c_str(), (unsigned int)strlen(cmd.c_str()));
-        if (queryReturn) {
-                errInfo = mysql_error(&mySQLClient);
-                viewErrInfo(errInfo);
-                return false;
-        }
+        if (!runSQLCommand(cmd))
+            return false;
 
         MYSQL_RES *res = new MYSQL_RES;
         MYSQL_ROW row;
@@ -122,9 +90,11 @@ bool MySQLManager::doQuery(string table, string columns, string wheres) {
         res = mysql_store_result(&mySQLClient);
         resultList.clear();
         while (row = mysql_fetch_row(res)) {
-                vector<string> objectValue;
-                for(int i = 0; i < mysql_num_fields(res); i ++)
-                        objectValue.push_back((row[i] == NULL ? "NULL": (string)row[i]));
+                vector<QString> objectValue;
+                for(int i = 0; i < mysql_num_fields(res); i ++) {
+                        objectValue.push_back((row[i] == NULL ? "NULL": QString::fromLocal8Bit(row[i])));
+                        //printf("%s\n", row[i]);
+                }
                 resultList.push_back(objectValue);
         }
 
@@ -132,7 +102,7 @@ bool MySQLManager::doQuery(string table, string columns, string wheres) {
         return true;
 }
 /*
-int MySQLManager::queryID(string phone, string name, int type) {
+int MySQLManager::queryID(QString phone, QString name, int type) {
         if (!doQuery("person", "id", "phone = \"" + phone + "\""))
                 return -1;
 
@@ -144,46 +114,46 @@ int MySQLManager::queryID(string phone, string name, int type) {
         return -1;
 }
 */
-int MySQLManager::queryID(string name, double price, int timeNeeded, string imgdir) {
-        if (!doQuery("dish", "dishid", "name = \"" + name + "\""))
-                return -1;
+//int MySQLManager::queryID(const QString &name, double price, int timeNeeded, const QString &imgdir) {
+//        if (!doQuery("dish", "dishid", "name = \"" + name + "\""))
+//                return -1;
 
-        if(!resultList.empty())
-                return atoi(resultList[0][0].c_str());
+//        if(!resultList.empty())
+//                return atoi(resultList[0][0].c_str());
 
-        if(insert("dish", "NULL, \"" + name + "\", " + ntos(price) + ", NULL, NULL, " + (ntos(timeNeeded) == "-1" ? "NULL" : ntos(timeNeeded)) + ", \"" + imgdir + "\""))
-                return queryID(name, price, timeNeeded, imgdir);
-        return -1;
-}
+//        if(insert("dish", "NULL, \"" + name + "\", " + ntos(price) + ", NULL, NULL, " + (ntos(timeNeeded) == "-1" ? "NULL" : ntos(timeNeeded)) + ", \"" + imgdir + "\""))
+//                return queryID(name, price, timeNeeded, imgdir);
+//        return -1;
+//}
 
-vector<Msg> MySQLManager::queryMsg(string receiver) {
+vector<Msg> MySQLManager::queryMsg(const QString &receiver) {
         vector<Msg> msgs;
 
         if (!doQuery("msg", "msgid, sender, receiver, msg, time, isActive", "receiver = \"" + receiver + "\""))
                 return msgs;
         
         for (unsigned int i = 0; i < resultList.size(); i ++)
-                msgs.push_back(Msg(resultList[i][0], resultList[i][1], resultList[i][2], resultList[i][3], resultList[i][4], atoi(resultList[i][5].c_str())));
+                msgs.push_back(Msg(resultList[i][0], resultList[i][1], resultList[i][2], resultList[i][3], resultList[i][4], resultList[i][5].toInt()));
 
         return msgs;
 }
 
-bool MySQLManager::insert(string table, string values) {
-        string cmd = "insert into " + table + " values(" + values +")";
+bool MySQLManager::insert(const QString &table, const QString &values) {
+        QString cmd = "insert into " + table + " values(" + values +")";
         return runSQLCommand(cmd);
 }
 
-bool MySQLManager::update(string table, string column, string newValue, string wheres) {
-        string cmd = "update " + table + " set " + column + " = " + newValue + " where " + wheres;
+bool MySQLManager::update(const QString &table, const QString &column, const QString &newValue, const QString &wheres) {
+        QString cmd = "update " + table + " set " + column + " = " + newValue + " where " + wheres;
         return runSQLCommand(cmd);
 }
 
-bool MySQLManager::deleteRow(string table, string wheres) {
-        string cmd = "delete from " + table + " where " + wheres;
+bool MySQLManager::deleteRow(const QString &table, const QString &wheres) {
+        QString cmd = "delete from " + table + " where " + wheres;
         return runSQLCommand(cmd);
 }
 
-bool MySQLManager::doesExist(string table, string wheres) {
+bool MySQLManager::doesExist(const QString &table, const QString &wheres) {
     doQuery(table, "*", wheres);
     return (resultList.size() > 0);
 }

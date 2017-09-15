@@ -26,14 +26,14 @@ GuestWindow::GuestWindow(const QString& user, QWidget *parent) :
     ui(new Ui::GuestWindow)
 {
     ui->setupUi(this);
-    StaticData::db->doQuery("person", "name, password, tableID", "phone = \"" + user.toStdString() + "\"");
+    StaticData::db->doQuery("person", "name, password, tableID", "phone = \"" + user + "\"");
     if(StaticData::db->getResultList()[0][2] != "NULL")
-        guest = Guest(user.toStdString(),
+        guest = Guest(user,
                       StaticData::db->getResultList()[0][0],
                 StaticData::db->getResultList()[0][1],
-                atoi(StaticData::db->getResultList()[0][2].c_str()));
+                StaticData::db->getResultList()[0][2].toInt());
     else
-        guest = Guest(user.toStdString(),
+        guest = Guest(user,
                       StaticData::db->getResultList()[0][0],
                 StaticData::db->getResultList()[0][1]);
     StaticData::queryMsg(guest.getPhone());
@@ -113,7 +113,7 @@ void GuestWindow::viewCartList() {
         int row = ui->cartList->rowCount();
         ui->cartList->setRowCount(row + 1);
         Item* item = new Item(guest, guest.getOrderedDishList()[i], "cartList", ui->cartList);
-        connect(item, SIGNAL(dishNumChanged(const string&, int)), this, SLOT(setDishNum(const string&, int)));
+        connect(item, SIGNAL(dishNumChanged(const QString&, int)), this, SLOT(setDishNum(const QString&, int)));
         ui->cartList->setCellWidget(row, 0, item);
         cartItem.push_back(item);
     }
@@ -136,7 +136,7 @@ void GuestWindow::viewOrderList() {
     //check each order, if they are active, show them first;
     vector<bool> isFinished;
     for(unsigned int i = 0; i < StaticData::getOrderList().size(); i ++) {
-        if(StaticData::getOrderList()[i].getOrderer().toStdString() == guest.getPhone()) {
+        if(StaticData::getOrderList()[i].getOrderer() == guest.getPhone()) {
             OrderItem* item = new OrderItem(&StaticData::getOrderList()[i], ui->orderList);
             orderItem.push_back(item);
             isFinished.push_back(StaticData::getOrderList()[i].checkStatus() == 5);
@@ -191,22 +191,22 @@ void GuestWindow::viewMsgList() {
     for(unsigned int i = 0; i < msgReceived.size(); i ++) {
         int row = ui->inboxList->rowCount();
         ui->inboxList->setRowCount(row + 1);
-        ui->inboxList->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(StaticData::getPersonNameByPhone(msgReceived[i]->getSender()))));
-        ui->inboxList->setItem(row, 1, new QTableWidgetItem(QString::fromStdString(msgReceived[i]->getDatetime())));
-        ui->inboxList->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(msgReceived[i]->getMsg())));
+        ui->inboxList->setItem(row, 0, new QTableWidgetItem((StaticData::getPersonNameByPhone(msgReceived[i]->getSender()))));
+        ui->inboxList->setItem(row, 1, new QTableWidgetItem((msgReceived[i]->getDatetime())));
+        ui->inboxList->setItem(row, 2, new QTableWidgetItem((msgReceived[i]->getMsg())));
     }
     ui->outboxList->setRowCount(0);
     vector<Msg*> msgSent = StaticData::getMsgBySender(guest.getPhone());
     for(unsigned int i = 0; i < msgReceived.size(); i ++) {
         int row = ui->outboxList->rowCount();
         ui->outboxList->setRowCount(row + 1);
-        ui->outboxList->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(StaticData::getPersonNameByPhone(msgSent[i]->getReceiver()))));
-        ui->outboxList->setItem(row, 1, new QTableWidgetItem(QString::fromStdString(msgSent[i]->getDatetime())));
-        ui->outboxList->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(msgSent[i]->getMsg())));
+        ui->outboxList->setItem(row, 0, new QTableWidgetItem((StaticData::getPersonNameByPhone(msgSent[i]->getReceiver()))));
+        ui->outboxList->setItem(row, 1, new QTableWidgetItem((msgSent[i]->getDatetime())));
+        ui->outboxList->setItem(row, 2, new QTableWidgetItem((msgSent[i]->getMsg())));
     }
 }
 
-void GuestWindow::setDishNum(const string& dishID, int finalNum) {
+void GuestWindow::setDishNum(const QString& dishID, int finalNum) {
     for(unsigned int i = 0; i < dishItem.size(); i ++)
         if(dishItem[i]->getDishID() == dishID) {
             dishItem[i]->setDishNumText(finalNum);
@@ -223,7 +223,7 @@ void GuestWindow::on_RefreshCart_clicked()
 
 void GuestWindow::rateClerk(double newRate) {
     try {
-        Clerk &clerk = StaticData::getClerkByPhone(QString::fromStdString(StaticData::getTableByID(guest.getTable()).getClerk()));
+        Clerk &clerk = StaticData::getClerkByPhone((StaticData::getTableByID(guest.getTable()).getClerk()));
         clerk.updateRate(newRate);
         StaticData::modifyClerk(clerk.getPhone(), clerk);
         currentOrder->getOrderDishes()[0].setStatus(currentOrder->getOrderDishes()[0].getStatus() + 2);
@@ -263,7 +263,7 @@ void GuestWindow::sendMsg(const QString &msg) {
         viewErrInfo("Empty message");
         return;
     }
-    guest.sendMsg("Table_" + ntos(guest.getTable()), msg.toStdString());
+    guest.sendMsg(QString("Table_%1").arg(guest.getTable()), msg);
 }
 
 void GuestWindow::setSelectedTable(int tableID) {
@@ -280,7 +280,7 @@ void GuestWindow::on_submitButton_clicked()
     }
     QString orderInfo = "Your order: \n\n";
     for (unsigned int i = 0; i < guest.getOrderedDishList().size(); i ++) {
-        orderInfo += QString::fromStdString(guest.getOrderedDishList()[i].getName()) + "\n";
+        orderInfo += (guest.getOrderedDishList()[i].getName()) + "\n";
         orderInfo += "￥" + QString().setNum(guest.getOrderedDishList()[i].getPrice()) + " x " + QString().setNum(guest.getOrderedDishList()[i].getNum()) + " = ￥" + QString().setNum(guest.getOrderedDishList()[i].getPrice() * guest.getOrderedDishList()[i].getNum()) + "\n\n";
     }
     orderInfo += "Total: ￥" + QString().setNum(guest.getSumInCart()) + "\n\n Submit?";
@@ -301,7 +301,7 @@ void GuestWindow::on_submitTableButton_clicked()
     for(unsigned int i = 0; i < StaticData::getTableList().size(); i ++)
         if(StaticData::getTableList()[i].getTableID() == selectedTable) {
             if(!guest.selectTable(StaticData::getTableList()[i])) {
-                viewErrInfo("No seats left for Table No. " + ntos(selectedTable) + ", please reselect.");
+                viewErrInfo(QString("No seats left for Table No. %1, please reselect.").arg(selectedTable));
                 return;
             }
             break;

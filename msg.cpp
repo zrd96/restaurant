@@ -1,11 +1,11 @@
-#include <string>
+#include <QString>
 #include <vector>
 
 #include "msg.h"
 
 using namespace std;
 
-//Msg::Msg(string sender, string receiver, string msg, string datetime, bool isActive):
+//Msg::Msg(QString sender, QString receiver, QString msg, QString datetime, bool isActive):
 //    msgID(-1),
 //    sender(sender),
 //    receiver(receiver),
@@ -13,7 +13,7 @@ using namespace std;
 //    datetime(datetime),
 //    isActive(isActive) {}
 
-Msg::Msg(const string &msgID, const string &sender, const string &receiver, const string &msg, const string &datetime, bool isActive):
+Msg::Msg(const QString &msgID, const QString &sender, const QString &receiver, const QString &msg, const QString &datetime, bool isActive):
     msgID(msgID),
     sender(sender),
     receiver(receiver),

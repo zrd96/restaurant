@@ -1,8 +1,8 @@
 #ifndef _DATAMANAGER_H
 #define _DATAMANAGER_H
 
-#include <string>
 #include <vector>
+#include <QString>
 
 #include "msg.h"
 
@@ -12,19 +12,18 @@ class DataManager {
         public:
                 virtual void initConnection() = 0;
                 virtual bool initDB() = 0;
-                virtual bool doQuery(string, string, string = "NULL") = 0;
-                virtual int queryID(string, double, int, string) = 0;
-                virtual vector<Msg> queryMsg(string receiver) = 0;
-                virtual bool insert(string table, string values) = 0;
-                virtual bool update(string table, string column, string newValue, string wheres) = 0;
-                virtual bool deleteRow(string table, string wheres) = 0;
-                virtual bool doesExist(string table, string wheres) = 0;
+                virtual bool doQuery(const QString &table, const QString &column, const QString &wheres = "NULL") = 0;
+                virtual vector<Msg> queryMsg(const QString &receiver) = 0;
+                virtual bool insert(const QString &table, const QString &values) = 0;
+                virtual bool update(const QString &table, const QString &column, const QString &newValue, const QString &wheres) = 0;
+                virtual bool deleteRow(const QString &table, const QString &wheres) = 0;
+                virtual bool doesExist(const QString &table, const QString &wheres) = 0;
                 virtual bool getConnectionStatus() const = 0;
-                vector<vector<string> > getResultList() const {return resultList;}
-                string getErrInfo() const {return errInfo;}
+                vector<vector<QString> > getResultList() const {return resultList;}
+                QString getErrInfo() const {return errInfo;}
         protected:
-                vector<vector<string> > resultList;
-                string errInfo;
+                vector<vector<QString> > resultList;
+                QString errInfo;
 };
 
 #endif

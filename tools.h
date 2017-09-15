@@ -1,18 +1,16 @@
 #ifndef _TOOSL_H
 #define _TOOSL_H
 
-#include <string>
+#include <QString>
 #include <vector>
 
 using namespace std;
 
-string ntos(int i);
-string ntos(double f);
-string getTime();
-string getTimeUniform();
-void viewResultList(vector<vector<string> >);
-void viewErrInfo(string errInfo);
-bool confirm(string info);
+QString getTime();
+QString getTimeUniform();
+void viewResultList(vector<vector<QString> >);
+void viewErrInfo(const QString &errInfo);
+bool confirm(const QString &info);
 template<typename T> void clearPointerList(vector<T*>& pointerList) {
     for(unsigned int i = 0; i < pointerList.size(); i ++)
             delete pointerList[i];

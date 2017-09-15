@@ -14,7 +14,7 @@ class Cart {
                 void show() const;
                 vector<OrderedDish> getOrderedDishList() const {return orderedDishes;}
         protected:
-                bool add(const Dish& dish, string owner, int tableNum);
+                bool add(const Dish& dish, const QString &owner, int tableNum);
                 bool remove(const Dish& dish);
                 int num;
                 double sum;

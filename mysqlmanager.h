@@ -3,8 +3,7 @@
 
 #include <mysql/mysql.h>
 
-#include <string>
-#include <cstring>
+#include <QString>
 #include <vector>
 
 #include "datamanager.h"
@@ -13,19 +12,19 @@ using namespace std;
 
 class MySQLManager: public DataManager {
         public:
-                MySQLManager(string host, string userName, string password, unsigned int port);
+                MySQLManager(const QString &host, const QString &userName, const QString &password, unsigned int port);
                 ~MySQLManager();
                 void initConnection();
-                bool doQuery(string table, string columns, string wheres = "NULL");
-                int queryID(string name, double price, int timeNeeded, string imgdir);
-                vector<Msg> queryMsg(string receiver);
-                bool insert(string table, string values);
-                bool update(string table, string column, string newValue, string wheres);
-                bool deleteRow(string table, string wheres);
-                bool doesExist(string table, string wheres);
+                bool doQuery(const QString &table, const QString &columns, const QString &wheres = "NULL");
+                int queryID(const QString &name, double price, int timeNeeded, const QString &imgdir);
+                vector<Msg> queryMsg(const QString &receiver);
+                bool insert(const QString &table, const QString &values);
+                bool update(const QString &table, const QString &column, const QString &newValue, const QString &wheres);
+                bool deleteRow(const QString &table, const QString &wheres);
+                bool doesExist(const QString &table, const QString &wheres);
                 void destroyConnection();
                 bool getConnectionStatus() const {return isConnected;}
-                bool runSQLCommand(const string cmd);
+                bool runSQLCommand(const QString &cmd);
                 bool initDB();
         private:
                 MYSQL mySQLClient;

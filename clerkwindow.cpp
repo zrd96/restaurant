@@ -7,8 +7,8 @@ ClerkWindow::ClerkWindow(const QString &user, QWidget *parent) :
     ui(new Ui::ClerkWindow)
 {
     ui->setupUi(this);
-    StaticData::db->doQuery("person", "name, password", "phone = \"" + user.toStdString() + "\"");
-    clerk = Clerk(user.toStdString(),
+    StaticData::db->doQuery("person", "name, password", "phone = \"" + user + "\"");
+    clerk = Clerk(user,
                   StaticData::db->getResultList()[0][0],
             StaticData::db->getResultList()[0][1]);
     ui->submitTableButton->setEnabled(false);
@@ -92,18 +92,18 @@ void ClerkWindow::viewReadyDishList() {
     ui->readyDishList->setRowCount(0);
     for (unsigned int i = 0; i < clerk.getMsgList().size(); i ++) {
         Msg &cur = clerk.getMsgList()[i];
-        if (cur.getMsg().find("Dish ready") != string::npos) {
+        if (cur.getMsg().contains("Dish ready")) {
             int row = ui->readyDishList->rowCount();
             ui->readyDishList->setRowCount(row + 1);
-            string orderedDishID = cur.getMsg().substr(11);
+            QString orderedDishID = cur.getMsg().mid(11);
             OrderedDish &orderedDish = StaticData::getOrderedDishByID(orderedDishID);
-            ui->readyDishList->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(cur.getSender())));
+            ui->readyDishList->setItem(row, 0, new QTableWidgetItem((cur.getSender())));
             ui->readyDishList->setItem(row, 1, new QTableWidgetItem(QString("Table %1").arg(orderedDish.getTable())));
-            ui->readyDishList->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(orderedDish.getOrderer())));
-            ui->readyDishList->setItem(row, 3, new QTableWidgetItem(QString::fromStdString(orderedDish.getOrderedDishID())));
-            ui->readyDishList->setItem(row, 4, new QTableWidgetItem(QString::fromStdString(orderedDish.getName())));
-            ui->readyDishList->setItem(row, 5, new QTableWidgetItem(QString::fromStdString(orderedDish.getDatetime())));
-            ui->readyDishList->setItem(row, 6, new QTableWidgetItem(QString::fromStdString(cur.getDatetime())));
+            ui->readyDishList->setItem(row, 2, new QTableWidgetItem((orderedDish.getOrderer())));
+            ui->readyDishList->setItem(row, 3, new QTableWidgetItem((orderedDish.getOrderedDishID())));
+            ui->readyDishList->setItem(row, 4, new QTableWidgetItem((orderedDish.getName())));
+            ui->readyDishList->setItem(row, 5, new QTableWidgetItem((orderedDish.getDatetime())));
+            ui->readyDishList->setItem(row, 6, new QTableWidgetItem((cur.getDatetime())));
             QPushButton* serveButton = new QPushButton(ui->readyDishList);
             serveButton->setText("Serve");
             serveButton->resize(30, 30);
@@ -130,13 +130,13 @@ void ClerkWindow::viewMsgList() {
     ui->msgList->setRowCount(0);
     for (unsigned int i = 0; i < clerk.getMsgList().size(); i ++) {
         Msg &cur = clerk.getMsgList()[i];
-        if (cur.getMsg().find("Dish ready") == string::npos) {
+        if (!cur.getMsg().contains("Dish ready")) {
             int row = ui->msgList->rowCount();
             ui->msgList->setRowCount(row + 1);
-            ui->msgList->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(cur.getSender())));
-            ui->msgList->setItem(row, 1, new QTableWidgetItem(QString::fromStdString(cur.getReceiver())));
-            ui->msgList->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(cur.getMsg())));
-            ui->msgList->setItem(row, 3, new QTableWidgetItem(QString::fromStdString(cur.getDatetime())));
+            ui->msgList->setItem(row, 0, new QTableWidgetItem((cur.getSender())));
+            ui->msgList->setItem(row, 1, new QTableWidgetItem((cur.getReceiver())));
+            ui->msgList->setItem(row, 2, new QTableWidgetItem((cur.getMsg())));
+            ui->msgList->setItem(row, 3, new QTableWidgetItem((cur.getDatetime())));
         }
     }
     ui->msgList->resizeColumnsToContents();

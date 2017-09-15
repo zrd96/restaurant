@@ -14,7 +14,7 @@
 #include "emptyresult.h"
 #include <QApplication>
 #include <QDebug>
-#include <string>
+#include <QString>
 #include <iostream>
 #include <QTextCodec>
 
@@ -22,7 +22,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
+    //QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     StaticData::db = new MySQLManager("127.0.0.1", "root", "L#f0e7d#X", (unsigned int)3306);
     StaticData::db->initConnection();
     if(StaticData::db->getConnectionStatus()) {

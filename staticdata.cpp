@@ -38,9 +38,9 @@ bool StaticData::queryTable() {
     tableList.clear();
     if(!db->doQuery("tableList", "*"))
         return false;
-    vector<vector<string> > resultList = db->getResultList();
+    vector<vector<QString> > resultList = db->getResultList();
     for(unsigned int i = 0; i < resultList.size(); i ++) {
-        insertTable(Table(atoi(resultList[i][0].c_str()), atoi(resultList[i][1].c_str()), atoi(resultList[i][2].c_str()), resultList[i][3]));
+        insertTable(Table(resultList[i][0].toInt(), resultList[i][1].toInt(), resultList[i][2].toInt(), resultList[i][3]));
     }
     return true;
 }
@@ -49,15 +49,16 @@ bool StaticData::queryDish() {
     dishList.clear();
         if (!db->doQuery("dish", "*"))
                 return false;
-        vector<vector<string> > resultList = db->getResultList();
+        vector<vector<QString> > resultList = db->getResultList();
         for(unsigned int i = 0; i < resultList.size(); i ++)
                 insertDish(Dish(resultList[i][0],
                            resultList[i][1],
-                        atof(resultList[i][2].c_str()),
-                        atoi(resultList[i][5].c_str()),
-                        atof(resultList[i][3].c_str()),
-                        atoi(resultList[i][4].c_str()),
-                        resultList[i][6]));
+                        resultList[i][2],
+                        resultList[i][3].toDouble(),
+                        resultList[i][6].toInt(),
+                        resultList[i][4].toDouble(),
+                        resultList[i][5].toInt(),
+                        resultList[i][7]));
         return true;
 }
 
@@ -65,13 +66,13 @@ bool StaticData::queryOrderedDish() {
     orderedDishList.clear();
         if (!db->doQuery("orderedDish", "*"))
                 return false;
-        vector<vector<string> > resultList = db->getResultList();
+        vector<vector<QString> > resultList = db->getResultList();
         for(unsigned int i = 0; i < resultList.size(); i ++) {
             OrderedDish tmp(getDishByID(resultList[i][1]),
                     resultList[i][0],
                     resultList[i][2],
-                    atoi(resultList[i][3].c_str()),
-                    atoi(resultList[i][4].c_str()));
+                    resultList[i][3].toInt(),
+                    resultList[i][4].toInt());
             tmp.setDatetime(resultList[i][5]);
             tmp.setChef(resultList[i][6]);
             insertOrderedDish(tmp);
@@ -81,12 +82,12 @@ bool StaticData::queryOrderedDish() {
 
 void StaticData::clearMsgList() {msgList.clear();}
 
-bool StaticData::queryMsg(string person) {
+bool StaticData::queryMsg(const QString &person) {
         if (!db->doQuery("msg", "*", "sender = \"" + person + "\" or receiver = \"" + person + "\""))
                 return false;
-        vector<vector<string> > resultList = db->getResultList();
+        vector<vector<QString> > resultList = db->getResultList();
         for (unsigned int i = 0; i < resultList.size(); i ++) {
-            string msgID = resultList[i][0].c_str();
+            QString msgID = resultList[i][0];
             bool msgExists = false;
             for (unsigned int j = 0; j < msgList.size(); j ++)
                 if(msgID == msgList[j].getMsgID()) {
@@ -94,7 +95,7 @@ bool StaticData::queryMsg(string person) {
                     break;
                 }
             if(!msgExists)
-                insertMsg(Msg(resultList[i][0], resultList[i][1], resultList[i][2], resultList[i][3], resultList[i][4], atoi(resultList[i][5].c_str())));
+                insertMsg(Msg(resultList[i][0], resultList[i][1], resultList[i][2], resultList[i][3], resultList[i][4], resultList[i][5].toInt()));
         }
         return true;
 }
@@ -103,9 +104,9 @@ bool StaticData::queryClerk() {
     clerkList.clear();
         if(!db->doQuery("person", "*", "type = 3"))
                 return false;
-        vector<vector<string> > resultList = db->getResultList();
+        vector<vector<QString> > resultList = db->getResultList();
         for(unsigned int i = 0; i < resultList.size(); i ++)
-                insertClerk(Clerk(resultList[i][0], resultList[i][1], resultList[i][2], atof(resultList[i][3].c_str()), atoi(resultList[i][4].c_str())));
+                insertClerk(Clerk(resultList[i][0], resultList[i][1], resultList[i][2], resultList[i][3].toDouble(), resultList[i][4].toInt()));
         return true;
 }
 
@@ -113,7 +114,7 @@ bool StaticData::queryChef() {
     chefList.clear();
         if(!db->doQuery("person", "*", "type = 2"))
                 return false;
-        vector<vector<string> > resultList = db->getResultList();
+        vector<vector<QString> > resultList = db->getResultList();
         for(unsigned int i = 0; i < resultList.size(); i ++)
                 insertChef(Chef(resultList[i][0], resultList[i][1], resultList[i][2]));
         return true;
@@ -123,7 +124,7 @@ bool StaticData::queryGuest() {
     guestList.clear();
         if(!db->doQuery("person", "*", "type = 1"))
                 return false;
-        vector<vector<string> > resultList = db->getResultList();
+        vector<vector<QString> > resultList = db->getResultList();
         for(unsigned int i = 0; i < resultList.size(); i ++)
                 insertGuest(Guest(resultList[i][0], resultList[i][1], resultList[i][2]));
         return true;
@@ -135,14 +136,14 @@ bool StaticData::queryOrder() {
     for(unsigned int i = 0; i < orderedDishList.size(); i ++) {
         bool found = 0;
         for(unsigned j = 0; j < orderList.size(); j ++)
-            if(orderList[j].getOrderer().toStdString() == orderedDishList[i].getOrderer()
-                    && orderList[j].getDatetime().toStdString() == orderedDishList[i].getDatetime()) {
+            if(orderList[j].getOrderer() == orderedDishList[i].getOrderer()
+                    && orderList[j].getDatetime() == orderedDishList[i].getDatetime()) {
                 found = 1;
                 orderList[j].insertDish(orderedDishList[i]);
                 break;
             }
         if(!found) {
-            Order newOrder(QString::fromStdString(orderedDishList[i].getOrderer()), QString::fromStdString(orderedDishList[i].getDatetime()));
+            Order newOrder((orderedDishList[i].getOrderer()), (orderedDishList[i].getDatetime()));
             newOrder.insertDish(orderedDishList[i]);
             insertOrder(newOrder);
         }
@@ -153,15 +154,15 @@ bool StaticData::queryRate() {
     rateList.clear();
     if (!db->doQuery("rate", "*"))
         return false;
-    vector<vector<string> > resultList = db->getResultList();
+    vector<vector<QString> > resultList = db->getResultList();
     for(unsigned int i = 0; i < resultList.size(); i ++)
-        insertRate(Rate(QString::fromStdString(resultList[i][0]),
-                   atof(resultList[i][1].c_str()),
-                QString::fromStdString(resultList[i][2]),
-                QString::fromStdString(resultList[i][3]),
-                QString::fromStdString(resultList[i][4]),
-                QString::fromStdString(resultList[i][5]),
-                QString::fromStdString(resultList[i][6])));
+        insertRate(Rate((resultList[i][0]),
+                   resultList[i][1].toDouble(),
+                (resultList[i][2]),
+                (resultList[i][3]),
+                (resultList[i][4]),
+                (resultList[i][5]),
+                (resultList[i][6])));
     return true;
 }
 
@@ -218,7 +219,7 @@ void StaticData::removeTable(int tableID) {
     }
 }
 
-void StaticData::removeDish(const string& dishID) {
+void StaticData::removeDish(const QString& dishID) {
     for (unsigned int i = 0; i < dishList.size(); i ++) {
         if(dishID == dishList[i].getDishID()) {
             dishMaintainList[i] = -1;
@@ -227,7 +228,7 @@ void StaticData::removeDish(const string& dishID) {
     }
 }
 
-void StaticData::removeOrderedDish(const string& orderedDishID) {
+void StaticData::removeOrderedDish(const QString& orderedDishID) {
     for (unsigned int i = 0; i < orderedDishList.size(); i ++) {
         if(orderedDishID == orderedDishList[i].getOrderedDishID()) {
             orderedDishMaintainList[i] = -1;
@@ -236,7 +237,7 @@ void StaticData::removeOrderedDish(const string& orderedDishID) {
     }
 }
 
-void StaticData::removeMsg(const string& msgID) {
+void StaticData::removeMsg(const QString& msgID) {
     for (unsigned int i = 0; i < msgList.size(); i ++) {
         if(msgID == msgList[i].getMsgID()) {
             msgMaintainList[i] = -1;
@@ -245,7 +246,7 @@ void StaticData::removeMsg(const string& msgID) {
     }
 }
 
-void StaticData::removeGuest(const string& phone) {
+void StaticData::removeGuest(const QString& phone) {
     for (unsigned int i = 0; i < guestList.size(); i ++) {
         if(phone == guestList[i].getPhone()) {
             guestMaintainList[i] = -1;
@@ -254,7 +255,7 @@ void StaticData::removeGuest(const string& phone) {
     }
 }
 
-void StaticData::removeClerk(const string& phone) {
+void StaticData::removeClerk(const QString& phone) {
     for (unsigned int i = 0; i < clerkList.size(); i ++) {
         if(phone == clerkList[i].getPhone()) {
             clerkMaintainList[i] = -1;
@@ -263,7 +264,7 @@ void StaticData::removeClerk(const string& phone) {
     }
 }
 
-void StaticData::removeChef(const string& phone) {
+void StaticData::removeChef(const QString& phone) {
     for (unsigned int i = 0; i < chefList.size(); i ++) {
         if(phone == chefList[i].getPhone()) {
             chefMaintainList[i] = -1;
@@ -282,7 +283,7 @@ void StaticData::modifyTable(int tableID, const Table& newTable) {
     }
 }
 
-void StaticData::modifyDish(const string& dishID, const Dish& newDish) {
+void StaticData::modifyDish(const QString& dishID, const Dish& newDish) {
     for (unsigned int i = 0; i < dishList.size(); i ++) {
         if(dishID == dishList[i].getDishID()) {
             dishList[i] = newDish;
@@ -292,7 +293,7 @@ void StaticData::modifyDish(const string& dishID, const Dish& newDish) {
     }
 }
 
-void StaticData::modifyOrderedDish(const string& orderedDishID, const OrderedDish& newOrderedDish) {
+void StaticData::modifyOrderedDish(const QString& orderedDishID, const OrderedDish& newOrderedDish) {
     for (unsigned int i = 0; i < orderedDishList.size(); i ++) {
         if(orderedDishID == orderedDishList[i].getOrderedDishID()) {
             orderedDishList[i] = newOrderedDish;
@@ -302,7 +303,7 @@ void StaticData::modifyOrderedDish(const string& orderedDishID, const OrderedDis
     }
 }
 
-void StaticData::modifyMsg(const string& msgID, const Msg& newMsg) {
+void StaticData::modifyMsg(const QString& msgID, const Msg& newMsg) {
     for (unsigned int i = 0; i < msgList.size(); i ++) {
         if(msgID == msgList[i].getMsgID()) {
             msgList[i] = newMsg;
@@ -312,7 +313,7 @@ void StaticData::modifyMsg(const string& msgID, const Msg& newMsg) {
     }
 }
 
-void StaticData::modifyGuest(const string& phone, const Guest& newGuest) {
+void StaticData::modifyGuest(const QString& phone, const Guest& newGuest) {
     for (unsigned int i = 0; i < guestList.size(); i ++) {
         if(phone == guestList[i].getPhone()) {
             guestList[i] = newGuest;
@@ -322,7 +323,7 @@ void StaticData::modifyGuest(const string& phone, const Guest& newGuest) {
     }
 }
 
-void StaticData::modifyClerk(const string& phone, const Clerk& newClerk) {
+void StaticData::modifyClerk(const QString& phone, const Clerk& newClerk) {
     for (unsigned int i = 0; i < clerkList.size(); i ++) {
         if(phone == clerkList[i].getPhone()) {
             clerkList[i] = newClerk;
@@ -332,7 +333,7 @@ void StaticData::modifyClerk(const string& phone, const Clerk& newClerk) {
     }
 }
 
-void StaticData::modifyChef(const string& phone, const Chef& newChef) {
+void StaticData::modifyChef(const QString& phone, const Chef& newChef) {
     for (unsigned int i = 0; i < chefList.size(); i ++) {
         if(phone == chefList[i].getPhone()) {
             chefList[i] = newChef;
@@ -346,23 +347,19 @@ void StaticData::writeTable() {
     for(unsigned int i = 0; i < tableList.size(); i ++) {
         Table& cur = tableList[i];
         if(tableMaintainList[i] > 0) {
-            if(db->doesExist("tableList", "id = " + ntos(cur.getTableID()))) {
-                db->update("tableList", "seats", ntos(cur.getSeats()), "id = " + ntos(cur.getTableID()));
-                db->update("tableList", "freeSeats", ntos(cur.getFreeSeats()), "id = " + ntos(cur.getTableID()));
+            if(db->doesExist("tableList", QString("id = %1").arg(cur.getTableID()))) {
+                db->update("tableList", "seats", QString().setNum(cur.getSeats()), QString("id = %1").arg(cur.getTableID()));
+                db->update("tableList", "freeSeats", QString().setNum(cur.getFreeSeats()), QString("id = %1").arg(cur.getTableID()));
                 db->update("tableList", "clerk",
-                                       "\"" + (cur.getClerk() != "" ? cur.getClerk() : (string)"NULL") + "\"",
-                                       "id = " + ntos(cur.getTableID()));
+                                       "\"" + (cur.getClerk() != "" ? cur.getClerk() : (QString)"NULL") + "\"",
+                                       QString("id = %1").arg(cur.getTableID()));
             }
             else {
-                db->insert("tableList",
-                                       ntos(cur.getTableID()) + ", "
-                                       + ntos(cur.getSeats()) + ", "
-                                       + ntos(cur.getFreeSeats()) + ", \""
-                                       + cur.getClerk() + "\"");
+                db->insert("tableList", QString("%1, %2, %3, \"%4\"").arg(cur.getTableID()).arg(cur.getSeats()).arg(cur.getFreeSeats()).arg(cur.getClerk()));
             }
         }
         else if (tableMaintainList[i] < 0)
-            db->deleteRow("tableList", "id = " + ntos(cur.getTableID()));
+            db->deleteRow("tableList", QString("id = %1").arg(cur.getTableID()));
     }
 }
 
@@ -370,25 +367,28 @@ void StaticData::writeDish() {
     for(unsigned int i = 0; i < dishList.size(); i ++) {
         Dish& cur = dishList[i];
         if(dishMaintainList[i] > 0) {
-            if(db->doesExist("dish", "dishID = \"" + cur.getDishID() + "\"")) {
-                db->update("dish", "name", "\"" + cur.getName() + "\"", "dishID = \"" + cur.getDishID() + "\"");
-                db->update("dish", "price", ntos(cur.getPrice()), "dishID = \"" + cur.getDishID() + "\"");
-                db->update("dish", "rate", ntos(cur.getRate()), "dishID = \"" + cur.getDishID() + "\"");
-                db->update("dish", "rateNum", ntos(cur.getRateNum()), "dishID = \"" + cur.getDishID() + "\"");
-                db->update("dish", "time", ntos(cur.getTimeNeeded()), "dishID = \"" + cur.getDishID() + "\"");
-                db->update("dish", "imgdir", "\"" + cur.getImgDir() + "\"", "dishID = \"" + cur.getDishID() + "\"");
+            if(db->doesExist("dish", QString("dishID = \"%1\"").arg(cur.getDishID()))) {
+                db->update("dish", "name", "\"" + cur.getName() + "\"", QString("dishID = \"%1\"").arg(cur.getDishID()));
+                db->update("dish", "price", QString().setNum(cur.getPrice()), QString("dishID = \"%1\"").arg(cur.getDishID()));
+                db->update("dish", "rate", QString().setNum(cur.getRate()), QString("dishID = \"%1\"").arg(cur.getDishID()));
+                db->update("dish", "rateNum", QString().setNum(cur.getRateNum()), QString("dishID = \"%1\"").arg(cur.getDishID()));
+                db->update("dish", "time", QString().setNum(cur.getTimeNeeded()), QString("dishID = \"%1\"").arg(cur.getDishID()));
+                db->update("dish", "imgdir", "\"" + cur.getImgDir() + "\"", QString("dishID = \"%1\"").arg(cur.getDishID()));
             }
             else {
-                db->insert("dish",
-                           "\"" + cur.getDishID() + "\", \"" + cur.getName() + "\", "
-                           + ntos(cur.getPrice()) + ", "
-                           + ntos(cur.getRate()) + ", " + ntos(cur.getRateNum()) + ", "
-                           + ntos(cur.getTimeNeeded()) + ", \""
-                           + cur.getImgDir() + "\"");
+                db->insert("dish", QString("\"%1\", \"%2\", \"%8\", %3, %4, %5, %6, \"%7\"")
+                           .arg(cur.getDishID())
+                           .arg(cur.getName())
+                           .arg(cur.getPrice())
+                           .arg(cur.getRate())
+                           .arg(cur.getRateNum())
+                           .arg(cur.getTimeNeeded())
+                           .arg(cur.getImgDir())
+                           .arg(cur.getIntro()));
             }
         }
         else if (dishMaintainList[i] < 0)
-            db->deleteRow("dish", "dishID = \"" + cur.getDishID() + "\"");
+            db->deleteRow("dish", QString("dishID = \"%1\"").arg(cur.getDishID()));
     }
 }
 
@@ -396,36 +396,36 @@ void StaticData::writeOrderedDish() {
     for(unsigned int i = 0; i < orderedDishList.size(); i ++) {
         OrderedDish& cur = orderedDishList[i];
         if(orderedDishMaintainList[i] > 0) {
-            if(db->doesExist("orderedDish", "id = \"" + cur.getOrderedDishID() + "\"")) {
+            if(db->doesExist("orderedDish", QString("id = \"%1\"").arg(cur.getOrderedDishID()))) {
                 db->update("orderedDish",
                                        "orderer", "\"" + cur.getOrderer() + "\"",
-                                       "id = \"" + cur.getOrderedDishID() + "\"");
+                                       QString("id = \"%1\"").arg(cur.getOrderedDishID()));
                 db->update("orderedDish",
-                                       "tableNum", ntos(cur.getTable()),
-                                       "id = \"" + cur.getOrderedDishID() + "\"");
+                                       "tableNum", QString().setNum(cur.getTable()),
+                                       QString("id = \"%1\"").arg(cur.getOrderedDishID()));
                 db->update("orderedDish",
-                                       "status", ntos(cur.getStatus()),
-                                       "id = \"" + cur.getOrderedDishID() + "\"");
+                                       "status", QString().setNum(cur.getStatus()),
+                                       QString("id = \"%1\"").arg(cur.getOrderedDishID()));
                 db->update("orderedDish",
                                        "datetime", "\"" + cur.getDatetime() + "\"",
-                                       "id = \"" + cur.getOrderedDishID() + "\"");
+                                       QString("id = \"%1\"").arg(cur.getOrderedDishID()));
                 db->update("orderedDish",
                                        "chef", "\"" + cur.getChef() + "\"",
-                                       "id = \"" + cur.getOrderedDishID() + "\"");
+                                       QString("id = \"%1\"").arg(cur.getOrderedDishID()));
             }
             else {
-                db->insert("orderedDish",
-                           "\"" + cur.getOrderedDishID() + "\", \""
-                           + cur.getDishID() + "\", \""
-                           + cur.getOrderer() + "\", "
-                           + ntos(cur.getTable()) + ", "
-                           + ntos(cur.getStatus()) + ", \""
-                           + cur.getDatetime() + "\", \""
-                           + cur.getChef() + "\"");
+                db->insert("orderedDish", QString("\"%1\", \"%2\", \"%3\", %4, %5, \"%6\", \"%7\"")
+                           .arg(cur.getOrderedDishID())
+                           .arg(cur.getDishID())
+                           .arg(cur.getOrderer())
+                           .arg(cur.getTable())
+                           .arg(cur.getStatus())
+                           .arg(cur.getDatetime())
+                           .arg(cur.getChef()));
             }
         }
         else if (orderedDishMaintainList[i] < 0)
-            db->deleteRow("orderedDish", "id = \"" + cur.getOrderedDishID() + "\"");
+            db->deleteRow("orderedDish", QString("id = \"%1\"").arg(cur.getOrderedDishID()));
     }
 }
 
@@ -433,21 +433,21 @@ void StaticData::writeMsg() {
     for(unsigned int i = 0; i < msgList.size(); i ++) {
         Msg& cur = msgList[i];
         if(msgMaintainList[i] > 0) {
-            if(db->doesExist("msg", "msgid = \"" + cur.getMsgID() + "\"")) {
-                db->update("msg", "isActive", ntos(cur.getState()), "msgid = \"" + cur.getMsgID() + "\"");
+            if(db->doesExist("msg", QString("msgid = \"%1\"").arg(cur.getMsgID()))) {
+                db->update("msg", "isActive", QString().setNum(cur.getState()), QString("msgid = \"%1\"").arg(cur.getMsgID()));
             }
             else {
-                db->insert("msg",
-                           "\"" + cur.getMsgID() + "\", \""
-                           + cur.getSender() + "\", \""
-                           + cur.getReceiver() + "\", \""
-                           + cur.getMsg() + "\", \""
-                           + cur.getDatetime() + "\", "
-                           + ntos(cur.getState()));
+                db->insert("msg", QString("\"%1\", \"%2\", \"%3\", \"%4\", \"%5\", %6")
+                           .arg(cur.getMsgID())
+                           .arg(cur.getSender())
+                           .arg(cur.getReceiver())
+                           .arg(cur.getMsg())
+                           .arg(cur.getDatetime())
+                           .arg(cur.getState()));
             }
         }
         else if (msgMaintainList[i] < 0)
-            db->deleteRow("msg", "msgid = \"" + cur.getMsgID() + "\"");
+            db->deleteRow("msg", QString("msgid = \"%1\"").arg(cur.getMsgID()));
     }
 }
 
@@ -455,25 +455,25 @@ void StaticData::writeGuest() {
     for (unsigned int i = 0; i < guestList.size(); i ++) {
         Guest& cur = guestList[i];
         if (guestMaintainList[i] > 0) {
-            if(db->doesExist("person", "phone = \"" + cur.getPhone() + "\"")) {
+            if(db->doesExist("person", QString("phone = \"%1\"").arg(cur.getPhone()))) {
                 db->update("person", "name", "\"" + cur.getName() + "\"",
-                           "phone = \"" + cur.getPhone() + "\"");
+                           QString("phone = \"%1\"").arg(cur.getPhone()));
                 db->update("person", "password", "\"" + cur.getPassword() + "\"",
-                           "phone = \"" + cur.getPhone() + "\"");
-                db->update("peson", "table", ntos(cur.getTable()),
-                           "phone = \"" + cur.getPhone() + "\"");
+                           QString("phone = \"%1\"").arg(cur.getPhone()));
+                db->update("peson", "table", QString().setNum(cur.getTable()),
+                           QString("phone = \"%1\"").arg(cur.getPhone()));
 //                db->update("person", "password", "\"" + cur.getPassword() + "\"",
-//                           "phone = \"" + cur.getPhone() + "\"");
+//                           QString("phone = \"%1\"").arg(cur.getPhone()));
             }
             else {
                 db->insert("person", "\"" + cur.getPhone() + "\", \""
                            + cur.getName() + "\", \""
                            + cur.getPassword() + "\", 1, NULL, NULL, "
-                           + (cur.getTable() > 0 ? ntos(cur.getTable()) : "NULL"));
+                           + (cur.getTable() > 0 ? QString().setNum(cur.getTable()) : "NULL"));
             }
         }
         else if (guestMaintainList[i] < 0) {
-            db->deleteRow("person", "phone = \"" + cur.getPhone() + "\"");
+            db->deleteRow("person", QString("phone = \"%1\"").arg(cur.getPhone()));
         }
     }
 }
@@ -482,30 +482,31 @@ void StaticData::writeClerk() {
     for (unsigned int i = 0; i < clerkList.size(); i ++) {
         Clerk& cur = clerkList[i];
         if (clerkMaintainList[i] > 0) {
-            if(db->doesExist("person", "phone = \"" + cur.getPhone() + "\"")) {
+            if(db->doesExist("person", QString("phone = \"%1\"").arg(cur.getPhone()))) {
                 db->update("person", "name", "\"" + cur.getName() + "\"",
-                           "phone = \"" + cur.getPhone() + "\"");
+                           QString("phone = \"%1\"").arg(cur.getPhone()));
                 db->update("person", "password", "\"" + cur.getPassword() + "\"",
-                           "phone = \"" + cur.getPhone() + "\"");
-                db->update("peson", "rate", ntos(cur.getRate()),
-                           "phone = \"" + cur.getPhone() + "\"");
-                db->update("peson", "rateNum", ntos(cur.getRateNum()),
-                           "phone = \"" + cur.getPhone() + "\"");
-//                db->update("peson", "table", ntos(cur.getTable()),
-//                           "phone = \"" + cur.getPhone() + "\"");
+                           QString("phone = \"%1\"").arg(cur.getPhone()));
+                db->update("peson", "rate", QString().setNum(cur.getRate()),
+                           QString("phone = \"%1\"").arg(cur.getPhone()));
+                db->update("peson", "rateNum", QString().setNum(cur.getRateNum()),
+                           QString("phone = \"%1\"").arg(cur.getPhone()));
+//                db->update("peson", "table", QString().setNum(cur.getTable()),
+//                           QString("phone = \"%1\"").arg(cur.getPhone()));
 //                db->update("person", "password", "\"" + cur.getPassword() + "\"",
-//                           "phone = \"" + cur.getPhone() + "\"");
+//                           QString("phone = \"%1\"").arg(cur.getPhone()));
             }
             else {
-                db->insert("person", "\"" + cur.getPhone() + "\", \""
-                           + cur.getName() + "\", \""
-                           + cur.getPassword() + "\", 3, "
-                           + ntos(cur.getRate()) + ", "
-                           + ntos(cur.getRateNum()) + ", NULL");
+                db->insert("person", QString("\"%1\", \"%2\", \"%3\", 3, %4, %5, NULL")
+                           .arg(cur.getPhone())
+                           .arg(cur.getName())
+                           .arg(cur.getPassword())
+                           .arg(cur.getRate())
+                           .arg(cur.getRateNum()));
             }
         }
         else if (clerkMaintainList[i] < 0) {
-            db->deleteRow("person", "phone = \"" + cur.getPhone() + "\"");
+            db->deleteRow("person", QString("phone = \"%1\"").arg(cur.getPhone()));
         }
     }
 }
@@ -514,15 +515,15 @@ void StaticData::writeChef() {
     for (unsigned int i = 0; i < chefList.size(); i ++) {
         Chef& cur = chefList[i];
         if (chefMaintainList[i] > 0) {
-            if(db->doesExist("person", "phone = \"" + cur.getPhone() + "\"")) {
+            if(db->doesExist("person", QString("phone = \"%1\"").arg(cur.getPhone()))) {
                 db->update("person", "name", "\"" + cur.getName() + "\"",
-                           "phone = \"" + cur.getPhone() + "\"");
+                           QString("phone = \"%1\"").arg(cur.getPhone()));
                 db->update("person", "password", "\"" + cur.getPassword() + "\"",
-                           "phone = \"" + cur.getPhone() + "\"");
-//                db->update("peson", "table", ntos(cur.getTable()),
-//                           "phone = \"" + cur.getPhone() + "\"");
+                           QString("phone = \"%1\"").arg(cur.getPhone()));
+//                db->update("peson", "table", QString().setNum(cur.getTable()),
+//                           QString("phone = \"%1\"").arg(cur.getPhone()));
 //                db->update("person", "password", "\"" + cur.getPassword() + "\"",
-//                           "phone = \"" + cur.getPhone() + "\"");
+//                           QString("phone = \"%1\"").arg(cur.getPhone()));
             }
             else {
                 db->insert("person", "\"" + cur.getPhone() + "\", \""
@@ -531,7 +532,7 @@ void StaticData::writeChef() {
             }
         }
         else if (chefMaintainList[i] < 0) {
-            db->deleteRow("person", "phone = \"" + cur.getPhone() + "\"");
+            db->deleteRow("person", QString("phone = \"%1\"").arg(cur.getPhone()));
         }
     }
 }
@@ -540,18 +541,19 @@ void StaticData::writeRate() {
     for (unsigned int i = 0; i < rateList.size(); i ++) {
         Rate& cur = rateList[i];
         if (rateMaintainList[i] > 0) {
-                db->insert("rate", "\"" + cur.getRateID().toStdString() + "\", "
-                           + ntos(cur.getRate()) + ", \""
-                           + cur.getSubject().toStdString() + "\", \""
-                           + cur.getObject().toStdString() + "\", \""
-                           + cur.getDatetime().toStdString() + "\", \""
-                           + cur.getTitle().toStdString() + "\", \""
-                           + cur.getComments().toStdString() + "\", \"");
+                db->insert("rate", QString("\"%1\", %2, \"%3\", \"%4\", \"%5\", \"%6\", \"%7\"")
+                           .arg(cur.getRateID())
+                           .arg(cur.getRate())
+                           .arg(cur.getSubject())
+                           .arg(cur.getObject())
+                           .arg(cur.getDatetime())
+                           .arg(cur.getTitle())
+                           .arg(cur.getComments()));
         }
     }
 }
 
-Dish& StaticData::getDishByID(const string& dishID) {
+Dish& StaticData::getDishByID(const QString& dishID) {
     if (dishList.empty())
         queryDish();
         for(unsigned int i = 0; i < dishList.size(); i ++)
@@ -560,7 +562,7 @@ Dish& StaticData::getDishByID(const string& dishID) {
         throw(EmptyResult("Dish not found"));
 }
 
-OrderedDish& StaticData::getOrderedDishByID(const string& orderedDishID) {
+OrderedDish& StaticData::getOrderedDishByID(const QString& orderedDishID) {
     if (orderedDishList.empty())
         queryOrderedDish();
         for(unsigned int i = 0; i < orderedDishList.size(); i ++)
@@ -569,7 +571,7 @@ OrderedDish& StaticData::getOrderedDishByID(const string& orderedDishID) {
         throw(EmptyResult("OrderedDish not found"));
 }
 
-vector<Msg*> StaticData::getMsgByReceiver(const string& receiver) {
+vector<Msg*> StaticData::getMsgByReceiver(const QString& receiver) {
         queryMsg(receiver);
         vector<Msg*> msgListByReceiver;
         for(unsigned int i = 0; i < msgList.size(); i ++)
@@ -578,7 +580,7 @@ vector<Msg*> StaticData::getMsgByReceiver(const string& receiver) {
         return msgListByReceiver;
 }
 
-vector<Msg*> StaticData::getMsgBySender(const string& sender) {
+vector<Msg*> StaticData::getMsgBySender(const QString& sender) {
     queryMsg(sender);
         vector<Msg*> msgListBySender;
         for(unsigned int i = 0; i < msgList.size(); i ++)
@@ -587,7 +589,7 @@ vector<Msg*> StaticData::getMsgBySender(const string& sender) {
         return msgListBySender;
 }
 
-string StaticData::getClerkPhoneByTable(int table) {
+QString StaticData::getClerkPhoneByTable(int table) {
     if (clerkList.empty())
         queryClerk();
     for (unsigned int i = 0; i < clerkList.size(); i ++)
@@ -597,13 +599,13 @@ string StaticData::getClerkPhoneByTable(int table) {
     throw(EmptyResult("Clerk Phone not found"));
 }
 
-string StaticData::getPersonNameByPhone(const string& phone) {
+QString StaticData::getPersonNameByPhone(const QString& phone) {
     if(!db->doQuery("person", "name", "phone = \"" + phone + "\""))
             throw(EmptyResult("Person Name not found"));
     return db->getResultList()[0][0];
 }
 
-void StaticData::updateEverythingAboutUser(Person *person, const string& newPhone) {
+void StaticData::updateEverythingAboutUser(Person *person, const QString& newPhone) {
     for(unsigned int i = 0; i < clerkList.size(); i ++)
         if(clerkList[i].getPhone() == person->getPhone())
             clerkList[i].setPhone(newPhone);
@@ -635,7 +637,7 @@ Clerk& StaticData::getClerkByPhone(const QString &phone) {
     if (clerkList.empty())
         queryClerk();
     for (unsigned int i = 0; i < clerkList.size(); i ++)
-        if (clerkList[i].getPhone() == phone.toStdString())
+        if (clerkList[i].getPhone() == phone)
             return clerkList[i];
     throw(EmptyResult("Clerk not found"));
 }

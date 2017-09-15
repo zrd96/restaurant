@@ -9,9 +9,9 @@
 #include "staticdata.h"
 #include "tools.h"
 
-Admin::Admin(string phone, string name): Person(phone, name) {}
+Admin::Admin(const QString &phone, const QString &name): Person(phone, name) {}
 
-Admin::Admin(string phone, string name, string password): Person(phone, name, password) {}
+Admin::Admin(const QString &phone, const QString &name, const QString &password): Person(phone, name, password) {}
 
 void Admin::addDish(const Dish& dish) {
         StaticData::insertDish(dish);
@@ -21,7 +21,7 @@ void Admin::removeDish(const Dish& dish) {
         StaticData::removeDish(dish.getDishID());
 }
 
-void Admin::modifyDish(const Dish& dish, string newName, double newPrice, int newTime, string newImgDir) {
+void Admin::modifyDish(const Dish& dish, const QString &newName, double newPrice, int newTime, const QString &newImgDir) {
 //    Dish newDish = Dish(newName, newPrice, newTime, newImgDir);
 //    StaticData::modifyDish(dish.getDishID(), newDish);
 }
@@ -47,7 +47,7 @@ void Admin::removePerson(const Person& person) {
     StaticData::removeClerk(person.getPhone());
 }
 
-void Admin::modifyPerson(const Person& person, string newPhone, string newName, string newPassword) {
+void Admin::modifyPerson(const Person& person, const QString &newPhone, const QString &newName, const QString &newPassword) {
         Guest newGuest(newPhone, newName, newPassword);
         StaticData::modifyGuest(person.getPhone(), newGuest);
         Chef newChef(newPhone, newName, newPassword);
@@ -64,6 +64,6 @@ void Admin::removeTable(const Table& table) {
     StaticData::removeTable(table.getTableID());
 }
 
-void Admin::setPhone(string newPhone) {
+void Admin::setPhone(const QString &newPhone) {
     changePhone(newPhone);
 }

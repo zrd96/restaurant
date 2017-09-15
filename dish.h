@@ -1,7 +1,7 @@
 #ifndef _DISH_H
 #define _DISH_H
 
-#include <string>
+#include <QString>
 
 #include "tools.h"
 #include "datamanager.h"
@@ -10,23 +10,25 @@
 
 class Dish {
         private:
-                string dishID;
-                string name;
+                QString dishID;
+                QString name;
+                QString intro;
                 double price;
                 double rate;
                 int rateNum;
                 int timeNeeded;
-                string imgdir;
+                QString imgdir;
                 vector<Rate> rateList;
         public:
-                Dish(string dishID, string name, double price, int timeNeeded = -1, double rate = 0, int rateNum = 0, string imgdir = "img/dishes/default.png");
-                string getDishID() const {return dishID;}
-                string getName() const {return name;}
+                Dish(const QString &dishID, const QString &name, const QString &intro, double price, int timeNeeded = -1, double rate = 0, int rateNum = 0, QString imgdir = "img/dishes/default.png");
+                QString getDishID() const {return dishID;}
+                QString getName() const {return name;}
+                QString getIntro() const {return intro;}
                 double getPrice() const {return price;}
                 double getRate() const {return rate;}
                 int getRateNum() const {return rateNum;}
                 int getTimeNeeded() const {return timeNeeded;}
-                string getImgDir() const {return imgdir;}
+                QString getImgDir() const {return imgdir;}
                 vector<Rate>& getRateList() {return rateList;}
                 void updateRate(double newRate);
                 void queryRate();
@@ -37,30 +39,30 @@ class Dish {
 
 class OrderedDish: public Dish {
         private:
-                string orderer;
-                string chef;
+                QString orderer;
+                QString chef;
                 int tableNum;
                 int status;
                 int num;
-                string orderedDishID;
-                string datetime;
+                QString orderedDishID;
+                QString datetime;
         public:
-                OrderedDish(const Dish& dish, const string &orderer, int tableNum, int status = -1, const string& chef = "NULL");
-                OrderedDish(const Dish& dish, const string &orderedDishID, const string &orderer, int tableNum, int status = -1, const string& chef = "NULL");
-                string getOrderer() const {return orderer;}
-                string getOrderedDishID() const {return orderedDishID;}
+                OrderedDish(const Dish& dish, const QString &orderer, int tableNum, int status = -1, const QString& chef = "NULL");
+                OrderedDish(const Dish& dish, const QString &orderedDishID, const QString &orderer, int tableNum, int status = -1, const QString& chef = "NULL");
+                QString getOrderer() const {return orderer;}
+                QString getOrderedDishID() const {return orderedDishID;}
                 void setStatus(int status) {this->status = status;}
                 int getStatus() const {return status;}
                 int getNum() const {return num;}
-                string getChef() {return chef;}
-                string getDatetime() const {return datetime;}
-                void setDatetime(const string &datetime) {this->datetime = datetime;}
+                QString getChef() {return chef;}
+                QString getDatetime() const {return datetime;}
+                void setDatetime(const QString &datetime) {this->datetime = datetime;}
                 void add() {num ++;}
                 void sub() {num --;}
                 void setTableNum(int tableNum) {this->tableNum = tableNum;}
-                void setOrderer(const string &orderer) {this->orderer = orderer;}
-                void setOrderedDishID(const string& id) {orderedDishID = id;}
-                void setChef(const string &chef) {this->chef = chef;}
+                void setOrderer(const QString &orderer) {this->orderer = orderer;}
+                void setOrderedDishID(const QString& id) {orderedDishID = id;}
+                void setChef(const QString &chef) {this->chef = chef;}
                 int getTable() const {return tableNum;}
                 void doNothing() {}
 };

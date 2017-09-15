@@ -10,8 +10,8 @@ class Table;
 
 class Clerk: public Person {
         public:
-                Clerk(string phone, string name, double rate = 0, int rateNum = 0);
-                Clerk(string phone, string name, string password, double rate = 0, int rateNum = 0);
+                Clerk(const QString &phone, const QString &name, double rate = 0, int rateNum = 0);
+                Clerk(const QString &phone, const QString &name, const QString &password, double rate = 0, int rateNum = 0);
                 void takeTable(Table& table);
                 void checkReadyDishes();
                 void queryMsg();
@@ -20,7 +20,7 @@ class Clerk: public Person {
                 bool updateRate(double newRate);
                 double getRate() const {return rate;}
                 int getRateNum() const {return rateNum;}
-                void setPhone(string newPhone);
+                void setPhone(const QString &newPhone);
                 vector<int> &getTableList() {return tableList;}
                 void checkTable();
         private:
@@ -28,7 +28,7 @@ class Clerk: public Person {
                 vector<Msg> msgList;
                 int rateNum;
                 vector<int> tableList;
-                void serveDish(const string &orderedDishID, int tableNum, string orderer);
+                void serveDish(const QString &orderedDishID, int tableNum, const QString &orderer);
 };
 
 #endif

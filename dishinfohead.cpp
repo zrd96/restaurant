@@ -10,11 +10,11 @@ DishInfoHead::DishInfoHead(const Dish &dish, QWidget *parent) :
 {
     ui->setupUi(this);
     QImage *dishImg = new QImage;
-    if(!dishImg->load(QString::fromStdString(dish.getImgDir())))
+    if(!dishImg->load((dish.getImgDir())))
         dishImg->load("img/dishes/default.png");
     ui->dishImg->setPixmap(QPixmap::fromImage(*dishImg));
     ui->dishImg->setScaledContents(true);
-    ui->dishName->setPlainText(QString::fromStdString(dish.getName()));
+    ui->dishName->setPlainText((dish.getName()));
     ui->dishPrice->setText(QString("￥ %1").arg(dish.getPrice()));
     ui->dishIntro->setPlainText("No introduction");
     ui->dishRateInfo->setText(QString("Rated %1/5 from %2 people").arg(dish.getRate()).arg(dish.getRateNum()));

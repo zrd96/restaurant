@@ -1,58 +1,41 @@
+#include <QString>
 #include <string>
-#include <cstring>
 #include <ctime>
 #include <vector>
 #include <iostream>
-#include <sstream>
 
 #include "tools.h"
 
 using namespace std;
 
-string ntos(int i) {
-        stringstream stream;
-        stream<<i;
-        string s;
-        stream>>s;
-        return s;
-}
-
-string ntos(double f) {
-    stringstream stream;
-    stream<<f;
-    string s;
-    stream>>s;
-    return s;
-}
-
-string getTime() {
+QString getTime() {
         char *res = new char[30];
         time_t now = time(NULL);
         tm *ltm = localtime(&now);
         strftime(res, 30, "%F %T", ltm);
-        return (string)res;
+        return QString(res);
 }
 
-string getTimeUniform() {
+QString getTimeUniform() {
     char *res = new char[30];
     time_t now = time(NULL);
     tm *ltm = localtime(&now);
     strftime(res, 30, "%Y%m%d%H%M%S", ltm);
-    return (string)res;
+    return QString(res);
 }
 
-void viewResultList(vector<vector<string> > resultList) {
+void viewResultList(vector<vector<QString> > resultList) {
         for(unsigned int i = 0; i < resultList.size(); i ++) {
                 for(unsigned int j = 0; j < resultList[i].size(); j ++)
-                        cout<<resultList[i][j]<<' ';
+                        cout<<resultList[i][j].toStdString()<<' ';
                 cout<<endl;
         }
 }
 
-void viewErrInfo(string errInfo) {cout<<errInfo<<endl;}
+void viewErrInfo(const QString &errInfo) {cout<<errInfo.toStdString()<<endl;}
 
-bool confirm(string info) {
-        cout<<info<<" (y/n)"<<endl;
+bool confirm(const QString &info) {
+        cout<<info.toStdString()<<" (y/n)"<<endl;
         //char ch = getchar();
         //getchar();
         //if(ch == 'Y' || ch == 'y')

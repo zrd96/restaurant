@@ -1,4 +1,4 @@
-#include <string>
+#include <QString>
 #include <vector>
 
 #include "chef.h"
@@ -9,8 +9,8 @@
 
 using namespace std;
 
-Chef::Chef(string phone, string name): Person(phone, name) {}
-Chef::Chef(string phone, string name, string password): Person(phone, name, password) {}
+Chef::Chef(const QString &phone, const QString &name): Person(phone, name) {}
+Chef::Chef(const QString &phone, const QString &name, const QString &password): Person(phone, name, password) {}
 
 bool Chef::takeDish(OrderedDish &dish) {
     dish.setStatus(2);
@@ -21,7 +21,7 @@ bool Chef::takeDish(OrderedDish &dish) {
 }
 
 bool Chef::finishDish(OrderedDish &dish) {
-        sendMsg("Table_" + ntos(dish.getTable()), "Dish ready " + dish.getOrderedDishID());
+        sendMsg(QString("Table_%1").arg(dish.getTable()), QString("Dish ready %1").arg(dish.getOrderedDishID()));
         dish.setStatus(3);
         StaticData::modifyOrderedDish(dish.getOrderedDishID(), dish);
 //        for (unsigned int i = 0; i < dishTaken.size(); i ++)
@@ -39,6 +39,6 @@ void Chef::checkDish() {
             this->dishTaken.push_back(StaticData::getOrderedDishList()[i]);
 }
 
-void Chef::setPhone(string newPhone) {
+void Chef::setPhone(const QString &newPhone) {
     changePhone(newPhone);
 }
