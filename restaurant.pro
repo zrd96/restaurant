@@ -50,7 +50,11 @@ SOURCES += \
     rateitem.cpp \
     order.cpp \
     orderitem.cpp \
-    rate.cpp
+    rate.cpp \
+    emptyresult.cpp \
+    dishinfo.cpp \
+    comment.cpp \
+    dishinfohead.cpp
 
 HEADERS += \
     logindlg.h \
@@ -77,7 +81,11 @@ HEADERS += \
     rateitem.h \
     order.h \
     orderitem.h \
-    rate.h
+    rate.h \
+    emptyresult.h \
+    dishinfo.h \
+    comment.h \
+    dishinfohead.h
 
 FORMS += \
     logindlg.ui \
@@ -89,4 +97,7 @@ FORMS += \
     tableitem.ui \
     aboutmewidget.ui \
     rateitem.ui \
-    orderitem.ui
+    orderitem.ui \
+    dishinfo.ui \
+    comment.ui \
+    dishinfohead.ui

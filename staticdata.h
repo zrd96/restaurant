@@ -121,6 +121,7 @@ public:
     static void updateEverythingAboutUser(Person* person, const string& newPhone);
     static Table& getTableByID(int tableID);
     static Clerk& getClerkByPhone(const QString &phone);
+    static Rate& getRateBySubjectAndObject(const QString &subject, const QString &object);
 };
 
 #endif

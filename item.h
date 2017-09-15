@@ -7,6 +7,7 @@
 #include "guest.h"
 #include "chef.h"
 #include "rateitem.h"
+#include <QMouseEvent>
 
 namespace Ui {
 class Item;
@@ -36,6 +37,7 @@ private:
     int dishNum;
     QString listType;
     RateItem* itemRate;
+    void mousePressEvent(QMouseEvent *ev);
 
 private slots:
     void setNumTo();

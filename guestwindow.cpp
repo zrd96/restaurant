@@ -14,6 +14,7 @@
 #include "aboutmewidget.h"
 #include "order.h"
 #include "orderitem.h"
+#include "emptyresult.h"
 
 GuestWindow::GuestWindow(const QString& user, QWidget *parent) :
     QMainWindow(parent),
@@ -180,6 +181,7 @@ void GuestWindow::viewDishInOrderList(Order* order) {
         RateItem* rateItem = new RateItem(this);
         rateItem->setGeometry(260, 800, 150, 30);
         connect(rateItem, SIGNAL(rateSet(double)), this, SLOT(rateClerk(double)));
+        rateItem->show();
     }
 }
 
@@ -220,11 +222,13 @@ void GuestWindow::on_RefreshCart_clicked()
 }
 
 void GuestWindow::rateClerk(double newRate) {
-    Clerk &clerk = StaticData::getClerkByPhone(QString::fromStdString(StaticData::getTableByID(guest.getTable()).getClerk()));
-    clerk.updateRate(newRate);
-    StaticData::modifyClerk(clerk.getPhone(), clerk);
-    currentOrder->getOrderDishes()[0].setStatus(currentOrder->getOrderDishes()[0].getStatus() + 2);
-    StaticData::modifyOrderedDish(currentOrder->getOrderDishes()[0].getOrderedDishID(), currentOrder->getOrderDishes()[0]);
+    try {
+        Clerk &clerk = StaticData::getClerkByPhone(QString::fromStdString(StaticData::getTableByID(guest.getTable()).getClerk()));
+        clerk.updateRate(newRate);
+        StaticData::modifyClerk(clerk.getPhone(), clerk);
+        currentOrder->getOrderDishes()[0].setStatus(currentOrder->getOrderDishes()[0].getStatus() + 2);
+        StaticData::modifyOrderedDish(currentOrder->getOrderDishes()[0].getOrderedDishID(), currentOrder->getOrderDishes()[0]);
+    } catch (EmptyResult) {}
 }
 
 void GuestWindow::on_tabWidget_currentChanged(int index)

@@ -30,3 +30,6 @@ public:
 };
 
 #endif // ORDER_H
+/**********************
+ * Need to create a table to store order's info apart from orderedDishes
+ * ********************/

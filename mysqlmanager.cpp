@@ -8,7 +8,7 @@
 
 using namespace std;
 
-MySQLManager::MySQLManager(string host = "127.0.0.1", string userName = "root", string password = "", unsigned int port = 3022) {
+MySQLManager::MySQLManager(string host = "127.0.0.1", string userName = "root", string password = "", unsigned int port = 3022u) {
 
         isConnected = false;
 
@@ -48,71 +48,30 @@ bool MySQLManager::runSQLCommand(const string cmd) {
         int queryReturn = mysql_real_query(&mySQLClient, cmd.c_str(), (unsigned int)strlen(cmd.c_str()));
         if (queryReturn) {
                 errInfo = mysql_error(&mySQLClient);
-                viewErrInfo(errInfo);
-                return false;
+                if (errInfo.find("exist") == string::npos) {
+                    viewErrInfo(errInfo);
+                    return false;
+                }
         }
         return true;
 }
 
 bool MySQLManager::initDB() {
-        if(!runSQLCommand("create database restaurant character set utf8")) {
-                errInfo = (string)mysql_error(&mySQLClient);
-                if(errInfo.find("exist") == string::npos) {
-                        viewErrInfo(errInfo);
-                        return false;
-                }
-                errInfo = "";
-        }
+        if(!runSQLCommand("create database restaurant character set utf8"))
+            return false;
         runSQLCommand("use restaurant");
-        if(!runSQLCommand("create table person(phone char(15) not NULL primary key, name char(20) default \"Client\", password char(20) not NULL, type tinyint not NULL, rate float, rateNum int unsigned, tableID int unsigned)")) {
-                errInfo = (string)mysql_error(&mySQLClient);
-                if(errInfo.find("exist") == string::npos) {
-                        viewErrInfo(errInfo);
-                        return false;
-                }
-                errInfo = "";
-        }
-        if(!runSQLCommand("create table msg(msgid char(50) not NULL primary key, sender char(15) not NULL, receiver char(15) not NULL, msg char(200) not NULL, time datetime not NULL, isActive tinyint unsigned not NULL)")) {
-                errInfo = (string)mysql_error(&mySQLClient);
-                if(errInfo.find("exist") == string::npos) {
-                        viewErrInfo(errInfo);
-                        return false;
-                }
-                errInfo = "";
-        }
-        if(!runSQLCommand("create table dish(dishid char(50) not NULL primary key, name char(200) not NULL, price float not NULL, rate float default 0, rateNum int unsigned default 0, time tinyint unsigned, imgdir char(250) default \"img/dishes/default.jpg\")")) {
-                errInfo = (string)mysql_error(&mySQLClient);
-                viewErrInfo(errInfo);
-                if(errInfo.find("exist") == string::npos) {
-                        viewErrInfo(errInfo);
-                        return false;
-                }
-                errInfo = "";
-        }
-        if(!runSQLCommand("create table orderedDish(id char(50) not NULL primary key, dishid char(50) not NULL, orderer char(15) not NULL, tableNum int unsigned not NULL, status tinyint unsigned not NULL, datetime char(20) not NULL, chef char(15) not NULL)")) {
-                errInfo = (string)mysql_error(&mySQLClient);
-                if(errInfo.find("exist") == string::npos) {
-                        viewErrInfo(errInfo);
-                        return false;
-                }
-                errInfo = "";
-        }
-        if(!runSQLCommand("create table tableList(id int unsigned not NULL auto_increment primary key, seats int unsigned not NULL, freeSeats int unsigned not NULL, clerk char(15) not NULL)")) {
-                errInfo = (string)mysql_error(&mySQLClient);
-                if(errInfo.find("exist") == string::npos) {
-                        viewErrInfo(errInfo);
-                        return false;
-                }
-                errInfo = "";
-        }
-        if(!runSQLCommand("create table rate(id char(50) not NULL primary key, rate float not NULL, subject char(15) not NULL, object char(50) not NULL, datetime char(20) not NULL, title char(50) not NULL, comments char(200) not NULL)")) {
-                errInfo = (string)mysql_error(&mySQLClient);
-                if(errInfo.find("exist") == string::npos) {
-                        viewErrInfo(errInfo);
-                        return false;
-                }
-                errInfo = "";
-        }
+        if(!runSQLCommand("create table person(phone char(15) not NULL primary key, name char(20) default \"Client\", password char(20) not NULL, type tinyint not NULL, rate float, rateNum int unsigned, tableID int unsigned)"))
+            return false;
+        if(!runSQLCommand("create table msg(msgid char(50) not NULL primary key, sender char(15) not NULL, receiver char(15) not NULL, msg char(200) not NULL, time datetime not NULL, isActive tinyint unsigned not NULL)"))
+            return false;
+        if(!runSQLCommand("create table dish(dishid char(50) not NULL primary key, name char(200) not NULL, price float not NULL, rate float default 0, rateNum int unsigned default 0, time tinyint unsigned, imgdir char(250) default \"img/dishes/default.jpg\")"))
+            return false;
+        if(!runSQLCommand("create table orderedDish(id char(50) not NULL primary key, dishid char(50) not NULL, orderer char(15) not NULL, tableNum int unsigned not NULL, status tinyint unsigned not NULL, datetime char(20) not NULL, chef char(15) not NULL)"))
+            return false;
+        if(!runSQLCommand("create table tableList(id int unsigned not NULL auto_increment primary key, seats int unsigned not NULL, freeSeats int unsigned not NULL, clerk char(15) not NULL)"))
+            return false;
+        if(!runSQLCommand("create table rate(id char(100) not NULL primary key, rate float not NULL, subject char(15) not NULL, object char(50) not NULL, datetime char(20) not NULL, title char(50) not NULL, comments char(200) not NULL)"))
+            return false;
 
         /*
         insert("person", "\"18110026291\", \"ZRD\", 0, NULL, NULL");

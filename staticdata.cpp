@@ -11,6 +11,7 @@
 #include "clerk.h"
 #include "chef.h"
 #include "rate.h"
+#include "emptyresult.h"
 
 vector<Dish> StaticData::dishList;
 vector<OrderedDish> StaticData::orderedDishList;
@@ -551,20 +552,25 @@ void StaticData::writeRate() {
 }
 
 Dish& StaticData::getDishByID(const string& dishID) {
+    if (dishList.empty())
+        queryDish();
         for(unsigned int i = 0; i < dishList.size(); i ++)
                 if(dishList[i].getDishID() == dishID)
                         return dishList[i];
-        return dishList[0];
+        throw(EmptyResult("Dish not found"));
 }
 
 OrderedDish& StaticData::getOrderedDishByID(const string& orderedDishID) {
+    if (orderedDishList.empty())
+        queryOrderedDish();
         for(unsigned int i = 0; i < orderedDishList.size(); i ++)
                 if(orderedDishList[i].getOrderedDishID() == orderedDishID)
                         return orderedDishList[i];
-        return orderedDishList[0];
+        throw(EmptyResult("OrderedDish not found"));
 }
 
 vector<Msg*> StaticData::getMsgByReceiver(const string& receiver) {
+        queryMsg(receiver);
         vector<Msg*> msgListByReceiver;
         for(unsigned int i = 0; i < msgList.size(); i ++)
                 if(msgList[i].getReceiver() == receiver)
@@ -573,6 +579,7 @@ vector<Msg*> StaticData::getMsgByReceiver(const string& receiver) {
 }
 
 vector<Msg*> StaticData::getMsgBySender(const string& sender) {
+    queryMsg(sender);
         vector<Msg*> msgListBySender;
         for(unsigned int i = 0; i < msgList.size(); i ++)
                 if(msgList[i].getSender() == sender)
@@ -581,14 +588,18 @@ vector<Msg*> StaticData::getMsgBySender(const string& sender) {
 }
 
 string StaticData::getClerkPhoneByTable(int table) {
-        if(!db->doQuery("tableList", "clerk", "id = " + ntos(table)))
-                return "";
-        return db->getResultList()[0][0];
+    if (clerkList.empty())
+        queryClerk();
+    for (unsigned int i = 0; i < clerkList.size(); i ++)
+        for (unsigned int j = 0; j < clerkList[i].getTableList().size(); j ++)
+            if (clerkList[i].getTableList()[j] == table)
+                return clerkList[i].getPhone();
+    throw(EmptyResult("Clerk Phone not found"));
 }
 
 string StaticData::getPersonNameByPhone(const string& phone) {
     if(!db->doQuery("person", "name", "phone = \"" + phone + "\""))
-            return false;
+            throw(EmptyResult("Person Name not found"));
     return db->getResultList()[0][0];
 }
 
@@ -612,11 +623,12 @@ void StaticData::updateEverythingAboutUser(Person *person, const string& newPhon
 }
 
 Table& StaticData::getTableByID(int tableID) {
-    for(unsigned int i = 0; i < tableList.size(); i ++) {
-        if(tableList[i].getTableID() == tableID) {
+    if (tableList.empty())
+        queryTable();
+    for(unsigned int i = 0; i < tableList.size(); i ++)
+        if(tableList[i].getTableID() == tableID)
             return tableList[i];
-        }
-    }
+    throw(EmptyResult("Table not found"));
 }
 
 Clerk& StaticData::getClerkByPhone(const QString &phone) {
@@ -625,6 +637,17 @@ Clerk& StaticData::getClerkByPhone(const QString &phone) {
     for (unsigned int i = 0; i < clerkList.size(); i ++)
         if (clerkList[i].getPhone() == phone.toStdString())
             return clerkList[i];
+    throw(EmptyResult("Clerk not found"));
+}
+
+Rate& StaticData::getRateBySubjectAndObject(const QString &subject, const QString &object) {
+    if (rateList.empty())
+        queryRate();
+    for (unsigned int i = 0; i < rateList.size(); i ++) {
+        if (rateList[i].getSubject() == subject && rateList[i].getObject() == object)
+            return rateList[i];
+    }
+    throw(EmptyResult("Rate not found"));
 }
 
 //Person& getPersonByID(int id) {

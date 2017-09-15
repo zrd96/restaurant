@@ -5,7 +5,10 @@
 #include "guest.h"
 #include "rateitem.h"
 #include "staticdata.h"
+#include "emptyresult.h"
+#include "dishinfo.h"
 #include <QPushButton>
+#include <QDebug>
 
 Item::Item(Person& person, Dish& oriDish, QString listType, QWidget *parent) :
     person(&person),
@@ -21,20 +24,19 @@ Item::Item(Person& person, Dish& oriDish, QString listType, QWidget *parent) :
     connect(ui->addButton, &QToolButton::clicked, this, [this] {this->addItemNum();});
     connect(ui->subButton, &QToolButton::clicked, this, [this] {this->subItemNum();});
     connect(ui->itemNum, SIGNAL(editingFinished()), this, SLOT(setNumTo()));
-
     QImage *dishImg = new QImage;
     if(!dishImg->load(QString::fromStdString(dish.getImgDir())))
         dishImg->load("img/dishes/default.png");
     ui->itemImg->setPixmap(QPixmap::fromImage(*dishImg));
     ui->itemImg->setScaledContents(true);
-    ui->itemName->setPlainText(QString::fromStdString(dish.getName()));
+    ui->itemName->setText(QString::fromStdString(dish.getName()));
     itemRate->setGeometry(420, 80, 150, 30);
     itemRate->setRate(StaticData::getDishByID(dish.getDishID()).getRate());
 
     ui->itemRateInfo->setText(QString("Rated %1/5 from %2 people")
                               .arg(StaticData::getDishByID(dish.getDishID()).getRate())
                               .arg(StaticData::getDishByID(dish.getDishID()).getRateNum()));
-    ui->itemPrice->setText("￥ " + QString::fromStdString(ntos(dish.getPrice())));
+    ui->itemPrice->setText(QString("￥ %1").arg(dish.getPrice()));
     if(dish.getTimeNeeded() > 0)
         ui->itemStatus->setPlainText("Time Needed: " + QString::fromStdString(ntos(dish.getTimeNeeded())));
     guest = dynamic_cast<Guest*> (this->person);
@@ -157,9 +159,23 @@ void Item::setDishNumText(int finalNum) {
 }
 
 void Item::rateDish(double newRate) {
-    guest->rateDish(StaticData::getDishByID(dish.getDishID()), newRate);
-    itemRate->setRate(StaticData::getDishByID(dish.getDishID()).getRate());
-    ui->itemRateInfo->setText(QString("Rated %1/5 from %2 people")
-                              .arg(StaticData::getDishByID(dish.getDishID()).getRate())
-                              .arg(StaticData::getDishByID(dish.getDishID()).getRateNum()));
+    try {
+        Dish& staticDish = StaticData::getDishByID(dish.getDishID());
+        guest->rateDish(staticDish, newRate);
+        itemRate->setRate(staticDish.getRate());
+        ui->itemRateInfo->setText(QString("Rated %1/5 from %2 people")
+                                  .arg(staticDish.getRate())
+                                  .arg(staticDish.getRateNum()));
+    } catch (EmptyResult er) {
+        viewErrInfo(er.getErrInfo().toStdString());
+    }
+}
+
+void Item::mousePressEvent(QMouseEvent *ev) {
+    qDebug() << QString("%1 %2\n").arg(ev->x()).arg(ev->y());
+    if (ev->x() >= 170 && ev->x() <= 170 + 880
+            && ev->y() >= 10 && ev->y() <= 70) {
+        DishInfo *dishInfo = new DishInfo(dish);
+        dishInfo->show();
+    }
 }

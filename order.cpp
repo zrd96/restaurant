@@ -49,19 +49,17 @@ int Order::checkStatus() {
             checkedOut = false;
             break;
         }
-    if (checkedOut) {
-        status = 5;
-        return status;
-    }
+    if (checkedOut)
+        return status = 5;
+
     bool allServed = true;
     for(unsigned int i = 0; i < dishes.size(); i ++)
         if(dishes[i].getStatus() < 4) {
             allServed = false;
             break;
         }
-    if (allServed) {
-        status = 4;
-        return status;
-    }
+    if (allServed)
+        return status = 4;
+
     return status = 3;
 }

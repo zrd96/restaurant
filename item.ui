@@ -437,6 +437,9 @@
     </disabled>
    </palette>
   </property>
+  <property name="mouseTracking">
+   <bool>true</bool>
+  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
@@ -554,37 +557,6 @@
     <string>Item Img</string>
    </property>
   </widget>
-  <widget class="QPlainTextEdit" name="itemName">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>10</y>
-     <width>880</width>
-     <height>60</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>16</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background: transparent;
-color: rgb(0, 0, 255);</string>
-   </property>
-   <property name="verticalScrollBarPolicy">
-    <enum>Qt::ScrollBarAlwaysOff</enum>
-   </property>
-   <property name="horizontalScrollBarPolicy">
-    <enum>Qt::ScrollBarAlwaysOff</enum>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-   <property name="plainText">
-    <string>Item Name</string>
-   </property>
-  </widget>
   <widget class="QPlainTextEdit" name="itemStatus">
    <property name="geometry">
     <rect>
@@ -614,6 +586,27 @@ color: rgb(170, 0, 0);</string>
    </property>
    <property name="plainText">
     <string>Item Status</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="itemName">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>10</y>
+     <width>880</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
    </property>
   </widget>
  </widget>
