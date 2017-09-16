@@ -8,10 +8,10 @@
 #include "guest.h"
 #include "dish.h"
 #include "staticdata.h"
+#include "emptyresult.h"
 #include "rate.h"
 
 Guest::Guest(const QString &phone, const QString &name): Person(phone, name), cart(Cart()), table(-1) {}
-Guest::Guest(const QString &phone, const QString &name, const QString &password): Person(phone, name, password), cart(Cart()), table(-1) {}
 Guest::Guest(const QString &phone, const QString &name, const QString &password, int table):  Person(phone, name, password), cart(Cart()), table(table) {}
 
 void Guest::addDish(const Dish& dish) {
@@ -29,6 +29,16 @@ bool Guest::selectTable(Table& table) {
     this->table = table.getTableID();
     modifyTable(table.getTableID());
     return true;
+}
+
+void Guest::freeTable() {
+    StaticData::getTableByID(this->table).freeGuest();
+    this->table = -1;
+    try {
+        StaticData::modifyGuest(this->getPhone(), *this);
+    } catch (EmptyResult) {
+        StaticData::insertGuest(*this, 2);
+    }
 }
 
 void Guest::viewProgress() {}

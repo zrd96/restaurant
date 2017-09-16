@@ -27,16 +27,20 @@ GuestWindow::GuestWindow(const QString& user, QWidget *parent) :
     ui(new Ui::GuestWindow)
 {
     ui->setupUi(this);
-    StaticData::db->doQuery("person", "name, password, tableID", "phone = \"" + user + "\"");
-    if(StaticData::db->getResultList()[0][2] != "NULL")
-        guest = Guest(user,
-                      StaticData::db->getResultList()[0][0],
-                StaticData::db->getResultList()[0][1],
-                StaticData::db->getResultList()[0][2].toInt());
-    else
-        guest = Guest(user,
-                      StaticData::db->getResultList()[0][0],
-                StaticData::db->getResultList()[0][1]);
+    try {
+        guest = StaticData::getGuestByPhone(user);
+    } catch (EmptyResult) {
+        StaticData::db->doQuery("person", "name, password, tableID", "phone = \"" + user + "\"");
+        if(StaticData::db->getResultList()[0][2] != "NULL")
+            guest = Guest(user,
+                          StaticData::db->getResultList()[0][0],
+                    StaticData::db->getResultList()[0][1],
+                    StaticData::db->getResultList()[0][2].toInt());
+        else
+            guest = Guest(user,
+                          StaticData::db->getResultList()[0][0],
+                    StaticData::db->getResultList()[0][1]);
+    }
     StaticData::queryMsg(guest.getPhone());
     for(unsigned int i = 0; i < StaticData::getOrderedDishList().size(); i ++)
         if(StaticData::getOrderedDishList()[i].getOrderer() == guest.getPhone())
@@ -54,6 +58,7 @@ GuestWindow::GuestWindow(const QString& user, QWidget *parent) :
     connect(ui->sendNapkinButton, &QPushButton::clicked, this, [this] {sendMsg("Napkin");});
     connect(ui->sendQuicklyButton, &QPushButton::clicked, this, [this] {sendMsg("Quickly");});
     connect(this, &GuestWindow::closeEvent, this, [this] {
+        //viewErrInfo("XXX");
         StaticData::insertGuest(guest, 2);
     });
     viewTableList();
@@ -156,6 +161,7 @@ void GuestWindow::viewOrderList() {
             ui->orderList->setCellWidget(ui->orderList->rowCount() - 1, 0, orderItem[i]);
             checkedOut = false;
             orderItem[i]->show();
+            checkedOut = false;
         }
     for(unsigned int i = 0; i < isFinished.size(); i ++)
         if(isFinished[i]) {
@@ -223,10 +229,10 @@ void GuestWindow::viewMsgList() {
     }
     ui->outboxList->setRowCount(0);
     vector<Msg*> msgSent = StaticData::getMsgBySender(guest.getPhone());
-    for(unsigned int i = 0; i < msgReceived.size(); i ++) {
+    for(unsigned int i = 0; i < msgSent.size(); i ++) {
         int row = ui->outboxList->rowCount();
         ui->outboxList->setRowCount(row + 1);
-        ui->outboxList->setItem(row, 0, new QTableWidgetItem((StaticData::getPersonNameByPhone(msgSent[i]->getReceiver()))));
+        ui->outboxList->setItem(row, 0, new QTableWidgetItem((msgSent[i]->getReceiver())));
         ui->outboxList->setItem(row, 1, new QTableWidgetItem((msgSent[i]->getDatetime())));
         ui->outboxList->setItem(row, 2, new QTableWidgetItem((msgSent[i]->getMsg())));
     }
@@ -295,6 +301,8 @@ void GuestWindow::sendMsg(const QString &msg) {
         return;
     }
     guest.sendMsg(QString("Table_%1").arg(guest.getTable()), msg);
+    viewErrInfo("Success");
+    viewMsgList();
 }
 
 void GuestWindow::setSelectedTable(int tableID) {
@@ -325,18 +333,15 @@ void GuestWindow::on_submitButton_clicked()
         viewOrderList();
         ui->tabWidget->setCurrentIndex(3);
     }
+    checkedOut = false;
 }
 
 void GuestWindow::on_submitTableButton_clicked()
 {
-    for(unsigned int i = 0; i < StaticData::getTableList().size(); i ++)
-        if(StaticData::getTableList()[i].getTableID() == selectedTable) {
-            if(!guest.selectTable(StaticData::getTableList()[i])) {
-                viewErrInfo(QString("No seats left for Table No. %1, please reselect.").arg(selectedTable));
-                return;
-            }
-            break;
-        }
+    if(!guest.selectTable(StaticData::getTableByID(selectedTable))) {
+        viewErrInfo(QString("No seats left for Table No. %1, please reselect.").arg(selectedTable));
+        return;
+    }
     ui->submitTableButton->setEnabled(false);
     viewTableList();
 }
@@ -375,6 +380,15 @@ void GuestWindow::on_checkOutButton_clicked()
     sendMsg("Check Out");
     ui->checkOutButton->setEnabled(currentOrder->checkStatus() == 4);
     viewDishInOrderList(currentOrder);
+    checkedOut = true;
+    for (unsigned int i = 0; i < StaticData::getOrderList().size(); i ++)
+        if (StaticData::getOrderList()[i].getOrderer() == guest.getPhone()
+                && StaticData::getOrderList()[i].checkStatus() < 5) {
+            checkedOut = false;
+            break;
+        }
+    if (checkedOut)
+        guest.freeTable();
 }
 
 void GuestWindow::on_refreshDishListButton_clicked()

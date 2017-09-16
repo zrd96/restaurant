@@ -485,7 +485,7 @@ void StaticData::writeGuest() {
                            QString("phone = \"%1\"").arg(cur.getPhone()));
                 db->update("person", "password", "\"" + cur.getPassword() + "\"",
                            QString("phone = \"%1\"").arg(cur.getPhone()));
-                db->update("peson", "tableID", QString().setNum(cur.getTable()),
+                db->update("person", "tableID", (cur.getTable() > 0 ? QString().setNum(cur.getTable()) : "NULL"),
                            QString("phone = \"%1\"").arg(cur.getPhone()));
 //                db->update("person", "password", "\"" + cur.getPassword() + "\"",
 //                           QString("phone = \"%1\"").arg(cur.getPhone()));
@@ -512,11 +512,11 @@ void StaticData::writeClerk() {
                            QString("phone = \"%1\"").arg(cur.getPhone()));
                 db->update("person", "password", "\"" + cur.getPassword() + "\"",
                            QString("phone = \"%1\"").arg(cur.getPhone()));
-                db->update("peson", "rate", QString().setNum(cur.getRate()),
+                db->update("person", "rate", QString().setNum(cur.getRate()),
                            QString("phone = \"%1\"").arg(cur.getPhone()));
-                db->update("peson", "rateNum", QString().setNum(cur.getRateNum()),
+                db->update("person", "rateNum", QString().setNum(cur.getRateNum()),
                            QString("phone = \"%1\"").arg(cur.getPhone()));
-//                db->update("peson", "table", QString().setNum(cur.getTable()),
+//                db->update("person", "table", QString().setNum(cur.getTable()),
 //                           QString("phone = \"%1\"").arg(cur.getPhone()));
 //                db->update("person", "password", "\"" + cur.getPassword() + "\"",
 //                           QString("phone = \"%1\"").arg(cur.getPhone()));
@@ -545,7 +545,7 @@ void StaticData::writeChef() {
                            QString("phone = \"%1\"").arg(cur.getPhone()));
                 db->update("person", "password", "\"" + cur.getPassword() + "\"",
                            QString("phone = \"%1\"").arg(cur.getPhone()));
-//                db->update("peson", "table", QString().setNum(cur.getTable()),
+//                db->update("person", "table", QString().setNum(cur.getTable()),
 //                           QString("phone = \"%1\"").arg(cur.getPhone()));
 //                db->update("person", "password", "\"" + cur.getPassword() + "\"",
 //                           QString("phone = \"%1\"").arg(cur.getPhone()));
@@ -672,6 +672,22 @@ Table& StaticData::getTableByID(int tableID) {
         if(tableList[i].getTableID() == tableID)
             return tableList[i];
     throw(EmptyResult("Table not found"));
+}
+
+Guest& StaticData::getGuestByPhone(const QString &phone) {
+    for (unsigned int i = 0; i < guestList.size(); i ++)
+        if (guestList[i].getPhone() == phone)
+            return guestList[i];
+    throw(EmptyResult("Guest not found"));
+}
+
+Chef& StaticData::getChefByPhone(const QString &phone) {
+    if (chefList.empty())
+        queryChef();
+    for (unsigned int i = 0; i < chefList.size(); i ++)
+        if (chefList[i].getPhone() == phone)
+            return chefList[i];
+    throw(EmptyResult("Chef not found"));
 }
 
 Clerk& StaticData::getClerkByPhone(const QString &phone) {

@@ -13,11 +13,11 @@
 class Guest: public Person {
     public:
         Guest(const QString &phone, const QString &name);
-        Guest(const QString &phone, const QString &name, const QString &password);
-        Guest(const QString &phone, const QString &name, const QString &password, int table);
+        Guest(const QString &phone, const QString &name, const QString &password, int table = -1);
         void addDish(const Dish& dish);
         void removeDish(const Dish& dish);
         bool selectTable(Table& table);
+        void freeTable();
         int getTable() const {return table;}
         double getSumInCart() const {return cart.getSumInCart();}
         vector<OrderedDish>& getOrderedDishList() {return cart.getOrderedDishList();}

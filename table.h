@@ -16,6 +16,7 @@ class Table {
                 int getSeats() const {return seats;}
                 int getFreeSeats() const {return freeSeats;}
                 bool addGuest();
+                void freeGuest();
                 QString getClerk() const {return clerk;}
                 static void viewAll();
         private:

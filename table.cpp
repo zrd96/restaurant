@@ -24,3 +24,8 @@ bool Table::addGuest() {
     StaticData::modifyTable(this->getTableID(), *this);
     return true;
 }
+
+void Table::freeGuest() {
+    freeSeats ++;
+    StaticData::modifyTable(this->getTableID(), *this);
+}

@@ -1,5 +1,6 @@
 #include "clerkwindow.h"
 #include "ui_clerkwindow.h"
+#include "emptyresult.h"
 
 ClerkWindow::ClerkWindow(const QString &user, QWidget *parent) :
     QMainWindow(parent),
@@ -7,10 +8,12 @@ ClerkWindow::ClerkWindow(const QString &user, QWidget *parent) :
     ui(new Ui::ClerkWindow)
 {
     ui->setupUi(this);
-    StaticData::db->doQuery("person", "name, password", "phone = \"" + user + "\"");
-    clerk = Clerk(user,
-                  StaticData::db->getResultList()[0][0],
-            StaticData::db->getResultList()[0][1]);
+    try {
+        clerk = StaticData::getClerkByPhone(user);
+    } catch (EmptyResult) {
+        viewErrInfo("Fatal error: user not found, please retry later");
+        this->close();
+    }
     ui->submitTableButton->setEnabled(false);
     aboutMe = new AboutMeWidget(&clerk, this, ui->selfTab);
     aboutMe->show();

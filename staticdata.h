@@ -120,6 +120,8 @@ public:
     static QString getPersonNameByPhone(const QString& phone);
     static void updateEverythingAboutUser(Person* person, const QString& newPhone);
     static Table& getTableByID(int tableID);
+    static Guest& getGuestByPhone(const QString &phone);
+    static Chef& getChefByPhone(const QString &phone);
     static Clerk& getClerkByPhone(const QString &phone);
     static Rate& getRateBySubjectAndObject(const QString &subject, const QString &object);
 };

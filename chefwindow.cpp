@@ -4,6 +4,7 @@
 #include "staticdata.h"
 #include "chef.h"
 #include "dish.h"
+#include "emptyresult.h"
 
 ChefWindow::ChefWindow(const QString& user, QWidget *parent) :
     QMainWindow(parent),
@@ -11,10 +12,12 @@ ChefWindow::ChefWindow(const QString& user, QWidget *parent) :
     ui(new Ui::ChefWindow)
 {
     ui->setupUi(this);
-    StaticData::db->doQuery("person", "name, password", "phone = \"" + user + "\"");
-    chef = Chef(user,
-                  StaticData::db->getResultList()[0][0],
-            StaticData::db->getResultList()[0][1]);
+    try {
+        chef = StaticData::getChefByPhone(user);
+    } catch (EmptyResult) {
+        viewErrInfo("Fatal error: user not found, please retry later");
+        this->close();
+    }
     viewOrderedDishList();
     aboutMe = new AboutMeWidget(&chef, this, ui->selfTab);
     aboutMe->show();
