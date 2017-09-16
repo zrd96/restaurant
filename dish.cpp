@@ -21,13 +21,15 @@ Dish::Dish(const QString &dishID, const QString &name, const QString &intro,  do
     queryRate();
 }
 
-void Dish::updateRate(double newRate) {
-        rate = (rate * rateNum + newRate) / (++rateNum);
-        Dish newDish(*this);
-        StaticData::modifyDish(this->getDishID(), newDish);
+void Dish::updateRate(const Rate &newRate) {
+        rate = (rate * rateNum + newRate.getRate()) / (++rateNum);
+        StaticData::insertRate(newRate, 1);
+        this->queryRate();
+        StaticData::modifyDish(this->getDishID(), *this);
 }
 
 void Dish::queryRate() {
+    this->rateList.clear();
     if (StaticData::getRateList().empty())
         StaticData::queryRate();
     for (unsigned int i = 0; i < StaticData::getRateList().size(); i ++)

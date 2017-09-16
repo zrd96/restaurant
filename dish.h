@@ -30,7 +30,7 @@ class Dish {
                 int getTimeNeeded() const {return timeNeeded;}
                 QString getImgDir() const {return imgdir;}
                 vector<Rate>& getRateList() {return rateList;}
-                void updateRate(double newRate);
+                void updateRate(const Rate &newRate);
                 void queryRate();
                 void show() const;
                 static void showAll();

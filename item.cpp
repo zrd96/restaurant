@@ -7,6 +7,7 @@
 #include "staticdata.h"
 #include "emptyresult.h"
 #include "dishinfo.h"
+#include "comment.h"
 #include <QPushButton>
 #include <QDebug>
 #include <QString>
@@ -64,14 +65,33 @@ Item::Item(Person& person, Dish& oriDish, const QString &listType, QWidget *pare
             case 4:
                 status = "Served";
                 break;
-            case 5:
-                status = "Checked out";
-                ui->addButton->hide();
-                ui->subButton->hide();
-                ui->itemNum->hide();
-                RateItem* rateItem = new RateItem(this);
-                connect(rateItem, SIGNAL(rateSet(double)), this, SLOT(rateDish(double)));
-                rateItem->setGeometry(860, 80, 150, 30);
+            case 5: {
+                    status = "Checked out";
+                    ui->addButton->hide();
+                    ui->subButton->hide();
+                    ui->itemNum->hide();
+                    QPushButton* rateButon = new QPushButton(this);
+                    rateButon->setGeometry(860, 80, 80, 40);
+                    rateButon->setText("Rate");
+                    connect(rateButon, &QPushButton::clicked, this, [&, this] {
+                        Comment *newComment = new Comment(orderedDish);
+                    });
+                }
+                break;
+            case 6: {
+                    status = "Rated";
+                    ui->addButton->hide();
+                    ui->subButton->hide();
+                    ui->itemNum->hide();
+                    RateItem *rateItem =  new RateItem(this);
+                    rateItem->setGeometry(860, 80, 150, 30);
+                    rateItem->setRate(StaticData::getRateBySubjectAndObject(orderedDish.getOrderer(), orderedDish.getDishID()).getRate());
+                    rateItem->show();
+                    QLabel *userRateInfo = new QLabel(this);
+                    userRateInfo->setGeometry(860, 110, 150, 20);
+                    userRateInfo->setText("You have rated this dish");
+                    userRateInfo->show();
+                }
                 break;
         }
         ui->itemStatus->setPlainText(status);
@@ -160,16 +180,16 @@ void Item::setDishNumText(int finalNum) {
 }
 
 void Item::rateDish(double newRate) {
-    try {
-        Dish& staticDish = StaticData::getDishByID(dish.getDishID());
-        guest->rateDish(staticDish, newRate);
-        itemRate->setRate(staticDish.getRate());
-        ui->itemRateInfo->setText(QString("Rated %1/5 from %2 people")
-                                  .arg(staticDish.getRate())
-                                  .arg(staticDish.getRateNum()));
-    } catch (EmptyResult er) {
-        viewErrInfo(er.getErrInfo());
-    }
+//    try {
+//        Dish& staticDish = StaticData::getDishByID(dish.getDishID());
+//        guest->rateDish(staticDish, newRate);
+//        itemRate->setRate(staticDish.getRate());
+//        ui->itemRateInfo->setText(QString("Rated %1/5 from %2 people")
+//                                  .arg(staticDish.getRate())
+//                                  .arg(staticDish.getRateNum()));
+//    } catch (EmptyResult er) {
+//        viewErrInfo(er.getErrInfo());
+//    }
 }
 
 void Item::mousePressEvent(QMouseEvent *ev) {

@@ -37,6 +37,7 @@ DataManager* StaticData::db = NULL;
 
 bool StaticData::queryTable() {
     tableList.clear();
+    tableMaintainList.clear();
     if(!db->doQuery("tableList", "*"))
         return false;
     vector<vector<QString> > resultList = db->getResultList();
@@ -48,6 +49,7 @@ bool StaticData::queryTable() {
 
 bool StaticData::queryDish() {
     dishList.clear();
+    dishMaintainList.clear();
         if (!db->doQuery("dish", "*"))
                 return false;
         vector<vector<QString> > resultList = db->getResultList();
@@ -65,6 +67,7 @@ bool StaticData::queryDish() {
 
 bool StaticData::queryOrderedDish() {
     orderedDishList.clear();
+    orderedDishMaintainList.clear();
         if (!db->doQuery("orderedDish", "*"))
                 return false;
         vector<vector<QString> > resultList = db->getResultList();
@@ -81,7 +84,10 @@ bool StaticData::queryOrderedDish() {
         return true;
 }
 
-void StaticData::clearMsgList() {msgList.clear();}
+void StaticData::clearMsgList() {
+    msgList.clear();
+    msgMaintainList.clear();
+}
 
 bool StaticData::queryMsg(const QString &person) {
         if (!db->doQuery("msg", "*", "sender = \"" + person + "\" or receiver = \"" + person + "\""))
@@ -103,6 +109,7 @@ bool StaticData::queryMsg(const QString &person) {
 
 bool StaticData::queryClerk() {
     clerkList.clear();
+    clerkMaintainList.clear();
         if(!db->doQuery("person", "*", "type = 3"))
                 return false;
         vector<vector<QString> > resultList = db->getResultList();
@@ -113,6 +120,7 @@ bool StaticData::queryClerk() {
 
 bool StaticData::queryChef() {
     chefList.clear();
+    chefMaintainList.clear();
         if(!db->doQuery("person", "*", "type = 2"))
                 return false;
         vector<vector<QString> > resultList = db->getResultList();
@@ -123,6 +131,7 @@ bool StaticData::queryChef() {
 
 bool StaticData::queryGuest() {
     guestList.clear();
+    guestMaintainList.clear();
         if(!db->doQuery("person", "*", "type = 1"))
                 return false;
         vector<vector<QString> > resultList = db->getResultList();
@@ -134,6 +143,7 @@ bool StaticData::queryGuest() {
 bool StaticData::queryOrder() {
     //queryOrderedDish();
     orderList.clear();
+    orderedDishMaintainList.clear();
     if (!db->doQuery("orderList", "*"))
         return false;
     vector<vector<QString> > resultList = db->getResultList();
@@ -155,6 +165,7 @@ bool StaticData::queryOrder() {
 
 bool StaticData::queryRate() {
     rateList.clear();
+    rateMaintainList.clear();
     if (!db->doQuery("rate", "*"))
         return false;
     vector<vector<QString> > resultList = db->getResultList();

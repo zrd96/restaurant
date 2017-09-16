@@ -101,3 +101,4 @@ FORMS += \
     dishinfo.ui \
     comment.ui \
     dishinfohead.ui
+

@@ -8,4 +8,9 @@ Rate::Rate(const QString &rateID, const double &rate, const QString &subject, co
     object(object),
     datetime(datetime),
     title(title),
-    comments(comments) {}
+    comments(comments) {
+    if (title.length() == 0)
+        this->title = "No title";
+    if (comments.length() == 0)
+        this->comments = "No comments";
+}

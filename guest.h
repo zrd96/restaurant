@@ -8,6 +8,7 @@
 #include "cart.h"
 #include "table.h"
 #include "dish.h"
+#include "rate.h"
 
 class Guest: public Person {
     public:
@@ -21,7 +22,7 @@ class Guest: public Person {
         double getSumInCart() const {return cart.getSumInCart();}
         vector<OrderedDish>& getOrderedDishList() {return cart.getOrderedDishList();}
         void viewProgress();
-        void rateDish(Dish& dish, double rate);
+        void rateDish(Dish& dish, const Rate &rate);
         void rateClerk(Clerk& clerk, double rate);
         void modifyTable(int newTableNum);
         void submitCart();
