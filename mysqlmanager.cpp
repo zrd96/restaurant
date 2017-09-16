@@ -72,7 +72,9 @@ bool MySQLManager::initDB() {
             return false;
         if(!runSQLCommand("create table tableList(id int unsigned not NULL auto_increment primary key, seats int unsigned not NULL, freeSeats int unsigned not NULL, clerk char(15) not NULL)"))
             return false;
-        if(!runSQLCommand("create table rate(id char(100) not NULL primary key, rate float not NULL, subject char(15) not NULL, object char(50) not NULL, datetime char(20) not NULL, title char(50) not NULL, comments char(200) not NULL)"))
+        if(!runSQLCommand("create table rate(rateID char(100) not NULL primary key, rate float not NULL, subject char(15) not NULL, object char(50) not NULL, datetime char(20) not NULL, title char(50) not NULL, comments char(200) not NULL)"))
+            return false;
+        if(!runSQLCommand("create table orderList(orderID char(50) not NULL primary key, orderer char(15) not NULL, datetime char(20) not NULL, clerk char(15) not NULL, tableID tinyint unsigned not NULL)"));
             return false;
         return true;
 }

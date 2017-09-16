@@ -8,14 +8,14 @@
 class Cart {
         public:
                 Cart();
-                bool submit();
+                bool submit(const QString &orderer, int table);
                 bool checkout();
                 double getSumInCart() const {return sum;}
                 void show() const;
-                vector<OrderedDish> getOrderedDishList() const {return orderedDishes;}
-        protected:
                 bool add(const Dish& dish, const QString &owner, int tableNum);
                 bool remove(const Dish& dish);
+                vector<OrderedDish>& getOrderedDishList() {return orderedDishes;}
+        private:
                 int num;
                 double sum;
                 vector<OrderedDish> orderedDishes;

@@ -57,9 +57,25 @@ void RateItem::mouseMoveEvent(QMouseEvent *ev) {
     }
 }
 
+void RateItem::leaveEvent(QEvent *ev) {
+    if (track) {
+        ui->star1->setPixmap(QPixmap(QString::fromUtf8("img/star.png")));
+        ui->star2->setPixmap(QPixmap(QString::fromUtf8("img/star.png")));
+        ui->star3->setPixmap(QPixmap(QString::fromUtf8("img/star.png")));
+        ui->star4->setPixmap(QPixmap(QString::fromUtf8("img/star.png")));
+        ui->star5->setPixmap(QPixmap(QString::fromUtf8("img/star.png")));
+    }
+}
+
 void RateItem::mousePressEvent(QMouseEvent *ev) {
     if(track && ev->y() >= 0 && ev->y() <= 30 && ev->x() >= 0 && ev->x() <= 150) {
         track = false;
+        this->setCursor(QCursor(Qt::ArrowCursor));
+        ui->star1->setCursor(QCursor(Qt::ArrowCursor));
+        ui->star2->setCursor(QCursor(Qt::ArrowCursor));
+        ui->star3->setCursor(QCursor(Qt::ArrowCursor));
+        ui->star4->setCursor(QCursor(Qt::ArrowCursor));
+        ui->star5->setCursor(QCursor(Qt::ArrowCursor));
         emit rateSet(1.0 * ((int)(ev->x() / 30) + 1));
     }
 }

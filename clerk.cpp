@@ -22,6 +22,13 @@ Clerk::Clerk(const QString &phone, const QString &name, const QString &password,
 void Clerk::takeTable(Table& table) {
     this->tableList.push_back(table.getTableID());
     table.linkClerk(*this);
+    for (unsigned int i = 0; i < StaticData::getOrderList().size(); i ++) {
+        Order &cur = StaticData::getOrderList()[i];
+        if (cur.getTable() == table.getTableID()) {
+            cur.setClerk(this->getPhone());
+            StaticData::modifyOrder(cur.getOrderID(), cur);
+        }
+    }
 }
 
 void Clerk::checkTable() {
@@ -68,8 +75,8 @@ void Clerk::readMsg(Msg* msg) {}
 
 bool Clerk::updateRate(double newRate) {
         rate = (rate * rateNum + newRate) / ++rateNum;
-        return (StaticData::db->update("person", "rate", QString().setNum(rate), "phone = \"" + getPhone() + "\"")
-                && StaticData::db->update("person", "rateNum", QString().setNum(rateNum), "phone = \"" + getPhone() + "\""));
+        StaticData::modifyClerk(this->getPhone(), *this);
+        return true;
 }
 
 void Clerk::serveDish(const QString &orderedDishID, int tableNum, const QString &orderer) {

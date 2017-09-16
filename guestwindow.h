@@ -14,6 +14,7 @@
 #include "aboutmewidget.h"
 #include "logindlg.h"
 #include "orderitem.h"
+#include "rateitem.h"
 
 
 namespace Ui {
@@ -85,6 +86,7 @@ private:
     AboutMeWidget* aboutMe;
     bool checkedOut;
     Order* currentOrder;
+    RateItem* rateClerkItem;
     void sendMsg(const QString &msg);
     //void closeEvent(QCloseEvent* ev) {emit windowClosed();}
 };

@@ -30,6 +30,7 @@ vector<int> StaticData::guestMaintainList;
 vector<int> StaticData::chefMaintainList;
 vector<int> StaticData::clerkMaintainList;
 vector<int> StaticData::tableMaintainList;
+vector<int> StaticData::orderMaintainList;
 vector<int> StaticData::rateMaintainList;
 
 DataManager* StaticData::db = NULL;
@@ -133,19 +134,21 @@ bool StaticData::queryGuest() {
 bool StaticData::queryOrder() {
     //queryOrderedDish();
     orderList.clear();
+    if (!db->doQuery("orderList", "*"))
+        return false;
+    vector<vector<QString> > resultList = db->getResultList();
+    for (unsigned int i = 0; i < resultList.size(); i ++)
+        insertOrder(Order(resultList[i][0], resultList[i][1], resultList[i][2], resultList[i][3], resultList[i][4].toInt()));
     for(unsigned int i = 0; i < orderedDishList.size(); i ++) {
         bool found = 0;
         for(unsigned j = 0; j < orderList.size(); j ++)
-            if(orderList[j].getOrderer() == orderedDishList[i].getOrderer()
-                    && orderList[j].getDatetime() == orderedDishList[i].getDatetime()) {
+            if("O" + orderedDishList[i].getDatetime() + orderedDishList[i].getOrderer() == orderList[j].getOrderID()) {
                 found = 1;
                 orderList[j].insertDish(orderedDishList[i]);
                 break;
             }
         if(!found) {
-            Order newOrder((orderedDishList[i].getOrderer()), (orderedDishList[i].getDatetime()));
-            newOrder.insertDish(orderedDishList[i]);
-            insertOrder(newOrder);
+            throw EmptyResult("Found orderedDish that doesn't belong to any order");
         }
     }
 }
@@ -201,8 +204,9 @@ void StaticData::insertChef(const Chef &chef, int type) {
     chefMaintainList.push_back(type);
 }
 
-void StaticData::insertOrder(const Order &order) {
+void StaticData::insertOrder(const Order &order, int type) {
     orderList.push_back(order);
+    orderMaintainList.push_back(type);
 }
 
 void StaticData::insertRate(const Rate &rate, int type) {
@@ -343,6 +347,16 @@ void StaticData::modifyChef(const QString& phone, const Chef& newChef) {
     }
 }
 
+void StaticData::modifyOrder(const QString &orderID, const Order &newOrder) {
+    for (unsigned int i = 0; i < orderList.size(); i ++) {
+        if (orderID == orderList[i].getOrderID()) {
+            orderList[i] = newOrder;
+            orderMaintainList[i] = 2;
+            break;
+        }
+    }
+}
+
 void StaticData::writeTable() {
     for(unsigned int i = 0; i < tableList.size(); i ++) {
         Table& cur = tableList[i];
@@ -460,7 +474,7 @@ void StaticData::writeGuest() {
                            QString("phone = \"%1\"").arg(cur.getPhone()));
                 db->update("person", "password", "\"" + cur.getPassword() + "\"",
                            QString("phone = \"%1\"").arg(cur.getPhone()));
-                db->update("peson", "table", QString().setNum(cur.getTable()),
+                db->update("peson", "tableID", QString().setNum(cur.getTable()),
                            QString("phone = \"%1\"").arg(cur.getPhone()));
 //                db->update("person", "password", "\"" + cur.getPassword() + "\"",
 //                           QString("phone = \"%1\"").arg(cur.getPhone()));
@@ -549,6 +563,22 @@ void StaticData::writeRate() {
                            .arg(cur.getDatetime())
                            .arg(cur.getTitle())
                            .arg(cur.getComments()));
+        }
+    }
+}
+
+void StaticData::writeOrder() {
+    for (unsigned int i = 0; i < orderList.size(); i ++) {
+        Order &cur = orderList[i];
+        if (orderMaintainList[i] > 0) {
+            if (db->doesExist("orderList", QString("orderID = \"%1\"").arg(cur.getOrderID())))
+                db->deleteRow("orderList", QString("orderID = \"%1\"").arg(cur.getOrderID()));
+            db->insert("orderList", QString("\"%1\", \"%2\", \"%3\", \"%4\", %5")
+                       .arg(cur.getOrderID())
+                       .arg(cur.getOrderer())
+                       .arg(cur.getDatetime())
+                       .arg(cur.getClerk())
+                       .arg(cur.getTable()));
         }
     }
 }

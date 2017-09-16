@@ -92,10 +92,12 @@ void ClerkWindow::viewReadyDishList() {
     ui->readyDishList->setRowCount(0);
     for (unsigned int i = 0; i < clerk.getMsgList().size(); i ++) {
         Msg &cur = clerk.getMsgList()[i];
+        viewErrInfo(cur.getMsg());
         if (cur.getMsg().contains("Dish ready")) {
             int row = ui->readyDishList->rowCount();
             ui->readyDishList->setRowCount(row + 1);
             QString orderedDishID = cur.getMsg().mid(11);
+            viewErrInfo(orderedDishID);
             OrderedDish &orderedDish = StaticData::getOrderedDishByID(orderedDishID);
             ui->readyDishList->setItem(row, 0, new QTableWidgetItem((cur.getSender())));
             ui->readyDishList->setItem(row, 1, new QTableWidgetItem(QString("Table %1").arg(orderedDish.getTable())));

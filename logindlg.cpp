@@ -167,4 +167,6 @@ void LoginDlg::closeEvent(QCloseEvent *ev) {
     StaticData::writeGuest();
     StaticData::writeChef();
     StaticData::writeClerk();
+    StaticData::writeOrder();
+    StaticData::writeRate();
 }

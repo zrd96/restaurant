@@ -14,18 +14,23 @@ private:
     QString datetime;
     QString orderID;
     double orderSum;
+    QString clerk;
+    int table;
     int status;      //3 not all served, 4 all served, 5 all checked out, 6 clerk rated
-    vector<OrderedDish> dishes;
-    void insertDish(const OrderedDish dish);
+    vector<QString> dishes;
+    void insertDish(const OrderedDish& dish);
 public:
-    Order(const QString& orderer, const vector<OrderedDish>& orderedDishes);
-    Order(const QString& orderer, const QString& datetime);
+    Order(const QString& orderer, const vector<OrderedDish>& orderedDishes, const QString &datetime, int table);
+    Order(const QString &orderID, const QString& orderer, const QString& datetime, const QString &clerk, int table);
     QString getOrderID() const {return orderID;}
     QString getOrderer() const {return orderer;}
     QString getDatetime() const {return datetime;}
     double getOrderSum() const {return orderSum;}
+    QString getClerk() const {return clerk;}
+    int getTable() const {return table;}
+    void setClerk(const QString &clerk) {this->clerk = clerk;}
     int checkStatus();
-    vector<OrderedDish>& getOrderDishes() {return dishes;}
+    vector<QString>& getOrderDishes() {return dishes;}
     friend class StaticData;
 };
 

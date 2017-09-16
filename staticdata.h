@@ -38,7 +38,7 @@ private:
     static vector<int> clerkMaintainList;
     static vector<int> tableMaintainList;
     static vector<int> rateMaintainList;
-    //static vector<int> orderMaintainList;
+    static vector<int> orderMaintainList;
 
 public:
     static DataManager *db;
@@ -61,7 +61,7 @@ public:
     static void insertGuest(const Guest &guest, int type = 0);
     static void insertClerk(const Clerk &clerk, int type = 0);
     static void insertChef(const Chef &chef, int type = 0);
-    static void insertOrder(const Order &order);
+    static void insertOrder(const Order &order, int type = 0);
     static void insertRate(const Rate &rate, int type = 0);
 
     static void removeTable(int tableID);
@@ -80,7 +80,7 @@ public:
     static void modifyGuest(const QString& phone, const Guest& newGuest);
     static void modifyClerk(const QString& phone, const Clerk& newClerk);
     static void modifyChef(const QString& phone, const Chef& newChef);
-    //static void modifyOrder(const Order& order, const Order& newOrder);
+    static void modifyOrder(const QString &orderID, const Order& newOrder);
 
     static void writeTable();
     static void writeDish();
@@ -90,7 +90,7 @@ public:
     static void writeClerk();
     static void writeChef();
     static void writeRate();
-    //static void writeOrder();
+    static void writeOrder();
 
     static vector<Table>& getTableList() {return tableList;}
     static vector<Dish>& getDishList() {return dishList;}
@@ -110,7 +110,7 @@ public:
     static vector<int>& getClerkMaintainList() {return clerkMaintainList;}
     static vector<int>& getChefMaintainList() {return chefMaintainList;}
     static vector<int>& getRateMaintainList() {return rateMaintainList;}
-    //static vector<int>& getOrderMaintainList() {return orderMaintainList;}
+    static vector<int>& getOrderMaintainList() {return orderMaintainList;}
 
     static Dish& getDishByID(const QString& dishID);
     static OrderedDish& getOrderedDishByID(const QString& orderedDishID);

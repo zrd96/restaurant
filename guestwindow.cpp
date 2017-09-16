@@ -23,6 +23,7 @@ GuestWindow::GuestWindow(const QString& user, QWidget *parent) :
     submittedSum(0),
     checkedOut(true),
     currentOrder(NULL),
+    rateClerkItem(NULL),
     ui(new Ui::GuestWindow)
 {
     ui->setupUi(this);
@@ -49,10 +50,12 @@ GuestWindow::GuestWindow(const QString& user, QWidget *parent) :
     aboutMe = new AboutMeWidget(&guest, this, ui->selfTab);
     aboutMe->show();
     this->show();
-    StaticData::queryOrder();
     connect(ui->sendWaterButton, &QPushButton::clicked, this, [this] {sendMsg("Water");});
     connect(ui->sendNapkinButton, &QPushButton::clicked, this, [this] {sendMsg("Napkin");});
     connect(ui->sendQuicklyButton, &QPushButton::clicked, this, [this] {sendMsg("Quickly");});
+    connect(this, &GuestWindow::closeEvent, this, [this] {
+        StaticData::insertGuest(guest, 2);
+    });
     viewTableList();
     viewDishList();
     viewCartList();
@@ -125,13 +128,17 @@ void GuestWindow::viewCartList() {
 }
 
 void GuestWindow::viewOrderList() {
+    ui->rateClerkNote->hide();
+    if (rateClerkItem != NULL) {
+        delete rateClerkItem;
+        rateClerkItem = NULL;
+    }
     ui->viewOrderButton->setText("Refresh");
     ui->viewOrderButton->setGeometry(1010, 790, 80, 50);
     ui->refreshOrderInfoButton->hide();
     ui->checkOutButton->hide();
     clearPointerList(dishInOrderItem);
     clearPointerList(orderItem);
-    ui->orderList->clearContents();
     ui->orderList->setRowCount(0);
     //check each order, if they are active, show them first;
     vector<bool> isFinished;
@@ -169,7 +176,7 @@ void GuestWindow::viewDishInOrderList(Order* order) {
     clearPointerList(dishInOrderItem);
     ui->orderList->setRowCount(0);
     for(unsigned int i = 0; i < order->getOrderDishes().size(); i ++) {
-        Item* item = new Item(guest, order->getOrderDishes()[i], "orderList", ui->orderList);
+        Item* item = new Item(guest, StaticData::getOrderedDishByID(order->getOrderDishes()[i]), "orderList", ui->orderList);
         ui->orderList->setRowCount(ui->orderList->rowCount() + 1);
         ui->orderList->setCellWidget(ui->orderList->rowCount() - 1, 0, item);
         dishInOrderItem.push_back(item);
@@ -177,11 +184,30 @@ void GuestWindow::viewDishInOrderList(Order* order) {
     }
     ui->checkOutButton->setEnabled(order->checkStatus() == 4);
     if (order->checkStatus() == 5) {
-        ui->rateClerkNote->show();
-        RateItem* rateItem = new RateItem(this);
-        rateItem->setGeometry(260, 800, 150, 30);
-        connect(rateItem, SIGNAL(rateSet(double)), this, SLOT(rateClerk(double)));
-        rateItem->show();
+        try {
+            Rate& rateClerkInfo = StaticData::getRateBySubjectAndObject(guest.getPhone(), currentOrder->getClerk());
+            ui->rateClerkNote->setText("You have rated your clerk: " + currentOrder->getClerk());
+            ui->rateClerkNote->show();
+            if (rateClerkItem != NULL) {
+                delete rateClerkItem;
+                rateClerkItem = NULL;
+            }
+            rateClerkItem = new RateItem(ui->orderTab);
+            rateClerkItem->setGeometry(360, 800, 150, 30);
+            rateClerkItem->setRate(rateClerkInfo.getRate());
+            rateClerkItem->show();
+        } catch (EmptyResult) {
+            ui->rateClerkNote->setText("Please rate your clerk: " + currentOrder->getClerk());
+            ui->rateClerkNote->show();
+            if (rateClerkItem != NULL) {
+                delete rateClerkItem;
+                rateClerkItem = NULL;
+            }
+            rateClerkItem = new RateItem(ui->orderTab);
+            rateClerkItem->setGeometry(360, 800, 150, 30);
+            connect(rateClerkItem, SIGNAL(rateSet(double)), this, SLOT(rateClerk(double)));
+            rateClerkItem->show();
+        }
     }
 }
 
@@ -223,12 +249,17 @@ void GuestWindow::on_RefreshCart_clicked()
 
 void GuestWindow::rateClerk(double newRate) {
     try {
-        Clerk &clerk = StaticData::getClerkByPhone((StaticData::getTableByID(guest.getTable()).getClerk()));
+        Clerk &clerk = StaticData::getClerkByPhone(currentOrder->getClerk());
         clerk.updateRate(newRate);
-        StaticData::modifyClerk(clerk.getPhone(), clerk);
-        currentOrder->getOrderDishes()[0].setStatus(currentOrder->getOrderDishes()[0].getStatus() + 2);
-        StaticData::modifyOrderedDish(currentOrder->getOrderDishes()[0].getOrderedDishID(), currentOrder->getOrderDishes()[0]);
-    } catch (EmptyResult) {}
+        StaticData::insertRate(Rate(QString("R%1%2%3%4").arg(getTimeUniform()).arg(guest.getPhone()).arg(currentOrder->getClerk()).arg(StaticData::getRateList().size()),
+                                    newRate,
+                                    guest.getPhone(),
+                                    currentOrder->getClerk(),
+                                    getTimeUniform()), 1);
+        ui->rateClerkNote->setText("You have rated your clerk: " + currentOrder->getClerk());
+    } catch (EmptyResult) {
+        viewErrInfo("Operation failed, please retry later");
+    }
 }
 
 void GuestWindow::on_tabWidget_currentChanged(int index)
@@ -288,7 +319,7 @@ void GuestWindow::on_submitButton_clicked()
     if (reply == QMessageBox::Yes) {
         submittedSum += guest.getSumInCart();
         guest.modifyTable(guest.getTable());
-        guest.submit();
+        guest.submitCart();
         viewDishList();
         viewCartList();
         viewOrderList();
@@ -338,8 +369,8 @@ void GuestWindow::on_refreshOrderInfoButton_clicked()
 void GuestWindow::on_checkOutButton_clicked()
 {
     for(unsigned int i = 0; i < currentOrder->getOrderDishes().size(); i ++) {
-        currentOrder->getOrderDishes()[i].setStatus(5);
-        StaticData::modifyOrderedDish(currentOrder->getOrderDishes()[i].getOrderedDishID(), currentOrder->getOrderDishes()[i]);
+        StaticData::getOrderedDishByID(currentOrder->getOrderDishes()[i]).setStatus(5);
+        StaticData::modifyOrderedDish(currentOrder->getOrderDishes()[i], StaticData::getOrderedDishByID(currentOrder->getOrderDishes()[i]));
     }
     sendMsg("Check Out");
     ui->checkOutButton->setEnabled(currentOrder->checkStatus() == 4);

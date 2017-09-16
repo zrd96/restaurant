@@ -9,7 +9,7 @@
 #include "table.h"
 #include "dish.h"
 
-class Guest: public Person, public Cart {
+class Guest: public Person {
     public:
         Guest(const QString &phone, const QString &name);
         Guest(const QString &phone, const QString &name, const QString &password);
@@ -18,13 +18,17 @@ class Guest: public Person, public Cart {
         void removeDish(const Dish& dish);
         bool selectTable(Table& table);
         int getTable() const {return table;}
+        double getSumInCart() const {return cart.getSumInCart();}
+        vector<OrderedDish>& getOrderedDishList() {return cart.getOrderedDishList();}
         void viewProgress();
         void rateDish(Dish& dish, double rate);
         void rateClerk(Clerk& clerk, double rate);
         void modifyTable(int newTableNum);
+        void submitCart();
         void setPhone(const QString &newPhone);
     private:
         int table;
+        Cart cart;
 };
 
 #endif

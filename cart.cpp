@@ -40,18 +40,18 @@ bool Cart::remove(const Dish &dish) {
         return true;
 }
 
-bool Cart::submit() {
+bool Cart::submit(const QString &orderer, int table) {
     QString datetime = getTimeUniform();
     for(unsigned int i = 0; i < orderedDishes.size(); i ++) {
         orderedDishes[i].setStatus(1);
         orderedDishes[i].setDatetime(datetime);
         for(int j = 0; j < orderedDishes[i].getNum(); j ++) {//split orders of the same dish and disable the num feature
-            orderedDishes[i].setOrderedDishID(QString("%1%2%3").arg(orderedDishes[i].getOrderedDishID()).arg(i).arg(j));
+            orderedDishes[i].setOrderedDishID(QString("OD%1%2%3%4").arg(datetime).arg(orderer).arg(i).arg(j));
             StaticData::insertOrderedDish(orderedDishes[i], 1);
         }
     }
-    Order newOrder((orderedDishes[0].getOrderer()), orderedDishes);
-    StaticData::insertOrder(newOrder);
+    Order newOrder(orderer, orderedDishes, datetime, table);
+    StaticData::insertOrder(newOrder, 1);
     orderedDishes.clear();
     num = 0;
     sum = 0;
