@@ -40,17 +40,25 @@ bool Cart::remove(const Dish &dish) {
         return true;
 }
 
-bool Cart::submit(const QString &orderer, int table) {
+bool Cart::submit(const QString &orderer, int table, const QString &request) {
     QString datetime = getTimeUniform();
+    vector<OrderedDish> reshapedOrderedDish;
     for(unsigned int i = 0; i < orderedDishes.size(); i ++) {
-        orderedDishes[i].setStatus(1);
-        orderedDishes[i].setDatetime(datetime);
-        for(int j = 0; j < orderedDishes[i].getNum(); j ++) {//split orders of the same dish and disable the num feature
-            orderedDishes[i].setOrderedDishID(QString("OD%1%2%3%4").arg(datetime).arg(orderer).arg(i).arg(j));
-            StaticData::insertOrderedDish(orderedDishes[i], 1);
+        OrderedDish &cur = orderedDishes[i];
+        for(int j = 0; j < cur.getNum(); j ++) {//split orders of the same dish and disable the num feature
+            //orderedDishes[i].setOrderedDishID(QString("OD%1%2%3%4").arg(datetime).arg(orderer).arg(i).arg(j));
+            OrderedDish tmp(StaticData::getDishByID(cur.getDishID()),
+                            QString("OD%1%2%3%4").arg(datetime).arg(orderer).arg(i).arg(j),
+                            orderer,
+                            cur.getTable(),
+                            datetime,
+                            request,
+                            1);
+            reshapedOrderedDish.push_back(tmp);
+            StaticData::insertOrderedDish(tmp, 1);
         }
     }
-    Order newOrder(orderer, orderedDishes, datetime, table);
+    Order newOrder(orderer, reshapedOrderedDish, datetime, table);
     StaticData::insertOrder(newOrder, 1);
     orderedDishes.clear();
     num = 0;

@@ -137,7 +137,7 @@
      <x>70</x>
      <y>90</y>
      <width>521</width>
-     <height>521</height>
+     <height>531</height>
     </rect>
    </property>
    <property name="font">
@@ -152,80 +152,27 @@
     <attribute name="title">
      <string>Log in</string>
     </attribute>
-    <widget class="QWidget" name="gridLayoutWidget_2">
-     <property name="geometry">
-      <rect>
-       <x>110</x>
-       <y>40</y>
-       <width>291</width>
-       <height>151</height>
-      </rect>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Phone</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Password</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="lineEditPhoneLogin">
-        <property name="text">
-         <string>18110026291</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="lineEditPasswordLogin">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>33</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>5</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>111111</string>
-        </property>
-        <property name="echoMode">
-         <enum>QLineEdit::Password</enum>
-        </property>
-        <property name="placeholderText">
-         <string/>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
     <widget class="QPushButton" name="loginButton">
      <property name="geometry">
       <rect>
-       <x>220</x>
-       <y>430</y>
-       <width>80</width>
-       <height>26</height>
+       <x>200</x>
+       <y>410</y>
+       <width>121</width>
+       <height>82</height>
       </rect>
      </property>
      <property name="text">
-      <string>Log in</string>
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="res.qrc">
+       <normaloff>:/res/img/img/log-in.png</normaloff>:/res/img/img/log-in.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>50</width>
+       <height>50</height>
+      </size>
      </property>
     </widget>
     <widget class="QGroupBox" name="groupBoxLogin">
@@ -245,7 +192,7 @@
        <rect>
         <x>30</x>
         <y>70</y>
-        <width>303</width>
+        <width>311</width>
         <height>81</height>
        </rect>
       </property>
@@ -287,6 +234,109 @@
       </layout>
      </widget>
     </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>120</y>
+       <width>72</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Password</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>50</y>
+       <width>72</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Phone</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditPhoneLogin">
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>50</y>
+       <width>211</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>20</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>18110026291</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditPasswordLogin">
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>120</y>
+       <width>211</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>20</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>33</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>111111</string>
+     </property>
+     <property name="echoMode">
+      <enum>QLineEdit::Password</enum>
+     </property>
+     <property name="placeholderText">
+      <string/>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="signUp">
     <attribute name="title">
@@ -318,6 +368,12 @@
       </item>
       <item row="1" column="2">
        <widget class="QLineEdit" name="lineEditPasswordSignup">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="echoMode">
          <enum>QLineEdit::Password</enum>
         </property>
@@ -325,13 +381,26 @@
       </item>
       <item row="2" column="2">
        <widget class="QLineEdit" name="lineEditRepeatPasswordSignup">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="echoMode">
          <enum>QLineEdit::Password</enum>
         </property>
        </widget>
       </item>
       <item row="0" column="2">
-       <widget class="QLineEdit" name="lineEditPhoneSignup"/>
+       <widget class="QLineEdit" name="lineEditPhoneSignup">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="label_4">
@@ -378,28 +447,45 @@
        </widget>
       </item>
       <item row="3" column="2">
-       <widget class="QLineEdit" name="lineEditNameSignup"/>
+       <widget class="QLineEdit" name="lineEditNameSignup">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
     <widget class="QPushButton" name="signupButton">
      <property name="geometry">
       <rect>
-       <x>220</x>
-       <y>430</y>
-       <width>80</width>
-       <height>26</height>
+       <x>200</x>
+       <y>410</y>
+       <width>121</width>
+       <height>82</height>
       </rect>
      </property>
      <property name="text">
-      <string>Sign up</string>
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="res.qrc">
+       <normaloff>:/res/img/img/signup.png</normaloff>:/res/img/img/signup.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
      </property>
     </widget>
     <widget class="QGroupBox" name="groupBoxSignup">
      <property name="geometry">
       <rect>
        <x>80</x>
-       <y>290</y>
+       <y>280</y>
        <width>361</width>
        <height>131</height>
       </rect>
@@ -450,7 +536,7 @@
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>40</y>
+     <y>20</y>
      <width>451</width>
      <height>41</height>
     </rect>
@@ -465,6 +551,8 @@
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>

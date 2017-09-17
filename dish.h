@@ -46,9 +46,11 @@ class OrderedDish: public Dish {
                 int num;
                 QString orderedDishID;
                 QString datetime;
+                QString request;
+                double userRate;
         public:
-                OrderedDish(const Dish& dish, const QString &orderer, int tableNum, int status = -1, const QString& chef = "NULL");
-                OrderedDish(const Dish& dish, const QString &orderedDishID, const QString &orderer, int tableNum, int status = -1, const QString& chef = "NULL");
+                //OrderedDish(const Dish& dish, const QString &orderer, int tableNum, int status = -1, const QString& chef = "NULL");
+                OrderedDish(const Dish& dish, const QString &orderedDishID, const QString &orderer, int tableNum, const QString &datetime, const QString &request = "", int status = -1, const QString& chef = "NULL", double rate = -1);
                 QString getOrderer() const {return orderer;}
                 QString getOrderedDishID() const {return orderedDishID;}
                 void setStatus(int status) {this->status = status;}
@@ -56,7 +58,10 @@ class OrderedDish: public Dish {
                 int getNum() const {return num;}
                 QString getChef() {return chef;}
                 QString getDatetime() const {return datetime;}
-                void setDatetime(const QString &datetime) {this->datetime = datetime;}
+                QString getRequest() const {return request;}
+                double getUserRate() const {return this->userRate;}
+                void setRate(double rate) {this->userRate = rate;}
+                //void setDatetime(const QString &datetime) {this->datetime = datetime;}
                 void add() {num ++;}
                 void sub() {num --;}
                 void setTableNum(int tableNum) {this->tableNum = tableNum;}

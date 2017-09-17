@@ -69,6 +69,8 @@ private slots:
 
     void on_refreshDishListButton_clicked();
 
+    void on_backButton_clicked();
+
 signals:
     //void windowClosed();
     void closeEvent(QCloseEvent* ev);
@@ -81,7 +83,7 @@ private:
     vector<Item*> dishInOrderItem;
     int selectedTable;
     Guest guest;
-    double orderedSum, submittedSum;
+    double orderedSum;
     Ui::GuestWindow *ui;
     AboutMeWidget* aboutMe;
     bool checkedOut;

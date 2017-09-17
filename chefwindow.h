@@ -35,6 +35,8 @@ signals:
     void closeEvent(QCloseEvent *ev);
 private slots:
     void on_tabWidget_currentChanged(int index);
+    void on_pushButton_clicked();
+    void on_pushButton_2_clicked();
 };
 
 #endif // CHEFWINDOW_H

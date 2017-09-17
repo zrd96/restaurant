@@ -46,19 +46,20 @@ void ClerkWindow::viewTableList() {
     clearPointerList(tableItem);
     checkSelectedTables();
     for(unsigned int i = 0; i < StaticData::getTableList().size(); i ++) {
+        Table &cur = StaticData::getTableList()[i];
         if(i % 3 == 0 && ui->tableList->rowCount() <= (int)i/3)
             ui->tableList->setRowCount(ui->tableList->rowCount() + 1);
         int row = i / 3;
         int col = i % 3;
-        TableItem* table = new TableItem(StaticData::getTableList()[i], ui->tableList);
+        TableItem* table = new TableItem(cur, ui->tableList);
         connect(table, SIGNAL(tableSelected(int)), this, SLOT(setSelectedTable(int)));
         ui->tableList->setCellWidget(row, col, table);
-        for (unsigned int j = 0; j < clerk.getTableList().size(); j ++)
-            if (clerk.getTableList()[j] == StaticData::getTableList()[i].getTableID()) {
-                table->setEnabled(false);
-                break;
-            }
-        if (StaticData::getTableList()[i].getSeats() == StaticData::getTableList()[i].getFreeSeats())
+//        for (unsigned int j = 0; j < clerk.getTableList().size(); j ++)
+//            if (clerk.getTableList()[j] == cur.getTableID()) {
+//                table->setEnabled(false);
+//                break;
+//            }
+        if (cur.getSeats() == cur.getFreeSeats() || cur.getClerk() != "NULL")
             table->setEnabled(false);
         tableItem.push_back(table);
     }
@@ -149,13 +150,29 @@ void ClerkWindow::viewMsgList() {
 
 void ClerkWindow::on_tabWidget_currentChanged(int index)
 {
-    if (index == 0)
+    if (index == 0) {
+        ui->title->setText("   Select Table(s)");
         viewTableList();
-    else if (index == 2)
+    }
+    else if (index == 1) {
+        ui->title->setText("   View Ready Dish List");
+        viewReadyDishList();
+    }
+    else if (index == 2) {
+        ui->title->setText("   View Message List");
         viewMsgList();
+    }
+    else if (index == 3) {
+        ui->title->setText("   About Me");
+    }
 }
 
 void ClerkWindow::on_refreshMsgButton_clicked()
 {
     viewMsgList();
+}
+
+void ClerkWindow::on_refreshReadyDishButton_clicked()
+{
+    viewReadyDishList();
 }

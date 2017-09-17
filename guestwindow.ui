@@ -18,31 +18,67 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>0</y>
+      <y>80</y>
       <width>1200</width>
-      <height>880</height>
+      <height>900</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>7</pointsize>
+     </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>ArrowCursor</cursorShape>
+    </property>
+    <property name="whatsThis">
+     <string>Message Center</string>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
     <property name="tabPosition">
-     <enum>QTabWidget::South</enum>
+     <enum>QTabWidget::West</enum>
     </property>
     <property name="tabShape">
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>80</height>
+     </size>
+    </property>
+    <property name="elideMode">
+     <enum>Qt::ElideMiddle</enum>
+    </property>
+    <property name="usesScrollButtons">
+     <bool>false</bool>
+    </property>
+    <property name="tabBarAutoHide">
+     <bool>false</bool>
     </property>
     <widget class="QWidget" name="tableTab">
+     <attribute name="icon">
+      <iconset resource="res.qrc">
+       <normaloff>:/res/img/img/table-white.png</normaloff>:/res/img/img/table-white.png</iconset>
+     </attribute>
      <attribute name="title">
-      <string>Select Table</string>
+      <string/>
      </attribute>
      <widget class="QTableWidget" name="tableList">
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>40</y>
-        <width>1200</width>
-        <height>720</height>
+        <y>0</y>
+        <width>1110</width>
+        <height>701</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -50,6 +86,9 @@
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
       </property>
       <property name="horizontalScrollBarPolicy">
        <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -110,7 +149,7 @@
       <property name="geometry">
        <rect>
         <x>570</x>
-        <y>780</y>
+        <y>730</y>
         <width>251</width>
         <height>51</height>
        </rect>
@@ -127,45 +166,80 @@
      <widget class="QPushButton" name="submitTableButton">
       <property name="geometry">
        <rect>
-        <x>1030</x>
-        <y>780</y>
-        <width>80</width>
-        <height>50</height>
+        <x>990</x>
+        <y>720</y>
+        <width>111</width>
+        <height>81</height>
        </rect>
       </property>
       <property name="text">
-       <string>Submit</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="res.qrc">
+        <normaloff>:/res/img/img/submit.png</normaloff>:/res/img/img/submit.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
       </property>
      </widget>
      <widget class="QPushButton" name="refreshTableButton">
       <property name="geometry">
        <rect>
-        <x>870</x>
-        <y>780</y>
-        <width>80</width>
-        <height>50</height>
+        <x>840</x>
+        <y>720</y>
+        <width>121</width>
+        <height>81</height>
        </rect>
       </property>
       <property name="text">
-       <string>Refresh</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="res.qrc">
+        <normaloff>:/res/img/img/refresh.png</normaloff>
+        <normalon>:/res/img/img/refresh.png</normalon>:/res/img/img/refresh.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
       </property>
      </widget>
     </widget>
     <widget class="QWidget" name="dishTab">
+     <attribute name="icon">
+      <iconset resource="res.qrc">
+       <normaloff>:/res/img/img/dishes-white.png</normaloff>:/res/img/img/dishes-white.png</iconset>
+     </attribute>
      <attribute name="title">
-      <string>Select Dishes</string>
+      <string/>
      </attribute>
      <widget class="QPushButton" name="refreshDishListButton">
       <property name="geometry">
        <rect>
-        <x>1010</x>
-        <y>780</y>
-        <width>80</width>
-        <height>50</height>
+        <x>960</x>
+        <y>700</y>
+        <width>121</width>
+        <height>81</height>
        </rect>
       </property>
       <property name="text">
-       <string>Refresh</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="res.qrc">
+        <normaloff>:/res/img/img/refresh.png</normaloff>:/res/img/img/refresh.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
       </property>
      </widget>
      <widget class="QTableWidget" name="dishList">
@@ -173,8 +247,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>1200</width>
-        <height>760</height>
+        <width>1110</width>
+        <height>680</height>
        </rect>
       </property>
       <property name="horizontalScrollBarPolicy">
@@ -223,58 +297,64 @@
      </widget>
     </widget>
     <widget class="QWidget" name="cartTab">
+     <attribute name="icon">
+      <iconset resource="res.qrc">
+       <normaloff>:/res/img/img/cart.png</normaloff>:/res/img/img/cart.png</iconset>
+     </attribute>
      <attribute name="title">
-      <string>View Cart</string>
+      <string/>
      </attribute>
      <widget class="QPushButton" name="RefreshCart">
       <property name="geometry">
        <rect>
-        <x>860</x>
-        <y>780</y>
-        <width>80</width>
-        <height>50</height>
+        <x>820</x>
+        <y>700</y>
+        <width>120</width>
+        <height>80</height>
        </rect>
       </property>
       <property name="text">
-       <string>Refresh</string>
+       <string/>
       </property>
-     </widget>
-     <widget class="QLabel" name="label">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>0</y>
-        <width>200</width>
+      <property name="icon">
+       <iconset resource="res.qrc">
+        <normaloff>:/res/img/img/refresh.png</normaloff>:/res/img/img/refresh.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
         <height>40</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>20</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>My Cart</string>
+       </size>
       </property>
      </widget>
      <widget class="QPushButton" name="submitButton">
       <property name="geometry">
        <rect>
-        <x>1020</x>
-        <y>780</y>
-        <width>80</width>
-        <height>50</height>
+        <x>970</x>
+        <y>700</y>
+        <width>120</width>
+        <height>80</height>
        </rect>
       </property>
       <property name="text">
-       <string>Submit</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="res.qrc">
+        <normaloff>:/res/img/img/submit.png</normaloff>:/res/img/img/submit.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
       </property>
      </widget>
      <widget class="QLabel" name="cartTotal">
       <property name="geometry">
        <rect>
-        <x>530</x>
-        <y>780</y>
+        <x>640</x>
+        <y>700</y>
         <width>150</width>
         <height>60</height>
        </rect>
@@ -291,34 +371,13 @@
        <string>￥0</string>
       </property>
      </widget>
-     <widget class="QLabel" name="submittedTotal">
-      <property name="geometry">
-       <rect>
-        <x>690</x>
-        <y>800</y>
-        <width>121</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: rgb(0, 0, 255)</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
      <widget class="QTableWidget" name="cartList">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>1200</width>
-        <height>760</height>
+        <width>1110</width>
+        <height>680</height>
        </rect>
       </property>
       <property name="horizontalScrollBarPolicy">
@@ -365,19 +424,62 @@
       </attribute>
       <column/>
      </widget>
+     <widget class="QLineEdit" name="requestText">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>700</y>
+        <width>291</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>700</y>
+        <width>151</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Special Request:</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="orderTab">
+     <attribute name="icon">
+      <iconset resource="res.qrc">
+       <normaloff>:/res/img/img/order-white.png</normaloff>:/res/img/img/order-white.png</iconset>
+     </attribute>
      <attribute name="title">
-      <string>My Orders</string>
+      <string/>
      </attribute>
      <widget class="QTableWidget" name="orderList">
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
-        <width>1200</width>
-        <height>781</height>
+        <y>-5</y>
+        <width>1110</width>
+        <height>700</height>
        </rect>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
       </property>
       <property name="selectionMode">
        <enum>QAbstractItemView::NoSelection</enum>
@@ -398,10 +500,10 @@
        <bool>false</bool>
       </attribute>
       <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>1184</number>
+       <number>1125</number>
       </attribute>
       <attribute name="horizontalHeaderMinimumSectionSize">
-       <number>1150</number>
+       <number>1120</number>
       </attribute>
       <attribute name="verticalHeaderVisible">
        <bool>false</bool>
@@ -417,47 +519,77 @@
      <widget class="QPushButton" name="viewOrderButton">
       <property name="geometry">
        <rect>
-        <x>730</x>
-        <y>790</y>
-        <width>80</width>
-        <height>50</height>
+        <x>990</x>
+        <y>715</y>
+        <width>120</width>
+        <height>80</height>
        </rect>
       </property>
       <property name="text">
-       <string>Refresh</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="res.qrc">
+        <normaloff>:/res/img/img/refresh.png</normaloff>:/res/img/img/refresh.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
       </property>
      </widget>
      <widget class="QPushButton" name="refreshOrderInfoButton">
       <property name="geometry">
        <rect>
-        <x>870</x>
-        <y>790</y>
-        <width>80</width>
-        <height>50</height>
+        <x>830</x>
+        <y>715</y>
+        <width>120</width>
+        <height>80</height>
        </rect>
       </property>
       <property name="text">
-       <string>Refresh</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="res.qrc">
+        <normaloff>:/res/img/img/refresh.png</normaloff>:/res/img/img/refresh.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
       </property>
      </widget>
      <widget class="QPushButton" name="checkOutButton">
       <property name="geometry">
        <rect>
-        <x>1010</x>
-        <y>790</y>
-        <width>80</width>
-        <height>50</height>
+        <x>990</x>
+        <y>715</y>
+        <width>120</width>
+        <height>80</height>
        </rect>
       </property>
       <property name="text">
-       <string>Check Out</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="res.qrc">
+        <normaloff>:/res/img/img/checkout.png</normaloff>:/res/img/img/checkout.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
       </property>
      </widget>
      <widget class="QLabel" name="rateClerkNote">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>790</y>
+        <y>730</y>
         <width>350</width>
         <height>50</height>
        </rect>
@@ -471,9 +603,39 @@
        <string>You can now rate your waiter: </string>
       </property>
      </widget>
+     <widget class="QPushButton" name="backButton">
+      <property name="geometry">
+       <rect>
+        <x>670</x>
+        <y>715</y>
+        <width>120</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="res.qrc">
+        <normaloff>:/res/img/img/back.png</normaloff>:/res/img/img/back.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="msgTab">
+     <attribute name="icon">
+      <iconset resource="res.qrc">
+       <normaloff>:/res/img/img/msg-white.png</normaloff>:/res/img/img/msg-white.png</iconset>
+     </attribute>
      <attribute name="title">
+      <string/>
+     </attribute>
+     <attribute name="whatsThis">
       <string>Message Center</string>
      </attribute>
      <widget class="QTabWidget" name="tabWidget_2">
@@ -481,9 +643,12 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>1200</width>
-        <height>701</height>
+        <width>1110</width>
+        <height>620</height>
        </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
       </property>
       <property name="currentIndex">
        <number>0</number>
@@ -497,7 +662,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>1200</width>
+          <width>1110</width>
           <height>671</height>
          </rect>
         </property>
@@ -575,9 +740,12 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>1200</width>
+          <width>1110</width>
           <height>671</height>
          </rect>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
         </property>
         <property name="editTriggers">
          <set>QAbstractItemView::NoEditTriggers</set>
@@ -649,7 +817,7 @@
       <property name="geometry">
        <rect>
         <x>200</x>
-        <y>720</y>
+        <y>650</y>
         <width>80</width>
         <height>50</height>
        </rect>
@@ -662,7 +830,7 @@
       <property name="geometry">
        <rect>
         <x>290</x>
-        <y>720</y>
+        <y>650</y>
         <width>80</width>
         <height>50</height>
        </rect>
@@ -675,7 +843,7 @@
       <property name="geometry">
        <rect>
         <x>380</x>
-        <y>720</y>
+        <y>650</y>
         <width>80</width>
         <height>50</height>
        </rect>
@@ -688,19 +856,19 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>790</y>
-        <width>1101</width>
-        <height>60</height>
+        <y>730</y>
+        <width>1001</width>
+        <height>91</height>
        </rect>
       </property>
      </widget>
      <widget class="QPushButton" name="sendMsgButton">
       <property name="geometry">
        <rect>
-        <x>1100</x>
-        <y>790</y>
-        <width>100</width>
-        <height>60</height>
+        <x>1000</x>
+        <y>730</y>
+        <width>110</width>
+        <height>91</height>
        </rect>
       </property>
       <property name="text">
@@ -711,7 +879,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>720</y>
+        <y>650</y>
         <width>151</width>
         <height>51</height>
        </rect>
@@ -728,36 +896,84 @@
      <widget class="QPushButton" name="refreshMsg">
       <property name="geometry">
        <rect>
-        <x>1060</x>
-        <y>720</y>
-        <width>80</width>
-        <height>50</height>
+        <x>970</x>
+        <y>635</y>
+        <width>120</width>
+        <height>80</height>
        </rect>
       </property>
       <property name="text">
-       <string>Refresh</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="res.qrc">
+        <normaloff>:/res/img/img/refresh.png</normaloff>:/res/img/img/refresh.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
       </property>
      </widget>
     </widget>
     <widget class="QWidget" name="selfTab">
+     <attribute name="icon">
+      <iconset resource="res.qrc">
+       <normaloff>:/res/img/img/user-white.png</normaloff>:/res/img/img/user-white.png</iconset>
+     </attribute>
      <attribute name="title">
+      <string/>
+     </attribute>
+     <attribute name="whatsThis">
       <string>About Me</string>
      </attribute>
     </widget>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1200</width>
-     <height>23</height>
-    </rect>
-   </property>
+   <widget class="QLabel" name="title">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1201</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>36</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>Title</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>488</y>
+      <width>92</width>
+      <height>540</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #0440a0;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>

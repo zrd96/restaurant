@@ -482,7 +482,7 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QToolButton" name="addButton">
+  <widget class="QPushButton" name="addButton">
    <property name="geometry">
     <rect>
      <x>920</x>
@@ -497,10 +497,14 @@
     </font>
    </property>
    <property name="text">
-    <string>+</string>
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/res/img/img/add.png</normaloff>:/res/img/img/add.png</iconset>
    </property>
   </widget>
-  <widget class="QToolButton" name="subButton">
+  <widget class="QPushButton" name="subButton">
    <property name="geometry">
     <rect>
      <x>860</x>
@@ -515,7 +519,11 @@
     </font>
    </property>
    <property name="text">
-    <string>-</string>
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/res/img/img/subtract.png</normaloff>:/res/img/img/subtract.png</iconset>
    </property>
   </widget>
   <widget class="QLabel" name="itemPrice">
@@ -610,6 +618,8 @@ color: rgb(170, 0, 0);</string>
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>

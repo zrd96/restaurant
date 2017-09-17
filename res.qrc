@@ -1,0 +1,49 @@
+<RCC>
+    <qresource prefix="/res/img">
+        <file>img/active.png</file>
+        <file>img/copytest.png</file>
+        <file>img/finished.png</file>
+        <file>img/star-filled.png</file>
+        <file>img/star-half.png</file>
+        <file>img/star.png</file>
+        <file>img/success.png</file>
+        <file>img/user.png</file>
+        <file>img/user-white.png</file>
+        <file>img/cart.png</file>
+        <file>img/dishes-white.png</file>
+        <file>img/msg-white.png</file>
+        <file>img/order-white.png</file>
+        <file>img/table-white.png</file>
+        <file>img/refresh.png</file>
+        <file>img/submit.png</file>
+        <file>img/back-disabled.png</file>
+        <file>img/back.png</file>
+        <file>img/refresh-disabled.png</file>
+        <file>img/submit-disabled.png</file>
+        <file>img/log-in.png</file>
+        <file>img/signup.png</file>
+        <file>img/checkout.png</file>
+        <file>img/detail.png</file>
+        <file>img/selected_ico.png</file>
+        <file>img/add.png</file>
+        <file>img/subtract.png</file>
+        <file>img/chef.png</file>
+        <file>img/guest.png</file>
+        <file>img/list.png</file>
+        <file>img/waiter.png</file>
+        <file>img/waiting.png</file>
+        <file>img/remove.png</file>
+        <file>img/restore.png</file>
+        <file>img/save.png</file>
+        <file>img/log-out.png</file>
+        <file>img/checked.png</file>
+        <file>img/unchecked.png</file>
+        <file>img/comment.png</file>
+        <file>img/accept.png</file>
+        <file>img/active-blue.png</file>
+        <file>img/send.png</file>
+    </qresource>
+    <qresource prefix="/res/stylesheet">
+        <file>stylesheet/style.css</file>
+    </qresource>
+</RCC>

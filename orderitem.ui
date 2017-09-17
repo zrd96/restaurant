@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1184</width>
+    <width>1134</width>
     <height>120</height>
    </rect>
   </property>
@@ -68,14 +68,24 @@
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>960</x>
-     <y>35</y>
-     <width>131</width>
-     <height>50</height>
+     <x>940</x>
+     <y>20</y>
+     <width>120</width>
+     <height>80</height>
     </rect>
    </property>
    <property name="text">
-    <string>View Order</string>
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/res/img/img/detail.png</normaloff>:/res/img/img/detail.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>40</width>
+     <height>40</height>
+    </size>
    </property>
   </widget>
   <widget class="QLabel" name="isFinishedIcon">
@@ -92,6 +102,8 @@
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>

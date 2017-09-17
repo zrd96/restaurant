@@ -20,13 +20,19 @@ GuestWindow::GuestWindow(const QString& user, QWidget *parent) :
     QMainWindow(parent),
     guest("", ""),
     orderedSum(0),
-    submittedSum(0),
     checkedOut(true),
     currentOrder(NULL),
     rateClerkItem(NULL),
     ui(new Ui::GuestWindow)
 {
     ui->setupUi(this);
+//    ui->tabWidget->tabBar()->setStyle(new CustomTabStyle);
+//    ui->tabWidget->tabBar()->setExpanding(true);
+//    QLabel *fillColor = new QLabel(this);
+//    fillColor->setGeometry(0, 360, 80, 800);
+//    fillColor->setText("");
+//    fillColor->setStyleSheet("background-color: rgb(4, 64, 160);");
+    ui->tabWidget->tabBar()->setCursor(QCursor(Qt::PointingHandCursor));
     try {
         guest = StaticData::getGuestByPhone(user);
     } catch (EmptyResult) {
@@ -42,9 +48,6 @@ GuestWindow::GuestWindow(const QString& user, QWidget *parent) :
                     StaticData::db->getResultList()[0][1]);
     }
     StaticData::queryMsg(guest.getPhone());
-    for(unsigned int i = 0; i < StaticData::getOrderedDishList().size(); i ++)
-        if(StaticData::getOrderedDishList()[i].getOrderer() == guest.getPhone())
-            submittedSum += StaticData::getOrderedDishList()[i].getPrice();
     ui->inboxList->setColumnWidth(0, 150);
     ui->inboxList->setColumnWidth(1, 150);
     ui->inboxList->setColumnWidth(2, 850);
@@ -67,6 +70,7 @@ GuestWindow::GuestWindow(const QString& user, QWidget *parent) :
     viewOrderList();
     viewMsgList();
     ui->tabWidget->setCurrentIndex(0);
+    ui->title->setText("   Select Table");
 }
 
 GuestWindow::~GuestWindow()
@@ -138,10 +142,12 @@ void GuestWindow::viewOrderList() {
         delete rateClerkItem;
         rateClerkItem = NULL;
     }
-    ui->viewOrderButton->setText("Refresh");
-    ui->viewOrderButton->setGeometry(1010, 790, 80, 50);
+    //ui->viewOrderButton->setText("Refresh");
+    //ui->viewOrderButton->setGeometry(1010, 790, 80, 50);
     ui->refreshOrderInfoButton->hide();
     ui->checkOutButton->hide();
+    ui->backButton->hide();
+    ui->viewOrderButton->show();
     clearPointerList(dishInOrderItem);
     clearPointerList(orderItem);
     ui->orderList->setRowCount(0);
@@ -174,46 +180,48 @@ void GuestWindow::viewOrderList() {
 
 void GuestWindow::viewDishInOrderList(Order* order) {
     currentOrder = order;
-    ui->viewOrderButton->setText("Back");
-    ui->viewOrderButton->setGeometry(730, 790, 80, 50);
+    //ui->viewOrderButton->setText("Back");
+    //ui->viewOrderButton->setGeometry(730, 790, 80, 50);
+    ui->viewOrderButton->hide();
     ui->refreshOrderInfoButton->show();
     ui->checkOutButton->show();
+    ui->backButton->show();
     clearPointerList(orderItem);
     clearPointerList(dishInOrderItem);
     ui->orderList->setRowCount(0);
     for(unsigned int i = 0; i < order->getOrderDishes().size(); i ++) {
         Item* item = new Item(guest, StaticData::getOrderedDishByID(order->getOrderDishes()[i]), "orderList", ui->orderList);
+        connect(item, &Item::refreshRequested, this, [this] {viewDishInOrderList(currentOrder);});
         ui->orderList->setRowCount(ui->orderList->rowCount() + 1);
         ui->orderList->setCellWidget(ui->orderList->rowCount() - 1, 0, item);
         dishInOrderItem.push_back(item);
         item->show();
     }
     ui->checkOutButton->setEnabled(order->checkStatus() == 4);
-    if (order->checkStatus() == 5) {
-        try {
-            Rate& rateClerkInfo = StaticData::getRateBySubjectAndObject(guest.getPhone(), currentOrder->getClerk());
-            ui->rateClerkNote->setText("You have rated your clerk: " + currentOrder->getClerk());
-            ui->rateClerkNote->show();
-            if (rateClerkItem != NULL) {
-                delete rateClerkItem;
-                rateClerkItem = NULL;
-            }
-            rateClerkItem = new RateItem(ui->orderTab);
-            rateClerkItem->setGeometry(360, 800, 150, 30);
-            rateClerkItem->setRate(rateClerkInfo.getRate());
-            rateClerkItem->show();
-        } catch (EmptyResult) {
-            ui->rateClerkNote->setText("Please rate your clerk: " + currentOrder->getClerk());
-            ui->rateClerkNote->show();
-            if (rateClerkItem != NULL) {
-                delete rateClerkItem;
-                rateClerkItem = NULL;
-            }
-            rateClerkItem = new RateItem(ui->orderTab);
-            rateClerkItem->setGeometry(360, 800, 150, 30);
-            connect(rateClerkItem, SIGNAL(rateSet(double)), this, SLOT(rateClerk(double)));
-            rateClerkItem->show();
+    if (order->checkStatus() == 6) {
+        //Rate& rateClerkInfo = StaticData::getRateBySubjectAndObject(guest.getPhone(), currentOrder->getClerk());
+        ui->rateClerkNote->setText("You have rated your clerk: " + currentOrder->getClerk());
+        ui->rateClerkNote->show();
+        if (rateClerkItem != NULL) {
+            delete rateClerkItem;
+            rateClerkItem = NULL;
         }
+        rateClerkItem = new RateItem(ui->orderTab);
+        rateClerkItem->setGeometry(360, 745, 150, 30);
+        rateClerkItem->setRate(currentOrder->getRate());
+        rateClerkItem->show();
+    }
+    else if (order->checkStatus() == 5){
+        ui->rateClerkNote->setText("Please rate your clerk: " + currentOrder->getClerk());
+        ui->rateClerkNote->show();
+        if (rateClerkItem != NULL) {
+            delete rateClerkItem;
+            rateClerkItem = NULL;
+        }
+        rateClerkItem = new RateItem(ui->orderTab);
+        rateClerkItem->setGeometry(360, 745, 150, 30);
+        connect(rateClerkItem, SIGNAL(rateSet(double)), this, SLOT(rateClerk(double)));
+        rateClerkItem->show();
     }
 }
 
@@ -255,8 +263,7 @@ void GuestWindow::on_RefreshCart_clicked()
 
 void GuestWindow::rateClerk(double newRate) {
     try {
-        Clerk &clerk = StaticData::getClerkByPhone(currentOrder->getClerk());
-        clerk.updateRate(newRate);
+        currentOrder->rateClerk(newRate);
         StaticData::insertRate(Rate(QString("R%1%2%3%4").arg(getTimeUniform()).arg(guest.getPhone()).arg(currentOrder->getClerk()).arg(StaticData::getRateList().size()),
                                     newRate,
                                     guest.getPhone(),
@@ -270,21 +277,32 @@ void GuestWindow::rateClerk(double newRate) {
 
 void GuestWindow::on_tabWidget_currentChanged(int index)
 {
-    if(index == 2) {
+    if (index == 0) {
+        ui->title->setText("   Select Table");
+    }
+    else if(index == 2) {
+        ui->title->setText("   View Cart");
         viewCartList();
         viewOrderList();
     }
     else if (index == 1) {
+        ui->title->setText("   Select Dishes");
         viewDishList();
+    }
+    else if (index == 3) {
+        ui->title->setText("   View Order");
+    }
+    else if (index == 4) {
+        ui->title->setText("   Message Center");
+    }
+    else if (index == 5) {
+        ui->title->setText("   About Me");
     }
 }
 
 void GuestWindow::updateSum() {
     orderedSum = guest.getSumInCart();
     ui->cartTotal->setText("￥" + QString().setNum(orderedSum));
-    ui->submittedTotal->setText("");
-    if(submittedSum > 0)
-        ui->submittedTotal->setText(" + ￥" + QString().setNum(submittedSum));
     if(guest.getSumInCart() == 0)
         ui->submitButton->setEnabled(false);
     else
@@ -325,9 +343,8 @@ void GuestWindow::on_submitButton_clicked()
     orderInfo += "Total: ￥" + QString().setNum(guest.getSumInCart()) + "\n\n Submit?";
     int reply = QMessageBox::question(NULL, "Confirm Order", orderInfo, QMessageBox::Yes, QMessageBox::No);
     if (reply == QMessageBox::Yes) {
-        submittedSum += guest.getSumInCart();
         guest.modifyTable(guest.getTable());
-        guest.submitCart();
+        guest.submitCart(ui->requestText->text());
         viewDishList();
         viewCartList();
         viewOrderList();
@@ -394,4 +411,9 @@ void GuestWindow::on_checkOutButton_clicked()
 void GuestWindow::on_refreshDishListButton_clicked()
 {
     viewDishList();
+}
+
+void GuestWindow::on_backButton_clicked()
+{
+    viewOrderList();
 }

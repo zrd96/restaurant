@@ -538,6 +538,24 @@ void AdminWindow::on_dishList_cellDoubleClicked(int row, int column)
 
 void AdminWindow::on_tabWidget_currentChanged(int index)
 {
+    if (index == 0) {
+        ui->title->setText("   Table List");
+    }
+    else if (index == 1) {
+        ui->title->setText("   Dish List");
+    }
+    else if (index == 2) {
+        ui->title->setText("   Guest List");
+    }
+    else if (index == 3) {
+        ui->title->setText("   Chef List");
+    }
+    else if (index == 4) {
+        ui->title->setText("   Clerk List");
+    }
+    else if (index == 5) {
+        ui->title->setText("   About Me");
+    }
     if (index == 5) {
         ui->refreshButton->hide();
         ui->addButton->hide();

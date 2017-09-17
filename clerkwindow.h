@@ -32,6 +32,8 @@ private slots:
 
     void on_refreshMsgButton_clicked();
 
+    void on_refreshReadyDishButton_clicked();
+
 signals:
     void closeEvent(QCloseEvent *ev);
 

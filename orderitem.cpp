@@ -19,7 +19,7 @@ OrderItem::OrderItem(Order* order, QWidget *parent) :
                                 .arg(order->getOrderer())
                                 .arg(order->getOrderDishes().size())
                                 .arg(order->getOrderSum()));
-    if(order->checkStatus() == 5) {
+    if(order->checkStatus() >= 5) {
         ui->isFinishedIcon->setPixmap(QPixmap(QString::fromUtf8("img/finished.png")));
         ui->isFinishedIcon->setScaledContents(true);
         ui->isFinished->setText("Finished");

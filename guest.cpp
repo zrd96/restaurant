@@ -59,8 +59,8 @@ void Guest::modifyTable(int newTableNum) {
     }
 }
 
-void Guest::submitCart() {
-    cart.submit(this->getPhone(), this->getTable());
+void Guest::submitCart(const QString &request) {
+    cart.submit(this->getPhone(), this->getTable(), request);
 }
 
 void Guest::setPhone(const QString &newPhone) {

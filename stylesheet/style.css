@@ -1,0 +1,91 @@
+
+QMainWindow {
+background: #ffffff;
+}
+
+QWidget {
+background: #ffffff;
+}
+
+QTabWidget:left, QTabWidget:right {
+border: 0px;
+border-radius: 0px;
+}
+QTabWidget:top, QTabWidget:bottom {
+background: transparent;
+}
+QPushButton {
+border-style: outset;
+border-width: 0px;
+border-color: #aaa;
+border-radius: 4px;
+background: transparent;
+color: #000;
+}
+
+QPushButton:hover {
+background: transparent;
+color: #fff;
+}
+
+QPushButton:pressed {
+background: #fc5daa;
+color: #fff;
+}
+
+/*QTabBar::tab:left, QTabBar::tab:right {
+height: 60px;
+width: 80px;
+background: #0440a0;
+color: #fff;
+border: 0px;
+}
+*/
+
+QTabBar::tab:top, QTabBar::tab:bottom {
+background: #fff;
+color: #333;
+/*border: 1px solid grey;*/
+}
+
+/*
+QTabBar::tab:left:selected, QTabBar::tab:right:selected {
+height: 60px;
+width: 80px;
+background: #054ec1;
+color: #fff;
+border: 0px;
+alignment: center;
+}*/
+
+QTabBar {
+background: #0440a0;
+}
+
+QLabel {
+background: transparent;
+}
+
+QLabel#title {
+font-weight: 1px;
+font-size: 36px;
+color: #fff;
+background: #5db4fc;
+}
+
+QRadioButton::indicator:checked {
+   width: 16px;
+   height: 16px;
+   image: url("img/checked.png");
+}
+
+QRadioButton::indicator:unchecked {
+   width: 16px;
+   height: 16px;
+   image: url("img/unchecked.png");
+}
+
+QLineEdit {
+border: 1px solid #bbb;
+border-radius: 2px;
+}

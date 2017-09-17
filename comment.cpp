@@ -39,16 +39,20 @@ Comment::Comment(OrderedDish &dish, QWidget *parent) :
     rateItem->setGeometry(120, 70, 150, 30);
     connect(rateItem, SIGNAL(rateSet(double)), this, SLOT(setRate(double)));
     setEditable(true);
-    this->resize(460, 280);
+    this->resize(460, 300);
     QPushButton *submit = new QPushButton(this);
-    submit->setGeometry(205, 230, 50, 40);
-    submit->setText("Submit");
+    submit->setGeometry(195, 230, 70, 60);
+    submit->setText("");
+    QIcon icon;
+    icon.addFile(QStringLiteral(":/res/img/img/submit.png"), QSize(), QIcon::Normal, QIcon::Off);
+    submit->setIcon(icon);
+    submit->setIconSize(QSize(40, 40));
     connect(submit, &QPushButton::clicked, this, [&, this] {
         if (rateVal < 0) {
             viewErrInfo("Please set a rate");
             return;
         }
-        dish.updateRate(Rate("R" + getTimeUniform() + dish.getOrderer() + dish.getDishID(),
+        dish.updateRate(Rate(QString("R%1%2%3%4").arg(getTimeUniform()).arg(dish.getOrderer()).arg(dish.getDishID()).arg(dish.getRateNum()),
                     rateVal,
                     dish.getOrderer(),
                     dish.getDishID(),
@@ -56,6 +60,7 @@ Comment::Comment(OrderedDish &dish, QWidget *parent) :
                     ui->commentTitle->text(),
                     ui->commentText->toPlainText()));
         dish.setStatus(6);
+        dish.setRate(rateVal);
         StaticData::modifyOrderedDish(dish.getOrderedDishID(), dish);
         viewErrInfo("Success");
         this->close();

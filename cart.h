@@ -8,7 +8,7 @@
 class Cart {
         public:
                 Cart();
-                bool submit(const QString &orderer, int table);
+                bool submit(const QString &orderer, int table, const QString &request);
                 bool checkout();
                 double getSumInCart() const {return sum;}
                 void show() const;

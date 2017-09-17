@@ -24,7 +24,7 @@ void Clerk::takeTable(Table& table) {
     table.linkClerk(*this);
     for (unsigned int i = 0; i < StaticData::getOrderList().size(); i ++) {
         Order &cur = StaticData::getOrderList()[i];
-        if (cur.getTable() == table.getTableID()) {
+        if (cur.getTable() == table.getTableID() && cur.checkStatus() < 5) {
             cur.setClerk(this->getPhone());
             StaticData::modifyOrder(cur.getOrderID(), cur);
         }

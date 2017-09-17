@@ -25,7 +25,7 @@ class Guest: public Person {
         void rateDish(Dish& dish, const Rate &rate);
         void rateClerk(Clerk& clerk, double rate);
         void modifyTable(int newTableNum);
-        void submitCart();
+        void submitCart(const QString &request);
         void setPhone(const QString &newPhone);
     private:
         int table;

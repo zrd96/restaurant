@@ -23,8 +23,8 @@ Item::Item(Person& person, Dish& oriDish, const QString &listType, QWidget *pare
 {
     ui->setupUi(this);
 
-    connect(ui->addButton, &QToolButton::clicked, this, [this] {this->addItemNum();});
-    connect(ui->subButton, &QToolButton::clicked, this, [this] {this->subItemNum();});
+    connect(ui->addButton, &QPushButton::clicked, this, [this] {this->addItemNum();});
+    connect(ui->subButton, &QPushButton::clicked, this, [this] {this->subItemNum();});
     connect(ui->itemNum, SIGNAL(editingFinished()), this, SLOT(setNumTo()));
     QImage *dishImg = new QImage;
     if(!dishImg->load((dish.getImgDir())))
@@ -72,9 +72,14 @@ Item::Item(Person& person, Dish& oriDish, const QString &listType, QWidget *pare
                     ui->itemNum->hide();
                     QPushButton* rateButon = new QPushButton(this);
                     rateButon->setGeometry(860, 80, 80, 40);
-                    rateButon->setText("Rate");
+                    rateButon->setText("");
+                    QIcon icon;
+                    icon.addFile(QStringLiteral(":/res/img/img/comment.png"), QSize(), QIcon::Normal, QIcon::Off);
+                    rateButon->setIcon(icon);
+                    rateButon->setIconSize(QSize(40, 40));
                     connect(rateButon, &QPushButton::clicked, this, [&, this] {
                         Comment *newComment = new Comment(orderedDish);
+                        connect(newComment, &Comment::closeEvent, this, [this] {emit refreshRequested();});
                     });
                 }
                 break;
@@ -85,7 +90,7 @@ Item::Item(Person& person, Dish& oriDish, const QString &listType, QWidget *pare
                     ui->itemNum->hide();
                     RateItem *rateItem =  new RateItem(this);
                     rateItem->setGeometry(860, 80, 150, 30);
-                    rateItem->setRate(StaticData::getRateBySubjectAndObject(orderedDish.getOrderer(), orderedDish.getDishID()).getRate());
+                    rateItem->setRate(orderedDish.getUserRate());
                     rateItem->show();
                     QLabel *userRateInfo = new QLabel(this);
                     userRateInfo->setGeometry(860, 110, 150, 20);
@@ -107,23 +112,42 @@ Item::Item(Person& person, Dish& oriDish, const QString &listType, QWidget *pare
             ui->itemNum->hide();
             QPushButton *takeButton = new QPushButton(this);
             takeButton->setGeometry(860, 70, 80, 40);
+            QIcon iconTake;
+            iconTake.addFile(QStringLiteral(":/res/img/img/accept.png"), QSize(), QIcon::Normal, QIcon::Off);
+            QIcon iconFinished;
+            iconFinished.addFile(QStringLiteral(":/res/img/img/finished.png"), QSize(), QIcon::Normal, QIcon::Off);
+            ui->itemStatus->setPlainText(orderedDish.getRequest());
             if (listType == "chefDishList") {
-                takeButton->setText("Take this dish");
-                connect(takeButton, &QPushButton::clicked, this, [takeButton, &orderedDish, this] () {
+                takeButton->setText("");
+                takeButton->setIcon(iconTake);
+                takeButton->setIconSize(QSize(30, 30));
+                connect(takeButton, &QPushButton::clicked, this, [&, takeButton] () {
                     chef->takeDish(StaticData::getOrderedDishByID(orderedDish.getOrderedDishID()));
-                    takeButton->setText("Taken");
+                    takeButton->setText("");
+                    QIcon iconActive;
+                    iconActive.addFile(QStringLiteral(":/res/img/img/active-blue.png"), QSize(), QIcon::Normal, QIcon::Off);
+                    takeButton->setIcon(iconActive);
+                    takeButton->setIconSize(QSize(30, 30));
                     takeButton->setEnabled(false);
                 });
             }
             else if (listType == "chefTakenDishList") {
-                takeButton->setText("Finish cooking");
+                QIcon iconActive;
+                iconActive.addFile(QStringLiteral(":/res/img/img/active-blue.png"), QSize(), QIcon::Normal, QIcon::Off);
+                takeButton->setIcon(iconActive);
+                takeButton->setIconSize(QSize(30, 30));
+                takeButton->setText("");
                 if(orderedDish.getStatus() >= 3) {
-                    takeButton->setText("Finished");
+                    takeButton->setText("");
+                    takeButton->setIcon(iconFinished);
                     takeButton->setEnabled(false);
                 }
-                connect(takeButton, &QPushButton::clicked, this, [takeButton, &orderedDish, this] () {
+                connect(takeButton, &QPushButton::clicked, this, [&, takeButton] () {
                     chef->finishDish(StaticData::getOrderedDishByID(orderedDish.getOrderedDishID()));
-                    takeButton->setText("Finished");
+                    takeButton->setText("");
+                    QIcon iconFinished;
+                    iconFinished.addFile(QStringLiteral(":/res/img/img/finished.png"), QSize(), QIcon::Normal, QIcon::Off);
+                    takeButton->setIcon(iconFinished);
                     takeButton->setEnabled(false);
                 });
             }

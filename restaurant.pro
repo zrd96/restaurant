@@ -102,3 +102,5 @@ FORMS += \
     comment.ui \
     dishinfohead.ui
 
+RESOURCES += \
+    res.qrc

@@ -27,5 +27,7 @@ bool Table::addGuest() {
 
 void Table::freeGuest() {
     freeSeats ++;
+    if (freeSeats == seats)
+        this->clerk = "NULL";
     StaticData::modifyTable(this->getTableID(), *this);
 }

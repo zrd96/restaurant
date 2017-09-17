@@ -66,8 +66,25 @@ void ChefWindow::viewTakenDishList() {
 
 void ChefWindow::on_tabWidget_currentChanged(int index)
 {
-    if (index == 0)
+    if (index == 0) {
+        ui->title->setText("   View Ordered Dish List");
         viewOrderedDishList();
-    else if (index == 1)
+    }
+    else if (index == 1) {
+        ui->title->setText("   View Taken Dish List");
         viewTakenDishList();
+    }
+    else if (index == 2) {
+        ui->title->setText("   About Me");
+    }
+}
+
+void ChefWindow::on_pushButton_clicked()
+{
+    viewOrderedDishList();
+}
+
+void ChefWindow::on_pushButton_2_clicked()
+{
+    viewTakenDishList();
 }

@@ -44,6 +44,11 @@ int main(int argc, char *argv[])
     LoginDlg* loginDlg = new LoginDlg();
     loginDlg->show();
     a.setQuitOnLastWindowClosed(false);
-
+    QFile qssfile("stylesheet/style.css");
+    qssfile.open(QFile::ReadOnly);
+    QString qss;
+    qss = qssfile.readAll();
+    a.setStyleSheet(qss);
+    qssfile.close();
     return a.exec();
 }

@@ -76,9 +76,11 @@ bool StaticData::queryOrderedDish() {
                     resultList[i][0],
                     resultList[i][2],
                     resultList[i][3].toInt(),
-                    resultList[i][4].toInt());
-            tmp.setDatetime(resultList[i][5]);
-            tmp.setChef(resultList[i][6]);
+                    resultList[i][5],
+                    resultList[i][7], //request
+                    resultList[i][4].toInt(),
+                    resultList[i][6],
+                    resultList[i][8].toDouble());
             insertOrderedDish(tmp);
         }
         return true;
@@ -148,7 +150,7 @@ bool StaticData::queryOrder() {
         return false;
     vector<vector<QString> > resultList = db->getResultList();
     for (unsigned int i = 0; i < resultList.size(); i ++)
-        insertOrder(Order(resultList[i][0], resultList[i][1], resultList[i][2], resultList[i][3], resultList[i][4].toInt()));
+        insertOrder(Order(resultList[i][0], resultList[i][1], resultList[i][2], resultList[i][3], resultList[i][4].toInt(), resultList[i][5].toDouble()));
     for(unsigned int i = 0; i < orderedDishList.size(); i ++) {
         bool found = 0;
         for(unsigned j = 0; j < orderList.size(); j ++)
@@ -437,16 +439,24 @@ void StaticData::writeOrderedDish() {
                 db->update("orderedDish",
                                        "chef", "\"" + cur.getChef() + "\"",
                                        QString("id = \"%1\"").arg(cur.getOrderedDishID()));
+                db->update("orderedDish",
+                                       "request", "\"" + cur.getRequest() + "\"",
+                                       QString("id = \"%1\"").arg(cur.getOrderedDishID()));
+                db->update("orderedDish",
+                                       "rate", QString().setNum(cur.getUserRate()),
+                                       QString("id = \"%1\"").arg(cur.getOrderedDishID()));
             }
             else {
-                db->insert("orderedDish", QString("\"%1\", \"%2\", \"%3\", %4, %5, \"%6\", \"%7\"")
+                db->insert("orderedDish", QString("\"%1\", \"%2\", \"%3\", %4, %5, \"%6\", \"%7\", \"%8\", %9")
                            .arg(cur.getOrderedDishID())
                            .arg(cur.getDishID())
                            .arg(cur.getOrderer())
                            .arg(cur.getTable())
                            .arg(cur.getStatus())
                            .arg(cur.getDatetime())
-                           .arg(cur.getChef()));
+                           .arg(cur.getChef())
+                           .arg(cur.getRequest())
+                           .arg(cur.getUserRate()));
             }
         }
         else if (orderedDishMaintainList[i] < 0)
@@ -584,12 +594,13 @@ void StaticData::writeOrder() {
         if (orderMaintainList[i] > 0) {
             if (db->doesExist("orderList", QString("orderID = \"%1\"").arg(cur.getOrderID())))
                 db->deleteRow("orderList", QString("orderID = \"%1\"").arg(cur.getOrderID()));
-            db->insert("orderList", QString("\"%1\", \"%2\", \"%3\", \"%4\", %5")
+            db->insert("orderList", QString("\"%1\", \"%2\", \"%3\", \"%4\", %5, %6")
                        .arg(cur.getOrderID())
                        .arg(cur.getOrderer())
                        .arg(cur.getDatetime())
                        .arg(cur.getClerk())
-                       .arg(cur.getTable()));
+                       .arg(cur.getTable())
+                       .arg(cur.getRate()));
         }
     }
 }

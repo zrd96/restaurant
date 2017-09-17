@@ -18,28 +18,38 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>0</y>
+      <y>80</y>
       <width>1200</width>
-      <height>880</height>
+      <height>901</height>
      </rect>
     </property>
     <property name="tabPosition">
-     <enum>QTabWidget::South</enum>
+     <enum>QTabWidget::West</enum>
     </property>
     <property name="currentIndex">
      <number>0</number>
     </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>80</height>
+     </size>
+    </property>
     <widget class="QWidget" name="orderedDishTab">
+     <attribute name="icon">
+      <iconset resource="res.qrc">
+       <normaloff>:/res/img/img/list.png</normaloff>:/res/img/img/list.png</iconset>
+     </attribute>
      <attribute name="title">
-      <string>Ordered Dishes</string>
+      <string/>
      </attribute>
      <widget class="QTableWidget" name="orderedDishList">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>1200</width>
-        <height>850</height>
+        <width>1130</width>
+        <height>711</height>
        </rect>
       </property>
       <property name="horizontalScrollBarPolicy">
@@ -80,18 +90,45 @@
       </attribute>
       <column/>
      </widget>
+     <widget class="QPushButton" name="pushButton">
+      <property name="geometry">
+       <rect>
+        <x>890</x>
+        <y>730</y>
+        <width>121</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="res.qrc">
+        <normaloff>:/res/img/img/refresh.png</normaloff>:/res/img/img/refresh.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="takenDishTab">
+     <attribute name="icon">
+      <iconset resource="res.qrc">
+       <normaloff>:/res/img/img/waiting.png</normaloff>:/res/img/img/waiting.png</iconset>
+     </attribute>
      <attribute name="title">
-      <string>Taken Dishes</string>
+      <string/>
      </attribute>
      <widget class="QTableWidget" name="takenDishList">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>1200</width>
-        <height>850</height>
+        <width>1130</width>
+        <height>711</height>
        </rect>
       </property>
       <property name="horizontalScrollBarPolicy">
@@ -132,25 +169,83 @@
       </attribute>
       <column/>
      </widget>
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="geometry">
+       <rect>
+        <x>890</x>
+        <y>730</y>
+        <width>121</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="res.qrc">
+        <normaloff>:/res/img/img/refresh.png</normaloff>:/res/img/img/refresh.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="selfTab">
+     <attribute name="icon">
+      <iconset resource="res.qrc">
+       <normaloff>:/res/img/img/user-white.png</normaloff>:/res/img/img/user-white.png</iconset>
+     </attribute>
      <attribute name="title">
-      <string>About Me</string>
+      <string/>
      </attribute>
     </widget>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1200</width>
-     <height>23</height>
-    </rect>
-   </property>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>284</y>
+      <width>92</width>
+      <height>630</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #0440a0;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="title">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1201</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>36</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>Title</string>
+    </property>
+   </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>

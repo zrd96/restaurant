@@ -2,6 +2,7 @@
 #define COMMENT_H
 
 #include <QWidget>
+#include <QCloseEvent>
 #include "rate.h"
 #include "dish.h"
 
@@ -19,6 +20,7 @@ public:
     ~Comment();
 signals:
     void rateSet(Rate rate);
+    void closeEvent(QCloseEvent *ev);
 
 private:
     Ui::Comment *ui;

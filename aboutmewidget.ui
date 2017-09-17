@@ -6,36 +6,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1200</width>
-    <height>850</height>
+    <width>1110</width>
+    <height>820</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>20</y>
-     <width>141</width>
-     <height>71</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>20</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>About Me</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
      <x>350</x>
-     <y>100</y>
+     <y>20</y>
      <width>220</width>
      <height>60</height>
     </rect>
@@ -53,7 +35,7 @@
    <property name="geometry">
     <rect>
      <x>350</x>
-     <y>180</y>
+     <y>100</y>
      <width>220</width>
      <height>60</height>
     </rect>
@@ -71,7 +53,7 @@
    <property name="geometry">
     <rect>
      <x>350</x>
-     <y>260</y>
+     <y>180</y>
      <width>220</width>
      <height>60</height>
     </rect>
@@ -89,7 +71,7 @@
    <property name="geometry">
     <rect>
      <x>350</x>
-     <y>340</y>
+     <y>260</y>
      <width>220</width>
      <height>60</height>
     </rect>
@@ -107,7 +89,7 @@
    <property name="geometry">
     <rect>
      <x>350</x>
-     <y>420</y>
+     <y>340</y>
      <width>220</width>
      <height>60</height>
     </rect>
@@ -125,7 +107,7 @@
    <property name="geometry">
     <rect>
      <x>590</x>
-     <y>110</y>
+     <y>30</y>
      <width>200</width>
      <height>40</height>
     </rect>
@@ -140,7 +122,7 @@
    <property name="geometry">
     <rect>
      <x>590</x>
-     <y>190</y>
+     <y>110</y>
      <width>200</width>
      <height>40</height>
     </rect>
@@ -155,7 +137,7 @@
    <property name="geometry">
     <rect>
      <x>590</x>
-     <y>270</y>
+     <y>190</y>
      <width>200</width>
      <height>40</height>
     </rect>
@@ -173,7 +155,7 @@
    <property name="geometry">
     <rect>
      <x>590</x>
-     <y>350</y>
+     <y>270</y>
      <width>200</width>
      <height>40</height>
     </rect>
@@ -191,7 +173,7 @@
    <property name="geometry">
     <rect>
      <x>590</x>
-     <y>430</y>
+     <y>350</y>
      <width>200</width>
      <height>40</height>
     </rect>
@@ -209,7 +191,7 @@
    <property name="geometry">
     <rect>
      <x>350</x>
-     <y>500</y>
+     <y>420</y>
      <width>220</width>
      <height>60</height>
     </rect>
@@ -227,7 +209,7 @@
    <property name="geometry">
     <rect>
      <x>590</x>
-     <y>540</y>
+     <y>460</y>
      <width>201</width>
      <height>21</height>
     </rect>
@@ -245,7 +227,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>820</y>
+     <y>790</y>
      <width>351</width>
      <height>18</height>
     </rect>
@@ -258,7 +240,7 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>810</y>
+     <y>780</y>
      <width>361</width>
      <height>16</height>
     </rect>
@@ -271,9 +253,9 @@
    <property name="geometry">
     <rect>
      <x>270</x>
-     <y>610</y>
+     <y>540</y>
      <width>601</width>
-     <height>61</height>
+     <height>81</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
@@ -298,7 +280,17 @@
        </size>
       </property>
       <property name="text">
-       <string>Refresh</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="res.qrc">
+        <normaloff>:/res/img/img/refresh.png</normaloff>:/res/img/img/refresh.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
       </property>
      </widget>
     </item>
@@ -323,7 +315,17 @@
        </size>
       </property>
       <property name="text">
-       <string>Save</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="res.qrc">
+        <normaloff>:/res/img/img/save.png</normaloff>:/res/img/img/save.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
       </property>
      </widget>
     </item>
@@ -333,9 +335,9 @@
    <property name="geometry">
     <rect>
      <x>375</x>
-     <y>710</y>
+     <y>660</y>
      <width>391</width>
-     <height>50</height>
+     <height>101</height>
     </rect>
    </property>
    <property name="font">
@@ -344,10 +346,25 @@
     </font>
    </property>
    <property name="text">
-    <string>Log Out</string>
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/res/img/img/log-out.png</normaloff>:/res/img/img/log-out.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>50</width>
+     <height>50</height>
+    </size>
+   </property>
+   <property name="shortcut">
+    <string>Return</string>
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>
