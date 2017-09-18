@@ -22,6 +22,9 @@ AboutMeWidget::AboutMeWidget(Person* person, QMainWindow* mainWindow, QWidget *p
     ui->newPassword->setEnabled(false);
     ui->repeatNewPassword->setEnabled(false);
     ui->submitInfoButton->setEnabled(false);
+    ui->submitInfoButton->hide();
+    ui->refreshInfoButton->hide();
+    ui->logoutButton->hide();
 }
 
 AboutMeWidget::~AboutMeWidget()

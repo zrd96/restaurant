@@ -113,7 +113,7 @@ Item::Item(Person& person, Dish& oriDish, const QString &listType, QWidget *pare
             QPushButton *takeButton = new QPushButton(this);
             takeButton->setGeometry(860, 70, 80, 40);
             QIcon iconTake;
-            iconTake.addFile(QStringLiteral(":/res/img/img/accept.png"), QSize(), QIcon::Normal, QIcon::Off);
+            iconTake.addFile(QStringLiteral(":/res/img/img/checkout.png"), QSize(), QIcon::Normal, QIcon::Off);
             QIcon iconFinished;
             iconFinished.addFile(QStringLiteral(":/res/img/img/finished.png"), QSize(), QIcon::Normal, QIcon::Off);
             ui->itemStatus->setPlainText(orderedDish.getRequest());

@@ -49,7 +49,7 @@ private slots:
 
     void on_RefreshCart_clicked();
 
-    void on_submitButton_clicked();
+    void on_submitCartButton_clicked();
 
     void on_submitTableButton_clicked();
 
@@ -70,6 +70,12 @@ private slots:
     void on_refreshDishListButton_clicked();
 
     void on_backButton_clicked();
+
+    void on_refreshButton_clicked();
+
+    void on_submitButton_clicked();
+
+    void on_logoutButton_clicked();
 
 signals:
     //void windowClosed();

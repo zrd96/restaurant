@@ -31,6 +31,7 @@ color: #fff;
 QPushButton:pressed {
 background: #fc5daa;
 color: #fff;
+border-radius: 40px;
 }
 
 /*QTabBar::tab:left, QTabBar::tab:right {

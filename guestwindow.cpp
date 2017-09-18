@@ -69,7 +69,16 @@ GuestWindow::GuestWindow(const QString& user, QWidget *parent) :
     viewCartList();
     viewOrderList();
     viewMsgList();
+    ui->refreshDishListButton->hide();
+    ui->refreshMsg->hide();
+    ui->refreshOrderInfoButton->hide();
+    ui->refreshTableButton->hide();
+    ui->RefreshCart->hide();
+    ui->viewOrderButton->hide();
+    ui->submitTableButton->hide();
+    ui->submitCartButton->hide();
     ui->tabWidget->setCurrentIndex(0);
+    on_tabWidget_currentChanged(0);
     ui->title->setText("   Select Table");
 }
 
@@ -131,9 +140,9 @@ void GuestWindow::viewCartList() {
     }
     updateSum();
     if(guest.getSumInCart() == 0)
-        ui->submitButton->setEnabled(false);
+        ui->submitCartButton->setEnabled(false);
     else
-        ui->submitButton->setEnabled(true);
+        ui->submitCartButton->setEnabled(true);
 }
 
 void GuestWindow::viewOrderList() {
@@ -144,10 +153,11 @@ void GuestWindow::viewOrderList() {
     }
     //ui->viewOrderButton->setText("Refresh");
     //ui->viewOrderButton->setGeometry(1010, 790, 80, 50);
-    ui->refreshOrderInfoButton->hide();
+    //ui->refreshOrderInfoButton->hide();
     ui->checkOutButton->hide();
     ui->backButton->hide();
-    ui->viewOrderButton->show();
+    ui->refreshButton->setGeometry(1020, 10, 60, 60);
+    //ui->viewOrderButton->show();
     clearPointerList(dishInOrderItem);
     clearPointerList(orderItem);
     ui->orderList->setRowCount(0);
@@ -182,10 +192,11 @@ void GuestWindow::viewDishInOrderList(Order* order) {
     currentOrder = order;
     //ui->viewOrderButton->setText("Back");
     //ui->viewOrderButton->setGeometry(730, 790, 80, 50);
-    ui->viewOrderButton->hide();
-    ui->refreshOrderInfoButton->show();
+    //ui->viewOrderButton->hide();
+    //ui->refreshOrderInfoButton->show();
     ui->checkOutButton->show();
     ui->backButton->show();
+    ui->refreshButton->setGeometry(930, 10, 60, 60);
     clearPointerList(orderItem);
     clearPointerList(dishInOrderItem);
     ui->orderList->setRowCount(0);
@@ -279,23 +290,47 @@ void GuestWindow::on_tabWidget_currentChanged(int index)
 {
     if (index == 0) {
         ui->title->setText("   Select Table");
+        ui->backButton->hide();
+        ui->checkOutButton->hide();
+        ui->submitButton->show();
+        ui->refreshButton->setGeometry(930, 10, 60, 60);
     }
     else if(index == 2) {
         ui->title->setText("   View Cart");
         viewCartList();
         viewOrderList();
+        ui->backButton->hide();
+        ui->checkOutButton->hide();
+        ui->submitButton->show();
+        ui->refreshButton->setGeometry(930, 10, 60, 60);
     }
     else if (index == 1) {
         ui->title->setText("   Select Dishes");
         viewDishList();
+        ui->backButton->hide();
+        ui->checkOutButton->hide();
+        ui->submitButton->hide();
+        ui->refreshButton->setGeometry(1020, 10, 60, 60);
     }
     else if (index == 3) {
         ui->title->setText("   View Order");
+        ui->submitButton->hide();
+        ui->backButton->hide();
+        ui->checkOutButton->hide();
+        ui->refreshButton->setGeometry(1020, 10, 60, 60);
     }
     else if (index == 4) {
         ui->title->setText("   Message Center");
+        ui->submitButton->hide();
+        ui->backButton->hide();
+        ui->checkOutButton->hide();
+        ui->refreshButton->setGeometry(1020, 10, 60, 60);
     }
     else if (index == 5) {
+        ui->backButton->hide();
+        ui->checkOutButton->hide();
+        ui->submitButton->show();
+        ui->refreshButton->setGeometry(930, 10, 60, 60);
         ui->title->setText("   About Me");
     }
 }
@@ -304,9 +339,9 @@ void GuestWindow::updateSum() {
     orderedSum = guest.getSumInCart();
     ui->cartTotal->setText("￥" + QString().setNum(orderedSum));
     if(guest.getSumInCart() == 0)
-        ui->submitButton->setEnabled(false);
+        ui->submitCartButton->setEnabled(false);
     else
-        ui->submitButton->setEnabled(true);
+        ui->submitCartButton->setEnabled(true);
 }
 
 void GuestWindow::sendMsg(const QString &msg) {
@@ -329,7 +364,7 @@ void GuestWindow::setSelectedTable(int tableID) {
     viewTableList();
 }
 
-void GuestWindow::on_submitButton_clicked()
+void GuestWindow::on_submitCartButton_clicked()
 {
     if(ui->submitTableButton->isEnabled()) {
         viewErrInfo("You haven't selected a table, please select one");
@@ -416,4 +451,51 @@ void GuestWindow::on_refreshDishListButton_clicked()
 void GuestWindow::on_backButton_clicked()
 {
     viewOrderList();
+}
+
+void GuestWindow::on_refreshButton_clicked()
+{
+    int index = ui->tabWidget->currentIndex();
+    if (index == 0) {
+        on_refreshTableButton_clicked();
+    }
+    else if (index == 1) {
+        on_refreshDishListButton_clicked();
+    }
+    else if (index == 2) {
+        on_RefreshCart_clicked();
+    }
+    else if (index == 3) {
+        if (ui->backButton->isVisible()) {
+            on_refreshOrderInfoButton_clicked();
+        }
+        else {
+            viewOrderList();
+        }
+    }
+    else if (index == 4) {
+       on_refreshMsg_clicked();
+    }
+    else if (index == 5) {
+        aboutMe->on_refreshInfoButton_clicked();
+    }
+}
+
+void GuestWindow::on_submitButton_clicked()
+{
+    int index = ui->tabWidget->currentIndex();
+    if (index == 0) {
+        on_submitTableButton_clicked();
+    }
+    else if (index == 2) {
+        on_submitCartButton_clicked();
+    }
+    else if (index == 5) {
+        aboutMe->on_submitInfoButton_clicked();
+    }
+}
+
+void GuestWindow::on_logoutButton_clicked()
+{
+    aboutMe->on_logoutButton_clicked();
 }

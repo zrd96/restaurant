@@ -19,7 +19,7 @@ public:
     AboutMeWidget(Person* person, QMainWindow* mainWindow, QWidget *parent = 0);
     ~AboutMeWidget();
 
-private slots:
+public slots:
     void on_refreshInfoButton_clicked();
 
     void on_submitInfoButton_clicked();

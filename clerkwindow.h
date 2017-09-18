@@ -34,6 +34,12 @@ private slots:
 
     void on_refreshReadyDishButton_clicked();
 
+    void on_refreshButton_clicked();
+
+    void on_submitButton_clicked();
+
+    void on_logoutButton_clicked();
+
 signals:
     void closeEvent(QCloseEvent *ev);
 

@@ -43,6 +43,8 @@ private slots:
 
     void on_tabWidget_currentChanged(int index);
 
+    void on_logoutButton_clicked();
+
 private:
     Ui::AdminWindow *ui;
     Admin admin;

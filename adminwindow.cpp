@@ -448,6 +448,9 @@ void AdminWindow::saveList(int listTab) {
                 }
             }
     }
+    else if (listTab == 5) {
+        aboutMe->on_submitInfoButton_clicked();
+    }
 }
 
 bool AdminWindow::checkID(QTableWidget *list, int row, int col) {
@@ -516,10 +519,13 @@ void AdminWindow::on_refreshButton_clicked()
             for (int j = 0; j < ui->chefList->columnCount(); j ++)
                 ui->chefList->item(i, j)->setText(ui->chefList->item(i, j)->data(Qt::UserRole).toString());
     }
-    else if (index == 1) {
+    else if (index == 4) {
         for(int i = 0; i < ui->clerkList->rowCount(); i ++)
             for (int j = 0; j < ui->clerkList->columnCount(); j ++)
                 ui->clerkList->item(i, j)->setText(ui->clerkList->item(i, j)->data(Qt::UserRole).toString());
+    }
+    else if (index == 5) {
+        aboutMe->on_refreshInfoButton_clicked();
     }
 }
 
@@ -557,17 +563,28 @@ void AdminWindow::on_tabWidget_currentChanged(int index)
         ui->title->setText("   About Me");
     }
     if (index == 5) {
-        ui->refreshButton->hide();
+        //ui->refreshButton->hide();
         ui->addButton->hide();
         ui->removeButton->hide();
         ui->restoreButton->hide();
-        ui->saveButton->hide();
+        //ui->saveButton->hide();
+        //ui->refreshButton->setGeometry(930, 10, 60, 60);
+        //ui->saveButton->setGeometry(1020, 10, 60, 60);
+        //ui->logoutButton->show();
     }
     else {
-        ui->refreshButton->show();
+        //ui->refreshButton->show();
         ui->addButton->show();
         ui->removeButton->show();
         ui->restoreButton->show();
-        ui->saveButton->show();
+        //ui->refreshButton->setGeometry(1020, 10, 60, 60);
+        //ui->saveButton->setGeometry(1110, 10, 60, 60);
+        //ui->logoutButton->hide();
+        //ui->saveButton->show();
     }
+}
+
+void AdminWindow::on_logoutButton_clicked()
+{
+    aboutMe->on_logoutButton_clicked();
 }

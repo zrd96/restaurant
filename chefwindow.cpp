@@ -21,6 +21,10 @@ ChefWindow::ChefWindow(const QString& user, QWidget *parent) :
     viewOrderedDishList();
     aboutMe = new AboutMeWidget(&chef, this, ui->selfTab);
     aboutMe->show();
+    ui->pushButton->hide();
+    ui->pushButton_2->hide();
+    ui->tabWidget->setCurrentIndex(0);
+    on_tabWidget_currentChanged(0);
 }
 
 ChefWindow::~ChefWindow()
@@ -68,14 +72,20 @@ void ChefWindow::on_tabWidget_currentChanged(int index)
 {
     if (index == 0) {
         ui->title->setText("   View Ordered Dish List");
+        ui->refreshButton->setGeometry(1020, 10, 60, 60);
+        ui->saveButton->hide();
         viewOrderedDishList();
     }
     else if (index == 1) {
         ui->title->setText("   View Taken Dish List");
+        ui->refreshButton->setGeometry(1020, 10, 60, 60);
+        ui->saveButton->hide();
         viewTakenDishList();
     }
     else if (index == 2) {
         ui->title->setText("   About Me");
+        ui->refreshButton->setGeometry(930, 10, 60, 60);
+        ui->saveButton->show();
     }
 }
 
@@ -87,4 +97,28 @@ void ChefWindow::on_pushButton_clicked()
 void ChefWindow::on_pushButton_2_clicked()
 {
     viewTakenDishList();
+}
+
+void ChefWindow::on_refreshButton_clicked()
+{
+    int index = ui->tabWidget->currentIndex();
+    if (index == 0) {
+        on_pushButton_clicked();
+    }
+    else if (index == 1) {
+        on_pushButton_2_clicked();
+    }
+    else if (index  == 2) {
+        aboutMe->on_refreshInfoButton_clicked();
+    }
+}
+
+void ChefWindow::on_saveButton_clicked()
+{
+    aboutMe->on_submitInfoButton_clicked();
+}
+
+void ChefWindow::on_logoutButton_clicked()
+{
+    aboutMe->on_logoutButton_clicked();
 }

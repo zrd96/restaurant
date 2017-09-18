@@ -14,7 +14,6 @@ ClerkWindow::ClerkWindow(const QString &user, QWidget *parent) :
         viewErrInfo("Fatal error: user not found, please retry later");
         this->close();
     }
-    ui->submitTableButton->setEnabled(false);
     aboutMe = new AboutMeWidget(&clerk, this, ui->selfTab);
     aboutMe->show();
 //    ui->readyDishList->setColumnWidth(0, 100);//chef
@@ -32,9 +31,16 @@ ClerkWindow::ClerkWindow(const QString &user, QWidget *parent) :
 //    ui->msgList->setColumnWidth(1, 150);
 //    ui->msgList->setColumnWidth(2, 550);
 //    ui->msgList->setColumnWidth(3, 250);
-    viewTableList();
-    viewReadyDishList();
-    viewMsgList();
+    ui->refreshMsgButton->hide();
+    ui->refreshTableButton->hide();
+    ui->refreshReadyDishButton->hide();
+    ui->submitTableButton->hide();
+    //ui->submitTableButton->setEnabled(false);
+    ui->tabWidget->setCurrentIndex(0);
+    on_tabWidget_currentChanged(0);
+//    viewTableList();
+//    viewReadyDishList();
+//    viewMsgList();
 }
 
 ClerkWindow::~ClerkWindow()
@@ -152,17 +158,25 @@ void ClerkWindow::on_tabWidget_currentChanged(int index)
 {
     if (index == 0) {
         ui->title->setText("   Select Table(s)");
+        ui->submitButton->show();
+        ui->refreshButton->setGeometry(930, 10, 60, 60);
         viewTableList();
     }
     else if (index == 1) {
         ui->title->setText("   View Ready Dish List");
+        ui->submitButton->hide();
+        ui->refreshButton->setGeometry(1020, 10, 60, 60);
         viewReadyDishList();
     }
     else if (index == 2) {
         ui->title->setText("   View Message List");
+        ui->submitButton->hide();
+        ui->refreshButton->setGeometry(1020, 10, 60, 60);
         viewMsgList();
     }
     else if (index == 3) {
+        ui->submitButton->show();
+        ui->refreshButton->setGeometry(930, 10, 60, 60);
         ui->title->setText("   About Me");
     }
 }
@@ -175,4 +189,35 @@ void ClerkWindow::on_refreshMsgButton_clicked()
 void ClerkWindow::on_refreshReadyDishButton_clicked()
 {
     viewReadyDishList();
+}
+
+void ClerkWindow::on_refreshButton_clicked()
+{
+    int index = ui->tabWidget->currentIndex();
+    if (index == 0) {
+        viewTableList();
+    }
+    else if (index == 1) {
+        viewReadyDishList();
+    }
+    else if (index == 2) {
+        viewMsgList();
+    }
+    else if (index == 3) {
+        aboutMe->on_refreshInfoButton_clicked();
+    }
+}
+
+void ClerkWindow::on_submitButton_clicked()
+{
+    if (ui->tabWidget->currentIndex() == 0)
+        on_submitTableButton_clicked();
+    else if (ui->tabWidget->currentIndex() == 3) {
+        aboutMe->on_submitInfoButton_clicked();
+    }
+}
+
+void ClerkWindow::on_logoutButton_clicked()
+{
+    aboutMe->on_logoutButton_clicked();
 }
