@@ -13,11 +13,15 @@ class DishInfoHead : public QWidget
     Q_OBJECT
 
 public:
-    explicit DishInfoHead(const Dish &dish, QWidget *parent = 0);
+    DishInfoHead(Dish &dish, bool isEditable = false, QWidget *parent = 0);
     ~DishInfoHead();
 
 private:
     Ui::DishInfoHead *ui;
+    QString imgdir;
+    QString dishID;
+    void setDishImg();
+    void submit();
 };
 
 #endif // DISHINFOHEAD_H

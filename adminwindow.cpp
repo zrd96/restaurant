@@ -11,6 +11,7 @@
 #include "clerk.h"
 #include "admin.h"
 #include "aboutmewidget.h"
+#include "dishinfohead.h"
 
 AdminWindow::AdminWindow(const QString& user, QWidget *parent) :
     QMainWindow(parent),
@@ -35,13 +36,13 @@ AdminWindow::AdminWindow(const QString& user, QWidget *parent) :
     aboutMe->show();
     ui->tableList->setColumnWidth(0, 410);
     ui->tableList->setColumnWidth(1, 410);
-    ui->dishList->setColumnWidth(0, 80);    //dishID
-    ui->dishList->setColumnWidth(1, 105);   //imgdir
-    ui->dishList->setColumnWidth(2, 400);   //name
-    ui->dishList->setColumnWidth(3, 80);    //price
-    ui->dishList->setColumnWidth(4, 80);    //time
-    ui->dishList->setColumnWidth(5, 80);    //rate
-    ui->dishList->setColumnWidth(6, 80);    //rateNum
+//    ui->dishList->setColumnWidth(0, 80);    //dishID
+//    ui->dishList->setColumnWidth(1, 105);   //imgdir
+//    ui->dishList->setColumnWidth(2, 400);   //name
+//    ui->dishList->setColumnWidth(3, 80);    //price
+//    ui->dishList->setColumnWidth(4, 80);    //time
+//    ui->dishList->setColumnWidth(5, 80);    //rate
+//    ui->dishList->setColumnWidth(6, 80);    //rateNum
     ui->guestList->setColumnWidth(0, 250);
     ui->guestList->setColumnWidth(1, 200);
     ui->guestList->setColumnWidth(2, 250);
@@ -86,17 +87,20 @@ void AdminWindow::viewDishList() {
             ui->dishList->setRowCount(ui->dishList->rowCount() + 1);
             Dish& cur = StaticData::getDishList()[i];
             int row = ui->dishList->rowCount() - 1;
-            ui->dishList->setItem(row, 0, new QTableWidgetItem((cur.getDishID())));
-            ui->dishList->setItem(row, 1, new QTableWidgetItem((cur.getImgDir())));
-            ui->dishList->setItem(row, 2, new QTableWidgetItem((cur.getName())));
-            ui->dishList->setItem(row, 3, new QTableWidgetItem(QString().setNum(cur.getPrice())));
-            ui->dishList->setItem(row, 4, new QTableWidgetItem(QString().setNum(cur.getTimeNeeded())));
-            ui->dishList->setItem(row, 5, new QTableWidgetItem(QString().setNum(cur.getRate())));
-            ui->dishList->setItem(row, 6, new QTableWidgetItem(QString().setNum(cur.getRateNum())));
-            for (int j = 0; j < 7; j ++)
-                ui->dishList->item(row, j)->setData(Qt::UserRole, ui->dishList->item(row, j)->text());
-            ui->dishList->item(row, 5)->setFlags(ui->dishList->item(row, 5)->flags() & (~Qt::ItemIsEditable));
-            ui->dishList->item(row, 6)->setFlags(ui->dishList->item(row, 6)->flags() & (~Qt::ItemIsEditable));
+            ui->dishList->setCellWidget(row, 0, new DishInfoHead(cur,false, ui->dishList));
+            ui->dishList->setItem(row, 0, new QTableWidgetItem(""));
+            ui->dishList->item(row, 0)->setData(Qt::UserRole, cur.getDishID());
+//            ui->dishList->setItem(row, 0, new QTableWidgetItem((cur.getDishID())));
+//            ui->dishList->setItem(row, 1, new QTableWidgetItem((cur.getImgDir())));
+//            ui->dishList->setItem(row, 2, new QTableWidgetItem((cur.getName())));
+//            ui->dishList->setItem(row, 3, new QTableWidgetItem(QString().setNum(cur.getPrice())));
+//            ui->dishList->setItem(row, 4, new QTableWidgetItem(QString().setNum(cur.getTimeNeeded())));
+//            ui->dishList->setItem(row, 5, new QTableWidgetItem(QString().setNum(cur.getRate())));
+//            ui->dishList->setItem(row, 6, new QTableWidgetItem(QString().setNum(cur.getRateNum())));
+//            for (int j = 0; j < 7; j ++)
+//                ui->dishList->item(row, j)->setData(Qt::UserRole, ui->dishList->item(row, j)->text());
+//            ui->dishList->item(row, 5)->setFlags(ui->dishList->item(row, 5)->flags() & (~Qt::ItemIsEditable));
+//            ui->dishList->item(row, 6)->setFlags(ui->dishList->item(row, 6)->flags() & (~Qt::ItemIsEditable));
         }
 }
 
@@ -195,23 +199,32 @@ void AdminWindow::addItem(QTableWidget *list) {
         StaticData::insertTable(newTable, 1);
     }
     else if (index == 1) {
-        list->item(buttomRow, 0)->setData(Qt::UserRole, QString("D%1%2%3")
-                                          .arg((getTimeUniform()))
-                                          .arg((admin.getPhone()))
-                                          .arg(StaticData::getDishList().size()));
-        list->item(buttomRow, 1)->setData(Qt::UserRole, "img/dishes/default.png");
-        list->item(buttomRow, 2)->setData(Qt::UserRole, "");
-        list->item(buttomRow, 3)->setData(Qt::UserRole, 0);
-        list->item(buttomRow, 4)->setData(Qt::UserRole, -1);
-        list->item(buttomRow, 5)->setData(Qt::UserRole, 0);
-        list->item(buttomRow, 6)->setData(Qt::UserRole, 0);
-        list->item(buttomRow, 0)->setText(list->item(buttomRow, 0)->data(Qt::UserRole).toString());
-        ui->dishList->item(buttomRow, 5)->setText("0");
-        ui->dishList->item(buttomRow, 6)->setText("0");
-        ui->dishList->item(buttomRow, 5)->setFlags(ui->dishList->item(buttomRow, 5)->flags() & (~Qt::ItemIsEditable));
-        ui->dishList->item(buttomRow, 6)->setFlags(ui->dishList->item(buttomRow, 6)->flags() & (~Qt::ItemIsEditable));
-        Dish newDish(list->item(buttomRow, 0)->data(Qt::UserRole).toString(), "", "", 0, -1, 0, 0, "img/dishes/default.png");
+//        list->item(buttomRow, 0)->setData(Qt::UserRole, QString("D%1%2%3")
+//                                          .arg((getTimeUniform()))
+//                                          .arg((admin.getPhone()))
+//                                          .arg(StaticData::getDishList().size()));
+//        list->item(buttomRow, 1)->setData(Qt::UserRole, "img/dishes/default.png");
+//        list->item(buttomRow, 2)->setData(Qt::UserRole, "");
+//        list->item(buttomRow, 3)->setData(Qt::UserRole, 0);
+//        list->item(buttomRow, 4)->setData(Qt::UserRole, -1);
+//        list->item(buttomRow, 5)->setData(Qt::UserRole, 0);
+//        list->item(buttomRow, 6)->setData(Qt::UserRole, 0);
+//        list->item(buttomRow, 0)->setText(list->item(buttomRow, 0)->data(Qt::UserRole).toString());
+//        ui->dishList->item(buttomRow, 5)->setText("0");
+//        ui->dishList->item(buttomRow, 6)->setText("0");
+//        ui->dishList->item(buttomRow, 5)->setFlags(ui->dishList->item(buttomRow, 5)->flags() & (~Qt::ItemIsEditable));
+//        ui->dishList->item(buttomRow, 6)->setFlags(ui->dishList->item(buttomRow, 6)->flags() & (~Qt::ItemIsEditable));
+//        Dish newDish(list->item(buttomRow, 0)->data(Qt::UserRole).toString(), "", "", 0, -1, 0, 0, "img/dishes/default.png");
+//        StaticData::insertDish(newDish, 1);
+        QString dishID = QString("D%1%2%3")
+                .arg((getTimeUniform()))
+                .arg((admin.getPhone()))
+                .arg(StaticData::getDishList().size());
+        list->item(buttomRow, 0)->setData(Qt::UserRole, dishID);
+        Dish newDish(dishID, "", "", 0);
         StaticData::insertDish(newDish, 1);
+        DishInfoHead *editPage = new DishInfoHead(newDish, true);
+        editPage->show();
     }
     else if (index == 2) {
         list->item(buttomRow, 1)->setData(Qt::UserRole, "Guest");
@@ -348,47 +361,47 @@ void AdminWindow::saveList(int listTab) {
                 }
             }
     }
-    else if (listTab == 1) {
-        for (int row = 0; row < ui->dishList->rowCount(); row ++)
-            for (int col = 0; col < ui->dishList->columnCount(); col ++) {
-                QTableWidgetItem* curItem = ui->dishList->item(row, col);
-                if (curItem->text() != curItem->data(Qt::UserRole).toString()) {
-                    curItem = ui->dishList->item(row, 0);
-                    if (!checkID(ui->dishList, row, 0)) {
-                        ui->dishList->editItem(curItem);
-                        return;
-                    }
-                    curItem = ui->dishList->item(row, 2);
-                    if (curItem->text().size() == 0) {
-                        viewErrInfo("Empty name");
-                        ui->dishList->editItem(curItem);
-                        return;
-                    }
-                    curItem = ui->dishList->item(row, 3);//price
-                    if (!checkNum(curItem->text())) {
-                        viewErrInfo("Invalid price");
-                        ui->dishList->editItem(curItem);
-                        return;
-                    }
-                    curItem = ui->dishList->item(row, 1);
-                    if(curItem->text()[0] == '/') {
-                        QString path = "img/dishes/" + ui->dishList->item(row, 0)->text() + "." + curItem->text().section('.', -1);
-                        QFile::copy(curItem->text(), path);
-                        curItem->setText(path);
-                    }
-                    Dish newDish(ui->dishList->item(row, 0)->text(),
-                                 ui->dishList->item(row, 2)->text(),
-                                 "No description",
-                                 ui->dishList->item(row, 3)->text().toDouble(),
-                                 ui->dishList->item(row, 4)->text().toInt(),
-                                 ui->dishList->item(row, 5)->text().toDouble(),
-                                 ui->dishList->item(row, 6)->text().toInt(),
-                                 ui->dishList->item(row, 1)->text());
-                    StaticData::modifyDish(ui->dishList->item(row, 0)->data(Qt::UserRole).toString(), newDish);
-                    setRowData(ui->dishList, row);
-                    break;
-                }
-            }
+    else if (listTab == 1) {;
+//        for (int row = 0; row < ui->dishList->rowCount(); row ++)
+//            for (int col = 0; col < ui->dishList->columnCount(); col ++) {
+//                QTableWidgetItem* curItem = ui->dishList->item(row, col);
+//                if (curItem->text() != curItem->data(Qt::UserRole).toString()) {
+//                    curItem = ui->dishList->item(row, 0);
+//                    if (!checkID(ui->dishList, row, 0)) {
+//                        ui->dishList->editItem(curItem);
+//                        return;
+//                    }
+//                    curItem = ui->dishList->item(row, 2);
+//                    if (curItem->text().size() == 0) {
+//                        viewErrInfo("Empty name");
+//                        ui->dishList->editItem(curItem);
+//                        return;
+//                    }
+//                    curItem = ui->dishList->item(row, 3);//price
+//                    if (!checkNum(curItem->text())) {
+//                        viewErrInfo("Invalid price");
+//                        ui->dishList->editItem(curItem);
+//                        return;
+//                    }
+//                    curItem = ui->dishList->item(row, 1);
+//                    if(curItem->text()[0] == '/') {
+//                        QString path = "img/dishes/" + ui->dishList->item(row, 0)->text() + "." + curItem->text().section('.', -1);
+//                        QFile::copy(curItem->text(), path);
+//                        curItem->setText(path);
+//                    }
+//                    Dish newDish(ui->dishList->item(row, 0)->text(),
+//                                 ui->dishList->item(row, 2)->text(),
+//                                 "No description",
+//                                 ui->dishList->item(row, 3)->text().toDouble(),
+//                                 ui->dishList->item(row, 4)->text().toInt(),
+//                                 ui->dishList->item(row, 5)->text().toDouble(),
+//                                 ui->dishList->item(row, 6)->text().toInt(),
+//                                 ui->dishList->item(row, 1)->text());
+//                    StaticData::modifyDish(ui->dishList->item(row, 0)->data(Qt::UserRole).toString(), newDish);
+//                    setRowData(ui->dishList, row);
+//                    break;
+//                }
+//            }
     }
     else if (listTab == 2) {
         for (int row = 0; row < ui->guestList->rowCount(); row ++)
@@ -571,9 +584,9 @@ void AdminWindow::on_refreshButton_clicked()
                 ui->tableList->item(i, j)->setText(ui->tableList->item(i, j)->data(Qt::UserRole).toString());
     }
     else if (index == 1) {
-        for(int i = 0; i < ui->dishList->rowCount(); i ++)
-            for (int j = 0; j < ui->dishList->columnCount(); j ++)
-                ui->dishList->item(i, j)->setText(ui->dishList->item(i, j)->data(Qt::UserRole).toString());
+//        for(int i = 0; i < ui->dishList->rowCount(); i ++)
+//            for (int j = 0; j < ui->dishList->columnCount(); j ++)
+//                ui->dishList->item(i, j)->setText(ui->dishList->item(i, j)->data(Qt::UserRole).toString());
     }
     else if (index == 2) {
         for(int i = 0; i < ui->guestList->rowCount(); i ++)
@@ -602,15 +615,15 @@ void AdminWindow::on_refreshButton_clicked()
 
 void AdminWindow::on_dishList_cellDoubleClicked(int row, int column)
 {
-    if (column != 1)
-        return;
-    QString path = QFileDialog::getOpenFileName(this, tr("Open Image"), ".", tr("Image Files(*.jpg *.png *.bmp *.tif *.GIF)"));
-    if (path.size() == 0)
-        viewErrInfo("Empty file");
-    else {
-        QFile::copy(path, "img/copytest.png");
-        ui->dishList->item(row, column)->setText(path);
-    }
+//    if (column != 1)
+//        return;
+//    QString path = QFileDialog::getOpenFileName(this, tr("Open Image"), ".", tr("Image Files(*.jpg *.png *.bmp *.tif *.GIF)"));
+//    if (path.size() == 0)
+//        viewErrInfo("Empty file");
+//    else {
+//        QFile::copy(path, "img/copytest.png");
+//        ui->dishList->item(row, column)->setText(path);
+//    }
 }
 
 void AdminWindow::on_tabWidget_currentChanged(int index)
