@@ -36,7 +36,6 @@ public slots:
 
 private:
     Ui::AboutMeWidget *ui;
-    void dealWithRateInfo();
     Person* person;
     QMainWindow* mainWindow;
 };

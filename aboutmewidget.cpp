@@ -5,6 +5,8 @@
 #include "tools.h"
 #include "staticdata.h"
 #include "rateitem.h"
+#include "aboutmechefpart.h"
+#include "aboutmeclerkpart.h"
 #include <QMessageBox>
 
 AboutMeWidget::AboutMeWidget(Person* person, QMainWindow* mainWindow, QWidget *parent) :
@@ -16,7 +18,6 @@ AboutMeWidget::AboutMeWidget(Person* person, QMainWindow* mainWindow, QWidget *p
     ui->setupUi(this);
     ui->nameEdit->setText((person->getName()));
     ui->phoneEdit->setText((person->getPhone()));
-    dealWithRateInfo();
     ui->nameEdit->setEnabled(false);
     ui->phoneEdit->setEnabled(false);
     ui->newPassword->setEnabled(false);
@@ -25,6 +26,18 @@ AboutMeWidget::AboutMeWidget(Person* person, QMainWindow* mainWindow, QWidget *p
     ui->submitInfoButton->hide();
     ui->refreshInfoButton->hide();
     ui->logoutButton->hide();
+    Chef *chef = dynamic_cast<Chef*> (person);
+    Clerk *clerk = dynamic_cast<Clerk*> (person);
+    if (chef != NULL) {
+        AboutMeChefPart *chefPart = new AboutMeChefPart(*chef, this);
+        chefPart->setGeometry(350, 420, chefPart->width(), chefPart->height());
+        chefPart->show();
+    }
+    else if (clerk != NULL) {
+        AboutMeClerkPart *clerkPart = new AboutMeClerkPart(*clerk, this);
+        clerkPart->setGeometry(350, 420, clerkPart->width(), clerkPart->height());
+        clerkPart->show();
+    }
 }
 
 AboutMeWidget::~AboutMeWidget()
@@ -32,26 +45,10 @@ AboutMeWidget::~AboutMeWidget()
     delete ui;
 }
 
-void AboutMeWidget::dealWithRateInfo() {
-    Clerk* clerk = dynamic_cast<Clerk*> (person);
-    if(clerk == NULL) {
-        ui->rateLabel->setVisible(false);
-        ui->rateInfo->setVisible(false);
-        //ui->rateProgressBar->setVisible(false);
-        return;
-    }
-    RateItem* rate = new RateItem(this);
-    rate->setGeometry(590, 510, 150, 30);
-    rate->setRate(clerk->getRate());
-    rate->show();
-    ui->rateInfo->setText(QString("Rate %1/5 from %2 people").arg(clerk->getRate()).arg(clerk->getRateNum()));
-}
-
 void AboutMeWidget::on_refreshInfoButton_clicked()
 {
     ui->nameEdit->setText((person->getName()));
     ui->phoneEdit->setText((person->getPhone()));
-    dealWithRateInfo();
 }
 
 void AboutMeWidget::on_submitInfoButton_clicked()

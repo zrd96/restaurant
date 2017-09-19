@@ -57,7 +57,9 @@ SOURCES += \
     dishinfohead.cpp \
     manager.cpp \
     managerwindow.cpp \
-    messagedlg.cpp
+    messagedlg.cpp \
+    aboutmechefpart.cpp \
+    aboutmeclerkpart.cpp
 
 HEADERS += \
     logindlg.h \
@@ -91,7 +93,9 @@ HEADERS += \
     dishinfohead.h \
     manager.h \
     managerwindow.h \
-    messagedlg.h
+    messagedlg.h \
+    aboutmechefpart.h \
+    aboutmeclerkpart.h
 
 FORMS += \
     logindlg.ui \
@@ -108,7 +112,9 @@ FORMS += \
     comment.ui \
     dishinfohead.ui \
     managerwindow.ui \
-    messagedlg.ui
+    messagedlg.ui \
+    aboutmechefpart.ui \
+    aboutmeclerkpart.ui
 
 RESOURCES += \
     res.qrc
