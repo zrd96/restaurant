@@ -260,8 +260,8 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>40</width>
-      <height>40</height>
+      <width>30</width>
+      <height>30</height>
      </size>
     </property>
    </widget>
@@ -283,8 +283,8 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>40</width>
-      <height>40</height>
+      <width>30</width>
+      <height>30</height>
      </size>
     </property>
    </widget>
@@ -306,8 +306,8 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>40</width>
-      <height>40</height>
+      <width>30</width>
+      <height>30</height>
      </size>
     </property>
    </widget>

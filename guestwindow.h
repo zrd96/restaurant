@@ -47,27 +47,15 @@ public slots:
 private slots:
     void on_tabWidget_currentChanged(int index);
 
-    void on_RefreshCart_clicked();
-
     void on_submitCartButton_clicked();
 
     void on_submitTableButton_clicked();
 
-    void on_refreshTableButton_clicked();
-
     void on_sendMsgButton_clicked();
-
-    void on_refreshMsg_clicked();
 
     void viewDishInOrderList(Order* order);
 
-    void on_viewOrderButton_clicked();
-
-    void on_refreshOrderInfoButton_clicked();
-
     void on_checkOutButton_clicked();
-
-    void on_refreshDishListButton_clicked();
 
     void on_backButton_clicked();
 

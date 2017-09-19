@@ -5,6 +5,7 @@
 #include "guestwindow.h"
 #include "chefwindow.h"
 #include "clerkwindow.h"
+#include "managerwindow.h"
 #include <QWidget>
 #include <QString>
 #include <QCloseEvent>
@@ -17,6 +18,7 @@ class AdminWindow;
 class GuestWindow;
 class ChefWindow;
 class ClerkWindow;
+class ManagerWindow;
 
 class LoginDlg : public QWidget
 {
@@ -48,6 +50,7 @@ private:
     GuestWindow* guestWindow;
     ChefWindow* chefWindow;
     ClerkWindow* clerkWindow;
+    ManagerWindow* managerWindow;
     bool checkEnteredLogin();
     bool checkEnteredSignup();
     int checkedIDLogin();

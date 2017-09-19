@@ -27,18 +27,18 @@ void Admin::modifyDish(const Dish& dish, const QString &newName, double newPrice
 }
 
 void Admin::addPerson(const Person& person, int type) {
-    if (type == 1) {
-        Guest newGuest(person.getPhone(), person.getName(), person.getPassword());
-        StaticData::insertGuest(newGuest);
-    }
-    else if (type == 2) {
-        Chef newChef(person.getPhone(), person.getName(), person.getPassword());
-        StaticData::insertChef(newChef);
-    }
-    else if (type == 3) {
-        Clerk newClerk(person.getPhone(), person.getName(), person.getPassword());
-        StaticData::insertClerk(newClerk);
-    }
+//    if (type == 1) {
+//        Guest newGuest(person.getPhone(), person.getName(), person.getPassword());
+//        StaticData::insertGuest(newGuest);
+//    }
+//    else if (type == 2) {
+//        Chef newChef(person.getPhone(), person.getName(), person.getPassword(), );
+//        StaticData::insertChef(newChef);
+//    }
+//    else if (type == 3) {
+//        Clerk newClerk(person.getPhone(), person.getName(), person.getPassword());
+//        StaticData::insertClerk(newClerk);
+//    }
 }
 
 void Admin::removePerson(const Person& person) {
@@ -48,12 +48,12 @@ void Admin::removePerson(const Person& person) {
 }
 
 void Admin::modifyPerson(const Person& person, const QString &newPhone, const QString &newName, const QString &newPassword) {
-        Guest newGuest(newPhone, newName, newPassword);
-        StaticData::modifyGuest(person.getPhone(), newGuest);
-        Chef newChef(newPhone, newName, newPassword);
-        StaticData::modifyChef(person.getPhone(), newChef);
-        Clerk newClerk(newPhone, newName, newPassword);
-        StaticData::modifyClerk(person.getPhone(), newClerk);
+//        Guest newGuest(newPhone, newName, newPassword);
+//        StaticData::modifyGuest(person.getPhone(), newGuest);
+//        Chef newChef(newPhone, newName, newPassword);
+//        StaticData::modifyChef(person.getPhone(), newChef);
+//        Clerk newClerk(newPhone, newName, newPassword);
+//        StaticData::modifyClerk(person.getPhone(), newClerk);
 }
 
 void Admin::addTable(const Table& table) {

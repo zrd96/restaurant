@@ -167,7 +167,7 @@ void GuestWindow::viewOrderList() {
         if(StaticData::getOrderList()[i].getOrderer() == guest.getPhone()) {
             OrderItem* item = new OrderItem(&StaticData::getOrderList()[i], ui->orderList);
             orderItem.push_back(item);
-            isFinished.push_back(StaticData::getOrderList()[i].checkStatus() == 5);
+            isFinished.push_back(StaticData::getOrderList()[i].checkStatus() >= 5);
         }
     }
     for(unsigned int i = 0; i < isFinished.size(); i ++)
@@ -264,12 +264,6 @@ void GuestWindow::setDishNum(const QString& dishID, int finalNum) {
             break;
         }
     updateSum();
-}
-
-void GuestWindow::on_RefreshCart_clicked()
-{
-    viewCartList();
-    viewOrderList();
 }
 
 void GuestWindow::rateClerk(double newRate) {
@@ -398,29 +392,9 @@ void GuestWindow::on_submitTableButton_clicked()
     viewTableList();
 }
 
-void GuestWindow::on_refreshTableButton_clicked()
-{
-    viewTableList();
-}
-
 void GuestWindow::on_sendMsgButton_clicked()
 {
     sendMsg(ui->newMsgText->toPlainText());
-}
-
-void GuestWindow::on_refreshMsg_clicked()
-{
-    viewMsgList();
-}
-
-void GuestWindow::on_viewOrderButton_clicked()
-{
-    viewOrderList();
-}
-
-void GuestWindow::on_refreshOrderInfoButton_clicked()
-{
-    viewDishInOrderList(currentOrder);
 }
 
 void GuestWindow::on_checkOutButton_clicked()
@@ -443,11 +417,6 @@ void GuestWindow::on_checkOutButton_clicked()
         guest.freeTable();
 }
 
-void GuestWindow::on_refreshDishListButton_clicked()
-{
-    viewDishList();
-}
-
 void GuestWindow::on_backButton_clicked()
 {
     viewOrderList();
@@ -457,24 +426,25 @@ void GuestWindow::on_refreshButton_clicked()
 {
     int index = ui->tabWidget->currentIndex();
     if (index == 0) {
-        on_refreshTableButton_clicked();
+        viewTableList();
     }
     else if (index == 1) {
-        on_refreshDishListButton_clicked();
+        viewDishList();
     }
     else if (index == 2) {
-        on_RefreshCart_clicked();
+        viewCartList();
+        viewOrderList();
     }
     else if (index == 3) {
         if (ui->backButton->isVisible()) {
-            on_refreshOrderInfoButton_clicked();
+            viewDishInOrderList(currentOrder);
         }
         else {
             viewOrderList();
         }
     }
     else if (index == 4) {
-       on_refreshMsg_clicked();
+       viewMsgList();
     }
     else if (index == 5) {
         aboutMe->on_refreshInfoButton_clicked();

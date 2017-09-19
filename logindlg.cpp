@@ -7,6 +7,7 @@
 #include "guestwindow.h"
 #include "chefwindow.h"
 #include "clerkwindow.h"
+#include "managerwindow.h"
 #include "table.h"
 #include "msg.h"
 #include "dish.h"
@@ -21,6 +22,8 @@ LoginDlg::LoginDlg(QWidget *parent) :
     ui(new Ui::LoginDlg)
 {
     ui->setupUi(this);
+    ui->tabWidget->setCurrentIndex(0);
+    //ui->tabWidget->tabBar()->setStyleSheet("border: 1px solid #d3d3d3; border-radius: 2px;");
 }
 
 LoginDlg::~LoginDlg()
@@ -120,6 +123,8 @@ int LoginDlg::checkedIDLogin() {
         return 2;
     if (ui->clerkButton->isChecked())
         return 3;
+    if (ui->managerButton->isChecked())
+        return 4;
     return -1;
 }
 
@@ -154,6 +159,11 @@ void LoginDlg::logIn(const QString user, int userType) {
             clerkWindow = new ClerkWindow(user, this);
             connect(clerkWindow, SIGNAL(closeEvent(QCloseEvent*)), this, SLOT(show()));
             clerkWindow->show();
+            break;
+        case 4:
+            managerWindow = new ManagerWindow(user, this);
+            connect(managerWindow, SIGNAL(closeEvent(QCloseEvent*)), this, SLOT(show()));
+            managerWindow->show();
             break;
     }
     this->hide();

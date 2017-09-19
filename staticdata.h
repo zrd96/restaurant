@@ -8,6 +8,7 @@
 #include "admin.h"
 #include "chef.h"
 #include "clerk.h"
+#include "manager.h"
 #include "dish.h"
 #include "msg.h"
 #include "datamanager.h"
@@ -26,6 +27,7 @@ private:
     static vector<Guest> guestList;
     static vector<Chef> chefList;
     static vector<Clerk> clerkList;
+    static vector<Manager> managerList;
     static vector<Table> tableList;
     static vector<Order> orderList;
     static vector<Rate> rateList;
@@ -36,6 +38,7 @@ private:
     static vector<int> guestMaintainList;
     static vector<int> chefMaintainList;
     static vector<int> clerkMaintainList;
+    static vector<int> managerMaintainList;
     static vector<int> tableMaintainList;
     static vector<int> rateMaintainList;
     static vector<int> orderMaintainList;
@@ -52,6 +55,7 @@ public:
     static bool queryChef();
     static bool queryOrder();
     static bool queryRate();
+    static bool queryManager();
     static void clearMsgList();
 
     static void insertTable(const Table &table, int type = 0);
@@ -60,6 +64,7 @@ public:
     static void insertMsg(const Msg &msg, int type = 0);
     static void insertGuest(const Guest &guest, int type = 0);
     static void insertClerk(const Clerk &clerk, int type = 0);
+    static void insertManager(const Manager &manager, int type = 0);
     static void insertChef(const Chef &chef, int type = 0);
     static void insertOrder(const Order &order, int type = 0);
     static void insertRate(const Rate &rate, int type = 0);
@@ -70,6 +75,7 @@ public:
     static void removeMsg(const QString& msgID);
     static void removeGuest(const QString& phone);
     static void removeClerk(const QString& phone);
+    static void removeManager(const QString& phone);
     static void removeChef(const QString& phone);
     //static void removeOrder(const Order& order);
 
@@ -79,6 +85,7 @@ public:
     static void modifyMsg(const QString& msgID, const Msg& newMsg);
     static void modifyGuest(const QString& phone, const Guest& newGuest);
     static void modifyClerk(const QString& phone, const Clerk& newClerk);
+    static void modifyManager(const QString& phone, const Manager& newManager);
     static void modifyChef(const QString& phone, const Chef& newChef);
     static void modifyOrder(const QString &orderID, const Order& newOrder);
 
@@ -88,6 +95,7 @@ public:
     static void writeMsg();
     static void writeGuest();
     static void writeClerk();
+    static void writeManager();
     static void writeChef();
     static void writeRate();
     static void writeOrder();
@@ -99,6 +107,7 @@ public:
     static vector<Guest>& getGuestList() {return guestList;}
     static vector<Clerk>& getClerkList() {return clerkList;}
     static vector<Chef>& getChefList() {return chefList;}
+    static vector<Manager>& getManagerList() {return managerList;}
     static vector<Order>& getOrderList() {return orderList;}
     static vector<Rate>& getRateList() {return rateList;}
 
@@ -109,6 +118,7 @@ public:
     static vector<int>& getGuestMaintainList() {return guestMaintainList;}
     static vector<int>& getClerkMaintainList() {return clerkMaintainList;}
     static vector<int>& getChefMaintainList() {return chefMaintainList;}
+    static vector<int>& getManagerMaintainList() {return managerMaintainList;}
     static vector<int>& getRateMaintainList() {return rateMaintainList;}
     static vector<int>& getOrderMaintainList() {return orderMaintainList;}
 
@@ -124,6 +134,7 @@ public:
     static Chef& getChefByPhone(const QString &phone);
     static Clerk& getClerkByPhone(const QString &phone);
     static Rate& getRateBySubjectAndObject(const QString &subject, const QString &object);
+    static Manager& getManagerByPhone(const QString &phone);
 };
 
 #endif

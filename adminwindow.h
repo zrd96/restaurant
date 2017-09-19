@@ -27,6 +27,7 @@ public:
     //void viewStuffList();
     void viewChefList();
     void viewClerkList();
+    void viewManagerList();
     void addItem(QTableWidget* list);
     void removeSelected(QTableWidget* list);
     void markRemoved(int listTab, int row);

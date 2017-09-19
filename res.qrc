@@ -42,6 +42,7 @@
         <file>img/accept.png</file>
         <file>img/active-blue.png</file>
         <file>img/send.png</file>
+        <file>img/manager.png</file>
     </qresource>
     <qresource prefix="/res/stylesheet">
         <file>stylesheet/style.css</file>

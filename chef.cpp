@@ -10,7 +10,13 @@
 using namespace std;
 
 Chef::Chef(const QString &phone, const QString &name): Person(phone, name) {}
-Chef::Chef(const QString &phone, const QString &name, const QString &password): Person(phone, name, password) {}
+Chef::Chef(const QString &phone, const QString &name, const QString &password, int dishNum, double averageTimeDifference, int rateNum, double averageRate):
+    Person(phone, name, password),
+    dishNum(dishNum),
+    averageTimeDifference(averageTimeDifference),
+    rateNum(rateNum),
+    averageRate(averageRate)
+{}
 
 bool Chef::takeDish(OrderedDish &dish) {
     dish.setStatus(2);
@@ -23,10 +29,13 @@ bool Chef::takeDish(OrderedDish &dish) {
 bool Chef::finishDish(OrderedDish &dish) {
         sendMsg(QString("Table_%1").arg(dish.getTable()), QString("Dish ready %1").arg(dish.getOrderedDishID()));
         dish.setStatus(3);
+        double newDiff;
+        if (dish.getTimeNeeded() <= 0)
+            newDiff = 0;
+        else
+            newDiff = (getTimeDifference(dish.getDatetime()) - dish.getTimeNeeded()) / dish.getTimeNeeded();
+        averageTimeDifference = (averageTimeDifference * dishNum + newDiff) / ++dishNum;
         StaticData::modifyOrderedDish(dish.getOrderedDishID(), dish);
-//        for (unsigned int i = 0; i < dishTaken.size(); i ++)
-//            if (dishTaken[i].getOrderedDishID() == dish.getOrderedDishID())
-//                dishTaken.erase(dishTaken.begin() + i);
         return true;
 }
 

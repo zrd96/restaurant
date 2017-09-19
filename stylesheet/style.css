@@ -1,10 +1,10 @@
 
 QMainWindow {
-background: #ffffff;
+background: #fff;
 }
 
 QWidget {
-background: #ffffff;
+background: #fff;
 }
 
 QTabWidget:left, QTabWidget:right {
@@ -23,41 +23,87 @@ background: transparent;
 color: #000;
 }
 
-QPushButton:hover {
-background: transparent;
-color: #fff;
-}
-
 QPushButton:pressed {
-background: #fc5daa;
+background: #5092fc;
 color: #fff;
-border-radius: 40px;
+border-radius: 30px;
 }
 
-/*QTabBar::tab:left, QTabBar::tab:right {
-height: 60px;
-width: 80px;
-background: #0440a0;
-color: #fff;
-border: 0px;
+QPushButton#logoutButton:pressed {
+background: #f25e5e;
+border-radius: 30px;
 }
-*/
+
+QPushButton#addButton, QPushButton#subButton {
+border: 1px solid #d3d3d3;
+border-radius: 2px;
+}
+
+QPushButton#addButton:pressed, QPushButton#subButton:pressed {
+border: 1px solid #d3d3d3;
+border-radius: 2px;
+background: #d3d3d3;
+}
+
+QDialogButtonBox > QPushButton {
+width: 40px;
+height: 30px;
+border: 1px solid #d3d3d3;
+border-radius: 2px;
+background: transparent;
+}
+
+QDialogButtonBox > QPushButton:pressed {
+border: 1px solid #d3d3d3;
+border-radius: 2px;
+background: #d3d3d3;
+color: #000;
+}
+
+TableItem > QPushButton:pressed {
+background: #d3d3d3;
+border-radius: 10px;
+}
+
+QPushButton#loginButton:pressed, QPushButton#signupButton:pressed {
+background: #d3d3d3;
+}
+
+QPushButton#sendWaterButton, QPushButton#sendNapkinButton, QPushButton#sendQuicklyButton {
+border: 2px solid #d3d3d3;
+border-radius: 2px;
+background: #fff;
+}
+
+QPushButton#sendWaterButton:hover, QPushButton#sendNapkinButton:hover, QPushButton#sendQuicklyButton:hover {
+border: 0px;
+border-radius: 2px;
+background: #e3e3e3;
+color: #000;
+}
+
+QPushButton#sendWaterButton:pressed, QPushButton#sendNapkinButton:pressed, QPushButton#sendQuicklyButton:pressed {
+border: 0px;
+border-radius: 2px;
+background: #d3d3d3;
+color: #000;
+}
 
 QTabBar::tab:top, QTabBar::tab:bottom {
-background: #fff;
+background: #d3d3d3;
 color: #333;
-/*border: 1px solid grey;*/
+height: 40px;
+width: 100px;
+border-top: 2px solid #d3d3d3;
+border-left: 2px solid #d3d3d3;
+border-right: 2px solid #d3d3d3;
+border-top-left-radius: 0px;
+border-top-right-radius: 0px;
 }
 
-/*
-QTabBar::tab:left:selected, QTabBar::tab:right:selected {
-height: 60px;
-width: 80px;
-background: #054ec1;
-color: #fff;
-border: 0px;
-alignment: center;
-}*/
+QTabBar::tab:top:selected, QTabBar::tab:bottom:selected {
+background: #fff;
+}
 
 QTabBar {
 background: #0440a0;
@@ -77,16 +123,28 @@ background: #5db4fc;
 QRadioButton::indicator:checked {
    width: 16px;
    height: 16px;
-   image: url("img/checked.png");
+   image: url(:/res/img/img/checked.png);
 }
 
 QRadioButton::indicator:unchecked {
    width: 16px;
    height: 16px;
-   image: url("img/unchecked.png");
+   image: url(:/res/img/img/unchecked.png);
 }
 
 QLineEdit {
-border: 1px solid #bbb;
+border-top: 0px;
+border-left: 0px;
+border-right: 0px;
+border-bottom: 2px solid #bbb;
+border-radius: 0px;
+}
+
+QLineEdit#itemNum {
+border: 2px solid #d3d3d3;
 border-radius: 2px;
+}
+
+QLineEdit:focus {
+background: #fff;
 }

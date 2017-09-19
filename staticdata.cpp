@@ -20,6 +20,7 @@ vector<Msg> StaticData::msgList;
 vector<Clerk> StaticData::clerkList;
 vector<Chef> StaticData::chefList;
 vector<Guest> StaticData::guestList;
+vector<Manager> StaticData::managerList;
 vector<Table> StaticData::tableList;
 vector<Rate> StaticData::rateList;
 
@@ -29,6 +30,7 @@ vector<int> StaticData::msgMaintainList;
 vector<int> StaticData::guestMaintainList;
 vector<int> StaticData::chefMaintainList;
 vector<int> StaticData::clerkMaintainList;
+vector<int> StaticData::managerMaintainList;
 vector<int> StaticData::tableMaintainList;
 vector<int> StaticData::orderMaintainList;
 vector<int> StaticData::rateMaintainList;
@@ -116,7 +118,7 @@ bool StaticData::queryClerk() {
                 return false;
         vector<vector<QString> > resultList = db->getResultList();
         for(unsigned int i = 0; i < resultList.size(); i ++)
-                insertClerk(Clerk(resultList[i][0], resultList[i][1], resultList[i][2], resultList[i][3].toDouble(), resultList[i][4].toInt()));
+                insertClerk(Clerk(resultList[i][0], resultList[i][1], resultList[i][2], resultList[i][4].toDouble(), resultList[i][5].toInt(), resultList[i][6].toInt(), resultList[i][7].toInt(), resultList[i][8].toDouble()));
         return true;
 }
 
@@ -127,7 +129,7 @@ bool StaticData::queryChef() {
                 return false;
         vector<vector<QString> > resultList = db->getResultList();
         for(unsigned int i = 0; i < resultList.size(); i ++)
-                insertChef(Chef(resultList[i][0], resultList[i][1], resultList[i][2]));
+                insertChef(Chef(resultList[i][0], resultList[i][1], resultList[i][2], resultList[i][7].toInt(), resultList[i][8].toDouble(), resultList[i][4].toInt(), resultList[i][5].toDouble()));
         return true;
 }
 
@@ -140,6 +142,16 @@ bool StaticData::queryGuest() {
         for(unsigned int i = 0; i < resultList.size(); i ++)
                 insertGuest(Guest(resultList[i][0], resultList[i][1], resultList[i][2]));
         return true;
+}
+
+bool StaticData::queryManager() {
+    managerList.clear();
+    if (!db->doQuery("person", "*", "type = 4"))
+        return false;
+    vector<vector<QString> > resultList = db->getResultList();
+    for(unsigned int i = 0; i < resultList.size(); i ++)
+        insertManager(Manager(resultList[i][0], resultList[i][1], resultList[i][2]));
+    return true;
 }
 
 bool StaticData::queryOrder() {
@@ -212,6 +224,11 @@ void StaticData::insertClerk(const Clerk &clerk, int type) {
     clerkMaintainList.push_back(type);
 }
 
+void StaticData::insertManager(const Manager &manager, int type) {
+    managerList.push_back(manager);
+    managerMaintainList.push_back(type);
+}
+
 void StaticData::insertChef(const Chef &chef, int type) {
     chefList.push_back(chef);
     chefMaintainList.push_back(type);
@@ -281,6 +298,15 @@ void StaticData::removeClerk(const QString& phone) {
     }
 }
 
+void StaticData::removeManager(const QString& phone) {
+    for (unsigned int i = 0; i < managerList.size(); i ++) {
+        if(phone == managerList[i].getPhone()) {
+            managerMaintainList[i] = -1;
+            break;
+        }
+    }
+}
+
 void StaticData::removeChef(const QString& phone) {
     for (unsigned int i = 0; i < chefList.size(); i ++) {
         if(phone == chefList[i].getPhone()) {
@@ -345,6 +371,16 @@ void StaticData::modifyClerk(const QString& phone, const Clerk& newClerk) {
         if(phone == clerkList[i].getPhone()) {
             clerkList[i] = newClerk;
             clerkMaintainList[i] = 2;
+            break;
+        }
+    }
+}
+
+void StaticData::modifyManager(const QString& phone, const Manager& newManager) {
+    for (unsigned int i = 0; i < managerList.size(); i ++) {
+        if(phone == managerList[i].getPhone()) {
+            managerList[i] = newManager;
+            managerMaintainList[i] = 2;
             break;
         }
     }
@@ -490,22 +526,13 @@ void StaticData::writeGuest() {
     for (unsigned int i = 0; i < guestList.size(); i ++) {
         Guest& cur = guestList[i];
         if (guestMaintainList[i] > 0) {
-            if(db->doesExist("person", QString("phone = \"%1\"").arg(cur.getPhone()))) {
-                db->update("person", "name", "\"" + cur.getName() + "\"",
-                           QString("phone = \"%1\"").arg(cur.getPhone()));
-                db->update("person", "password", "\"" + cur.getPassword() + "\"",
-                           QString("phone = \"%1\"").arg(cur.getPhone()));
-                db->update("person", "tableID", (cur.getTable() > 0 ? QString().setNum(cur.getTable()) : "NULL"),
-                           QString("phone = \"%1\"").arg(cur.getPhone()));
-//                db->update("person", "password", "\"" + cur.getPassword() + "\"",
-//                           QString("phone = \"%1\"").arg(cur.getPhone()));
-            }
-            else {
-                db->insert("person", "\"" + cur.getPhone() + "\", \""
-                           + cur.getName() + "\", \""
-                           + cur.getPassword() + "\", 1, NULL, NULL, "
-                           + (cur.getTable() > 0 ? QString().setNum(cur.getTable()) : "NULL"));
-            }
+            if(db->doesExist("person", QString("phone = \"%1\"").arg(cur.getPhone())))
+                db->deleteRow("person", QString("phone = \"%1\"").arg(cur.getPhone()));
+            db->insert("person", "\"" + cur.getPhone() + "\", \""
+                       + cur.getName() + "\", \""
+                       + cur.getPassword() + "\", 1, NULL, NULL, "
+                       + (cur.getTable() > 0 ? QString().setNum(cur.getTable()) : "NULL")
+                       + ", 0, 0");
         }
         else if (guestMaintainList[i] < 0) {
             db->deleteRow("person", QString("phone = \"%1\"").arg(cur.getPhone()));
@@ -517,30 +544,36 @@ void StaticData::writeClerk() {
     for (unsigned int i = 0; i < clerkList.size(); i ++) {
         Clerk& cur = clerkList[i];
         if (clerkMaintainList[i] > 0) {
-            if(db->doesExist("person", QString("phone = \"%1\"").arg(cur.getPhone()))) {
-                db->update("person", "name", "\"" + cur.getName() + "\"",
-                           QString("phone = \"%1\"").arg(cur.getPhone()));
-                db->update("person", "password", "\"" + cur.getPassword() + "\"",
-                           QString("phone = \"%1\"").arg(cur.getPhone()));
-                db->update("person", "rate", QString().setNum(cur.getRate()),
-                           QString("phone = \"%1\"").arg(cur.getPhone()));
-                db->update("person", "rateNum", QString().setNum(cur.getRateNum()),
-                           QString("phone = \"%1\"").arg(cur.getPhone()));
-//                db->update("person", "table", QString().setNum(cur.getTable()),
-//                           QString("phone = \"%1\"").arg(cur.getPhone()));
-//                db->update("person", "password", "\"" + cur.getPassword() + "\"",
-//                           QString("phone = \"%1\"").arg(cur.getPhone()));
-            }
-            else {
-                db->insert("person", QString("\"%1\", \"%2\", \"%3\", 3, %4, %5, NULL")
-                           .arg(cur.getPhone())
-                           .arg(cur.getName())
-                           .arg(cur.getPassword())
-                           .arg(cur.getRate())
-                           .arg(cur.getRateNum()));
-            }
+            if(db->doesExist("person", QString("phone = \"%1\"").arg(cur.getPhone())))
+                db->deleteRow("person", QString("phone = \"%1\"").arg(cur.getPhone()));
+            db->insert("person", QString("\"%1\", \"%2\", \"%3\", 3, %4, %5, %6, %7, %8")
+                       .arg(cur.getPhone())
+                       .arg(cur.getName())
+                       .arg(cur.getPassword())
+                       .arg(cur.getRate())
+                       .arg(cur.getRateNum())
+                       .arg(cur.getServeTableNum())
+                       .arg(cur.getServeDishNum())
+                       .arg(cur.getAverageServeTime()));
         }
         else if (clerkMaintainList[i] < 0) {
+            db->deleteRow("person", QString("phone = \"%1\"").arg(cur.getPhone()));
+        }
+    }
+}
+
+void StaticData::writeManager() {
+    for (unsigned int i = 0; i < managerList.size(); i ++) {
+        Manager& cur = managerList[i];
+        if (managerMaintainList[i] > 0) {
+            if(db->doesExist("person", QString("phone = \"%1\"").arg(cur.getPhone())))
+                db->deleteRow("person", QString("phone = \"%1\"").arg(cur.getPhone()));
+            db->insert("person", QString("\"%1\", \"%2\", \"%3\", 4, 0, 0, 0, 0, 0")
+                       .arg(cur.getPhone())
+                       .arg(cur.getName())
+                       .arg(cur.getPassword()));
+        }
+        else if (managerMaintainList[i] < 0) {
             db->deleteRow("person", QString("phone = \"%1\"").arg(cur.getPhone()));
         }
     }
@@ -550,21 +583,16 @@ void StaticData::writeChef() {
     for (unsigned int i = 0; i < chefList.size(); i ++) {
         Chef& cur = chefList[i];
         if (chefMaintainList[i] > 0) {
-            if(db->doesExist("person", QString("phone = \"%1\"").arg(cur.getPhone()))) {
-                db->update("person", "name", "\"" + cur.getName() + "\"",
-                           QString("phone = \"%1\"").arg(cur.getPhone()));
-                db->update("person", "password", "\"" + cur.getPassword() + "\"",
-                           QString("phone = \"%1\"").arg(cur.getPhone()));
-//                db->update("person", "table", QString().setNum(cur.getTable()),
-//                           QString("phone = \"%1\"").arg(cur.getPhone()));
-//                db->update("person", "password", "\"" + cur.getPassword() + "\"",
-//                           QString("phone = \"%1\"").arg(cur.getPhone()));
-            }
-            else {
-                db->insert("person", "\"" + cur.getPhone() + "\", \""
-                           + cur.getName() + "\", \""
-                           + cur.getPassword() + "\", 2, NULL, NULL, NULL");
-            }
+            if(db->doesExist("person", QString("phone = \"%1\"").arg(cur.getPhone())))
+                db->deleteRow("person", QString("phone = \"%1\"").arg(cur.getPhone()));
+            db->insert("person",QString("\"%1\", \"%2\", \"%3\", 2, %4, %5, NULL, %6, %7")
+                       .arg(cur.getPhone())
+                       .arg(cur.getName())
+                       .arg(cur.getPassword())
+                       .arg(cur.getAverageRate())
+                       .arg(cur.getRateNum())
+                       .arg(cur.getDishNum())
+                       .arg(cur.getAverageTimeDifference()));
         }
         else if (chefMaintainList[i] < 0) {
             db->deleteRow("person", QString("phone = \"%1\"").arg(cur.getPhone()));
@@ -718,6 +746,16 @@ Rate& StaticData::getRateBySubjectAndObject(const QString &subject, const QStrin
             return rateList[i];
     }
     throw(EmptyResult("Rate not found"));
+}
+
+Manager& StaticData::getManagerByPhone(const QString &phone) {
+    if (managerList.empty())
+        queryManager();
+    for (unsigned int i = 0; i < managerList.size(); i ++) {
+        if (managerList[i].getPhone() == phone)
+            return managerList[i];
+    }
+    throw EmptyResult("Manager not found");
 }
 
 //Person& getPersonByID(int id) {

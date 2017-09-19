@@ -22,7 +22,6 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    //QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     StaticData::db = new MySQLManager("127.0.0.1", "root", "L#f0e7d#X", 3306u);
     StaticData::db->initConnection();
     if(StaticData::db->getConnectionStatus()) {
@@ -34,6 +33,7 @@ int main(int argc, char *argv[])
         StaticData::queryClerk();
         StaticData::queryChef();
         StaticData::queryRate();
+        StaticData::queryManager();
         try {
             Clerk tmp = StaticData::getClerkByPhone("12345");
         } catch (EmptyResult) {

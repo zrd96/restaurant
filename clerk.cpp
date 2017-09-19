@@ -14,10 +14,14 @@ Clerk::Clerk(const QString &phone, const QString &name, double rate, int rateNum
     rate(rate),
     rateNum(rateNum) {}
 
-Clerk::Clerk(const QString &phone, const QString &name, const QString &password, double rate, int rateNum):
+Clerk::Clerk(const QString &phone, const QString &name, const QString &password, double rate, int rateNum, int serveTableNum, int serveDishNum, double averageServeTime):
     Person(phone, name, password),
     rate(rate),
-    rateNum(rateNum) {}
+    rateNum(rateNum),
+    serveTableNum(serveTableNum),
+    serveDishNum(serveDishNum),
+    averageServeTime(averageServeTime)
+{}
 
 void Clerk::takeTable(Table& table) {
     this->tableList.push_back(table.getTableID());
@@ -29,6 +33,7 @@ void Clerk::takeTable(Table& table) {
             StaticData::modifyOrder(cur.getOrderID(), cur);
         }
     }
+    serveTableNum ++;
 }
 
 void Clerk::checkTable() {
@@ -79,10 +84,11 @@ bool Clerk::updateRate(double newRate) {
         return true;
 }
 
-void Clerk::serveDish(const QString &orderedDishID, int tableNum, const QString &orderer) {
+void Clerk::serveDish(const QString &orderedDishID, const QString &finishTime, const QString &orderer) {
     OrderedDish &newOrderedDish = StaticData::getOrderedDishByID(orderedDishID);
     newOrderedDish.setStatus(4);
     StaticData::modifyOrderedDish(orderedDishID, newOrderedDish);
+    averageServeTime = (averageServeTime * serveDishNum + getTimeDifference(finishTime)) / ++serveDishNum;
 }
 
 void Clerk::setPhone(const QString &newPhone) {

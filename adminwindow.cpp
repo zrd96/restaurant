@@ -61,6 +61,7 @@ AdminWindow::AdminWindow(const QString& user, QWidget *parent) :
     viewGuestList();
     viewChefList();
     viewClerkList();
+    viewManagerList();
     //qDebug() << QString("jhs").toInt();
 }
 
@@ -154,6 +155,23 @@ void AdminWindow::viewClerkList() {
         }
 }
 
+void AdminWindow::viewManagerList() {
+    ui->managerList->setRowCount(0);
+    for(unsigned int i = 0; i < StaticData::getManagerList().size(); i ++)
+        if (StaticData::getManagerMaintainList()[i] >= 0) {
+            ui->managerList->setRowCount(ui->managerList->rowCount() + 1);
+            Manager& cur = StaticData::getManagerList()[i];
+            int row = ui->managerList->rowCount() - 1;
+            ui->managerList->setItem(row, 0, new QTableWidgetItem((cur.getPhone())));
+            ui->managerList->setItem(row, 1, new QTableWidgetItem((cur.getName())));
+            ui->managerList->setItem(row, 2, new QTableWidgetItem((cur.getPassword())));
+            ui->managerList->setItem(row, 3, new QTableWidgetItem(("0")));
+            for (int j = 0; j < 4; j ++)
+                ui->managerList->item(row, j)->setData(Qt::UserRole, ui->managerList->item(row, j)->text());
+            ui->managerList->item(row, 3)->setFlags(ui->managerList->item(row, 3)->flags() & (~Qt::ItemIsEditable));
+        }
+}
+
 void AdminWindow::addItem(QTableWidget *list) {
     if (list == NULL)
         return;
@@ -169,7 +187,8 @@ void AdminWindow::addItem(QTableWidget *list) {
                           + StaticData::getDishList().size()
                           + StaticData::getGuestList().size()
                           + StaticData::getChefList().size()
-                          + StaticData::getClerkList().size()));
+                          + StaticData::getClerkList().size()
+                          + StaticData::getManagerList().size()));
     if(index == 0) {
         list->item(buttomRow, 1)->setData(Qt::UserRole, 0);
         Table newTable(curItem->data(Qt::UserRole).toInt(), 0, 0);
@@ -208,7 +227,7 @@ void AdminWindow::addItem(QTableWidget *list) {
         list->item(buttomRow, 1)->setData(Qt::UserRole, "Chef");
         list->item(buttomRow, 2)->setData(Qt::UserRole, "123456");
         list->item(buttomRow, 3)->setData(Qt::UserRole, 0);
-        Chef newChef(curItem->data(Qt::UserRole).toString(), "Chef", "123456");
+        Chef newChef(curItem->data(Qt::UserRole).toString(), "Chef", "123456", 0, 0, 0, 0);
         ui->chefList->item(buttomRow, 1)->setText("Chef");
         ui->chefList->item(buttomRow, 3)->setText("0");
         ui->chefList->item(buttomRow, 3)->setFlags(ui->chefList->item(buttomRow, 3)->flags() & (~Qt::ItemIsEditable));
@@ -227,8 +246,18 @@ void AdminWindow::addItem(QTableWidget *list) {
         ui->clerkList->item(buttomRow, 3)->setFlags(ui->clerkList->item(buttomRow, 3)->flags() & (~Qt::ItemIsEditable));
         ui->clerkList->item(buttomRow, 4)->setFlags(ui->clerkList->item(buttomRow, 4)->flags() & (~Qt::ItemIsEditable));
         ui->clerkList->item(buttomRow, 5)->setFlags(ui->clerkList->item(buttomRow, 5)->flags() & (~Qt::ItemIsEditable));
-        Clerk newClerk(curItem->data(Qt::UserRole).toString(), "Clerk", "123456", 0, 0);
+        Clerk newClerk(curItem->data(Qt::UserRole).toString(), "Clerk", "123456", 0, 0, 0, 0, 0);
         StaticData::insertClerk(newClerk, 1);
+    }
+    else if (index == 5) {
+        list->item(buttomRow, 1)->setData(Qt::UserRole, "Manager");
+        list->item(buttomRow, 2)->setData(Qt::UserRole, "123456");
+        list->item(buttomRow, 3)->setData(Qt::UserRole, 0);
+        ui->managerList->item(buttomRow, 1)->setText("Manager");
+        ui->managerList->item(buttomRow, 3)->setText("0");
+        ui->managerList->item(buttomRow, 3)->setFlags(ui->managerList->item(buttomRow, 3)->flags() & (~Qt::ItemIsEditable));
+        Manager newManager(curItem->data(Qt::UserRole).toString(), "Manager", "123456");
+        StaticData::insertManager(newManager, 1);
     }
     list->editItem(list->item(list->rowCount() - 1, 0));
 }
@@ -268,6 +297,9 @@ void AdminWindow::markRemoved(int listTab, int row) {
     else if (listTab == 4) {
         StaticData::removeClerk(ui->clerkList->item(row, 0)->data(Qt::UserRole).toString());
     }
+    else if (listTab == 5) {
+        StaticData::removeManager(ui->managerList->item(row, 0)->data(Qt::UserRole).toString());
+    }
 }
 
 void AdminWindow::refreshList() {
@@ -282,6 +314,8 @@ void AdminWindow::refreshList() {
         viewChefList();
     else if (index == 4)
         viewClerkList();
+    else if (index == 5)
+        viewManagerList();
 }
 
 void AdminWindow::saveList(int listTab) {
@@ -409,7 +443,7 @@ void AdminWindow::saveList(int listTab) {
                     }
                     Chef newChef(ui->chefList->item(row, 0)->text(),
                                    ui->chefList->item(row, 1)->text(),
-                                   ui->chefList->item(row, 2)->text());
+                                   ui->chefList->item(row, 2)->text(), 0, 0, 0, 0);
                     StaticData::modifyChef(ui->chefList->item(row, 0)->data(Qt::UserRole).toString(), newChef);
                     setRowData(ui->chefList, row);
                     break;
@@ -441,7 +475,7 @@ void AdminWindow::saveList(int listTab) {
                                    ui->clerkList->item(row, 1)->text(),
                                    ui->clerkList->item(row, 2)->text(),
                                    ui->clerkList->item(row, 3)->text().toDouble(),
-                                   ui->clerkList->item(row, 4)->text().toInt());
+                                   ui->clerkList->item(row, 4)->text().toInt(), 0, 0, 0);
                     StaticData::modifyClerk(ui->clerkList->item(row, 0)->data(Qt::UserRole).toString(), newClerk);
                     setRowData(ui->clerkList, row);
                     break;
@@ -449,6 +483,36 @@ void AdminWindow::saveList(int listTab) {
             }
     }
     else if (listTab == 5) {
+        for (int row = 0; row < ui->managerList->rowCount(); row ++)
+            for (int col = 0; col < ui->managerList->columnCount(); col ++) {
+                QTableWidgetItem* curItem = ui->managerList->item(row, col);
+                if (curItem->text() != curItem->data(Qt::UserRole).toString()) {
+                    curItem = ui->managerList->item(row, 0);
+                    if (curItem->text().size() != 11) {
+                        viewErrInfo("Invalid phone");
+                        ui->managerList->editItem(curItem);
+                        return;
+                    }
+                    if (!checkID(ui->managerList, row, 0)) {
+                        ui->managerList->editItem(curItem);
+                        return;
+                    }
+                    curItem = ui->managerList->item(row, 2);
+                    if (curItem->text().size() < 6) {
+                        viewErrInfo("Password must be longer than 6 digits");
+                        ui->managerList->editItem(curItem);
+                        return;
+                    }
+                    Manager newManager(ui->managerList->item(row, 0)->text(),
+                                   ui->managerList->item(row, 1)->text(),
+                                   ui->managerList->item(row, 2)->text());
+                    StaticData::modifyManager(ui->managerList->item(row, 0)->data(Qt::UserRole).toString(), newManager);
+                    setRowData(ui->managerList, row);
+                    break;
+                }
+            }
+    }
+    else if (listTab == 6) {
         aboutMe->on_submitInfoButton_clicked();
     }
 }
@@ -487,6 +551,8 @@ QTableWidget* AdminWindow::getActiveList() {
         return ui->chefList;
     else if (index == 4)
         return ui->clerkList;
+    else if (index == 5)
+        return ui->managerList;
     else
         return NULL;
 }
@@ -525,6 +591,11 @@ void AdminWindow::on_refreshButton_clicked()
                 ui->clerkList->item(i, j)->setText(ui->clerkList->item(i, j)->data(Qt::UserRole).toString());
     }
     else if (index == 5) {
+        for(int i = 0; i < ui->managerList->rowCount(); i ++)
+            for (int j = 0; j < ui->managerList->columnCount(); j ++)
+                ui->managerList->item(i, j)->setText(ui->managerList->item(i, j)->data(Qt::UserRole).toString());
+    }
+    else if (index == 6) {
         aboutMe->on_refreshInfoButton_clicked();
     }
 }
@@ -559,10 +630,13 @@ void AdminWindow::on_tabWidget_currentChanged(int index)
     else if (index == 4) {
         ui->title->setText("   Clerk List");
     }
-    else if (index == 5) {
+    else if (index == 2) {
+        ui->title->setText("   Manager List");
+    }
+    else if (index == 6) {
         ui->title->setText("   About Me");
     }
-    if (index == 5) {
+    if (index == 6) {
         //ui->refreshButton->hide();
         ui->addButton->hide();
         ui->removeButton->hide();

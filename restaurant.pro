@@ -54,7 +54,10 @@ SOURCES += \
     emptyresult.cpp \
     dishinfo.cpp \
     comment.cpp \
-    dishinfohead.cpp
+    dishinfohead.cpp \
+    manager.cpp \
+    managerwindow.cpp \
+    messagedlg.cpp
 
 HEADERS += \
     logindlg.h \
@@ -85,7 +88,10 @@ HEADERS += \
     emptyresult.h \
     dishinfo.h \
     comment.h \
-    dishinfohead.h
+    dishinfohead.h \
+    manager.h \
+    managerwindow.h \
+    messagedlg.h
 
 FORMS += \
     logindlg.ui \
@@ -100,7 +106,11 @@ FORMS += \
     orderitem.ui \
     dishinfo.ui \
     comment.ui \
-    dishinfohead.ui
+    dishinfohead.ui \
+    managerwindow.ui \
+    messagedlg.ui
 
 RESOURCES += \
     res.qrc
+
+DISTFILES +=

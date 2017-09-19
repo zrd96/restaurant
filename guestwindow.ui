@@ -427,10 +427,10 @@
      <widget class="QLineEdit" name="requestText">
       <property name="geometry">
        <rect>
-        <x>170</x>
-        <y>725</y>
+        <x>150</x>
+        <y>735</y>
         <width>291</width>
-        <height>50</height>
+        <height>30</height>
        </rect>
       </property>
       <property name="font">
@@ -609,7 +609,7 @@
       </property>
       <widget class="QWidget" name="inBox">
        <attribute name="title">
-        <string>Message Received</string>
+        <string>Inbox</string>
        </attribute>
        <widget class="QTableWidget" name="inboxList">
         <property name="geometry">
@@ -687,7 +687,7 @@
       </widget>
       <widget class="QWidget" name="outBox">
        <attribute name="title">
-        <string>Message Sent</string>
+        <string>Outbox</string>
        </attribute>
        <widget class="QTableWidget" name="outboxList">
         <property name="geometry">
@@ -770,11 +770,16 @@
      <widget class="QPushButton" name="sendWaterButton">
       <property name="geometry">
        <rect>
-        <x>200</x>
-        <y>650</y>
-        <width>80</width>
-        <height>50</height>
+        <x>210</x>
+        <y>645</y>
+        <width>100</width>
+        <height>60</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
       </property>
       <property name="text">
        <string>Water</string>
@@ -783,11 +788,16 @@
      <widget class="QPushButton" name="sendNapkinButton">
       <property name="geometry">
        <rect>
-        <x>290</x>
-        <y>650</y>
-        <width>80</width>
-        <height>50</height>
+        <x>340</x>
+        <y>645</y>
+        <width>100</width>
+        <height>60</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
       </property>
       <property name="text">
        <string>Napkin</string>
@@ -796,11 +806,16 @@
      <widget class="QPushButton" name="sendQuicklyButton">
       <property name="geometry">
        <rect>
-        <x>380</x>
-        <y>650</y>
-        <width>80</width>
-        <height>50</height>
+        <x>470</x>
+        <y>645</y>
+        <width>100</width>
+        <height>60</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
       </property>
       <property name="text">
        <string>Quickly</string>
@@ -814,6 +829,9 @@
         <width>1111</width>
         <height>91</height>
        </rect>
+      </property>
+      <property name="placeholderText">
+       <string>Please input your message here</string>
       </property>
      </widget>
      <widget class="QPushButton" name="sendMsgButton">
@@ -952,8 +970,8 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>40</width>
-      <height>40</height>
+      <width>30</width>
+      <height>30</height>
      </size>
     </property>
    </widget>
@@ -998,8 +1016,8 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>40</width>
-      <height>40</height>
+      <width>30</width>
+      <height>30</height>
      </size>
     </property>
    </widget>
@@ -1021,8 +1039,8 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>40</width>
-      <height>40</height>
+      <width>30</width>
+      <height>30</height>
      </size>
     </property>
    </widget>
@@ -1044,8 +1062,8 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>40</width>
-      <height>40</height>
+      <width>30</width>
+      <height>30</height>
      </size>
     </property>
    </widget>
