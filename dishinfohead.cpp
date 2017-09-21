@@ -9,9 +9,9 @@
 
 DishInfoHead::DishInfoHead(Dish &dish, bool isEditable, QWidget *parent) :
     QWidget(parent),
+    ui(new Ui::DishInfoHead),
     imgdir("img/dishes/default.png"),
-    dishID(dish.getDishID()),
-    ui(new Ui::DishInfoHead)
+    dishID(dish.getDishID())
 {
     ui->setupUi(this);
     QImage *dishImg = new QImage;

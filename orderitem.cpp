@@ -4,9 +4,9 @@
 #include <vector>
 
 OrderItem::OrderItem(Order* order, QWidget *parent) :
-    order(order),
     QWidget(parent),
-    ui(new Ui::OrderItem)
+    ui(new Ui::OrderItem),
+    order(order)
 {
     ui->setupUi(this);
     ui->orderID->setText(order->getOrderID());

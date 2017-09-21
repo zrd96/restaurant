@@ -10,7 +10,7 @@ using namespace std;
 
 class Person {
         public:
-                Person(const QString &phone, const QString &name);
+                //Person(const QString &phone, const QString &name);
                 Person(const QString &phone, const QString &name, const QString &password);
                 QString getName() const {return name;}
                 QString getPhone() const {return phone;}
@@ -20,7 +20,6 @@ class Person {
                 void setPassword(const QString &password) {this->password = password;}
                 void setName(const QString &name) {this->name = name;}
                 void sendMsg(const QString &receiver, const QString &msg);
-                virtual void doNothing() {}
         private:
                 QString name;
                 QString phone;

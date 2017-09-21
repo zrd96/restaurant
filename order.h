@@ -10,19 +10,20 @@ class StaticData;
 
 class Order {
 private:
-    QString orderer;
-    QString datetime;
     QString orderID;
+    int table;
+    QString orderer;
+    vector<QString> dishes;
+    QString datetime;
     double orderSum;
     QString clerk;
-    int table;
     int status;      //3 not all served, 4 all served, 5 all checked out, 6 clerk rated
-    vector<QString> dishes;
     double rate;
     void insertDish(const OrderedDish& dish);
 public:
     Order(const QString& orderer, const vector<OrderedDish>& orderedDishes, const QString &datetime, int table);
     Order(const QString &orderID, const QString& orderer, const QString& datetime, const QString &clerk, int table, double rate);
+
     QString getOrderID() const {return orderID;}
     QString getOrderer() const {return orderer;}
     QString getDatetime() const {return datetime;}
@@ -38,6 +39,3 @@ public:
 };
 
 #endif // ORDER_H
-/**********************
- * Need to create a table to store order's info apart from orderedDishes
- * ********************/

@@ -21,40 +21,40 @@ class AdminWindow : public QMainWindow
 public:
     explicit AdminWindow(const QString& user, QWidget *parent = 0);
     ~AdminWindow();
-    void viewTableList();
-    void viewDishList();
-    void viewGuestList();
-    //void viewStuffList();
-    void viewChefList();
-    void viewClerkList();
-    void viewManagerList();
-    void addItem(QTableWidget* list);
-    void removeSelected(QTableWidget* list);
-    void markRemoved(int listTab, int row);
-    void refreshList();
-    void saveList(int tabList);
 
 signals:
     void closeEvent(QCloseEvent* ev);
 
 private slots:
     void on_refreshButton_clicked();
-
     void on_dishList_cellDoubleClicked(int row, int column);
-
     void on_tabWidget_currentChanged(int index);
-
     void on_logoutButton_clicked();
 
 private:
     Ui::AdminWindow *ui;
     Admin admin;
     AboutMeWidget* aboutMe;
+    std::vector<bool> removeList;
+
+    //main functions of Admin
+    void viewTableList();
+    void viewDishList();
+    void viewGuestList();
+    void viewChefList();
+    void viewClerkList();
+    void viewManagerList();
+    void addItem(QTableWidget* list);
+    void removeSelected(QTableWidget* list);
+    void saveList(int tabList);
+
+    //some tool functions
+    void markRemoved(int listTab, int row);
+    void refreshList();
     QTableWidget* getActiveList();
     bool checkID(QTableWidget* list, int row, int col);
     bool checkNum(const QString& numString);
     void setRowData(QTableWidget* list, int row);
-    std::vector<bool> removeList;
 };
 
 #endif // ADMINWINDOW_H

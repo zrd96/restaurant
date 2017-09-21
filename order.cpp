@@ -7,14 +7,14 @@
 #include <QString>
 
 Order::Order(const QString &orderer, const vector<OrderedDish>& orderedDishes, const QString &timeUniformed, int table):
+    orderID("O" + timeUniformed + orderer),
+    table(table),
     orderer(orderer),
     datetime(getTime()),
-    orderID("O" + timeUniformed + orderer),
     orderSum(0),
     clerk("NULL"),
-    table(table),
-    rate(-1),
-    status(0)
+    status(0),
+    rate(-1)
 {
     for(unsigned int i = 0; i < orderedDishes.size(); i ++) {
         orderSum += orderedDishes[i].getPrice();
@@ -27,14 +27,14 @@ Order::Order(const QString &orderer, const vector<OrderedDish>& orderedDishes, c
 }
 
 Order::Order(const QString &orderID, const QString &orderer, const QString &datetime, const QString &clerk, int table, double rate):
+    orderID(orderID),
+    table(table),
     orderer(orderer),
     datetime(datetime),
-    orderID(orderID),
     orderSum(0),
     clerk(clerk),
-    table(table),
-    rate(rate),
-    status(0) {
+    status(0),
+    rate(rate) {
     checkStatus();
 }
 

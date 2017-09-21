@@ -6,8 +6,8 @@
 
 RateItem::RateItem(QWidget *parent) :
     QWidget(parent),
-    track(true),
-    ui(new Ui::RateItem)
+    ui(new Ui::RateItem),
+    track(true)
 {
     ui->setupUi(this);
 }

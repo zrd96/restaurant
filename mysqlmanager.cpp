@@ -9,7 +9,8 @@
 
 using namespace std;
 
-MySQLManager::MySQLManager(const QString &host = "127.0.0.1", const QString &userName = "root", const QString &password = "", unsigned int port = 3022u) {
+MySQLManager::MySQLManager(const QString &host, const QString &userName, const QString &password, unsigned int port)
+{
 
         isConnected = false;
 
@@ -46,7 +47,6 @@ void MySQLManager::initConnection() {
 }
 
 bool MySQLManager::runSQLCommand(const QString &cmd) {
-    //printf("%s\n", cmd.toLocal8Bit().data());
         int queryReturn = mysql_real_query(&mySQLClient, cmd.toLocal8Bit().data(), (unsigned int)strlen(cmd.toLocal8Bit().data()));
         if (queryReturn) {
                 errInfo = mysql_error(&mySQLClient);
@@ -95,49 +95,12 @@ bool MySQLManager::doQuery(const QString &table, const QString &columns, const Q
                 vector<QString> objectValue;
                 for(int i = 0; i < mysql_num_fields(res); i ++) {
                         objectValue.push_back((row[i] == NULL ? "NULL": QString::fromLocal8Bit(row[i])));
-                        //printf("%s\n", row[i]);
                 }
                 resultList.push_back(objectValue);
         }
 
         mysql_free_result(res);
         return true;
-}
-/*
-int MySQLManager::queryID(QString phone, QString name, int type) {
-        if (!doQuery("person", "id", "phone = \"" + phone + "\""))
-                return -1;
-
-        if(!resultList.empty())
-                return atoi(resultList[0][0].c_str());
-
-        if(insert("person", "NULL, " + phone + ", " + name + ", " + ntos(type) + "NULL"))
-                return queryID(phone, name, type);
-        return -1;
-}
-*/
-//int MySQLManager::queryID(const QString &name, double price, int timeNeeded, const QString &imgdir) {
-//        if (!doQuery("dish", "dishid", "name = \"" + name + "\""))
-//                return -1;
-
-//        if(!resultList.empty())
-//                return atoi(resultList[0][0].c_str());
-
-//        if(insert("dish", "NULL, \"" + name + "\", " + ntos(price) + ", NULL, NULL, " + (ntos(timeNeeded) == "-1" ? "NULL" : ntos(timeNeeded)) + ", \"" + imgdir + "\""))
-//                return queryID(name, price, timeNeeded, imgdir);
-//        return -1;
-//}
-
-vector<Msg> MySQLManager::queryMsg(const QString &receiver) {
-        vector<Msg> msgs;
-
-        if (!doQuery("msg", "msgid, sender, receiver, msg, time, isActive", "receiver = \"" + receiver + "\""))
-                return msgs;
-        
-        for (unsigned int i = 0; i < resultList.size(); i ++)
-                msgs.push_back(Msg(resultList[i][0], resultList[i][1], resultList[i][2], resultList[i][3], resultList[i][4], resultList[i][5].toInt()));
-
-        return msgs;
 }
 
 bool MySQLManager::insert(const QString &table, const QString &values) {
@@ -164,4 +127,3 @@ void MySQLManager::destroyConnection() {
         mysql_close(&mySQLClient);
         isConnected = false;
 }
-

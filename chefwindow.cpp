@@ -4,11 +4,12 @@
 #include "staticdata.h"
 #include "chef.h"
 #include "dish.h"
+#include "item.h"
 #include "emptyresult.h"
 
 ChefWindow::ChefWindow(const QString& user, QWidget *parent) :
     QMainWindow(parent),
-    chef(Chef("", "")),
+    chef(Chef("", "", "")),
     ui(new Ui::ChefWindow)
 {
     ui->setupUi(this);
@@ -21,24 +22,16 @@ ChefWindow::ChefWindow(const QString& user, QWidget *parent) :
     viewOrderedDishList();
     aboutMe = new AboutMeWidget(&chef, this, ui->selfTab);
     aboutMe->show();
-    ui->pushButton->hide();
-    ui->pushButton_2->hide();
     ui->tabWidget->setCurrentIndex(0);
     on_tabWidget_currentChanged(0);
 }
 
 ChefWindow::~ChefWindow()
 {
-    clearPointerList(orderedDishItem);
     delete ui;
 }
 
-void ChefWindow::openWindow(const QString user) {
-    this->show();
-}
-
 void ChefWindow::viewOrderedDishList() {
-    clearPointerList(orderedDishItem);
     ui->orderedDishList->clearContents();
     ui->orderedDishList->setRowCount(0);
     for (unsigned int i = 0; i < StaticData::getOrderedDishList().size(); i ++) {
@@ -47,14 +40,12 @@ void ChefWindow::viewOrderedDishList() {
             Item* item = new Item(chef, curDish, "chefDishList", ui->orderedDishList);
             ui->orderedDishList->setRowCount(ui->orderedDishList->rowCount() + 1);
             ui->orderedDishList->setCellWidget(ui->orderedDishList->rowCount() - 1, 0, item);
-            orderedDishItem.push_back(item);
             item->show();
         }
     }
 }
 
 void ChefWindow::viewTakenDishList() {
-    clearPointerList(takenDishItem);
     ui->takenDishList->clearContents();
     ui->takenDishList->setRowCount(0);
     chef.checkDish();
@@ -63,7 +54,6 @@ void ChefWindow::viewTakenDishList() {
         Item* item = new Item(chef, curDish, "chefTakenDishList", ui->takenDishList);
         ui->takenDishList->setRowCount(ui->takenDishList->rowCount() + 1);
         ui->takenDishList->setCellWidget(ui->takenDishList->rowCount() - 1, 0, item);
-        takenDishItem.push_back(item);
         item->show();
     }
 }
@@ -89,36 +79,26 @@ void ChefWindow::on_tabWidget_currentChanged(int index)
     }
 }
 
-void ChefWindow::on_pushButton_clicked()
-{
-    viewOrderedDishList();
-}
-
-void ChefWindow::on_pushButton_2_clicked()
-{
-    viewTakenDishList();
-}
-
 void ChefWindow::on_refreshButton_clicked()
 {
     int index = ui->tabWidget->currentIndex();
     if (index == 0) {
-        on_pushButton_clicked();
+        viewOrderedDishList();
     }
     else if (index == 1) {
-        on_pushButton_2_clicked();
+        viewTakenDishList();
     }
     else if (index  == 2) {
-        aboutMe->on_refreshInfoButton_clicked();
+        aboutMe->refresh();
     }
 }
 
 void ChefWindow::on_saveButton_clicked()
 {
-    aboutMe->on_submitInfoButton_clicked();
+    aboutMe->submit();
 }
 
 void ChefWindow::on_logoutButton_clicked()
 {
-    aboutMe->on_logoutButton_clicked();
+    aboutMe->logout();
 }

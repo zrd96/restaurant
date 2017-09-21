@@ -1,16 +1,11 @@
 #include "logindlg.h"
 #include "ui_logindlg.h"
-#include "datamanager.h"
-#include "mysqlmanager.h"
 #include "staticdata.h"
 #include "adminwindow.h"
 #include "guestwindow.h"
 #include "chefwindow.h"
 #include "clerkwindow.h"
 #include "managerwindow.h"
-#include "table.h"
-#include "msg.h"
-#include "dish.h"
 #include "tools.h"
 #include <cstdlib>
 #include <QMessageBox>
@@ -19,7 +14,17 @@
 
 LoginDlg::LoginDlg(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::LoginDlg)
+    ui(new Ui::LoginDlg),
+    phone(""),
+    name(""),
+    password(""),
+    userType(1),
+    adminWindow(NULL),
+    guestWindow(NULL),
+    chefWindow(NULL),
+    clerkWindow(NULL),
+    managerWindow(NULL)
+
 {
     ui->setupUi(this);
     ui->tabWidget->setCurrentIndex(0);

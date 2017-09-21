@@ -9,24 +9,23 @@
 
 using namespace std;
 
-Chef::Chef(const QString &phone, const QString &name): Person(phone, name) {}
+//Chef::Chef(const QString &phone, const QString &name): Person(phone, name) {}
 Chef::Chef(const QString &phone, const QString &name, const QString &password, int dishNum, double averageTimeDifference, int rateNum, double averageRate):
     Person(phone, name, password),
     dishNum(dishNum),
     averageTimeDifference(averageTimeDifference),
-    rateNum(rateNum),
-    averageRate(averageRate)
+    averageRate(averageRate),
+    rateNum(rateNum)
 {}
 
-bool Chef::takeDish(OrderedDish &dish) {
+void Chef::takeDish(OrderedDish &dish) {
     dish.setStatus(2);
     dish.setChef(this->getPhone());
     StaticData::modifyOrderedDish(dish.getOrderedDishID(), dish);
     dishTaken.push_back(dish);
-    return true;
 }
 
-bool Chef::finishDish(OrderedDish &dish) {
+void Chef::finishDish(OrderedDish &dish) {
         sendMsg(QString("Table_%1").arg(dish.getTable()), QString("Dish ready %1").arg(dish.getOrderedDishID()));
         dish.setStatus(3);
         double newDiff;
@@ -36,7 +35,12 @@ bool Chef::finishDish(OrderedDish &dish) {
             newDiff = (getTimeDifference(dish.getDatetime()) - dish.getTimeNeeded()) / dish.getTimeNeeded();
         averageTimeDifference = (averageTimeDifference * dishNum + newDiff) / ++dishNum;
         StaticData::modifyOrderedDish(dish.getOrderedDishID(), dish);
-        return true;
+        StaticData::modifyChef(this->getPhone(), *this);
+}
+
+void Chef::updateRate(double newRate) {
+    averageRate = (averageRate * rateNum + newRate) / ++rateNum;
+    StaticData::modifyChef(this->getPhone(), *this);
 }
 
 void Chef::checkDish() {

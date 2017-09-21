@@ -13,7 +13,6 @@ class DataManager {
                 virtual void initConnection() = 0;
                 virtual bool initDB() = 0;
                 virtual bool doQuery(const QString &table, const QString &column, const QString &wheres = "NULL") = 0;
-                virtual vector<Msg> queryMsg(const QString &receiver) = 0;
                 virtual bool insert(const QString &table, const QString &values) = 0;
                 virtual bool update(const QString &table, const QString &column, const QString &newValue, const QString &wheres) = 0;
                 virtual bool deleteRow(const QString &table, const QString &wheres) = 0;

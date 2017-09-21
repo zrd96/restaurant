@@ -14,12 +14,6 @@ namespace Ui {
 class LoginDlg;
 }
 
-class AdminWindow;
-class GuestWindow;
-class ChefWindow;
-class ClerkWindow;
-class ManagerWindow;
-
 class LoginDlg : public QWidget
 {
     Q_OBJECT
@@ -29,16 +23,8 @@ public:
     ~LoginDlg();
 
 private slots:
-
     void on_loginButton_clicked();
-
     void on_signupButton_clicked();
-
-signals:
-    void openAdminWindow(const QString user);
-    void openGuestWindow(const QString user);
-    void openChefWindow(const QString user);
-    void openClerkWindow(const QString user);
 
 private:
     Ui::LoginDlg *ui;

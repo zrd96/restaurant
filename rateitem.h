@@ -14,9 +14,6 @@ class RateItem : public QWidget
 
 public:
     explicit RateItem(QWidget *parent = 0);
-    void mouseMoveEvent(QMouseEvent* ev);
-    void mousePressEvent(QMouseEvent* ev);
-    void leaveEvent(QEvent *ev);
     void setRate(double rate);
     ~RateItem();
 
@@ -26,6 +23,9 @@ signals:
 private:
     Ui::RateItem *ui;
     bool track;
+    void mouseMoveEvent(QMouseEvent* ev);
+    void mousePressEvent(QMouseEvent* ev);
+    void leaveEvent(QEvent *ev);
 };
 
 #endif // RATEITEM_H

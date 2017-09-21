@@ -14,7 +14,6 @@ class Msg {
                 QString datetime;
                 bool isActive;
         public:
-                //Msg(QString sender, QString receiver, QString msg, QString datetime, bool isActive);
                 Msg(const QString& msgID, const QString& sender, const QString& receiver, const QString& msg, const QString& datetime, bool isActive);
                 QString getMsgID() const {return msgID;}
                 QString getSender() const {return sender;}

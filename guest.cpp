@@ -11,8 +11,11 @@
 #include "emptyresult.h"
 #include "rate.h"
 
-Guest::Guest(const QString &phone, const QString &name): Person(phone, name), cart(Cart()), table(-1) {}
-Guest::Guest(const QString &phone, const QString &name, const QString &password, int table):  Person(phone, name, password), cart(Cart()), table(table) {}
+//Guest::Guest(const QString &phone, const QString &name): Person(phone, name), cart(Cart()), table(-1) {}
+Guest::Guest(const QString &phone, const QString &name, const QString &password, int table):
+    Person(phone, name, password),
+    table(table),
+    cart(Cart()) {}
 
 void Guest::addDish(const Dish& dish) {
     cart.add(dish, getPhone(), table);
@@ -40,8 +43,6 @@ void Guest::freeTable() {
         StaticData::insertGuest(*this, 2);
     }
 }
-
-void Guest::viewProgress() {}
 
 void Guest::rateDish(Dish& dish, const Rate &rate) {
         dish.updateRate(rate);

@@ -13,19 +13,23 @@
 #include <QString>
 
 Item::Item(Person& person, Dish& oriDish, const QString &listType, QWidget *parent) :
-    person(&person),
+    QWidget(parent),
+    ui(new Ui::Item),
     dish(oriDish),
+    person(&person),
+    guest(NULL),
+    chef(NULL),
     dishNum(0),
     listType(listType),
-    itemRate(new RateItem(this)),
-    QWidget(parent),
-    ui(new Ui::Item)
+    itemRate(new RateItem(this))
 {
     ui->setupUi(this);
 
     connect(ui->addButton, &QPushButton::clicked, this, [this] {this->addItemNum();});
     connect(ui->subButton, &QPushButton::clicked, this, [this] {this->subItemNum();});
     connect(ui->itemNum, SIGNAL(editingFinished()), this, SLOT(setNumTo()));
+
+    //normal condition: oriDish is indeed a dish
     QImage *dishImg = new QImage;
     if(!dishImg->load((dish.getImgDir())))
         dishImg->load("img/dishes/default.png");
@@ -41,8 +45,12 @@ Item::Item(Person& person, Dish& oriDish, const QString &listType, QWidget *pare
     ui->itemPrice->setText(QString("￥ %1").arg(dish.getPrice()));
     if(dish.getTimeNeeded() > 0)
         ui->itemStatus->setPlainText(QString("Time Needed: %1").arg(dish.getTimeNeeded()));
+
+    //check whether a guest is viewing or a chef
     guest = dynamic_cast<Guest*> (this->person);
     chef = dynamic_cast<Chef*> (this->person);
+
+    //condition: oriDish is actually an OrderedDish, then show order status
     try {
         OrderedDish& orderedDish = dynamic_cast<OrderedDish &> (oriDish);
         dishNum = orderedDish.getNum();
@@ -106,6 +114,8 @@ Item::Item(Person& person, Dish& oriDish, const QString &listType, QWidget *pare
             ui->itemNum->setText("1");
             ui->itemNum->setEnabled(false);
         }
+
+        //if a chef is viewing, show request and add buttons "Take" or "Finish"
         if (chef != NULL) {
             ui->addButton->hide();
             ui->subButton->hide();
@@ -201,19 +211,6 @@ void Item::setNumTo() {
 void Item::setDishNumText(int finalNum) {
     ui->itemNum->setText(QString().setNum(finalNum));
     dishNum = finalNum;
-}
-
-void Item::rateDish(double newRate) {
-//    try {
-//        Dish& staticDish = StaticData::getDishByID(dish.getDishID());
-//        guest->rateDish(staticDish, newRate);
-//        itemRate->setRate(staticDish.getRate());
-//        ui->itemRateInfo->setText(QString("Rated %1/5 from %2 people")
-//                                  .arg(staticDish.getRate())
-//                                  .arg(staticDish.getRateNum()));
-//    } catch (EmptyResult er) {
-//        viewErrInfo(er.getErrInfo());
-//    }
 }
 
 void Item::mousePressEvent(QMouseEvent *ev) {

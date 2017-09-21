@@ -12,12 +12,10 @@ using namespace std;
 
 class MySQLManager: public DataManager {
         public:
-                MySQLManager(const QString &host, const QString &userName, const QString &password, unsigned int port);
+                MySQLManager(const QString &host = "127.0.0.1", const QString &userName = "root", const QString &password = "", unsigned int port = 3022u);
                 ~MySQLManager();
                 void initConnection();
                 bool doQuery(const QString &table, const QString &columns, const QString &wheres = "NULL");
-                int queryID(const QString &name, double price, int timeNeeded, const QString &imgdir);
-                vector<Msg> queryMsg(const QString &receiver);
                 bool insert(const QString &table, const QString &values);
                 bool update(const QString &table, const QString &column, const QString &newValue, const QString &wheres);
                 bool deleteRow(const QString &table, const QString &wheres);

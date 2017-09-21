@@ -3,9 +3,7 @@
 
 #include <QMainWindow>
 #include <QCloseEvent>
-#include <vector>
 #include "chef.h"
-#include "item.h"
 #include "aboutmewidget.h"
 
 namespace Ui {
@@ -19,24 +17,21 @@ class ChefWindow : public QMainWindow
 public:
     explicit ChefWindow(const QString& user, QWidget *parent = 0);
     ~ChefWindow();
-    void viewOrderedDishList();
-    void viewTakenDishList();
-
-public slots:
-    void openWindow(const QString user);
 
 private:
     Ui::ChefWindow *ui;
     Chef chef;
-    vector<Item*> orderedDishItem;
-    vector<Item*> takenDishItem;
     AboutMeWidget* aboutMe;
+
+    //main functions
+    void viewOrderedDishList();
+    void viewTakenDishList();
+
 signals:
     void closeEvent(QCloseEvent *ev);
+
 private slots:
     void on_tabWidget_currentChanged(int index);
-    void on_pushButton_clicked();
-    void on_pushButton_2_clicked();
     void on_refreshButton_clicked();
     void on_saveButton_clicked();
     void on_logoutButton_clicked();

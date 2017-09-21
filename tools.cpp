@@ -3,6 +3,7 @@
 #include <ctime>
 #include <vector>
 #include <iostream>
+#include <QMessageBox>
 
 #include "tools.h"
 
@@ -61,13 +62,11 @@ void viewResultList(vector<vector<QString> > resultList) {
         }
 }
 
-void viewErrInfo(const QString &errInfo) {cout<<errInfo.toStdString()<<endl;}
+void viewErrInfo(const QString &errInfo) {
+    QMessageBox::information(NULL, "System", errInfo);
+    //cout<<errInfo.toStdString()<<endl;
+}
 
 bool confirm(const QString &info) {
-        cout<<info.toStdString()<<" (y/n)"<<endl;
-        //char ch = getchar();
-        //getchar();
-        //if(ch == 'Y' || ch == 'y')
-                return true;
-        return false;
+    return (QMessageBox::question(NULL, "Confirm", info, QMessageBox::Yes, QMessageBox::Cancel) == QMessageBox::Yes);
 }

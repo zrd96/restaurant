@@ -9,10 +9,11 @@
 #include "tools.h"
 #include "table.h"
 
-Clerk::Clerk(const QString &phone, const QString &name, double rate, int rateNum):
-    Person(phone, name),
-    rate(rate),
-    rateNum(rateNum) {}
+//Clerk::Clerk(const QString &phone, const QString &name, double rate, int rateNum):
+//    Person(phone, name),
+//    rate(rate),
+//    rateNum(rateNum)
+//{}
 
 Clerk::Clerk(const QString &phone, const QString &name, const QString &password, double rate, int rateNum, int serveTableNum, int serveDishNum, double averageServeTime):
     Person(phone, name, password),
@@ -43,16 +44,6 @@ void Clerk::checkTable() {
             this->tableList.push_back(StaticData::getTableList()[i].getTableID());
 }
 
-void Clerk::checkReadyDishes() {
-//        for(unsigned int i = 0; i < unReadMsg.size(); i ++)
-//                if(unReadMsg[i]->getMsg().find("Dish ready") >= 0) {
-//                        int tableNum, orderedDishID;
-//                        char orderer[15];
-//                        sscanf(unReadMsg[i]->getMsg().c_str(), "Dish ready%d%s%d", &tableNum, orderer, &orderedDishID);
-//                        serveDish(orderedDishID, tableNum, (string)orderer);
-//                }
-}
-
 void Clerk::queryMsg() {
     checkTable();
     msgList.clear();
@@ -76,8 +67,6 @@ void Clerk::queryMsg() {
     }
 }
 
-void Clerk::readMsg(Msg* msg) {}
-
 bool Clerk::updateRate(double newRate) {
         rate = (rate * rateNum + newRate) / ++rateNum;
         StaticData::modifyClerk(this->getPhone(), *this);
@@ -92,7 +81,16 @@ void Clerk::serveDish(const QString &orderedDishID, const QString &finishTime, c
 }
 
 void Clerk::setPhone(const QString &newPhone) {
-//    for(unsigned int i = 0; i < unReadMsg.size(); i ++)
-//        unReadMsg[i]->setReceiver(newPhone);
+    for (unsigned int i = 0; i < msgList.size(); i ++) {
+        Msg &cur = msgList[i];
+        if (cur.getReceiver() == this->getPhone()) {
+            cur.setReceiver(newPhone);
+            StaticData::modifyMsg(cur.getMsgID(), cur);
+        }
+        if (cur.getSender() == this->getPhone()) {
+            cur.setSender(newPhone);
+            StaticData::modifyMsg(cur.getMsgID(), cur);
+        }
+    }
     changePhone(newPhone);
 }

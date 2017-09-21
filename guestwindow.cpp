@@ -3,7 +3,6 @@
 #include "guestwindow.h"
 #include "ui_guestwindow.h"
 #include "guest.h"
-#include "person.h"
 #include "staticdata.h"
 #include "tools.h"
 #include "dish.h"
@@ -18,20 +17,17 @@
 
 GuestWindow::GuestWindow(const QString& user, QWidget *parent) :
     QMainWindow(parent),
-    guest("", ""),
+    ui(new Ui::GuestWindow),
+    selectedTable(-1),
+    guest("", "", ""),
     orderedSum(0),
+    aboutMe(NULL),
     checkedOut(true),
     currentOrder(NULL),
-    rateClerkItem(NULL),
-    ui(new Ui::GuestWindow)
+    rateClerkItem(NULL)
 {
     ui->setupUi(this);
-//    ui->tabWidget->tabBar()->setStyle(new CustomTabStyle);
-//    ui->tabWidget->tabBar()->setExpanding(true);
-//    QLabel *fillColor = new QLabel(this);
-//    fillColor->setGeometry(0, 360, 80, 800);
-//    fillColor->setText("");
-//    fillColor->setStyleSheet("background-color: rgb(4, 64, 160);");
+
     ui->tabWidget->tabBar()->setCursor(QCursor(Qt::PointingHandCursor));
     try {
         guest = StaticData::getGuestByPhone(user);
@@ -61,7 +57,6 @@ GuestWindow::GuestWindow(const QString& user, QWidget *parent) :
     connect(ui->sendNapkinButton, &QPushButton::clicked, this, [this] {sendMsg("Napkin");});
     connect(ui->sendQuicklyButton, &QPushButton::clicked, this, [this] {sendMsg("Quickly");});
     connect(this, &GuestWindow::closeEvent, this, [this] {
-        //viewErrInfo("XXX");
         StaticData::insertGuest(guest, 2);
     });
     viewTableList();
@@ -84,17 +79,11 @@ GuestWindow::GuestWindow(const QString& user, QWidget *parent) :
 
 GuestWindow::~GuestWindow()
 {
-    clearPointerList(tableItem);
-    clearPointerList(dishItem);
-    clearPointerList(cartItem);
-    clearPointerList(orderItem);
-    delete aboutMe;
     delete ui;
 }
 //QItemDelegate
 
 void GuestWindow::viewTableList() {
-    clearPointerList(tableItem);
     for(unsigned int i = 0; i < StaticData::getTableList().size(); i ++) {
         if(i % 3 == 0 && ui->tableList->rowCount() <= (int)i/3)
             ui->tableList->setRowCount(ui->tableList->rowCount() + 1);
@@ -105,7 +94,6 @@ void GuestWindow::viewTableList() {
         ui->tableList->setCellWidget(row, col, table);
         if (StaticData::getTableList()[i].getFreeSeats() == 0)
             table->setEnabled(false);
-        tableItem.push_back(table);
     }
     if(guest.getTable() > 0) {
         selectedTable = guest.getTable();
@@ -116,19 +104,16 @@ void GuestWindow::viewTableList() {
 }
 
 void GuestWindow::viewDishList() {
-    clearPointerList(dishItem);
     ui->dishList->setRowCount(0);
     for(unsigned int i = 0; i < StaticData::getDishList().size(); i ++) {
         int row = ui->dishList->rowCount();
         ui->dishList->setRowCount(row + 1);
         Item* item = new Item(guest, StaticData::getDishList()[i], "dishList", ui->dishList);
         ui->dishList->setCellWidget(row, 0, item);
-        dishItem.push_back(item);
     }
 }
 
 void GuestWindow::viewCartList() {
-    clearPointerList(cartItem);
     ui->cartList->setRowCount(0);
     for(unsigned int i = 0; i < guest.getOrderedDishList().size(); i ++) {
         int row = ui->cartList->rowCount();
@@ -136,7 +121,6 @@ void GuestWindow::viewCartList() {
         Item* item = new Item(guest, guest.getOrderedDishList()[i], "cartList", ui->cartList);
         connect(item, SIGNAL(dishNumChanged(const QString&, int)), this, SLOT(setDishNum(const QString&, int)));
         ui->cartList->setCellWidget(row, 0, item);
-        cartItem.push_back(item);
     }
     updateSum();
     if(guest.getSumInCart() == 0)
@@ -151,16 +135,11 @@ void GuestWindow::viewOrderList() {
         delete rateClerkItem;
         rateClerkItem = NULL;
     }
-    //ui->viewOrderButton->setText("Refresh");
-    //ui->viewOrderButton->setGeometry(1010, 790, 80, 50);
-    //ui->refreshOrderInfoButton->hide();
     ui->checkOutButton->hide();
     ui->backButton->hide();
     ui->refreshButton->setGeometry(1020, 10, 60, 60);
-    //ui->viewOrderButton->show();
-    clearPointerList(dishInOrderItem);
-    clearPointerList(orderItem);
     ui->orderList->setRowCount(0);
+    vector<OrderItem*> orderItem;
     //check each order, if they are active, show them first;
     vector<bool> isFinished;
     for(unsigned int i = 0; i < StaticData::getOrderList().size(); i ++) {
@@ -186,26 +165,20 @@ void GuestWindow::viewOrderList() {
             ui->orderList->setCellWidget(ui->orderList->rowCount() - 1, 0, orderItem[i]);
             orderItem[i]->show();
         }
+    orderItem.clear();
 }
 
 void GuestWindow::viewDishInOrderList(Order* order) {
     currentOrder = order;
-    //ui->viewOrderButton->setText("Back");
-    //ui->viewOrderButton->setGeometry(730, 790, 80, 50);
-    //ui->viewOrderButton->hide();
-    //ui->refreshOrderInfoButton->show();
     ui->checkOutButton->show();
     ui->backButton->show();
     ui->refreshButton->setGeometry(930, 10, 60, 60);
-    clearPointerList(orderItem);
-    clearPointerList(dishInOrderItem);
     ui->orderList->setRowCount(0);
     for(unsigned int i = 0; i < order->getOrderDishes().size(); i ++) {
         Item* item = new Item(guest, StaticData::getOrderedDishByID(order->getOrderDishes()[i]), "orderList", ui->orderList);
         connect(item, &Item::refreshRequested, this, [this] {viewDishInOrderList(currentOrder);});
         ui->orderList->setRowCount(ui->orderList->rowCount() + 1);
         ui->orderList->setCellWidget(ui->orderList->rowCount() - 1, 0, item);
-        dishInOrderItem.push_back(item);
         item->show();
     }
     ui->checkOutButton->setEnabled(order->checkStatus() == 4);
@@ -358,7 +331,7 @@ void GuestWindow::setSelectedTable(int tableID) {
     viewTableList();
 }
 
-void GuestWindow::on_submitCartButton_clicked()
+void GuestWindow::submitCart()
 {
     if(ui->submitTableButton->isEnabled()) {
         viewErrInfo("You haven't selected a table, please select one");
@@ -370,8 +343,7 @@ void GuestWindow::on_submitCartButton_clicked()
         orderInfo += "￥" + QString().setNum(guest.getOrderedDishList()[i].getPrice()) + " x " + QString().setNum(guest.getOrderedDishList()[i].getNum()) + " = ￥" + QString().setNum(guest.getOrderedDishList()[i].getPrice() * guest.getOrderedDishList()[i].getNum()) + "\n\n";
     }
     orderInfo += "Total: ￥" + QString().setNum(guest.getSumInCart()) + "\n\n Submit?";
-    int reply = QMessageBox::question(NULL, "Confirm Order", orderInfo, QMessageBox::Yes, QMessageBox::No);
-    if (reply == QMessageBox::Yes) {
+    if (confirm(orderInfo)) {
         guest.modifyTable(guest.getTable());
         guest.submitCart(ui->requestText->text());
         viewDishList();
@@ -382,7 +354,7 @@ void GuestWindow::on_submitCartButton_clicked()
     checkedOut = false;
 }
 
-void GuestWindow::on_submitTableButton_clicked()
+void GuestWindow::submitTable()
 {
     if(!guest.selectTable(StaticData::getTableByID(selectedTable))) {
         viewErrInfo(QString("No seats left for Table No. %1, please reselect.").arg(selectedTable));
@@ -447,7 +419,7 @@ void GuestWindow::on_refreshButton_clicked()
        viewMsgList();
     }
     else if (index == 5) {
-        aboutMe->on_refreshInfoButton_clicked();
+        aboutMe->refresh();
     }
 }
 
@@ -455,17 +427,17 @@ void GuestWindow::on_submitButton_clicked()
 {
     int index = ui->tabWidget->currentIndex();
     if (index == 0) {
-        on_submitTableButton_clicked();
+        submitTable();
     }
     else if (index == 2) {
-        on_submitCartButton_clicked();
+        submitCart();
     }
     else if (index == 5) {
-        aboutMe->on_submitInfoButton_clicked();
+        aboutMe->submit();
     }
 }
 
 void GuestWindow::on_logoutButton_clicked()
 {
-    aboutMe->on_logoutButton_clicked();
+    aboutMe->logout();
 }

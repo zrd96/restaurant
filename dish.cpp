@@ -43,26 +43,34 @@ void Dish::queryRate() {
     }
 }
 
-void Dish::show() const {}
-
-void Dish::showAll() {}
-
-//OrderedDish::OrderedDish(const Dish& dish, const QString &orderer, int tableNum, int status, const QString &chef):
-//    Dish(dish),
-//    orderer(orderer),
-//    tableNum(tableNum),
-//    status(status),
-//    chef(chef),
-//    num(1) {}
-
 OrderedDish::OrderedDish(const Dish &dish, const QString &orderedDishID, const QString &orderer, int tableNum, const QString &datetime, const QString &request, int status, const QString &chef, double rate):
     Dish(dish),
     orderedDishID(orderedDishID),
     orderer(orderer),
+    request(request),
+    num(1),
     tableNum(tableNum),
     datetime(datetime),
-    request(request),
-    status(status),
     chef(chef),
-    userRate(rate),
-    num(1) {}
+    status(status),
+    userRate(rate) {}
+
+void OrderedDish::setRate(double rate) {
+    this->userRate = rate;
+    StaticData::modifyOrderedDish(this->getOrderedDishID(), *this);
+}
+
+void OrderedDish::setTableNum(int tableNum) {
+    this->tableNum = tableNum;
+    StaticData::modifyOrderedDish(this->getOrderedDishID(), *this);
+}
+
+void OrderedDish::setOrderer(const QString &orderer) {
+    this->orderer = orderer;
+    StaticData::modifyOrderedDish(this->getOrderedDishID(), *this);
+}
+
+void OrderedDish::setChef(const QString &chef) {
+    this->chef = chef;
+    StaticData::modifyOrderedDish(this->getOrderedDishID(), *this);
+}

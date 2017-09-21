@@ -10,8 +10,6 @@ Table::Table(int id, int seats, int freeSeats, const QString &clerk):
     freeSeats(freeSeats),
     clerk(clerk) {}
 
-void Table::viewAll() {}
-
 void Table::linkClerk(Clerk& clerk) {
     this->clerk = clerk.getPhone();
     StaticData::modifyTable(this->getTableID(), *this);

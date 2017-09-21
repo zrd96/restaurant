@@ -5,7 +5,6 @@
 #include "datamanager.h"
 #include "mysqlmanager.h"
 #include "dish.h"
-//#include "person.h"
 #include "msg.h"
 #include "guest.h"
 #include "clerk.h"

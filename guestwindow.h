@@ -8,13 +8,11 @@
 #include <QString>
 
 #include "dish.h"
-#include "item.h"
 #include "guest.h"
-#include "tableitem.h"
+#include "order.h"
 #include "aboutmewidget.h"
-#include "logindlg.h"
-#include "orderitem.h"
 #include "rateitem.h"
+#include "item.h"
 
 
 namespace Ui {
@@ -32,37 +30,24 @@ class GuestWindow : public QMainWindow
 public:
     explicit GuestWindow(const QString& user, QWidget *parent = 0);
     ~GuestWindow();
-    void viewTableList();
-    void viewDishList();
-    void viewCartList();
-    void viewOrderList();
-    void viewMsgList();
 
 public slots:
+
+private slots:
+    void submitCart();
+    void submitTable();
+    void viewDishInOrderList(Order* order);
     void setDishNum(const QString& dishID, int finalNum);
     void updateSum();
     void setSelectedTable(int tableID);
     void rateClerk(double newRate);
 
-private slots:
     void on_tabWidget_currentChanged(int index);
-
-    void on_submitCartButton_clicked();
-
-    void on_submitTableButton_clicked();
-
     void on_sendMsgButton_clicked();
-
-    void viewDishInOrderList(Order* order);
-
     void on_checkOutButton_clicked();
-
     void on_backButton_clicked();
-
     void on_refreshButton_clicked();
-
     void on_submitButton_clicked();
-
     void on_logoutButton_clicked();
 
 signals:
@@ -70,21 +55,21 @@ signals:
     void closeEvent(QCloseEvent* ev);
 
 private:
-    vector<TableItem*> tableItem;
-    vector<Item*> dishItem;
-    vector<Item*> cartItem;
-    vector<OrderItem*> orderItem;
-    vector<Item*> dishInOrderItem;
+    Ui::GuestWindow *ui;
     int selectedTable;
     Guest guest;
     double orderedSum;
-    Ui::GuestWindow *ui;
     AboutMeWidget* aboutMe;
     bool checkedOut;
     Order* currentOrder;
     RateItem* rateClerkItem;
+    vector<Item*> dishItem;
     void sendMsg(const QString &msg);
-    //void closeEvent(QCloseEvent* ev) {emit windowClosed();}
+    void viewTableList();
+    void viewDishList();
+    void viewCartList();
+    void viewOrderList();
+    void viewMsgList();
 };
 
 #endif // GUESTWINDOW_H

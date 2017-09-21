@@ -9,8 +9,8 @@
 
 Comment::Comment(const Rate &rate, QWidget *parent) :
     QWidget(parent),
-    rateVal(-1),
-    ui(new Ui::Comment)
+    ui(new Ui::Comment),
+    rateVal(-1)
 {
     ui->setupUi(this);
     ui->commentUser->setText(QString("%1****%2").arg(rate.getSubject().mid(0, 3)).arg(rate.getSubject().mid(7, 4)));
@@ -61,7 +61,7 @@ Comment::Comment(OrderedDish &dish, QWidget *parent) :
                     ui->commentText->toPlainText()));
         dish.setStatus(6);
         dish.setRate(rateVal);
-        StaticData::modifyOrderedDish(dish.getOrderedDishID(), dish);
+        StaticData::getChefByPhone(dish.getChef()).updateRate(rateVal);
         viewErrInfo("Success");
         this->close();
     });

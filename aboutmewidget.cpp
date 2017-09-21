@@ -2,6 +2,7 @@
 #include "ui_aboutmewidget.h"
 #include "person.h"
 #include "clerk.h"
+#include "chef.h"
 #include "tools.h"
 #include "staticdata.h"
 #include "rateitem.h"
@@ -45,13 +46,13 @@ AboutMeWidget::~AboutMeWidget()
     delete ui;
 }
 
-void AboutMeWidget::on_refreshInfoButton_clicked()
+void AboutMeWidget::refresh()
 {
     ui->nameEdit->setText((person->getName()));
     ui->phoneEdit->setText((person->getPhone()));
 }
 
-void AboutMeWidget::on_submitInfoButton_clicked()
+void AboutMeWidget::submit()
 {
     QString newName = ui->nameEdit->text();
     QString newPhone = ui->phoneEdit->text();
@@ -90,6 +91,15 @@ void AboutMeWidget::on_submitInfoButton_clicked()
     viewErrInfo("Succeeded");
 }
 
+void AboutMeWidget::logout()
+{
+    int reply = QMessageBox::question(NULL, "Log Out", "Your unsubmitted contents will not be saved, log out?", QMessageBox::Yes, QMessageBox::No);
+    if(reply != QMessageBox::Yes)
+        return;
+    mainWindow->close();
+}
+
+
 void AboutMeWidget::on_newPassword_textChanged(const QString &newPassword)
 {
     if(newPassword.length() >= 6)
@@ -116,12 +126,4 @@ void AboutMeWidget::on_phoneEdit_textChanged(const QString &newPhone)
 {
     if(newPhone != person->getPhone())
         ui->submitInfoButton->setEnabled(true);
-}
-
-void AboutMeWidget::on_logoutButton_clicked()
-{
-    int reply = QMessageBox::question(NULL, "Log Out", "Your unsubmitted contents will not be saved, log out?", QMessageBox::Yes, QMessageBox::No);
-    if(reply != QMessageBox::Yes)
-        return;
-    mainWindow->close();
 }

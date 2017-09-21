@@ -66,6 +66,3 @@ bool Cart::submit(const QString &orderer, int table, const QString &request) {
     return true;
 }
 
-bool Cart::checkout() {return true;}
-
-void Cart::show() const {}

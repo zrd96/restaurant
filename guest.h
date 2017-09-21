@@ -12,20 +12,22 @@
 
 class Guest: public Person {
     public:
-        Guest(const QString &phone, const QString &name);
+        //Guest(const QString &phone, const QString &name);
         Guest(const QString &phone, const QString &name, const QString &password, int table = -1);
-        void addDish(const Dish& dish);
-        void removeDish(const Dish& dish);
-        bool selectTable(Table& table);
-        void freeTable();
+
         int getTable() const {return table;}
+
         double getSumInCart() const {return cart.getSumInCart();}
         vector<OrderedDish>& getOrderedDishList() {return cart.getOrderedDishList();}
-        void viewProgress();
-        void rateDish(Dish& dish, const Rate &rate);
-        void rateClerk(Clerk& clerk, double rate);
+
+        bool selectTable(Table& table);
+        void addDish(const Dish& dish);
+        void removeDish(const Dish& dish);
         void modifyTable(int newTableNum);
         void submitCart(const QString &request);
+        void rateDish(Dish& dish, const Rate &rate);
+        void rateClerk(Clerk& clerk, double rate);
+        void freeTable();
         void setPhone(const QString &newPhone);
     private:
         int table;

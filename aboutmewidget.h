@@ -2,8 +2,8 @@
 #define ABOUTMEWIDGET_H
 
 #include <QWidget>
+#include <QMainWindow>
 #include "person.h"
-#include "logindlg.h"
 
 namespace Ui {
 class AboutMeWidget;
@@ -20,19 +20,15 @@ public:
     ~AboutMeWidget();
 
 public slots:
-    void on_refreshInfoButton_clicked();
+    void refresh();
+    void submit();
+    void logout();
 
-    void on_submitInfoButton_clicked();
-
+private slots:
     void on_nameEdit_textChanged(const QString &newName);
-
     void on_phoneEdit_textChanged(const QString &newPhone);
-
     void on_newPassword_textChanged(const QString &newPassword);
-
     void on_currentPassword_textChanged(const QString &curPassword);
-
-    void on_logoutButton_clicked();
 
 private:
     Ui::AboutMeWidget *ui;

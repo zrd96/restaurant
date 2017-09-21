@@ -1,11 +1,17 @@
 #include "clerkwindow.h"
 #include "ui_clerkwindow.h"
 #include "emptyresult.h"
+#include "aboutmewidget.h"
+#include "staticdata.h"
+#include "tools.h"
+#include "tableitem.h"
 
 ClerkWindow::ClerkWindow(const QString &user, QWidget *parent) :
     QMainWindow(parent),
-    clerk(Clerk("", "")),
-    ui(new Ui::ClerkWindow)
+    ui(new Ui::ClerkWindow),
+    clerk(Clerk("", "", "")),
+    aboutMe(NULL),
+    selectedTable(-1)
 {
     ui->setupUi(this);
     try {
@@ -16,26 +22,6 @@ ClerkWindow::ClerkWindow(const QString &user, QWidget *parent) :
     }
     aboutMe = new AboutMeWidget(&clerk, this, ui->selfTab);
     aboutMe->show();
-//    ui->readyDishList->setColumnWidth(0, 100);//chef
-//    ui->readyDishList->setColumnWidth(0, 80);//table
-//    ui->readyDishList->setColumnWidth(0, 100);//guest
-//    ui->readyDishList->setColumnWidth(0, 180);//ODID
-//    ui->readyDishList->setColumnWidth(0, 150);//name
-//    ui->readyDishList->setColumnWidth(0, 180);//OD time
-//    ui->readyDishList->setColumnWidth(0, 180);//finished time
-//    ui->readyDishList->setColumnWidth(0, 60);//served
-//    ui->readyDishList->resizeColumnsToContents();
-//    ui->msgList->resizeColumnsToContents();
-//    ui->msgList->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-//    ui->msgList->setColumnWidth(0, 200);
-//    ui->msgList->setColumnWidth(1, 150);
-//    ui->msgList->setColumnWidth(2, 550);
-//    ui->msgList->setColumnWidth(3, 250);
-    ui->refreshMsgButton->hide();
-    ui->refreshTableButton->hide();
-    ui->refreshReadyDishButton->hide();
-    ui->submitTableButton->hide();
-    //ui->submitTableButton->setEnabled(false);
     ui->tabWidget->setCurrentIndex(0);
     on_tabWidget_currentChanged(0);
 //    viewTableList();
@@ -49,7 +35,6 @@ ClerkWindow::~ClerkWindow()
 }
 
 void ClerkWindow::viewTableList() {
-    clearPointerList(tableItem);
     checkSelectedTables();
     for(unsigned int i = 0; i < StaticData::getTableList().size(); i ++) {
         Table &cur = StaticData::getTableList()[i];
@@ -67,7 +52,6 @@ void ClerkWindow::viewTableList() {
 //            }
         if (cur.getSeats() == cur.getFreeSeats() || cur.getClerk() != "NULL")
             table->setEnabled(false);
-        tableItem.push_back(table);
     }
 //    ui->tableList->setEnabled(ui->submitTableButton->isEnabled());
 }
@@ -79,35 +63,15 @@ void ClerkWindow::setSelectedTable(int tableID) {
     ui->selectedTable->setText(QString("%1 %2, please submit").arg(ui->selectedTable->text()).arg(tableID));
 }
 
-void ClerkWindow::on_submitTableButton_clicked()
-{
-    clerk.takeTable(StaticData::getTableByID(selectedTable));
-    viewTableList();
-    ui->submitTableButton->setEnabled(false);
-}
-
-void ClerkWindow::checkSelectedTables() {
-    clerk.checkTable();
-    if (clerk.getTableList().empty()) {
-        ui->selectedTable->setText("Selected Table(s): None");
-        return;
-    }
-    ui->selectedTable->setText(QString("Selected Table(s): No."));
-    for (unsigned int i = 0; i < clerk.getTableList().size(); i ++)
-        ui->selectedTable->setText(QString("%1 %2").arg(ui->selectedTable->text()).arg(clerk.getTableList()[i]));
-}
-
 void ClerkWindow::viewReadyDishList() {
     clerk.queryMsg();
     ui->readyDishList->setRowCount(0);
     for (unsigned int i = 0; i < clerk.getMsgList().size(); i ++) {
         Msg &cur = clerk.getMsgList()[i];
-        viewErrInfo(cur.getMsg());
         if (cur.getMsg().contains("Dish ready")) {
             int row = ui->readyDishList->rowCount();
             ui->readyDishList->setRowCount(row + 1);
             QString orderedDishID = cur.getMsg().mid(11);
-            viewErrInfo(orderedDishID);
             OrderedDish &orderedDish = StaticData::getOrderedDishByID(orderedDishID);
             ui->readyDishList->setItem(row, 0, new QTableWidgetItem((cur.getSender())));
             ui->readyDishList->setItem(row, 1, new QTableWidgetItem(QString("Table %1").arg(orderedDish.getTable())));
@@ -154,6 +118,26 @@ void ClerkWindow::viewMsgList() {
     ui->msgList->resizeColumnsToContents();
 }
 
+void ClerkWindow::submitTable()
+{
+    if (selectedTable <= 0)
+        return;
+    clerk.takeTable(StaticData::getTableByID(selectedTable));
+    viewTableList();
+    ui->submitTableButton->setEnabled(false);
+}
+
+void ClerkWindow::checkSelectedTables() {
+    clerk.checkTable();
+    if (clerk.getTableList().empty()) {
+        ui->selectedTable->setText("Selected Table(s): None");
+        return;
+    }
+    ui->selectedTable->setText(QString("Selected Table(s): No."));
+    for (unsigned int i = 0; i < clerk.getTableList().size(); i ++)
+        ui->selectedTable->setText(QString("%1 %2").arg(ui->selectedTable->text()).arg(clerk.getTableList()[i]));
+}
+
 void ClerkWindow::on_tabWidget_currentChanged(int index)
 {
     if (index == 0) {
@@ -181,16 +165,6 @@ void ClerkWindow::on_tabWidget_currentChanged(int index)
     }
 }
 
-void ClerkWindow::on_refreshMsgButton_clicked()
-{
-    viewMsgList();
-}
-
-void ClerkWindow::on_refreshReadyDishButton_clicked()
-{
-    viewReadyDishList();
-}
-
 void ClerkWindow::on_refreshButton_clicked()
 {
     int index = ui->tabWidget->currentIndex();
@@ -204,20 +178,20 @@ void ClerkWindow::on_refreshButton_clicked()
         viewMsgList();
     }
     else if (index == 3) {
-        aboutMe->on_refreshInfoButton_clicked();
+        aboutMe->refresh();
     }
 }
 
 void ClerkWindow::on_submitButton_clicked()
 {
     if (ui->tabWidget->currentIndex() == 0)
-        on_submitTableButton_clicked();
+        submitTable();
     else if (ui->tabWidget->currentIndex() == 3) {
-        aboutMe->on_submitInfoButton_clicked();
+        aboutMe->submit();
     }
 }
 
 void ClerkWindow::on_logoutButton_clicked()
 {
-    aboutMe->on_logoutButton_clicked();
+    aboutMe->logout();
 }

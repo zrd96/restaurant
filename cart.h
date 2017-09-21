@@ -8,13 +8,13 @@
 class Cart {
         public:
                 Cart();
-                bool submit(const QString &orderer, int table, const QString &request);
-                bool checkout();
+                int getNum() const {return num;}
                 double getSumInCart() const {return sum;}
-                void show() const;
+                vector<OrderedDish>& getOrderedDishList() {return orderedDishes;}
+                bool submit(const QString &orderer, int table, const QString &request);
+                //owner is used to generate orderedDishID
                 bool add(const Dish& dish, const QString &owner, int tableNum);
                 bool remove(const Dish& dish);
-                vector<OrderedDish>& getOrderedDishList() {return orderedDishes;}
         private:
                 int num;
                 double sum;

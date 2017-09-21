@@ -19,7 +19,6 @@ class Item : public QWidget
 
 public:
     Item(Person& person, Dish& oriDish, const QString &listType, QWidget *parent = 0);
-    //explicit Item(Guest& guest, const OrderedDish& dish, int num, QWidget *parent = 0);
     ~Item();
     QString getDishID() const {return dish.getDishID();}
     void setDishNumText(int finalNum);
@@ -37,11 +36,12 @@ private:
     int dishNum;
     QString listType;
     RateItem* itemRate;
+
+    //uesed to track mouse, when clicked on the dish name text, show detailed dish info
     void mousePressEvent(QMouseEvent *ev);
 
 private slots:
     void setNumTo();
-    void rateDish(double newRate);
 
 signals:
     void dishNumChanged(const QString& dishID, int finalNum);
