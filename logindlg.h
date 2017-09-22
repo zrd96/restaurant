@@ -29,8 +29,8 @@ private slots:
 private:
     Ui::LoginDlg *ui;
     QString phone;
-    QString password;
     QString name;
+    QString password;
     int userType;
     AdminWindow* adminWindow;
     GuestWindow* guestWindow;
@@ -40,7 +40,6 @@ private:
     bool checkEnteredLogin();
     bool checkEnteredSignup();
     int checkedIDLogin();
-    int checkedIDSignup();
     void logIn(QString user, int userType);
     void closeEvent(QCloseEvent* ev);
 };

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Edit Dish</string>
   </property>
   <widget class="QLabel" name="dishImg">
    <property name="geometry">
@@ -104,7 +104,7 @@
   <widget class="QLineEdit" name="priceEdit">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>150</x>
      <y>85</y>
      <width>113</width>
      <height>30</height>

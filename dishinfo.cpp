@@ -14,7 +14,7 @@ DishInfo::DishInfo(Dish &dish, QWidget *parent) :
     ui->setupUi(this);
     ui->tableWidget->setRowCount(1);
     ui->tableWidget->setRowHeight(0, 300);
-    DishInfoHead* head = new DishInfoHead(dish, this);
+    DishInfoHead* head = new DishInfoHead(dish, false, this);
     ui->tableWidget->setCellWidget(0, 0, head);
     viewComments(dish);
 }

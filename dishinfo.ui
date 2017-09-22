@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Detailed Dish Infomation</string>
   </property>
   <widget class="QTableWidget" name="tableWidget">
    <property name="geometry">

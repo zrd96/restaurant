@@ -45,7 +45,6 @@ private slots:
 
 signals:
     void dishNumChanged(const QString& dishID, int finalNum);
-    void numChanged();
     void refreshRequested();
 };
 

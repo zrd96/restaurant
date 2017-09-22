@@ -6,6 +6,7 @@
 #include "msg.h"
 #include "mysqlmanager.h"
 #include "tools.h"
+#include "emptyresult.h"
 
 using namespace std;
 
@@ -44,6 +45,9 @@ void MySQLManager::initConnection() {
         if (isConnected) {
 #define USESQL
         }
+        else {
+            throw EmptyResult("SQL Error");
+        }
 }
 
 bool MySQLManager::runSQLCommand(const QString &cmd) {
@@ -68,13 +72,13 @@ bool MySQLManager::initDB() {
             return false;
         if(!runSQLCommand("create table dish(dishid char(50) not NULL primary key, name char(200) not NULL, intro char(200), price float not NULL, rate float default 0, rateNum int unsigned default 0, time tinyint unsigned, imgdir char(250) default \"img/dishes/default.jpg\")"))
             return false;
-        if(!runSQLCommand("create table orderedDish(id char(50) not NULL primary key, dishid char(50) not NULL, orderer char(15) not NULL, tableNum int unsigned not NULL, status tinyint unsigned not NULL, datetime char(20) not NULL, chef char(15) not NULL, request char(200) not NULL)"))
+        if(!runSQLCommand("create table orderedDish(id char(50) not NULL primary key, dishid char(50) not NULL, orderer char(15) not NULL, tableNum int unsigned not NULL, status tinyint unsigned not NULL, datetime char(20) not NULL, chef char(15) not NULL, request char(200) not NULL, rate float not NULL)"))
             return false;
         if(!runSQLCommand("create table tableList(id int unsigned not NULL auto_increment primary key, seats int unsigned not NULL, freeSeats int unsigned not NULL, clerk char(15) not NULL)"))
             return false;
         if(!runSQLCommand("create table rate(rateID char(100) not NULL primary key, rate float not NULL, subject char(15) not NULL, object char(50) not NULL, datetime char(20) not NULL, title char(50) not NULL, comments char(200) not NULL)"))
             return false;
-        if(!runSQLCommand("create table orderList(orderID char(50) not NULL primary key, orderer char(15) not NULL, datetime char(20) not NULL, clerk char(15) not NULL, tableID tinyint unsigned not NULL)"));
+        if(!runSQLCommand("create table orderList(orderID char(50) not NULL primary key, orderer char(15) not NULL, datetime char(20) not NULL, clerk char(15) not NULL, tableID tinyint unsigned not NULL, rate float not NULL)"));
             return false;
         return true;
 }

@@ -32,7 +32,6 @@ ChefWindow::~ChefWindow()
 }
 
 void ChefWindow::viewOrderedDishList() {
-    ui->orderedDishList->clearContents();
     ui->orderedDishList->setRowCount(0);
     for (unsigned int i = 0; i < StaticData::getOrderedDishList().size(); i ++) {
         OrderedDish& curDish = StaticData::getOrderedDishList()[i];

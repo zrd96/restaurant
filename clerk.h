@@ -26,6 +26,7 @@ class Clerk: public Person {
                 void queryMsg();
                 void readMsg(Msg* msg);
                 bool updateRate(double newRate);
+                void serveDish(const QString &orderedDishID, const QString &finishTime);
                 void setPhone(const QString &newPhone);
         private:
                 double rate;
@@ -34,8 +35,6 @@ class Clerk: public Person {
                 int serveDishNum;
                 double averageServeTime;
                 vector<int> tableList;
-                vector<Msg> msgList;
-                void serveDish(const QString &orderedDishID, const QString &finishTime, const QString &orderer);
-};
+                vector<Msg> msgList;};
 
 #endif

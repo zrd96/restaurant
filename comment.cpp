@@ -39,9 +39,9 @@ Comment::Comment(OrderedDish &dish, QWidget *parent) :
     rateItem->setGeometry(120, 70, 150, 30);
     connect(rateItem, SIGNAL(rateSet(double)), this, SLOT(setRate(double)));
     setEditable(true);
-    this->resize(460, 300);
+    this->resize(460, 270);
     QPushButton *submit = new QPushButton(this);
-    submit->setGeometry(195, 230, 70, 60);
+    submit->setGeometry(195, 200, 60, 60);
     submit->setText("");
     QIcon icon;
     icon.addFile(QStringLiteral(":/res/img/img/submit.png"), QSize(), QIcon::Normal, QIcon::Off);
@@ -52,13 +52,15 @@ Comment::Comment(OrderedDish &dish, QWidget *parent) :
             viewErrInfo("Please set a rate");
             return;
         }
-        dish.updateRate(Rate(QString("R%1%2%3%4").arg(getTimeUniform()).arg(dish.getOrderer()).arg(dish.getDishID()).arg(dish.getRateNum()),
-                    rateVal,
-                    dish.getOrderer(),
-                    dish.getDishID(),
-                    getTime(),
-                    ui->commentTitle->text(),
-                    ui->commentText->toPlainText()));
+        Rate newRate(QString("R%1%2%3%4").arg(getTimeUniform()).arg(dish.getOrderer()).arg(dish.getDishID()).arg(dish.getRateNum()),
+                          rateVal,
+                          dish.getOrderer(),
+                          dish.getDishID(),
+                          getTime(),
+                          ui->commentTitle->text(),
+                          ui->commentText->toPlainText());
+        StaticData::insertRate(newRate, 1);
+        dish.updateRate(newRate);
         dish.setStatus(6);
         dish.setRate(rateVal);
         StaticData::getChefByPhone(dish.getChef()).updateRate(rateVal);

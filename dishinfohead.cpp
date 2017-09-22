@@ -21,16 +21,16 @@ DishInfoHead::DishInfoHead(Dish &dish, bool isEditable, QWidget *parent) :
     ui->dishImg->setScaledContents(true);
     ui->dishName->setReadOnly(!isEditable);
     ui->dishIntro->setReadOnly(!isEditable);
+    ui->dishName->setPlainText((dish.getName()));
+    ui->dishPrice->setText(QString("￥ %1").arg(dish.getPrice()));
+    ui->dishIntro->setPlainText(dish.getIntro());
     if (!isEditable) {
         this->resize(400, 300);
         ui->timeEdit->hide();
         ui->priceEdit->hide();
         ui->changeImgButton->hide();
         ui->submitButton->hide();
-        ui->dishName->setPlainText((dish.getName()));
-        ui->dishPrice->setText(QString("￥ %1").arg(dish.getPrice()));
-        ui->dishIntro->setPlainText(dish.getIntro());
-        ui->dishRateInfo->setText(QString("Rated %1/5 from %2 people").arg(dish.getRate()).arg(dish.getRateNum()));
+        ui->dishRateInfo->setText(QString("Rated %1/5 from %2 people").arg(dish.getRate(), 0, 'f', 2).arg(dish.getRateNum()));
         RateItem *rateItem = new RateItem(this);
         rateItem->setGeometry(130, 250, 150, 30);
         rateItem->setRate(dish.getRate());
@@ -40,8 +40,12 @@ DishInfoHead::DishInfoHead(Dish &dish, bool isEditable, QWidget *parent) :
     else {
         ui->dishRateInfo->hide();
         ui->changeImgButton->show();
-        ui->dishPrice->setText("￥");
-        ui->priceEdit->setPlaceholderText("Please input dish price");
+        ui->dishPrice->setText(QString("￥ %1").arg(dish.getPrice()));
+        if (dish.getPrice() > 0)
+            ui->priceEdit->setText(QString().setNum(dish.getPrice()));
+        if (dish.getTimeNeeded() > 0)
+            ui->timeEdit->setText(QString().setNum(dish.getTimeNeeded()));
+        ui->priceEdit->setPlaceholderText("Price");
         ui->dishName->setPlaceholderText("Please input dish name");
         ui->dishIntro->setPlaceholderText("Please input dish description");
         //ui->dishImg->setCursor(QCursor(Qt::PointingHandCursor));
@@ -57,7 +61,7 @@ DishInfoHead::~DishInfoHead()
 }
 
 void DishInfoHead::setDishImg() {
-    QString path = QFileDialog::getOpenFileName(this, tr("Open Image"), ".", tr("Image Files(*.jpg *.png *.bmp *.tif *.GIF)"));
+    QString path = QFileDialog::getOpenFileName(this, tr("Open Image"), ".", tr("Image Files(*.jpg *.jpeg *.png *.bmp *.tif *.GIF)"));
     if (path.size() == 0)
         viewErrInfo("Empty file");
     else {
@@ -96,6 +100,5 @@ void DishInfoHead::submit() {
                                 ui->priceEdit->text().toDouble(),
                                 (checkNum ? ui->timeEdit->text().toDouble() : -1), 0, 0,
                                 imgdir));
-    viewErrInfo(dishID);
     viewErrInfo("Success");
 }

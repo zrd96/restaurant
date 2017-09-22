@@ -73,16 +73,18 @@ bool StaticData::queryOrderedDish() {
                 return false;
         vector<vector<QString> > resultList = db->getResultList();
         for(unsigned int i = 0; i < resultList.size(); i ++) {
-            OrderedDish tmp(getDishByID(resultList[i][1]),
-                    resultList[i][0],
-                    resultList[i][2],
-                    resultList[i][3].toInt(),
-                    resultList[i][5],
-                    resultList[i][7], //request
-                    resultList[i][4].toInt(),
-                    resultList[i][6],
-                    resultList[i][8].toDouble());
-            insertOrderedDish(tmp);
+            try {
+                OrderedDish tmp(getDishByID(resultList[i][1]),
+                        resultList[i][0],
+                        resultList[i][2],
+                        resultList[i][3].toInt(),
+                        resultList[i][5],
+                        resultList[i][7], //request
+                        resultList[i][4].toInt(),
+                        resultList[i][6],
+                        resultList[i][8].toDouble());
+                insertOrderedDish(tmp);
+            } catch (EmptyResult) {}
         }
         return true;
 }
@@ -156,7 +158,7 @@ bool StaticData::queryManager() {
 bool StaticData::queryOrder() {
     //queryOrderedDish();
     orderList.clear();
-    orderedDishMaintainList.clear();
+    orderMaintainList.clear();
     if (!db->doQuery("orderList", "*"))
         return false;
     vector<vector<QString> > resultList = db->getResultList();
@@ -525,13 +527,18 @@ void StaticData::writeGuest() {
     for (unsigned int i = 0; i < guestList.size(); i ++) {
         Guest& cur = guestList[i];
         if (guestMaintainList[i] > 0) {
-            if(db->doesExist("person", QString("phone = \"%1\"").arg(cur.getPhone())))
-                db->deleteRow("person", QString("phone = \"%1\"").arg(cur.getPhone()));
-            db->insert("person", "\"" + cur.getPhone() + "\", \""
-                       + cur.getName() + "\", \""
-                       + cur.getPassword() + "\", 1, NULL, NULL, "
-                       + (cur.getTable() > 0 ? QString().setNum(cur.getTable()) : "NULL")
-                       + ", 0, 0");
+            if(db->doesExist("person", QString("phone = \"%1\"").arg(cur.getPhone()))) {
+                db->update("person", "name", "\"" + cur.getName() + "\"", QString("phone = \"%1\"").arg(cur.getPhone()));
+                db->update("person", "password", "\"" + cur.getPassword() + "\"", QString("phone = \"%1\"").arg(cur.getPhone()));
+                db->update("person", "tableID", QString().setNum(cur.getTable()), QString("phone = \"%1\"").arg(cur.getPhone()));
+            }
+            else {
+                db->insert("person", "\"" + cur.getPhone() + "\", \""
+                           + cur.getName() + "\", \""
+                           + cur.getPassword() + "\", 1, NULL, NULL, "
+                           + (cur.getTable() > 0 ? QString().setNum(cur.getTable()) : "NULL")
+                           + ", 0, 0");
+            }
         }
         else if (guestMaintainList[i] < 0) {
             db->deleteRow("person", QString("phone = \"%1\"").arg(cur.getPhone()));

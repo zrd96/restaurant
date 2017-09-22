@@ -57,6 +57,8 @@ AdminWindow::AdminWindow(const QString& user, QWidget *parent) :
     viewChefList();
     viewClerkList();
     viewManagerList();
+    ui->tabWidget->setCurrentIndex(0);
+    on_tabWidget_currentChanged(0);
     //qDebug() << QString("jhs").toInt();
 }
 
@@ -551,6 +553,7 @@ void AdminWindow::on_dishList_cellDoubleClicked(int row, int column)
     if (column == 0) {
         DishInfoHead *editPage = new DishInfoHead(StaticData::getDishByID(ui->dishList->item(row, column)->data(Qt::UserRole).toString()), true);
         editPage->show();
+        connect(editPage, &DishInfoHead::closeEvent, this, [this] {viewDishList();});
     }
 }
 

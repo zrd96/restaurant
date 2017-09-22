@@ -73,11 +73,12 @@ bool Clerk::updateRate(double newRate) {
         return true;
 }
 
-void Clerk::serveDish(const QString &orderedDishID, const QString &finishTime, const QString &orderer) {
+void Clerk::serveDish(const QString &orderedDishID, const QString &finishTime) {
     OrderedDish &newOrderedDish = StaticData::getOrderedDishByID(orderedDishID);
     newOrderedDish.setStatus(4);
     StaticData::modifyOrderedDish(orderedDishID, newOrderedDish);
     averageServeTime = (averageServeTime * serveDishNum + getTimeDifference(finishTime)) / ++serveDishNum;
+    StaticData::modifyClerk(this->getPhone(), *this);
 }
 
 void Clerk::setPhone(const QString &newPhone) {

@@ -23,8 +23,9 @@ public:
 
 private slots:
     void on_chefList_cellDoubleClicked(int row, int column);
-
     void on_clerkList_cellDoubleClicked(int row, int column);
+
+    void on_tabWidget_currentChanged(int index);
 
 signals:
     void closeEvent(QCloseEvent *ev);

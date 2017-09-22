@@ -46,7 +46,6 @@ bool Cart::submit(const QString &orderer, int table, const QString &request) {
     for(unsigned int i = 0; i < orderedDishes.size(); i ++) {
         OrderedDish &cur = orderedDishes[i];
         for(int j = 0; j < cur.getNum(); j ++) {//split orders of the same dish and disable the num feature
-            //orderedDishes[i].setOrderedDishID(QString("OD%1%2%3%4").arg(datetime).arg(orderer).arg(i).arg(j));
             OrderedDish tmp(StaticData::getDishByID(cur.getDishID()),
                             QString("OD%1%2%3%4").arg(datetime).arg(orderer).arg(i).arg(j),
                             orderer,
@@ -61,6 +60,7 @@ bool Cart::submit(const QString &orderer, int table, const QString &request) {
     Order newOrder(orderer, reshapedOrderedDish, datetime, table);
     StaticData::insertOrder(newOrder, 1);
     orderedDishes.clear();
+    reshapedOrderedDish.clear();
     num = 0;
     sum = 0;
     return true;

@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/res/img">
         <file>img/active.png</file>
-        <file>img/copytest.png</file>
         <file>img/finished.png</file>
         <file>img/star-filled.png</file>
         <file>img/star-half.png</file>

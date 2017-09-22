@@ -19,7 +19,7 @@
      <rect>
       <x>0</x>
       <y>282</y>
-      <width>93</width>
+      <width>94</width>
       <height>620</height>
      </rect>
     </property>
@@ -28,29 +28,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="backButton">
-    <property name="geometry">
-     <rect>
-      <x>840</x>
-      <y>10</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="res.qrc">
-      <normaloff>:/res/img/img/back.png</normaloff>:/res/img/img/back.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>30</width>
-      <height>30</height>
-     </size>
     </property>
    </widget>
    <widget class="QLabel" name="title">
@@ -79,7 +56,7 @@
    <widget class="QPushButton" name="refreshButton">
     <property name="geometry">
      <rect>
-      <x>930</x>
+      <x>1010</x>
       <y>10</y>
       <width>60</width>
       <height>60</height>
@@ -136,7 +113,7 @@
      <enum>QTabWidget::West</enum>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <property name="iconSize">
      <size>
@@ -457,7 +434,6 @@
    </widget>
    <zorder>title</zorder>
    <zorder>label_5</zorder>
-   <zorder>backButton</zorder>
    <zorder>refreshButton</zorder>
    <zorder>logoutButton</zorder>
    <zorder>tabWidget</zorder>

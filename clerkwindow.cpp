@@ -24,9 +24,6 @@ ClerkWindow::ClerkWindow(const QString &user, QWidget *parent) :
     aboutMe->show();
     ui->tabWidget->setCurrentIndex(0);
     on_tabWidget_currentChanged(0);
-//    viewTableList();
-//    viewReadyDishList();
-//    viewMsgList();
 }
 
 ClerkWindow::~ClerkWindow()
@@ -57,7 +54,7 @@ void ClerkWindow::viewTableList() {
 }
 
 void ClerkWindow::setSelectedTable(int tableID) {
-    ui->submitTableButton->setEnabled(true);
+    ui->submitButton->setEnabled(true);
     selectedTable = tableID;
     checkSelectedTables();
     ui->selectedTable->setText(QString("%1 %2, please submit").arg(ui->selectedTable->text()).arg(tableID));
@@ -69,33 +66,36 @@ void ClerkWindow::viewReadyDishList() {
     for (unsigned int i = 0; i < clerk.getMsgList().size(); i ++) {
         Msg &cur = clerk.getMsgList()[i];
         if (cur.getMsg().contains("Dish ready")) {
-            int row = ui->readyDishList->rowCount();
-            ui->readyDishList->setRowCount(row + 1);
-            QString orderedDishID = cur.getMsg().mid(11);
-            OrderedDish &orderedDish = StaticData::getOrderedDishByID(orderedDishID);
-            ui->readyDishList->setItem(row, 0, new QTableWidgetItem((cur.getSender())));
-            ui->readyDishList->setItem(row, 1, new QTableWidgetItem(QString("Table %1").arg(orderedDish.getTable())));
-            ui->readyDishList->setItem(row, 2, new QTableWidgetItem((orderedDish.getOrderer())));
-            ui->readyDishList->setItem(row, 3, new QTableWidgetItem((orderedDish.getOrderedDishID())));
-            ui->readyDishList->setItem(row, 4, new QTableWidgetItem((orderedDish.getName())));
-            ui->readyDishList->setItem(row, 5, new QTableWidgetItem((orderedDish.getDatetime())));
-            ui->readyDishList->setItem(row, 6, new QTableWidgetItem((cur.getDatetime())));
-            QPushButton* serveButton = new QPushButton(ui->readyDishList);
-            serveButton->setText("Serve");
-            serveButton->resize(30, 30);
-            if (!cur.getState()) {
-                serveButton->setText("Finised");
-                serveButton->setEnabled(false);
-            }
-            connect(serveButton, &QPushButton::clicked, this, [&, serveButton] {
-                cur.readMsg();
-                StaticData::modifyMsg(cur.getMsgID(), cur);
-                orderedDish.setStatus(4);
-                StaticData::modifyOrderedDish(orderedDish.getOrderedDishID(), orderedDish);
-                serveButton->setText("Finished");
-                serveButton->setEnabled(false);
-            });
-            ui->readyDishList->setCellWidget(row, 7, serveButton);
+            try {
+                int row = ui->readyDishList->rowCount();
+                ui->readyDishList->setRowCount(row + 1);
+                QString orderedDishID = cur.getMsg().mid(11);
+                OrderedDish &orderedDish = StaticData::getOrderedDishByID(orderedDishID);
+                ui->readyDishList->setItem(row, 0, new QTableWidgetItem((cur.getSender())));
+                ui->readyDishList->setItem(row, 1, new QTableWidgetItem(QString("Table %1").arg(orderedDish.getTable())));
+                ui->readyDishList->setItem(row, 2, new QTableWidgetItem((orderedDish.getOrderer())));
+                ui->readyDishList->setItem(row, 3, new QTableWidgetItem((orderedDish.getOrderedDishID())));
+                ui->readyDishList->setItem(row, 4, new QTableWidgetItem((orderedDish.getName())));
+                ui->readyDishList->setItem(row, 5, new QTableWidgetItem((orderedDish.getDatetime())));
+                ui->readyDishList->setItem(row, 6, new QTableWidgetItem((cur.getDatetime())));
+                QPushButton* serveButton = new QPushButton(ui->readyDishList);
+                serveButton->setText("Serve");
+                serveButton->resize(30, 30);
+                if (!cur.getState()) {
+                    serveButton->setText("Finised");
+                    serveButton->setEnabled(false);
+                }
+                connect(serveButton, &QPushButton::clicked, this, [&, serveButton] {
+                    cur.readMsg();
+                    StaticData::modifyMsg(cur.getMsgID(), cur);
+                    orderedDish.setStatus(4);
+                    StaticData::modifyOrderedDish(orderedDish.getOrderedDishID(), orderedDish);
+                    serveButton->setText("Finished");
+                    serveButton->setEnabled(false);
+                    clerk.serveDish(orderedDish.getOrderedDishID(), cur.getDatetime());
+                });
+                ui->readyDishList->setCellWidget(row, 7, serveButton);
+            } catch (EmptyResult) {}
         }
     }
     ui->readyDishList->resizeColumnsToContents();
@@ -124,7 +124,7 @@ void ClerkWindow::submitTable()
         return;
     clerk.takeTable(StaticData::getTableByID(selectedTable));
     viewTableList();
-    ui->submitTableButton->setEnabled(false);
+    ui->submitButton->setEnabled(false);
 }
 
 void ClerkWindow::checkSelectedTables() {
@@ -160,6 +160,7 @@ void ClerkWindow::on_tabWidget_currentChanged(int index)
     }
     else if (index == 3) {
         ui->submitButton->show();
+        ui->submitButton->setEnabled(true);
         ui->refreshButton->setGeometry(930, 10, 60, 60);
         ui->title->setText("   About Me");
     }

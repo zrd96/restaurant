@@ -78,7 +78,7 @@
         <x>0</x>
         <y>0</y>
         <width>1110</width>
-        <height>701</height>
+        <height>731</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -149,7 +149,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>730</y>
+        <y>750</y>
         <width>311</width>
         <height>51</height>
        </rect>
@@ -163,53 +163,6 @@
        <string>Please select a table</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="submitTableButton">
-      <property name="geometry">
-       <rect>
-        <x>990</x>
-        <y>720</y>
-        <width>80</width>
-        <height>80</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="res.qrc">
-        <normaloff>:/res/img/img/submit.png</normaloff>:/res/img/img/submit.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>40</width>
-        <height>40</height>
-       </size>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="refreshTableButton">
-      <property name="geometry">
-       <rect>
-        <x>840</x>
-        <y>720</y>
-        <width>80</width>
-        <height>80</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="res.qrc">
-        <normaloff>:/res/img/img/refresh.png</normaloff>
-        <normalon>:/res/img/img/refresh.png</normalon>:/res/img/img/refresh.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>40</width>
-        <height>40</height>
-       </size>
-      </property>
-     </widget>
     </widget>
     <widget class="QWidget" name="dishTab">
      <attribute name="icon">
@@ -219,36 +172,13 @@
      <attribute name="title">
       <string/>
      </attribute>
-     <widget class="QPushButton" name="refreshDishListButton">
-      <property name="geometry">
-       <rect>
-        <x>960</x>
-        <y>700</y>
-        <width>80</width>
-        <height>80</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="res.qrc">
-        <normaloff>:/res/img/img/refresh.png</normaloff>:/res/img/img/refresh.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>40</width>
-        <height>40</height>
-       </size>
-      </property>
-     </widget>
      <widget class="QTableWidget" name="dishList">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
         <width>1110</width>
-        <height>680</height>
+        <height>821</height>
        </rect>
       </property>
       <property name="horizontalScrollBarPolicy">
@@ -304,56 +234,10 @@
      <attribute name="title">
       <string/>
      </attribute>
-     <widget class="QPushButton" name="RefreshCart">
-      <property name="geometry">
-       <rect>
-        <x>820</x>
-        <y>700</y>
-        <width>80</width>
-        <height>80</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="res.qrc">
-        <normaloff>:/res/img/img/refresh.png</normaloff>:/res/img/img/refresh.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>40</width>
-        <height>40</height>
-       </size>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="submitCartButton">
-      <property name="geometry">
-       <rect>
-        <x>970</x>
-        <y>700</y>
-        <width>80</width>
-        <height>80</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="res.qrc">
-        <normaloff>:/res/img/img/submit.png</normaloff>:/res/img/img/submit.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>40</width>
-        <height>40</height>
-       </size>
-      </property>
-     </widget>
      <widget class="QLabel" name="cartTotal">
       <property name="geometry">
        <rect>
-        <x>640</x>
+        <x>890</x>
         <y>725</y>
         <width>150</width>
         <height>60</height>
@@ -475,7 +359,7 @@
         <x>0</x>
         <y>-5</y>
         <width>1110</width>
-        <height>700</height>
+        <height>741</height>
        </rect>
       </property>
       <property name="horizontalScrollBarPolicy">
@@ -516,57 +400,11 @@
       </attribute>
       <column/>
      </widget>
-     <widget class="QPushButton" name="viewOrderButton">
-      <property name="geometry">
-       <rect>
-        <x>990</x>
-        <y>715</y>
-        <width>80</width>
-        <height>80</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="res.qrc">
-        <normaloff>:/res/img/img/refresh.png</normaloff>:/res/img/img/refresh.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>40</width>
-        <height>40</height>
-       </size>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="refreshOrderInfoButton">
-      <property name="geometry">
-       <rect>
-        <x>830</x>
-        <y>715</y>
-        <width>80</width>
-        <height>80</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="res.qrc">
-        <normaloff>:/res/img/img/refresh.png</normaloff>:/res/img/img/refresh.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>40</width>
-        <height>40</height>
-       </size>
-      </property>
-     </widget>
      <widget class="QLabel" name="rateClerkNote">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>730</y>
+        <y>750</y>
         <width>350</width>
         <height>50</height>
        </rect>
@@ -873,29 +711,6 @@
       </property>
       <property name="text">
        <string>Quick Buttons: </string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="refreshMsg">
-      <property name="geometry">
-       <rect>
-        <x>970</x>
-        <y>635</y>
-        <width>80</width>
-        <height>80</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="res.qrc">
-        <normaloff>:/res/img/img/refresh.png</normaloff>:/res/img/img/refresh.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>40</width>
-        <height>40</height>
-       </size>
       </property>
      </widget>
     </widget>

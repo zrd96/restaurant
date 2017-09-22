@@ -4,3 +4,4 @@ moc_*
 ui_*
 restaurant
 Makefile
+MySQL.ini

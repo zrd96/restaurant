@@ -9,7 +9,7 @@ AboutMeChefPart::AboutMeChefPart(const Chef &chef, QWidget *parent) :
 {
     ui->setupUi(this);
     ui->dishNumLabel->setText(QString().setNum(chef.getDishNum()));
-    ui->timeDifferenceLabel->setText((chef.getAverageTimeDifference() > 0 ? "+" : "") + QString("%1%").arg(chef.getAverageTimeDifference()));
+    ui->timeDifferenceLabel->setText((chef.getAverageTimeDifference() > 0 ? "+" : "") + QString("%1%").arg(chef.getAverageTimeDifference() * 100, 0, 'f', 1));
     ui->rateInfo->setText(QString("Rated %1 from %2 dishes").arg(chef.getAverageRate()).arg(chef.getRateNum()));
     RateItem *rate = new RateItem(this);
     rate->setGeometry(240, 165, 150, 30);

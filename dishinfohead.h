@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "dish.h"
+#include <QCloseEvent>
 
 namespace Ui {
 class DishInfoHead;
@@ -22,6 +23,8 @@ private:
     QString dishID;
     void setDishImg();
     void submit();
+signals:
+    void closeEvent(QCloseEvent* ev);
 };
 
 #endif // DISHINFOHEAD_H

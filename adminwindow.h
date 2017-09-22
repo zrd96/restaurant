@@ -35,7 +35,6 @@ private:
     Ui::AdminWindow *ui;
     Admin admin;
     AboutMeWidget* aboutMe;
-    std::vector<bool> removeList;
 
     //main functions of Admin
     void viewTableList();

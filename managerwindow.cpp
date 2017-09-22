@@ -19,6 +19,8 @@ ManagerWindow::ManagerWindow(const QString &user, QWidget *parent) :
     aboutMe->show();
     viewChefList();
     viewClerkList();
+    ui->tabWidget->setCurrentIndex(0);
+    on_tabWidget_currentChanged(0);
 }
 
 ManagerWindow::~ManagerWindow()
@@ -72,4 +74,14 @@ void ManagerWindow::on_clerkList_cellDoubleClicked(int row, int column)
     QString receiver = ui->clerkList->item(row, 0)->text();
     MessageDlg *msgdlg = new MessageDlg(manager, receiver);
     msgdlg->show();
+}
+
+void ManagerWindow::on_tabWidget_currentChanged(int index)
+{
+    if (index == 0)
+        ui->title->setText("   View Chef Data List");
+    else if (index == 1)
+        ui->title->setText("   View Clerk Data List");
+    else if (index == 2)
+        ui->title->setText("   About Me");
 }

@@ -40,7 +40,7 @@ Item::Item(Person& person, Dish& oriDish, const QString &listType, QWidget *pare
     itemRate->setRate(StaticData::getDishByID(dish.getDishID()).getRate());
 
     ui->itemRateInfo->setText(QString("Rated %1/5 from %2 people")
-                              .arg(StaticData::getDishByID(dish.getDishID()).getRate())
+                              .arg(StaticData::getDishByID(dish.getDishID()).getRate(), 0, 'f', 2)
                               .arg(StaticData::getDishByID(dish.getDishID()).getRateNum()));
     ui->itemPrice->setText(QString("￥ %1").arg(dish.getPrice()));
     if(dish.getTimeNeeded() > 0)

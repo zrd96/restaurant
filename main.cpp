@@ -5,13 +5,26 @@
 #include <QDebug>
 #include <QString>
 #include <iostream>
+#include <QSettings>
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
-    StaticData::db = new MySQLManager("127.0.0.1", "root", "L#f0e7d#X", 3306u);
-    StaticData::db->initConnection();
+    QApplication restaurant(argc, argv);
+    try {
+        QSettings *SQLConf = new QSettings("MySQL.ini", QSettings::IniFormat);
+        QString host = SQLConf->value("Config/HOST").toString();
+        QString user = SQLConf->value("Config/USER").toString();
+        QString password = SQLConf->value("Config/PASSWORD").toString();
+        unsigned int port = SQLConf->value("Config/PORT").toUInt();
+        StaticData::db = new MySQLManager(host, user, password, port);
+        StaticData::db->initConnection();
+    } catch (...) {
+        viewErrInfo("MySQL Config error, using default");
+        StaticData::db = new MySQLManager("127.0.0.1", "root", "L#f0e7d#X", 3306u);
+        StaticData::db->initConnection();
+    }
     if(StaticData::db->getConnectionStatus()) {
         StaticData::db->initDB();
         StaticData::queryTable();
@@ -23,7 +36,6 @@ int main(int argc, char *argv[])
         StaticData::queryRate();
         StaticData::queryManager();
     }
-    QApplication restaurant(argc, argv);
     LoginDlg* loginDlg = new LoginDlg();
     loginDlg->show();
     restaurant.setQuitOnLastWindowClosed(false);

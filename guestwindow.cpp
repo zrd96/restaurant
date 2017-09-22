@@ -64,14 +64,6 @@ GuestWindow::GuestWindow(const QString& user, QWidget *parent) :
     viewCartList();
     viewOrderList();
     viewMsgList();
-    ui->refreshDishListButton->hide();
-    ui->refreshMsg->hide();
-    ui->refreshOrderInfoButton->hide();
-    ui->refreshTableButton->hide();
-    ui->RefreshCart->hide();
-    ui->viewOrderButton->hide();
-    ui->submitTableButton->hide();
-    ui->submitCartButton->hide();
     ui->tabWidget->setCurrentIndex(0);
     on_tabWidget_currentChanged(0);
     ui->title->setText("   Select Table");
@@ -84,6 +76,7 @@ GuestWindow::~GuestWindow()
 //QItemDelegate
 
 void GuestWindow::viewTableList() {
+    ui->submitButton->setEnabled(true);
     for(unsigned int i = 0; i < StaticData::getTableList().size(); i ++) {
         if(i % 3 == 0 && ui->tableList->rowCount() <= (int)i/3)
             ui->tableList->setRowCount(ui->tableList->rowCount() + 1);
@@ -98,9 +91,9 @@ void GuestWindow::viewTableList() {
     if(guest.getTable() > 0) {
         selectedTable = guest.getTable();
         ui->selectedTable->setText(QString("Selected Table: No. %1").arg(selectedTable));
-        ui->submitTableButton->setEnabled(false);
+        ui->submitButton->setEnabled(false);
     }
-    ui->tableList->setEnabled(ui->submitTableButton->isEnabled());
+    ui->tableList->setEnabled(guest.getTable() <= 0);
 }
 
 void GuestWindow::viewDishList() {
@@ -109,6 +102,9 @@ void GuestWindow::viewDishList() {
         int row = ui->dishList->rowCount();
         ui->dishList->setRowCount(row + 1);
         Item* item = new Item(guest, StaticData::getDishList()[i], "dishList", ui->dishList);
+        for (unsigned int j = 0; j < guest.getOrderedDishList().size(); j ++)
+            if (StaticData::getDishList()[i].getDishID() == guest.getOrderedDishList()[j].getDishID())
+                item->setDishNumText(guest.getOrderedDishList()[j].getNum());
         ui->dishList->setCellWidget(row, 0, item);
     }
 }
@@ -124,9 +120,9 @@ void GuestWindow::viewCartList() {
     }
     updateSum();
     if(guest.getSumInCart() == 0)
-        ui->submitCartButton->setEnabled(false);
+        ui->submitButton->setEnabled(false);
     else
-        ui->submitCartButton->setEnabled(true);
+        ui->submitButton->setEnabled(true);
 }
 
 void GuestWindow::viewOrderList() {
@@ -261,6 +257,7 @@ void GuestWindow::on_tabWidget_currentChanged(int index)
         ui->checkOutButton->hide();
         ui->submitButton->show();
         ui->refreshButton->setGeometry(930, 10, 60, 60);
+        viewTableList();
     }
     else if(index == 2) {
         ui->title->setText("   View Cart");
@@ -285,6 +282,7 @@ void GuestWindow::on_tabWidget_currentChanged(int index)
         ui->backButton->hide();
         ui->checkOutButton->hide();
         ui->refreshButton->setGeometry(1020, 10, 60, 60);
+        viewOrderList();
     }
     else if (index == 4) {
         ui->title->setText("   Message Center");
@@ -292,11 +290,13 @@ void GuestWindow::on_tabWidget_currentChanged(int index)
         ui->backButton->hide();
         ui->checkOutButton->hide();
         ui->refreshButton->setGeometry(1020, 10, 60, 60);
+        viewMsgList();
     }
     else if (index == 5) {
         ui->backButton->hide();
         ui->checkOutButton->hide();
         ui->submitButton->show();
+        ui->submitButton->setEnabled(true);
         ui->refreshButton->setGeometry(930, 10, 60, 60);
         ui->title->setText("   About Me");
     }
@@ -306,13 +306,13 @@ void GuestWindow::updateSum() {
     orderedSum = guest.getSumInCart();
     ui->cartTotal->setText("￥" + QString().setNum(orderedSum));
     if(guest.getSumInCart() == 0)
-        ui->submitCartButton->setEnabled(false);
+        ui->submitButton->setEnabled(false);
     else
-        ui->submitCartButton->setEnabled(true);
+        ui->submitButton->setEnabled(true);
 }
 
 void GuestWindow::sendMsg(const QString &msg) {
-    if (ui->submitTableButton->isEnabled()) {
+    if (guest.getTable() <= 0) {
         viewErrInfo("Please select a table before sending messages");
         return;
     }
@@ -333,7 +333,7 @@ void GuestWindow::setSelectedTable(int tableID) {
 
 void GuestWindow::submitCart()
 {
-    if(ui->submitTableButton->isEnabled()) {
+    if(guest.getTable() <= 0) {
         viewErrInfo("You haven't selected a table, please select one");
         return;
     }
@@ -360,7 +360,7 @@ void GuestWindow::submitTable()
         viewErrInfo(QString("No seats left for Table No. %1, please reselect.").arg(selectedTable));
         return;
     }
-    ui->submitTableButton->setEnabled(false);
+    ui->submitButton->setEnabled(guest.getTable() <= 0);
     viewTableList();
 }
 

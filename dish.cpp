@@ -23,7 +23,6 @@ Dish::Dish(const QString &dishID, const QString &name, const QString &intro,  do
 
 void Dish::updateRate(const Rate &newRate) {
         rate = (rate * rateNum + newRate.getRate()) / (++rateNum);
-        StaticData::insertRate(newRate, 1);
         this->queryRate();
         StaticData::modifyDish(this->getDishID(), *this);
 }

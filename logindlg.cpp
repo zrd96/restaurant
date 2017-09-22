@@ -52,7 +52,7 @@ void LoginDlg::on_signupButton_clicked()
     phone = ui->lineEditPhoneSignup->text();
     password = ui->lineEditPasswordSignup->text();
     name = ui->lineEditNameSignup->text();
-    userType = checkedIDSignup();
+    userType = 1;
     if(checkEnteredSignup())
         logIn(phone, userType);
 }
@@ -130,16 +130,6 @@ int LoginDlg::checkedIDLogin() {
         return 3;
     if (ui->managerButton->isChecked())
         return 4;
-    return -1;
-}
-
-int LoginDlg::checkedIDSignup() {
-    if (ui->guestButtonSignup->isChecked())
-        return 1;
-    if (ui->chefButtonSignup->isChecked())
-        return 2;
-    if (ui->clerkButtonSignup->isChecked())
-        return 3;
     return -1;
 }
 
